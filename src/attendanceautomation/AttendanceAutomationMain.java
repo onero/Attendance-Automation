@@ -15,11 +15,11 @@ import javafx.stage.Stage;
  *
  * @author gta1
  */
-public class AttendanceAutomation extends Application {
+public class AttendanceAutomationMain extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("AttendanceMain.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("gui/view/MainView.fxml"));
 
         Scene scene = new Scene(root);
 

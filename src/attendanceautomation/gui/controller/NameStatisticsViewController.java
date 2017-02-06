@@ -39,8 +39,7 @@ public class NameStatisticsViewController implements Initializable {
      */
     public void setStudentInfo(Student student) {
         lblName.setText(student.getFullName());
-        //TODO RKL: Set the attendance.
-        //TODO: Bind the data properly with Properties.
+        lblAttendance.setText("" + student.getAttendancePercentage() + "%");
     }
 
 }

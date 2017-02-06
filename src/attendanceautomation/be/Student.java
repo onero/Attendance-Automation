@@ -10,6 +10,8 @@ import attendanceautomation.bll.IDFactory;
 
 public class Student {
 
+    private int attendancePercentage;
+
     private final int ID;
 
     private final String firstName;
@@ -59,7 +61,7 @@ public class Student {
      *
      * @return phone number
      */
-    public int getmPhone() {
+    public int getPhone() {
         return phone;
     }
 
@@ -78,6 +80,18 @@ public class Student {
      */
     public void setPhone(int mPhone) {
         this.phone = mPhone;
+    }
+
+    /**
+     *
+     * @return attendance percentage
+     */
+    public int getAttendancePercentage() {
+        return attendancePercentage;
+    }
+
+    public void setAttendancePercentage(int attendancePercentage) {
+        this.attendancePercentage = attendancePercentage;
     }
 
 }

@@ -28,9 +28,16 @@ public class MainViewController implements Initializable {
     private Node PIE_CHART_NODE;
     private Node LIST_VIEW;
 
-    private SchoolClassModel schoolClassModel = new SchoolClassModel();
+    private static MainViewController instance;
+
+    public static MainViewController getInstance() {
+        return instance;
+    }
+
+    private SchoolClassModel schoolClassModel;
 
     public MainViewController() {
+        schoolClassModel = new SchoolClassModel();
         try {
             PIE_CHART_NODE = createPieChartNode();
             LIST_VIEW = createListView();
@@ -44,6 +51,7 @@ public class MainViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        instance = this;
         borderPane.setRight(PIE_CHART_NODE);
         borderPane.setCenter(LIST_VIEW);
     }
@@ -72,6 +80,10 @@ public class MainViewController implements Initializable {
         ListOfNameStatisticsViewController controller = loader.getController();
         controller.setItemsInList(schoolClassModel);
         return node;
+    }
+
+    public SchoolClassModel getSchoolClassModel() {
+        return schoolClassModel;
     }
 
 }

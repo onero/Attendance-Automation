@@ -9,9 +9,9 @@ import java.util.ArrayList;
 
 public class MockData {
 
-    private ArrayList<Student> easv2016AStudents;
+    private final ArrayList<Student> easv2016AStudents;
 
-    private SchoolClass EASV2016A;
+    private final SchoolClass EASV2016A;
 
     public MockData() {
         easv2016AStudents = new ArrayList<>();
@@ -26,7 +26,9 @@ public class MockData {
     private void createStudents() {
         Student adam = new Student("Adam", "Hansen");
         Student bo = new Student("Bo", "Sinclair");
+        bo.setAttendancePercentage(10);
         Student casper = new Student("Casper", "Rødgaard");
+        casper.setAttendancePercentage(15);
         Student casperJ = new Student("Casper", "Jensen");
         Student emil = new Student("Emil", "Johansen");
         Student frederik = new Student("Frederik", "Dyrberg");

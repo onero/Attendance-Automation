@@ -3,9 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package attendanceautomation.be;
 
-class List<T> {
-
+public enum ESchoolSubject {
+    SCO,
+    SDE,
+    ITO,
+    DBOS
 }

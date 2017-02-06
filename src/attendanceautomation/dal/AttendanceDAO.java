@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package attendanceautomation.gui.model;
 
-public class AttendanceModel {
+package attendanceautomation.dal;
+
+public class AttendanceDAO {
 
 }

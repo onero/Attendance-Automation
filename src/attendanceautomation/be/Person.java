@@ -18,5 +18,4 @@ public abstract class Person {
     private int phoneNumer;
 
     private String email;
-
 }

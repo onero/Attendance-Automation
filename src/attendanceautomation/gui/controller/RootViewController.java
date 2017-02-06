@@ -31,7 +31,7 @@ public class RootViewController implements Initializable {
         try {
             MAIN_VIEW = createMainView();
         } catch (IOException ex) {
-            
+            System.out.println("MainView not loaded!");
         }
     }
 

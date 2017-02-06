@@ -31,6 +31,7 @@ public class MockData {
         casper.setAttendancePercentage(15);
         Student casperJ = new Student("Casper", "Jensen");
         Student emil = new Student("Emil", "Johansen");
+        emil.setAttendancePercentage(10);
         Student frederik = new Student("Frederik", "Dyrberg");
         Student jacob = new Student("Jacob", "Enemark");
         Student jens = new Student("Jens", "Nissen");

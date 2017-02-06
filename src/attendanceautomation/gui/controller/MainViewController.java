@@ -37,7 +37,7 @@ public class MainViewController implements Initializable {
     private SchoolClassModel schoolClassModel;
 
     public MainViewController() {
-        schoolClassModel = new SchoolClassModel();
+        schoolClassModel = SchoolClassModel.getInstance();
         try {
             PIE_CHART_NODE = createPieChartNode();
             LIST_VIEW = createListView();

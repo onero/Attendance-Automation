@@ -12,7 +12,16 @@ import javafx.scene.chart.PieChart;
 
 public class AttendanceModel {
 
+    private static AttendanceModel instance;
+
     private final ObservableList<PieChart.Data> pieChartData;
+
+    public static AttendanceModel getInstance() {
+        if (instance == null) {
+            instance = new AttendanceModel();
+        }
+        return instance;
+    }
 
     public AttendanceModel() {
         pieChartData = FXCollections.observableArrayList();

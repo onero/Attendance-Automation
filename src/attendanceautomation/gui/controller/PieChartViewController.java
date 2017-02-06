@@ -19,11 +19,15 @@ import javafx.scene.layout.AnchorPane;
  */
 public class PieChartViewController implements Initializable {
 
-    private AttendanceModel attendanceModel = new AttendanceModel();
+    private final AttendanceModel attendanceModel;
     @FXML
     private AnchorPane pieChartPane;
     @FXML
     private PieChart PieChart;
+
+    public PieChartViewController() {
+        attendanceModel = AttendanceModel.getInstance();
+    }
 
     /**
      * Initializes the controller class.
@@ -31,6 +35,18 @@ public class PieChartViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         PieChart.setData(attendanceModel.getPieChartData());
+        //Display the data on the chart
+//        PieChart.getData().forEach(data
+//                -> data.nameProperty().bind(
+//                        Bindings.concat(
+//                                data.getName(), " ", data.pieValueProperty(), " %"
+//                        )
+//                )
+//        );
+//        forEach(pieData -> {
+//            System.out.println(pieData.getName() + ": "
+//            + pieData.getPieValue());
+//        });
         PieChart.setTitle("Fravær");
     }
 

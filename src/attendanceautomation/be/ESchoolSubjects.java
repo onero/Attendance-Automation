@@ -5,10 +5,9 @@
  */
 package attendanceautomation.be;
 
-import java.util.ArrayList;
-
-public class SchoolSubject {
-
-    private ArrayList<NonAttendance> nonAttendance;
-
+public enum ESchoolSubjects {
+    SCO,
+    SDE,
+    ITO,
+    DBOS
 }

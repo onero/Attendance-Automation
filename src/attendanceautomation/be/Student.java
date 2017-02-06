@@ -5,23 +5,29 @@
  */
 package attendanceautomation.be;
 
-public class Student extends Person {
+import attendanceautomation.bll.EmailFactory;
+import attendanceautomation.bll.IDFactory;
 
-    private String mFirstName;
+public class Student {
 
-    private String mLastName;
+    private final int ID;
 
-    private final String mFullName = mFirstName + " " + mLastName;
+    private final String firstName;
 
-    private int mPhone;
+    private final String lastName;
 
-    private String mEmail;
+    private final String fullName;
 
-    public Student(String firstName, String lastName, int number, String email) {
-        mFirstName = firstName;
-        mLastName = lastName;
-        mPhone = number;
-        mEmail = email;
+    private final String email;
+
+    private int phone;
+
+    public Student(String firstName, String lastName) {
+        ID = IDFactory.getNewID();
+        this.firstName = firstName;
+        this.lastName = lastName;
+        fullName = this.firstName + " " + this.lastName;
+        email = EmailFactory.getnewEmail(ID, firstName);
     }
 
     /**
@@ -29,7 +35,7 @@ public class Student extends Person {
      * @return first name
      */
     public String getmFirstName() {
-        return mFirstName;
+        return firstName;
     }
 
     /**
@@ -37,7 +43,7 @@ public class Student extends Person {
      * @return last name
      */
     public String getmLastName() {
-        return mLastName;
+        return lastName;
     }
 
     /**
@@ -46,7 +52,7 @@ public class Student extends Person {
      * space
      */
     public String getmFullName() {
-        return mFullName;
+        return fullName;
     }
 
     /**
@@ -54,23 +60,24 @@ public class Student extends Person {
      * @return phone number
      */
     public int getmPhone() {
-        return mPhone;
+        return phone;
     }
 
     /**
      *
      * @return email
      */
-    public String getmEmail() {
-        return mEmail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setmPhone(int mPhone) {
-        this.mPhone = mPhone;
-    }
-
-    public void setmEmail(String mEmail) {
-        this.mEmail = mEmail;
+    /**
+     * Update the phone number
+     *
+     * @param mPhone
+     */
+    public void setPhone(int mPhone) {
+        this.phone = mPhone;
     }
 
 }

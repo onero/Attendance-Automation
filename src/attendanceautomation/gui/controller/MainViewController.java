@@ -7,16 +7,26 @@ package attendanceautomation.gui.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.layout.BorderPane;
 
 /**
+ * FXML Controller class
  *
- * @author gta1
+ * @author Rasmus
  */
-public class RootController implements Initializable {
+public class MainViewController implements Initializable {
 
+    @FXML
+    private BorderPane borderPane;
+
+    /**
+     * Initializes the controller class.
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }
+    }    
+    
 }

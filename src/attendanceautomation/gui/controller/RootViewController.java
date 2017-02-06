@@ -8,8 +8,6 @@ package attendanceautomation.gui.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -24,10 +22,10 @@ public class RootViewController implements Initializable {
 
     @FXML
     private BorderPane borderPane;
-    
+
     private Node MAIN_VIEW;
-    
-    public RootViewController(){
+
+    public RootViewController() {
         try {
             MAIN_VIEW = createMainView();
         } catch (IOException ex) {
@@ -39,15 +37,16 @@ public class RootViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         borderPane.setCenter(MAIN_VIEW);
     }
-    
+
     /**
      * Creates the node containing MainView.
+     *
      * @return
-     * @throws IOException 
+     * @throws IOException
      */
     private Node createMainView() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/attendanceautomation/gui/view/MainView.fxml"));
         Node node = loader.load();
         return node;
-    }   
+    }
 }

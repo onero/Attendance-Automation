@@ -5,16 +5,29 @@
  */
 package attendanceautomation.gui.model;
 
+import attendanceautomation.be.MockData;
 import attendanceautomation.be.SchoolClass;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class SchoolClassModel {
 
+    private static SchoolClassModel instance;
+
     private final ObservableList<SchoolClass> schoolClasses;
+
+    public static SchoolClassModel getInstance() {
+        if (instance == null) {
+            instance = new SchoolClassModel();
+        }
+        return instance;
+    }
 
     public SchoolClassModel() {
         schoolClasses = FXCollections.observableArrayList();
+        MockData mockData = new MockData();
+        schoolClasses.add(mockData.getEasv2016A());
+
     }
 
     /**

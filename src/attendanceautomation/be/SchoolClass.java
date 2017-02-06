@@ -6,16 +6,18 @@
 package attendanceautomation.be;
 
 import java.util.ArrayList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class SchoolClass {
 
     private final String name;
 
-    private final ArrayList<Student> students;
+    private final ObservableList<Student> students;
 
     public SchoolClass(String name) {
         this.name = name;
-        students = new ArrayList<>();
+        students = FXCollections.observableArrayList();
     }
 
     /**
@@ -25,6 +27,15 @@ public class SchoolClass {
      */
     public void addStudentToClass(Student newStudent) {
         students.add(newStudent);
+    }
+
+    /**
+     * Add all students to class
+     *
+     * @param allStudents
+     */
+    public void addAllStudents(ArrayList<Student> allStudents) {
+        students.addAll(allStudents);
     }
 
     /**
@@ -48,7 +59,7 @@ public class SchoolClass {
      *
      * @return students
      */
-    public ArrayList<Student> getStudents() {
+    public ObservableList<Student> getStudents() {
         return students;
     }
 

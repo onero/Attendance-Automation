@@ -51,7 +51,7 @@ public class Student {
      * @return full name as First name combined with last name, seperated by
      * space
      */
-    public String getmFullName() {
+    public String getFullName() {
         return fullName;
     }
 

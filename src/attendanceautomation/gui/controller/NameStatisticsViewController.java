@@ -30,16 +30,17 @@ public class NameStatisticsViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
-    
+    }
+
     /**
      * Sets the info about the person in the view.
-     * @param person 
+     *
+     * @param student
      */
     public void setStudentInfo(Student student) {
-        lblName.setText(student.getmFullName());
+        lblName.setText(student.getFullName());
         //TODO RKL: Set the attendance.
         //TODO: Bind the data properly with Properties.
     }
-    
+
 }

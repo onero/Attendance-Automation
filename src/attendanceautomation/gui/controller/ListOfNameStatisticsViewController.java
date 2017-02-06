@@ -7,7 +7,7 @@ package attendanceautomation.gui.controller;
 
 import attendanceautomation.be.Student;
 import attendanceautomation.gui.controls.StudentListViewCell;
-import attendanceautomation.gui.model.MockModel;
+import attendanceautomation.gui.model.SchoolClassModel;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -36,13 +36,14 @@ public class ListOfNameStatisticsViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         setCellFactory();
     }
-    
+
     /**
      * Populate the list with students.
-     * @param model 
+     *
+     * @param model
      */
-    public void setItemsInList(MockModel model){
-        listView.setItems(model.getObservableStudents());
+    public void setItemsInList(SchoolClassModel model) {
+        listView.setItems(model.getSchoolClasses().get(0).getStudents());
     }
 
     private void setCellFactory() {
@@ -50,7 +51,7 @@ public class ListOfNameStatisticsViewController implements Initializable {
             @Override
             public ListCell<Student> call(ListView<Student> param) {
                 StudentListViewCell cell = new StudentListViewCell();
-                try{
+                try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/attendanceautomation/gui/view/NameStatisticsView.fxml"));
                     Node node = loader.load();
                     NameStatisticsViewController controller = loader.getController();
@@ -58,12 +59,12 @@ public class ListOfNameStatisticsViewController implements Initializable {
                     cell.setView(node);
                     cell.setGraphic(node);
                     return cell;
-                }catch(IOException ex){
+                } catch (IOException ex) {
                     System.out.println("Error loading individual cells in the listView!");
                 }
                 return cell;
             }
         });
     }
-    
+
 }

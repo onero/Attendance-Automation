@@ -29,8 +29,7 @@ public class AllStudentsNonAttendanceCell extends ListCell<Student>{
         if(empty){
             setGraphic(null);
         }else{
-            //TODO RKL: Parse student to the controller.
-            //controller.(the method Adam made).
+            controller.setStudentInfo(item);
             setGraphic(view);
         }
     }

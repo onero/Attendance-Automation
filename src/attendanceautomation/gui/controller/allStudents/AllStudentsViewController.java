@@ -5,6 +5,7 @@
  */
 package attendanceautomation.gui.controller.allStudents;
 
+import attendanceautomation.gui.model.SchoolClassModel;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -29,7 +30,10 @@ public class AllStudentsViewController implements Initializable {
     private Node checkBoxView;
     private Node LIST_VIEW;
     
+    private SchoolClassModel schoolClassModel;
+    
     public AllStudentsViewController(){
+        schoolClassModel = SchoolClassModel.getInstance();
         try {
             LIST_VIEW = createListView();
         } catch (IOException ex) {
@@ -44,10 +48,17 @@ public class AllStudentsViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         borderPane.setCenter(LIST_VIEW);
     }
-
+    
+    /**
+     * Creates the node of the listView and parsed the schoolClassModel to its controller.
+     * @return
+     * @throws IOException 
+     */
     private Node createListView() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/attendanceautomation/gui/view/allStudents/ListOfAllStudentsNonAttendanceView.fxml"));
         Node node = loader.load();
+        ListOfAllStudentsNonAttendanceViewController controller = loader.getController();
+        controller.setItemsInList(schoolClassModel);
         return node;
     }
 

@@ -81,7 +81,11 @@ public class MainViewController implements Initializable {
         controller.setItemsInList(schoolClassModel);
         return node;
     }
-
+    
+    /**
+     * Returns the instance of SchoolClassModel.
+     * @return 
+     */
     public SchoolClassModel getSchoolClassModel() {
         return schoolClassModel;
     }

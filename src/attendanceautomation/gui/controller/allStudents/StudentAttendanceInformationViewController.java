@@ -5,6 +5,7 @@
  */
 package attendanceautomation.gui.controller.allStudents;
 
+import attendanceautomation.be.Student;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -26,6 +27,8 @@ public class StudentAttendanceInformationViewController implements Initializable
     private HBox HBox;
     @FXML
     private Label lblStudent;
+    
+    private Student student;
 
     /**
      * Initializes the controller class.
@@ -46,6 +49,15 @@ public class StudentAttendanceInformationViewController implements Initializable
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/attendanceautomation/gui/view/allStudents/ParentCheckBoxView.fxml"));
         Node node = loader.load();
         return node;
+    }
+    
+    /**
+     * Sets the info about the parsed student.
+     * @param item 
+     */
+    public void setStudentInfo(Student item) {
+        student = item;
+        lblStudent.setText(student.getFullName());
     }
 
 }

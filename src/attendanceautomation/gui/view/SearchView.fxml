@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+
+<HBox xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="attendanceautomation.gui.controller.SearchViewController">
+   <children>
+      <JFXTextField fx:id="txtSearch" maxWidth="161.0" minWidth="150.0" onKeyPressed="#handleEnterSearch" prefHeight="30.0" prefWidth="150.0" promptText="Søg..." />
+      <JFXButton prefHeight="31.0" prefWidth="36.0" text="🔍">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </JFXButton>
+   </children>
+</HBox>

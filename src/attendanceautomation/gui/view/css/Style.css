@@ -1,0 +1,14 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 06-02-2017, 11:47:01
+    Author     : gta1
+*/
+
+.border{
+    -fx-border-color: rgb(0, 0, 0);
+    -fx-border-width: 1;
+}

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.layout.BorderPane?>
+
+
+<BorderPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="attendanceautomation.gui.controller.allStudents.MonthComboboxViewController">
+   <center>
+      <ComboBox prefHeight="25.0" prefWidth="166.0" BorderPane.alignment="CENTER" />
+   </center>
+</BorderPane>

@@ -5,9 +5,11 @@
  */
 package attendanceautomation.gui.controller;
 
+import attendanceautomation.AttendanceAutomationMain;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -24,12 +26,14 @@ public class RootViewController implements Initializable {
     private BorderPane borderPane;
 
     private Node MAIN_VIEW;
+    private Node ALL_STUDENTS_VIEW;
 
     public RootViewController() {
         try {
             MAIN_VIEW = createMainView();
+            ALL_STUDENTS_VIEW = createAllStudents();
         } catch (IOException ex) {
-            System.out.println("MainView not loaded!");
+            System.out.println("MainView not loaded! " + ex.getMessage());
         }
     }
 
@@ -45,8 +49,26 @@ public class RootViewController implements Initializable {
      * @throws IOException
      */
     private Node createMainView() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/attendanceautomation/gui/view/MainView.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(AttendanceAutomationMain.MAIN_VIEW_STRING));
         Node node = loader.load();
         return node;
     }
+    
+    /**
+     * Creates the node containing AllStudentsView.
+     * @return
+     * @throws IOException 
+     */
+    private Node createAllStudents() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(AttendanceAutomationMain.ALL_STUDENTS_STRING));
+        Node node = loader.load();
+        return node;
+    }
+
+    @FXML
+    private void handleAllStudentsButton(ActionEvent event) {
+        borderPane.setCenter(ALL_STUDENTS_VIEW);
+    }
+
+    
 }

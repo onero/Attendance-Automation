@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package attendanceautomation.gui.controller;
+package attendanceautomation.gui.controller.main;
 
+import attendanceautomation.gui.controller.main.ListOfNameStatisticsViewController;
 import attendanceautomation.gui.model.SchoolClassModel;
 import java.io.IOException;
 import java.net.URL;
@@ -63,7 +64,7 @@ public class MainViewController implements Initializable {
      * @throws IOException
      */
     private Node createPieChartNode() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/attendanceautomation/gui/view/PieChartView.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/attendanceautomation/gui/view/main/PieChartView.fxml"));
         Node node = loader.load();
         return node;
     }
@@ -75,7 +76,7 @@ public class MainViewController implements Initializable {
      * @throws IOException
      */
     private Node createListView() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/attendanceautomation/gui/view/ListOfNameStatisticsView.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/attendanceautomation/gui/view/main/ListOfNameStatisticsView.fxml"));
         Node node = loader.load();
         ListOfNameStatisticsViewController controller = loader.getController();
         controller.setItemsInList(schoolClassModel);

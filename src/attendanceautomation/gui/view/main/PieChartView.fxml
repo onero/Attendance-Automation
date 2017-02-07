@@ -3,7 +3,7 @@
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" fx:id="pieChartPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="attendanceautomation.gui.controller.PieChartViewController">
+<AnchorPane id="AnchorPane" fx:id="pieChartPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="attendanceautomation.gui.controller.main.PieChartViewController">
    <children>
       <PieChart fx:id="PieChart" layoutX="-2.0" layoutY="-1.0" prefHeight="400.0" prefWidth="600.0" />
    </children>

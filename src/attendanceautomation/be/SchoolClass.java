@@ -6,6 +6,7 @@
 package attendanceautomation.be;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -60,7 +61,17 @@ public class SchoolClass {
      * @return students
      */
     public ObservableList<Student> getStudents() {
+        sortStudents();
         return students;
+    }
+
+    /**
+     * Sort the students after attendance
+     */
+    private void sortStudents() {
+        Collections.sort(students, (Student s1, Student s2)
+                -> Integer.toString(s2.getAttendancePercentage()).compareTo(
+                        Integer.toString(s1.getAttendancePercentage())));
     }
 
 }

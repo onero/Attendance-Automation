@@ -9,27 +9,27 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 
 /**
  * FXML Controller class
  *
- * @author Rasmus
+ * @author gta1
  */
-public class AllStudentsViewController implements Initializable {
+public class StudentAttendanceInformationController implements Initializable {
 
     @FXML
-    private BorderPane borderPane;
-
-    private Node checkBoxView;
+    private HBox HBox;
+    @FXML
+    private Label lblStudent;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        // TODO
     }
 
 }

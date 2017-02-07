@@ -5,10 +5,12 @@
  */
 package attendanceautomation.gui.controller.detailedStudent;
 
+import attendanceautomation.be.Student;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -30,13 +32,33 @@ public class StudentInformationTopViewController implements Initializable {
     private BorderPane BorderPaneCenter;
     @FXML
     private BorderPane BorderPaneRight;
+    @FXML
+    private Label lblStudentName;
+
+    private static StudentInformationTopViewController instance;
+
+    private Student currentStudent;
+
+    public static StudentInformationTopViewController getInstance() {
+        return instance;
+    }
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        instance = this;
+    }
+
+    /**
+     * Sets the selected student
+     *
+     * @param selectedStudent
+     */
+    public void setStudentInfo(Student selectedStudent) {
+        currentStudent = selectedStudent;
+        lblStudentName.setText(currentStudent.getFullName());
     }
 
 }

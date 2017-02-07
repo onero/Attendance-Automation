@@ -36,26 +36,27 @@ public class ListOfAllStudentsNonAttendanceViewController implements Initializab
     public void initialize(URL url, ResourceBundle rb) {
         setCellFactory();
     }
-    
+
     /**
      * Populate the list vith students.
-     * @param model 
+     *
+     * @param model
      */
-    public void setItemsInList(SchoolClassModel model){
+    public void setItemsInList(SchoolClassModel model) {
         //TODO RKL: Add feature to select class.
         listView.setItems(model.getSchoolClasses().get(0).getStudents());
     }
-    
+
     /**
-     * Set the cellFactory of the listView.
-     * Creates a StudentAttendanceInformationView for each cell.
+     * Set the cellFactory of the listView. Creates a
+     * StudentAttendanceInformationView for each cell.
      */
     private void setCellFactory() {
         listView.setCellFactory(new Callback<ListView<Student>, ListCell<Student>>() {
             @Override
             public ListCell<Student> call(ListView<Student> param) {
                 AllStudentsNonAttendanceCell cell = new AllStudentsNonAttendanceCell();
-                try{                    
+                try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/attendanceautomation/gui/view/allStudents/StudentAttendanceInformationView.fxml"));
                     Node node = loader.load();
                     StudentAttendanceInformationViewController controller = loader.getController();
@@ -63,12 +64,12 @@ public class ListOfAllStudentsNonAttendanceViewController implements Initializab
                     cell.setView(node);
                     cell.setGraphic(node);
                     return cell;
-                }catch(IOException ex){
+                } catch (IOException ex) {
                     System.out.println("Error loading allStudents listView!" + ex.getMessage());
                 }
                 return cell;
             }
         });
     }
-    
+
 }

@@ -52,13 +52,6 @@ public class RootViewController implements Initializable {
     }
 
     /**
-     * Sets the node to be the detailed student view
-     */
-    public void selectDetailedStudentView() {
-        setCenter(DETAILED_STUDENT_VIEW);
-    }
-
-    /**
      * Creates the node containing MainView.
      *
      * @return
@@ -89,7 +82,7 @@ public class RootViewController implements Initializable {
      * @throws IOException
      */
     private Node createDetailedStudentView() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(AttendanceAutomationMain.STUDENT_INFORMATION_TOP_STRING));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(AttendanceAutomationMain.DETAILED_STUDENT_STRING));
         Node node = loader.load();
         return node;
     }
@@ -121,6 +114,15 @@ public class RootViewController implements Initializable {
      */
     private void setCenter(Node newView) {
         borderPane.setCenter(newView);
+    }
+
+    /**
+     * Sets the node to be the detailed student view
+     *
+     * @param selectedStudent
+     */
+    public void selectDetailedStudentView() {
+        setCenter(DETAILED_STUDENT_VIEW);
     }
 
 }

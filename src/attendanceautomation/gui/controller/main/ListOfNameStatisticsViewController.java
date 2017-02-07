@@ -5,8 +5,9 @@
  */
 package attendanceautomation.gui.controller.main;
 
-import attendanceautomation.gui.controller.main.NameStatisticsViewController;
 import attendanceautomation.be.Student;
+import attendanceautomation.gui.controller.RootViewController;
+import attendanceautomation.gui.controller.detailedStudent.DetailedStudentViewController;
 import attendanceautomation.gui.controls.StudentListViewCell;
 import attendanceautomation.gui.model.SchoolClassModel;
 import java.io.IOException;
@@ -18,6 +19,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 
 /**
@@ -47,10 +49,11 @@ public class ListOfNameStatisticsViewController implements Initializable {
         //TODO ALH: Add feature to select class
         listView.setItems(model.getSchoolClasses().get(0).getStudents());
     }
-    
+
     /**
-     * Set the cellFactory of the listView meaning how the individual cell is displayet.
-     * Creates a NameStatisticsView and populate it with data for every cell.
+     * Set the cellFactory of the listView meaning how the individual cell is
+     * displayet. Creates a NameStatisticsView and populate it with data for
+     * every cell.
      */
     private void setCellFactory() {
         listView.setCellFactory(new Callback<ListView<Student>, ListCell<Student>>() {
@@ -71,6 +74,21 @@ public class ListOfNameStatisticsViewController implements Initializable {
                 return cell;
             }
         });
+    }
+
+    /**
+     * Switches the center node to be the detailed student view
+     *
+     * @param event
+     */
+    @FXML
+    private void handleOpenStudentDetails(MouseEvent event) {
+        //If user double clicks. Switch view
+        if (event.getClickCount() == 2) {
+            RootViewController.getInstance().selectDetailedStudentView();
+            Student selectedStudent = listView.getSelectionModel().getSelectedItem();
+            DetailedStudentViewController.getInstance().setCurrentStudent(selectedStudent);
+        }
     }
 
 }

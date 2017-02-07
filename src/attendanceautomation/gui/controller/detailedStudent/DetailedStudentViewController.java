@@ -6,6 +6,7 @@
 package attendanceautomation.gui.controller.detailedStudent;
 
 import attendanceautomation.AttendanceAutomationMain;
+import attendanceautomation.be.Student;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -22,15 +23,25 @@ import javafx.scene.layout.BorderPane;
  */
 public class DetailedStudentViewController implements Initializable {
 
-    private Node studentInformationTopView;
     @FXML
     private BorderPane borderPane;
+
+    private static DetailedStudentViewController instance;
+
+    private Node studentInformationTopView;
+
+    private Student currentStudent;
+
+    public static DetailedStudentViewController getInstance() {
+        return instance;
+    }
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        instance = this;
         try {
             studentInformationTopView = createTopView();
         } catch (Exception e) {
@@ -49,6 +60,16 @@ public class DetailedStudentViewController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(AttendanceAutomationMain.STUDENT_INFORMATION_TOP_STRING));
         Node node = loader.load();
         return node;
+    }
+
+    /**
+     * Sets the current student
+     *
+     * @param selectStudent
+     */
+    public void setCurrentStudent(Student selectStudent) {
+        currentStudent = selectStudent;
+        StudentInformationTopViewController.getInstance().setStudentInfo(selectStudent);
     }
 
 }

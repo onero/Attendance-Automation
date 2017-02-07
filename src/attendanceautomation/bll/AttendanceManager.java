@@ -87,6 +87,7 @@ public class AttendanceManager {
      * @return attendance
      */
     public ObservableList<PieChart.Data> computeStudentAttendance(Student student) {
+        studentData.clear();
         int studentAttendance = 100 - student.getNonAttendancePercentage();
         PieChart.Data pieChartStudent = new PieChart.Data("Fravær", student.getNonAttendancePercentage());
         PieChart.Data pieChartAttendance = new PieChart.Data("Fremmøde", studentAttendance);

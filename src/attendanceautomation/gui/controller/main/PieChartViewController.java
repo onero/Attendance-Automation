@@ -46,6 +46,7 @@ public class PieChartViewController implements Initializable {
     }
 
     public void setData(ObservableList<PieChart.Data> data) {
+        pieChartData.clear();
         pieChartData.addAll(data);
     }
 

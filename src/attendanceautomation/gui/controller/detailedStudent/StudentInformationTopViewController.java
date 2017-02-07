@@ -9,8 +9,11 @@ import attendanceautomation.be.Student;
 import attendanceautomation.gui.model.SchoolClassModel;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
@@ -48,6 +51,8 @@ public class StudentInformationTopViewController implements Initializable {
     private Label lblStudentClass;
     @FXML
     private ListView<?> listTeachers;
+    @FXML
+    private PieChart PieChart;
 
     private static StudentInformationTopViewController instance;
 
@@ -63,6 +68,14 @@ public class StudentInformationTopViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         instance = this;
+        ObservableList<PieChart.Data> pieChartData
+                = FXCollections.observableArrayList(
+                        new PieChart.Data("Grapefruit", 13),
+                        new PieChart.Data("Oranges", 25),
+                        new PieChart.Data("Plums", 10),
+                        new PieChart.Data("Pears", 22),
+                        new PieChart.Data("Apples", 30));
+        PieChart.setData(pieChartData);
     }
 
     /**
@@ -74,6 +87,8 @@ public class StudentInformationTopViewController implements Initializable {
         currentStudent = selectedStudent;
         lblStudentName.setText(currentStudent.getFullName());
         lblStudentEmail.setText(currentStudent.getEmail());
+        //TODO ALH: Make dynamic
+        lblFieldOfStudy.setText("Datamatiker");
         //TODO ALH: Make dynamic
         lblStudentClass.setText(SchoolClassModel.getInstance().getSchoolClasses().get(0).getName());
         lblStudentPhone.setText("" + currentStudent.getPhone());

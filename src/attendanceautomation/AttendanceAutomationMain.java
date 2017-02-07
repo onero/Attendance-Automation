@@ -20,6 +20,7 @@ public class AttendanceAutomationMain extends Application {
     private static final String FOLDER = "/attendanceautomation/gui/view/";
 
     public static final String MAIN_VIEW_STRING = FOLDER + "main/MainView.fxml";
+    public static final String MAIN_PIE_CHART_STRING = FOLDER + "main/PieChartView.fxml";
 
     public static final String ALL_STUDENTS_STRING = FOLDER + "allStudents/AllStudentsView.fxml";
 

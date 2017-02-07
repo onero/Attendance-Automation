@@ -23,7 +23,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 
 /**
  * FXML Controller class
@@ -32,8 +31,6 @@ import javafx.scene.layout.HBox;
  */
 public class StudentInformationTopViewController implements Initializable {
 
-    @FXML
-    private HBox HBox;
     @FXML
     private GridPane GridPane;
     @FXML
@@ -83,7 +80,7 @@ public class StudentInformationTopViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         instance = this;
-        BorderPaneRight.setCenter(pieChart);
+        BorderPaneRight.setLeft(pieChart);
     }
 
     /**

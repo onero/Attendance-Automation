@@ -56,10 +56,10 @@ public class MainViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         instance = this;
-        borderPane.setRight(PIE_CHART_NODE);
+        borderPane.setCenter(PIE_CHART_NODE);
         borderPane.setTop(SEARCH_BAR);
-        borderPane.setCenter(LIST_VIEW);
-        
+        borderPane.setLeft(LIST_VIEW);
+
     }
 
     /**
@@ -76,11 +76,10 @@ public class MainViewController implements Initializable {
 
         return node;
     }
-    
+
     private Node createSearchBarNode() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(AttendanceAutomationMain.MAIN_SEARCH_BAR_STRING));
         Node node = loader.load();
-
 
         return node;
     }

@@ -13,7 +13,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.PieChart;
-import javafx.scene.layout.AnchorPane;
 
 /**
  * FXML Controller class
@@ -21,8 +20,6 @@ import javafx.scene.layout.AnchorPane;
  */
 public class PieChartViewController implements Initializable {
 
-    @FXML
-    private AnchorPane pieChartPane;
     @FXML
     private PieChart PieChart;
 
@@ -46,7 +43,7 @@ public class PieChartViewController implements Initializable {
         pieChartData.forEach(data
                 -> data.nameProperty().bind(
                         Bindings.concat(
-                                data.getName(), " ", data.pieValueProperty(), " %"
+                                data.getName(), " ", data.pieValueProperty()
                         )
                 )
         );

@@ -7,6 +7,7 @@ package attendanceautomation.gui.controller.main;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -35,19 +36,21 @@ public class PieChartViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         PieChart.setData(pieChartData);
         //Display the data on the chart
-//        PieChart.getData().forEach(data
-//                -> data.nameProperty().bind(
-//                        Bindings.concat(
-//                                data.getName(), " ", data.pieValueProperty(), " %"
-//                        )
-//                )
-//        );
+
         PieChart.setTitle("Fravær");
     }
 
-    public void setData(ObservableList<PieChart.Data> data) {
+    public void setData(ObservableList<PieChart.Data> newData) {
         pieChartData.clear();
-        pieChartData.addAll(data);
+        pieChartData.addAll(newData);
+        pieChartData.forEach(data
+                -> data.nameProperty().bind(
+                        Bindings.concat(
+                                data.getName(), " ", data.pieValueProperty(), " %"
+                        )
+                )
+        );
+
     }
 
 }

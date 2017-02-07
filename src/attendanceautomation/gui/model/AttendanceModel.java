@@ -34,15 +34,35 @@ public class AttendanceModel {
 
         attendanceManager = new AttendanceManager();
 
+        addNonAttendantStudentsToChartData();
+
+        //Get percentage data back
+        computedPieChartData.addAll(attendanceManager.computeAllAttendance(pieChartData));
+        pieChartData = computedPieChartData;
+    }
+
+    /**
+     * Calculates the total attendance for the student and returns the
+     * percentage as a double
+     *
+     * @param student
+     * @return
+     */
+    public ObservableList<PieChart.Data> getStudentAttendance(Student student) {
+        return attendanceManager.computeStudentAttendance(student);
+    }
+
+    /**
+     * Find the students with nonAttendance and add them to the pirChartData
+     */
+    private void addNonAttendantStudentsToChartData() {
         //TODO ALH: Make sure than this can be dynamic for more classes
         for (Student student : SchoolClassModel.getInstance().getSchoolClasses().get(0).getStudents()) {
-            if (student.getAttendancePercentage() > 0) {
-                PieChart.Data pieChartEntry = new PieChart.Data(student.getFullName(), student.getAttendancePercentage());
+            if (student.getNonAttendancePercentage() > 0) {
+                PieChart.Data pieChartEntry = new PieChart.Data(student.getFullName(), student.getNonAttendancePercentage());
                 pieChartData.add(pieChartEntry);
             }
         }
-        computedPieChartData.addAll(attendanceManager.computeAttendance(pieChartData));
-        pieChartData = computedPieChartData;
     }
 
     /**

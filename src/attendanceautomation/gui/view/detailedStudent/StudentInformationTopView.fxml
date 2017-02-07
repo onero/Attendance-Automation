@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -74,10 +73,7 @@
                         <Font name="System Bold" size="23.0" />
                      </font>
                   </Label>
-               </top>
-               <center>
-                  <PieChart fx:id="PieChart" BorderPane.alignment="CENTER" />
-               </center></BorderPane>
+               </top></BorderPane>
          </children>
       </GridPane>
    </children>

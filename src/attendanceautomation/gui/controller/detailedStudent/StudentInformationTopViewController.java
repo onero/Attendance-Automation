@@ -5,15 +5,20 @@
  */
 package attendanceautomation.gui.controller.detailedStudent;
 
+import attendanceautomation.AttendanceAutomationMain;
 import attendanceautomation.be.Student;
+import attendanceautomation.gui.controller.main.PieChartViewController;
+import attendanceautomation.gui.model.AttendanceModel;
 import attendanceautomation.gui.model.SchoolClassModel;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.chart.PieChart;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
@@ -51,8 +56,10 @@ public class StudentInformationTopViewController implements Initializable {
     private Label lblStudentClass;
     @FXML
     private ListView<?> listTeachers;
-    @FXML
-    private PieChart PieChart;
+
+    private Node pieChart;
+
+    private FXMLLoader loader;
 
     private static StudentInformationTopViewController instance;
 
@@ -62,20 +69,21 @@ public class StudentInformationTopViewController implements Initializable {
         return instance;
     }
 
+    public StudentInformationTopViewController() {
+        try {
+            pieChart = createPieChartNode();
+        } catch (IOException ex) {
+            Logger.getLogger(StudentInformationTopViewController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         instance = this;
-        ObservableList<PieChart.Data> pieChartData
-                = FXCollections.observableArrayList(
-                        new PieChart.Data("Grapefruit", 13),
-                        new PieChart.Data("Oranges", 25),
-                        new PieChart.Data("Plums", 10),
-                        new PieChart.Data("Pears", 22),
-                        new PieChart.Data("Apples", 30));
-        PieChart.setData(pieChartData);
+        BorderPaneRight.setCenter(pieChart);
     }
 
     /**
@@ -94,6 +102,21 @@ public class StudentInformationTopViewController implements Initializable {
         lblStudentPhone.setText("" + currentStudent.getPhone());
         //TODO ALH: Make dynamic
         lblStudentSemester.setText("2.");
+        PieChartViewController controller = loader.getController();
+        controller.setData(AttendanceModel.getInstance().getStudentAttendance(currentStudent));
+
+    }
+
+    /**
+     * Creates the node for the PieChartView.
+     *
+     * @return
+     * @throws IOException
+     */
+    private Node createPieChartNode() throws IOException {
+        loader = new FXMLLoader(getClass().getResource(AttendanceAutomationMain.MAIN_PIE_CHART_STRING));
+        Node node = loader.load();
+        return node;
     }
 
 }

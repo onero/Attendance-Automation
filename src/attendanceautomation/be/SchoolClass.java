@@ -70,8 +70,8 @@ public class SchoolClass {
      */
     private void sortStudents() {
         Collections.sort(students, (Student s1, Student s2)
-                -> Integer.toString(s2.getAttendancePercentage()).compareTo(
-                        Integer.toString(s1.getAttendancePercentage())));
+                -> Integer.toString(s2.getNonAttendancePercentage()).compareTo(
+                        Integer.toString(s1.getNonAttendancePercentage())));
     }
 
 }

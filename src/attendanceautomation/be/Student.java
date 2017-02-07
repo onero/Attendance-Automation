@@ -10,7 +10,7 @@ import attendanceautomation.bll.IDFactory;
 
 public class Student {
 
-    private int attendancePercentage;
+    private int nonAttendancePercentage;
 
     private final int ID;
 
@@ -86,12 +86,12 @@ public class Student {
      *
      * @return attendance percentage
      */
-    public int getAttendancePercentage() {
-        return attendancePercentage;
+    public int getNonAttendancePercentage() {
+        return nonAttendancePercentage;
     }
 
     public void setAttendancePercentage(int attendancePercentage) {
-        this.attendancePercentage = attendancePercentage;
+        this.nonAttendancePercentage = attendancePercentage;
     }
 
 }

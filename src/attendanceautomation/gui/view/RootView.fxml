@@ -6,7 +6,6 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-
 <BorderPane fx:id="borderPane" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="attendanceautomation.gui.controller.RootViewController">
    <bottom>
       <GridPane BorderPane.alignment="CENTER">
@@ -19,7 +18,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="180.0" text="Button" />
+            <Button mnemonicParsing="false" onAction="#handleStartView" prefHeight="31.0" prefWidth="180.0" text="START" />
             <Button mnemonicParsing="false" onAction="#handleAllStudentsButton" prefHeight="31.0" prefWidth="136.0" text="Alle Studerende" GridPane.columnIndex="2" />
          </children>
       </GridPane>

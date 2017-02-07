@@ -53,11 +53,12 @@ public class RootViewController implements Initializable {
         Node node = loader.load();
         return node;
     }
-    
+
     /**
      * Creates the node containing AllStudentsView.
+     *
      * @return
-     * @throws IOException 
+     * @throws IOException
      */
     private Node createAllStudents() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(AttendanceAutomationMain.ALL_STUDENTS_STRING));
@@ -65,10 +66,33 @@ public class RootViewController implements Initializable {
         return node;
     }
 
+    /**
+     * Sets the All_STUDENTS_VIEW as the center node
+     *
+     * @param event
+     */
     @FXML
     private void handleAllStudentsButton(ActionEvent event) {
-        borderPane.setCenter(ALL_STUDENTS_VIEW);
+        setCenter(ALL_STUDENTS_VIEW);
     }
 
-    
+    /**
+     * Sets the MAIN_VIEW as the center view
+     *
+     * @param event
+     */
+    @FXML
+    private void handleStartView(ActionEvent event) {
+        setCenter(MAIN_VIEW);
+    }
+
+    /**
+     * Sets the center node in the borderpane to the parsed view
+     *
+     * @param newView
+     */
+    private void setCenter(Node newView) {
+        borderPane.setCenter(newView);
+    }
+
 }

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.layout.BorderPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="attendanceautomation.gui.controller.allStudents.CheckboxViewController">
-    
-</AnchorPane>
+
+<BorderPane prefHeight="0.0" prefWidth="0.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="attendanceautomation.gui.controller.allStudents.CheckboxViewController">
+   <center>
+      <CheckBox mnemonicParsing="false" prefHeight="17.0" prefWidth="17.0" BorderPane.alignment="CENTER" />
+   </center>
+</BorderPane>

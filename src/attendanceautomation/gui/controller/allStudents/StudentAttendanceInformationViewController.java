@@ -36,17 +36,28 @@ public class StudentAttendanceInformationViewController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            createParentCheckBoxView();
+            fillUpHBox();
         } catch (Exception e) {
         }
 
     }
 
     /**
-     * Creates the ParentCheckBoxView
+     * Creates a ParentCheckBoxView
      */
     private Node createParentCheckBoxView() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/attendanceautomation/gui/view/allStudents/ParentCheckBoxView.fxml"));
+        Node node = loader.load();
+        return node;
+    }
+    
+    /**
+     * Creates a fillerLabel.
+     * @return
+     * @throws IOException 
+     */
+    private Node createFillerLabel() throws IOException{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/attendanceautomation/gui/view/components/FillerLabel.fxml"));
         Node node = loader.load();
         return node;
     }
@@ -58,6 +69,20 @@ public class StudentAttendanceInformationViewController implements Initializable
     public void setStudentInfo(Student item) {
         student = item;
         lblStudent.setText(student.getFullName());
+    }
+    
+    /**
+     * Fills the hBox up to look nicely.
+     * @throws IOException 
+     */
+    private void fillUpHBox() throws IOException {
+        HBox.getChildren().add(createParentCheckBoxView());
+        HBox.getChildren().add(createFillerLabel());
+        HBox.getChildren().add(createParentCheckBoxView());
+        HBox.getChildren().add(createFillerLabel());
+        HBox.getChildren().add(createParentCheckBoxView());
+        HBox.getChildren().add(createFillerLabel());
+        HBox.getChildren().add(createParentCheckBoxView());
     }
 
 }

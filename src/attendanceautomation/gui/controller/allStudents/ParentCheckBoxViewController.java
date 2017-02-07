@@ -6,6 +6,7 @@
 package attendanceautomation.gui.controller.allStudents;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -24,19 +25,38 @@ public class ParentCheckBoxViewController implements Initializable {
     private BorderPane checkBoxPane;
     @FXML
     private HBox horizontalCheckBoxPane;
+    
+    private ArrayList<CheckBox> listOfCheckBoxes;
+    
+    public ParentCheckBoxViewController(){
+        listOfCheckBoxes = new ArrayList<>();
+    }
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        pouplateWithCheckBoxes();
     }
-
-    @FXML
-    private void handleNewCheckBox() {
-        CheckBox newCheckBox = new CheckBox();
-        horizontalCheckBoxPane.getChildren().add(newCheckBox);
+    
+    /**
+     * Creates 5 checkBoxes and puts them in the horizontalCheckBoxPane and listOfCheckBoxes.
+     */
+    private void pouplateWithCheckBoxes() {
+        for(int i = 0; i < 5; i++){
+            CheckBox newCheckBox = new CheckBox();
+            horizontalCheckBoxPane.getChildren().add(newCheckBox);
+            listOfCheckBoxes.add(newCheckBox);
+        }
+    }
+    
+    /**
+     * Returns listOfCheckboxes.
+     * @return 
+     */
+    public ArrayList<CheckBox> getCheckBoxes(){
+        return listOfCheckBoxes;
     }
 
 }

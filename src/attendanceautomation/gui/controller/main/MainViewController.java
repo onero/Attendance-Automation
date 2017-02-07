@@ -5,7 +5,6 @@
  */
 package attendanceautomation.gui.controller.main;
 
-import attendanceautomation.gui.controller.main.ListOfNameStatisticsViewController;
 import attendanceautomation.gui.model.SchoolClassModel;
 import java.io.IOException;
 import java.net.URL;

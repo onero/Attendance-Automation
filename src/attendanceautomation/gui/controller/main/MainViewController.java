@@ -29,6 +29,7 @@ public class MainViewController implements Initializable {
 
     private Node PIE_CHART_NODE;
     private Node LIST_VIEW;
+    private Node SEARCH_BAR;
 
     private static MainViewController instance;
 
@@ -43,6 +44,7 @@ public class MainViewController implements Initializable {
         try {
             PIE_CHART_NODE = createPieChartNode();
             LIST_VIEW = createListView();
+            SEARCH_BAR = createSearchBarNode();
         } catch (IOException ex) {
             System.out.println("PieChart not loaded!");
         }
@@ -55,7 +57,9 @@ public class MainViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         instance = this;
         borderPane.setRight(PIE_CHART_NODE);
+        borderPane.setTop(SEARCH_BAR);
         borderPane.setCenter(LIST_VIEW);
+        
     }
 
     /**
@@ -69,6 +73,14 @@ public class MainViewController implements Initializable {
         Node node = loader.load();
         PieChartViewController controller = loader.getController();
         controller.setData(AttendanceModel.getInstance().getPieChartData());
+
+        return node;
+    }
+    
+    private Node createSearchBarNode() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(AttendanceAutomationMain.MAIN_SEARCH_BAR_STRING));
+        Node node = loader.load();
+
 
         return node;
     }

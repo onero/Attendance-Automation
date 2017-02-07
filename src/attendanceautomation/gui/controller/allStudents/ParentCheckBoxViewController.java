@@ -9,20 +9,21 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
+import javafx.scene.control.CheckBox;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 
 /**
  * FXML Controller class
  *
- * @author Rasmus
+ * @author gta1
  */
-public class AllStudentsViewController implements Initializable {
+public class ParentCheckBoxViewController implements Initializable {
 
     @FXML
-    private BorderPane borderPane;
-
-    private Node checkBoxView;
+    private BorderPane checkBoxPane;
+    @FXML
+    private HBox horizontalCheckBoxPane;
 
     /**
      * Initializes the controller class.
@@ -30,6 +31,12 @@ public class AllStudentsViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
+    }
+
+    @FXML
+    private void handleNewCheckBox() {
+        CheckBox newCheckBox = new CheckBox();
+        horizontalCheckBoxPane.getChildren().add(newCheckBox);
     }
 
 }

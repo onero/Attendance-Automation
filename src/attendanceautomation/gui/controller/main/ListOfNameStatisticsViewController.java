@@ -66,7 +66,7 @@ public class ListOfNameStatisticsViewController implements Initializable {
                     cell.setGraphic(node);
                     return cell;
                 } catch (IOException ex) {
-                    System.out.println("Error loading individual cells in the listView!");
+                    System.out.println("Error loading individual cells in the listView!" + ex.getMessage());
                 }
                 return cell;
             }

@@ -20,7 +20,7 @@ import javafx.scene.layout.HBox;
  *
  * @author gta1
  */
-public class StudentAttendanceInformationController implements Initializable {
+public class StudentAttendanceInformationViewController implements Initializable {
 
     @FXML
     private HBox HBox;

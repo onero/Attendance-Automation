@@ -6,6 +6,7 @@
 package attendanceautomation.gui.controls;
 
 import attendanceautomation.be.Student;
+import attendanceautomation.gui.controller.allStudents.StudentAttendanceInformationViewController;
 import javafx.scene.Node;
 import javafx.scene.control.ListCell;
 
@@ -14,9 +15,10 @@ import javafx.scene.control.ListCell;
  * @author Rasmus
  */
 public class AllStudentsNonAttendanceCell extends ListCell<Student>{
+    
     private Node view;
     
-    //TODO RKL: Add the controller Adam is making.
+    private StudentAttendanceInformationViewController controller;
     
     public AllStudentsNonAttendanceCell(){        
     }
@@ -27,8 +29,18 @@ public class AllStudentsNonAttendanceCell extends ListCell<Student>{
         if(empty){
             setGraphic(null);
         }else{
+            //TODO RKL: Parse student to the controller.
+            //controller.(the method Adam made).
             setGraphic(view);
         }
+    }
+    
+    /**
+     * Sets the controller.
+     * @param controller 
+     */
+    public void setController(StudentAttendanceInformationViewController controller){
+        this.controller = controller;
     }
     
     /**

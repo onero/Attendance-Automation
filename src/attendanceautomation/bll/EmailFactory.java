@@ -9,8 +9,16 @@ public class EmailFactory {
 
     private static String email;
 
+    private static final String EMAIL_DOMAIN = "@easv.dk";
+
+    /**
+     * Create a new email combined of firstName+ID+emailDomain
+     *
+     * @param ID
+     * @param firstName
+     */
     private static void createNewEmail(int ID, String firstName) {
-        email = firstName + ID + "@easv.dk";
+        email = firstName + ID + EMAIL_DOMAIN;
     }
 
     /**

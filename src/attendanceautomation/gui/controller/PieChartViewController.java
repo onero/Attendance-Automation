@@ -8,6 +8,7 @@ package attendanceautomation.gui.controller;
 import attendanceautomation.gui.model.AttendanceModel;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.PieChart;
@@ -36,13 +37,13 @@ public class PieChartViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         PieChart.setData(attendanceModel.getPieChartData());
         //Display the data on the chart
-//        PieChart.getData().forEach(data
-//                -> data.nameProperty().bind(
-//                        Bindings.concat(
-//                                data.getName(), " ", data.pieValueProperty(), " %"
-//                        )
-//                )
-//        );
+        PieChart.getData().forEach(data
+                -> data.nameProperty().bind(
+                        Bindings.concat(
+                                data.getName(), " ", data.pieValueProperty(), " %"
+                        )
+                )
+        );
 //        forEach(pieData -> {
 //            System.out.println(pieData.getName() + ": "
 //            + pieData.getPieValue());

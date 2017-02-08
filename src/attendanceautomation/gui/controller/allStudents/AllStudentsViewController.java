@@ -6,6 +6,7 @@
 package attendanceautomation.gui.controller.allStudents;
 
 import attendanceautomation.AttendanceAutomationMain;
+import attendanceautomation.be.EFXMLNames;
 import attendanceautomation.gui.model.SchoolClassModel;
 import java.io.IOException;
 import java.net.URL;
@@ -59,7 +60,7 @@ public class AllStudentsViewController implements Initializable {
      * @throws IOException
      */
     private Node createListView() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(AttendanceAutomationMain.LIST_ALL_STUDENTS_STRING));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.LIST_OF_ALL_STUDENTS_NON_ATTENDANCE_VIEW.toString()));
         Node node = loader.load();
         ListOfAllStudentsNonAttendanceViewController controller = loader.getController();
         controller.setItemsInList(schoolClassModel);
@@ -73,7 +74,7 @@ public class AllStudentsViewController implements Initializable {
      * @throws IOException
      */
     private Node createDaysInMonthView() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(AttendanceAutomationMain.DAYS_IN_MONTH_STRING));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.DAYS_IN_MONTH_VIEW.toString()));
         Node node = loader.load();
         return node;
     }

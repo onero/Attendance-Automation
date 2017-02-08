@@ -6,6 +6,7 @@
 package attendanceautomation.gui.controller.components.studentAttendanceInformation;
 
 import attendanceautomation.AttendanceAutomationMain;
+import attendanceautomation.be.EFXMLNames;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -54,7 +55,7 @@ public class DaysInMonthViewController implements Initializable {
      * @throws IOException
      */
     private Node createFillerLabel() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(AttendanceAutomationMain.FILLER_LABEL_STRING));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.FILLER_LABEL.toString()));
         Node node = loader.load();
         return node;
     }

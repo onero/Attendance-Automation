@@ -6,6 +6,7 @@
 package attendanceautomation.gui.controller.components.studentAttendanceInformation;
 
 import attendanceautomation.AttendanceAutomationMain;
+import attendanceautomation.be.EFXMLNames;
 import attendanceautomation.be.Student;
 import java.io.IOException;
 import java.net.URL;
@@ -46,7 +47,7 @@ public class StudentAttendanceInformationViewController implements Initializable
      * Creates a ParentCheckBoxView
      */
     private Node createParentCheckBoxView() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(AttendanceAutomationMain.PARENT_CHECKBOX_STRING));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.PARENT_CHECK_BOX_VIEW.toString()));
         Node node = loader.load();
         return node;
     }
@@ -58,7 +59,7 @@ public class StudentAttendanceInformationViewController implements Initializable
      * @throws IOException
      */
     private Node createFillerLabel() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(AttendanceAutomationMain.FILLER_LABEL_STRING));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.FILLER_LABEL.toString()));
         Node node = loader.load();
         return node;
     }

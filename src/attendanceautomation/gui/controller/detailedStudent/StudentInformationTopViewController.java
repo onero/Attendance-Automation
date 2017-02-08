@@ -6,6 +6,7 @@
 package attendanceautomation.gui.controller.detailedStudent;
 
 import attendanceautomation.AttendanceAutomationMain;
+import attendanceautomation.be.EFXMLNames;
 import attendanceautomation.be.Student;
 import attendanceautomation.gui.controller.components.PieChartViewController;
 import attendanceautomation.gui.model.AttendanceModel;
@@ -111,7 +112,7 @@ public class StudentInformationTopViewController implements Initializable {
      * @throws IOException
      */
     private Node createPieChartNode() throws IOException {
-        loader = new FXMLLoader(getClass().getResource(AttendanceAutomationMain.PIE_CHART_STRING));
+        loader = new FXMLLoader(getClass().getResource(EFXMLNames.PIE_CHART_VIEW.toString()));
         Node node = loader.load();
         return node;
     }

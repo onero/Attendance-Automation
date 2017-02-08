@@ -7,6 +7,7 @@ package attendanceautomation.gui.controller.main;
 
 import attendanceautomation.gui.controller.components.PieChartViewController;
 import attendanceautomation.AttendanceAutomationMain;
+import attendanceautomation.be.EFXMLNames;
 import attendanceautomation.gui.model.AttendanceModel;
 import attendanceautomation.gui.model.SchoolClassModel;
 import java.io.IOException;
@@ -70,7 +71,7 @@ public class MainViewController implements Initializable {
      * @throws IOException
      */
     private Node createPieChartNode() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(AttendanceAutomationMain.PIE_CHART_STRING));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.PIE_CHART_VIEW.toString()));
         Node node = loader.load();
         PieChartViewController controller = loader.getController();
         controller.setData(AttendanceModel.getInstance().getPieChartData());
@@ -79,7 +80,7 @@ public class MainViewController implements Initializable {
     }
 
     private Node createSearchBarNode() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(AttendanceAutomationMain.SEARCH_BAR_STRING));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.SEARCH_VIEW.toString()));
         Node node = loader.load();
 
         return node;
@@ -92,7 +93,7 @@ public class MainViewController implements Initializable {
      * @throws IOException
      */
     private Node createListView() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/attendanceautomation/gui/view/main/ListOfNameStatisticsView.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.LIST_OF_NAMES_STATISTICS_VIEW.toString()));
         Node node = loader.load();
         ListOfNameStatisticsViewController controller = loader.getController();
         controller.setItemsInList(schoolClassModel);

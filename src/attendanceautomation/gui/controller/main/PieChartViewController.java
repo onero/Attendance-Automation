@@ -32,18 +32,20 @@ public class PieChartViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         PieChart.setData(pieChartData);
-        //Display the data on the chart
-
-        PieChart.setTitle("Fravær");
     }
 
+    /**
+     * Bind the data to the chart
+     *
+     * @param newData
+     */
     public void setData(ObservableList<PieChart.Data> newData) {
         pieChartData.clear();
         pieChartData.addAll(newData);
         pieChartData.forEach(data
                 -> data.nameProperty().bind(
                         Bindings.concat(
-                                data.getName(), " ", data.pieValueProperty()
+                                data.getName(), " ", data.pieValueProperty(), " %"
                         )
                 )
         );

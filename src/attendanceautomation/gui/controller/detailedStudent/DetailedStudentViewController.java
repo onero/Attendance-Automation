@@ -36,8 +36,6 @@ public class DetailedStudentViewController implements Initializable {
 
     private FXMLLoader attendanceLoader;
 
-    private Student currentStudent;
-
     public static DetailedStudentViewController getInstance() {
         return instance;
     }
@@ -88,7 +86,6 @@ public class DetailedStudentViewController implements Initializable {
      * @param selectStudent
      */
     public void setCurrentStudent(Student selectStudent) {
-        currentStudent = selectStudent;
         StudentInformationTopViewController.getInstance().setStudentInfo(selectStudent);
         StudentAttendanceInformationViewController controller = attendanceLoader.getController();
         controller.setStudentInfo(selectStudent);

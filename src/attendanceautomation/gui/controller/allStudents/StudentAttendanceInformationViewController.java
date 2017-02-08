@@ -5,6 +5,7 @@
  */
 package attendanceautomation.gui.controller.allStudents;
 
+import attendanceautomation.AttendanceAutomationMain;
 import attendanceautomation.be.Student;
 import java.io.IOException;
 import java.net.URL;
@@ -27,7 +28,7 @@ public class StudentAttendanceInformationViewController implements Initializable
     private HBox HBox;
     @FXML
     private Label lblStudent;
-    
+
     private Student student;
 
     /**
@@ -46,34 +47,37 @@ public class StudentAttendanceInformationViewController implements Initializable
      * Creates a ParentCheckBoxView
      */
     private Node createParentCheckBoxView() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/attendanceautomation/gui/view/allStudents/ParentCheckBoxView.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(AttendanceAutomationMain.PARENT_CHECKBOX_STRING));
         Node node = loader.load();
         return node;
     }
-    
+
     /**
      * Creates a fillerLabel.
+     *
      * @return
-     * @throws IOException 
+     * @throws IOException
      */
-    private Node createFillerLabel() throws IOException{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/attendanceautomation/gui/view/components/FillerLabel.fxml"));
+    private Node createFillerLabel() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(AttendanceAutomationMain.FILLER_LABEL_STRING));
         Node node = loader.load();
         return node;
     }
-    
+
     /**
      * Sets the info about the parsed student.
-     * @param item 
+     *
+     * @param newStudent
      */
-    public void setStudentInfo(Student item) {
-        student = item;
+    public void setStudentInfo(Student newStudent) {
+        student = newStudent;
         lblStudent.setText(student.getFullName());
     }
-    
+
     /**
      * Fills the hBox up to look nicely.
-     * @throws IOException 
+     *
+     * @throws IOException
      */
     private void fillUpHBox() throws IOException {
         HBox.getChildren().add(createParentCheckBoxView());

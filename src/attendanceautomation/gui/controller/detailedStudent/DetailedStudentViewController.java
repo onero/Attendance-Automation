@@ -7,6 +7,7 @@ package attendanceautomation.gui.controller.detailedStudent;
 
 import attendanceautomation.AttendanceAutomationMain;
 import attendanceautomation.be.Student;
+import attendanceautomation.gui.controller.allStudents.StudentAttendanceInformationViewController;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -30,6 +31,10 @@ public class DetailedStudentViewController implements Initializable {
 
     private Node studentInformationTopView;
 
+    private Node studentAttendanceInformationCenterView;
+
+    private FXMLLoader attendanceLoader;
+
     private Student currentStudent;
 
     public static DetailedStudentViewController getInstance() {
@@ -44,10 +49,12 @@ public class DetailedStudentViewController implements Initializable {
         instance = this;
         try {
             studentInformationTopView = createTopView();
+            studentAttendanceInformationCenterView = createCenterView();
         } catch (Exception e) {
             System.out.println("Couldn't create topView " + e);
         }
         borderPane.setTop(studentInformationTopView);
+        borderPane.setCenter(studentAttendanceInformationCenterView);
     }
 
     /**
@@ -63,6 +70,18 @@ public class DetailedStudentViewController implements Initializable {
     }
 
     /**
+     * Create the StudentInformationTopView
+     *
+     * @return
+     * @throws IOException
+     */
+    private Node createCenterView() throws IOException {
+        attendanceLoader = new FXMLLoader(getClass().getResource(AttendanceAutomationMain.ALL_STUDENTS_ATTENDANCEINFORMATION_STRING));
+        Node node = attendanceLoader.load();
+        return node;
+    }
+
+    /**
      * Sets the current student
      *
      * @param selectStudent
@@ -70,6 +89,8 @@ public class DetailedStudentViewController implements Initializable {
     public void setCurrentStudent(Student selectStudent) {
         currentStudent = selectStudent;
         StudentInformationTopViewController.getInstance().setStudentInfo(selectStudent);
+        StudentAttendanceInformationViewController controller = attendanceLoader.getController();
+        controller.setStudentInfo(selectStudent);
     }
 
 }

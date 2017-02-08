@@ -24,6 +24,10 @@ public class AttendanceAutomationMain extends Application {
     public static final String MAIN_SEARCH_BAR_STRING = FOLDER + "main/SearchView.fxml";
 
     public static final String ALL_STUDENTS_STRING = FOLDER + "allStudents/AllStudentsView.fxml";
+    public static final String LIST_ALL_STUDENTS_STRING = FOLDER + "allStudents/ListOfAllStudentsNonAttendanceView.fxml";
+    public static final String ALL_STUDENTS_ATTENDANCEINFORMATION_STRING = FOLDER + "allStudents/StudentAttendanceInformationView.fxml";
+    public static final String PARENT_CHECKBOX_STRING = FOLDER + "allStudents/ParentCheckBoxView.fxml";
+    public static final String FILLER_LABEL_STRING = FOLDER + "components/FillerLabel.fxml";
 
     public static final String DETAILED_STUDENT_STRING = FOLDER + "detailedStudent/DetailedStudentView.fxml";
     public static final String STUDENT_INFORMATION_TOP_STRING = FOLDER + "detailedStudent/StudentInformationTopView.fxml";

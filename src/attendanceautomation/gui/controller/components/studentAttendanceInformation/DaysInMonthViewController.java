@@ -6,7 +6,6 @@
 package attendanceautomation.gui.controller.components.studentAttendanceInformation;
 
 import attendanceautomation.AttendanceAutomationMain;
-import attendanceautomation.be.Student;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -22,14 +21,12 @@ import javafx.scene.layout.HBox;
  *
  * @author gta1
  */
-public class StudentAttendanceInformationViewController implements Initializable {
+public class DaysInMonthViewController implements Initializable {
 
     @FXML
     private HBox HBox;
     @FXML
-    private Label lblStudent;
-
-    private Student student;
+    private Label lblMonth;
 
     /**
      * Initializes the controller class.
@@ -42,15 +39,14 @@ public class StudentAttendanceInformationViewController implements Initializable
         }
     }
 
-    /**
-     * Creates a ParentCheckBoxView
-     */
-    private Node createParentCheckBoxView() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(AttendanceAutomationMain.PARENT_CHECKBOX_STRING));
-        Node node = loader.load();
-        return node;
-    }
-
+//    /**
+//     * Creates a ParentCheckBoxView
+//     */
+//    private Node createParentCheckBoxView() throws IOException {
+//        FXMLLoader loader = new FXMLLoader(getClass().getResource(AttendanceAutomationMain.PARENT_CHECKBOX_STRING));
+//        Node node = loader.load();
+//        return node;
+//    }
     /**
      * Creates a fillerLabel.
      *
@@ -64,28 +60,23 @@ public class StudentAttendanceInformationViewController implements Initializable
     }
 
     /**
-     * Sets the info about the parsed student.
-     *
-     * @param newStudent
-     */
-    public void setStudentInfo(Student newStudent) {
-        student = newStudent;
-        lblStudent.setText(student.getFullName());
-    }
-
-    /**
      * Fills the hBox up to look nicely.
      *
      * @throws IOException
      */
     private void fillUpHBox() throws IOException {
-        HBox.getChildren().add(createParentCheckBoxView());
-        HBox.getChildren().add(createFillerLabel());
-        HBox.getChildren().add(createParentCheckBoxView());
-        HBox.getChildren().add(createFillerLabel());
-        HBox.getChildren().add(createParentCheckBoxView());
-        HBox.getChildren().add(createFillerLabel());
-        HBox.getChildren().add(createParentCheckBoxView());
+        //TODO ALH: Fix this!
+        HBox.getChildren().add(new Label("1     "));
+        HBox.getChildren().add(new Label("2     "));
+        HBox.getChildren().add(new Label("3     "));
+        HBox.getChildren().add(new Label("4     "));
+        HBox.getChildren().add(new Label("5     "));
+//        HBox.getChildren().add(createParentCheckBoxView());
+//        HBox.getChildren().add(createFillerLabel());
+//        HBox.getChildren().add(createParentCheckBoxView());
+//        HBox.getChildren().add(createFillerLabel());
+//        HBox.getChildren().add(createParentCheckBoxView());
+//        HBox.getChildren().add(createFillerLabel());
     }
 
 }

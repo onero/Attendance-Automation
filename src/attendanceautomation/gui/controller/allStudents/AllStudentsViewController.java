@@ -26,6 +26,8 @@ public class AllStudentsViewController implements Initializable {
     @FXML
     private BorderPane borderPane;
 
+    private Node DAYS_IN_MONTH_VIEW;
+
     private Node LIST_VIEW;
 
     private SchoolClassModel schoolClassModel;
@@ -34,6 +36,7 @@ public class AllStudentsViewController implements Initializable {
         schoolClassModel = SchoolClassModel.getInstance();
         try {
             LIST_VIEW = createListView();
+            DAYS_IN_MONTH_VIEW = createDaysInMonthView();
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
@@ -44,6 +47,7 @@ public class AllStudentsViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        borderPane.setTop(DAYS_IN_MONTH_VIEW);
         borderPane.setCenter(LIST_VIEW);
     }
 
@@ -59,6 +63,18 @@ public class AllStudentsViewController implements Initializable {
         Node node = loader.load();
         ListOfAllStudentsNonAttendanceViewController controller = loader.getController();
         controller.setItemsInList(schoolClassModel);
+        return node;
+    }
+
+    /**
+     * Creates the node of the daysInMonthView
+     *
+     * @return
+     * @throws IOException
+     */
+    private Node createDaysInMonthView() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(AttendanceAutomationMain.DAYS_IN_MONTH_STRING));
+        Node node = loader.load();
         return node;
     }
 

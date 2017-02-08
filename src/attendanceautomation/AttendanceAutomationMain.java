@@ -22,6 +22,7 @@ public class AttendanceAutomationMain extends Application {
     public static final String PIE_CHART_STRING = FOLDER + "components/PieChartView.fxml";
     public static final String SEARCH_BAR_STRING = FOLDER + "components/SearchView.fxml";
     public static final String PARENT_CHECKBOX_STRING = FOLDER + "components/studentAttendanceInformation/ParentCheckBoxView.fxml";
+    public static final String DAYS_IN_MONTH_STRING = FOLDER + "components/studentAttendanceInformation/DaysInMonthView.fxml";
 
     public static final String MAIN_VIEW_STRING = FOLDER + "main/MainView.fxml";
 

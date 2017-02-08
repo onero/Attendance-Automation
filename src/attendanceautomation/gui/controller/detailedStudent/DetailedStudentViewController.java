@@ -7,7 +7,7 @@ package attendanceautomation.gui.controller.detailedStudent;
 
 import attendanceautomation.AttendanceAutomationMain;
 import attendanceautomation.be.Student;
-import attendanceautomation.gui.controller.allStudents.StudentAttendanceInformationViewController;
+import attendanceautomation.gui.controller.components.studentAttendanceInformation.StudentAttendanceInformationViewController;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -76,7 +76,7 @@ public class DetailedStudentViewController implements Initializable {
      * @throws IOException
      */
     private Node createCenterView() throws IOException {
-        attendanceLoader = new FXMLLoader(getClass().getResource(AttendanceAutomationMain.ALL_STUDENTS_ATTENDANCEINFORMATION_STRING));
+        attendanceLoader = new FXMLLoader(getClass().getResource(AttendanceAutomationMain.STUDENTS_ATTENDANCEINFORMATION_STRING));
         Node node = attendanceLoader.load();
         return node;
     }

@@ -3,25 +3,40 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package attendanceautomation.gui.controller.allStudents;
+package attendanceautomation.gui.controller.components;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 
 /**
  * FXML Controller class
  *
- * @author Mathias
+ * @author Skovgaard
  */
-public class CheckboxViewController implements Initializable {
+public class SearchViewController implements Initializable {
+
+    @FXML
+    private TextField txtSearch;
+    @FXML
+    private HBox hBoxSearch;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        
     }    
+
+    @FXML
+    private void handleSearch(ActionEvent event) {
+    }
+    
+
     
 }

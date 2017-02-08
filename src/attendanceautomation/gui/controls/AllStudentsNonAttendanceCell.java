@@ -6,7 +6,7 @@
 package attendanceautomation.gui.controls;
 
 import attendanceautomation.be.Student;
-import attendanceautomation.gui.controller.allStudents.StudentAttendanceInformationViewController;
+import attendanceautomation.gui.controller.components.studentAttendanceInformation.StudentAttendanceInformationViewController;
 import javafx.scene.Node;
 import javafx.scene.control.ListCell;
 

@@ -5,6 +5,7 @@
  */
 package attendanceautomation.gui.controller.main;
 
+import attendanceautomation.gui.controller.components.PieChartViewController;
 import attendanceautomation.AttendanceAutomationMain;
 import attendanceautomation.gui.model.AttendanceModel;
 import attendanceautomation.gui.model.SchoolClassModel;
@@ -69,7 +70,7 @@ public class MainViewController implements Initializable {
      * @throws IOException
      */
     private Node createPieChartNode() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(AttendanceAutomationMain.MAIN_PIE_CHART_STRING));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(AttendanceAutomationMain.PIE_CHART_STRING));
         Node node = loader.load();
         PieChartViewController controller = loader.getController();
         controller.setData(AttendanceModel.getInstance().getPieChartData());
@@ -78,7 +79,7 @@ public class MainViewController implements Initializable {
     }
 
     private Node createSearchBarNode() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(AttendanceAutomationMain.MAIN_SEARCH_BAR_STRING));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(AttendanceAutomationMain.SEARCH_BAR_STRING));
         Node node = loader.load();
 
         return node;

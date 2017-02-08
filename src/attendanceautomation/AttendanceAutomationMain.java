@@ -18,15 +18,15 @@ import javafx.stage.Stage;
 public class AttendanceAutomationMain extends Application {
 
     private static final String FOLDER = "/attendanceautomation/gui/view/";
+    public static final String STUDENTS_ATTENDANCEINFORMATION_STRING = FOLDER + "components/studentAttendanceInformation/StudentAttendanceInformationView.fxml";
+    public static final String PIE_CHART_STRING = FOLDER + "components/PieChartView.fxml";
+    public static final String SEARCH_BAR_STRING = FOLDER + "components/SearchView.fxml";
+    public static final String PARENT_CHECKBOX_STRING = FOLDER + "components/studentAttendanceInformation/ParentCheckBoxView.fxml";
 
     public static final String MAIN_VIEW_STRING = FOLDER + "main/MainView.fxml";
-    public static final String MAIN_PIE_CHART_STRING = FOLDER + "main/PieChartView.fxml";
-    public static final String MAIN_SEARCH_BAR_STRING = FOLDER + "main/SearchView.fxml";
 
     public static final String ALL_STUDENTS_STRING = FOLDER + "allStudents/AllStudentsView.fxml";
     public static final String LIST_ALL_STUDENTS_STRING = FOLDER + "allStudents/ListOfAllStudentsNonAttendanceView.fxml";
-    public static final String ALL_STUDENTS_ATTENDANCEINFORMATION_STRING = FOLDER + "allStudents/StudentAttendanceInformationView.fxml";
-    public static final String PARENT_CHECKBOX_STRING = FOLDER + "allStudents/ParentCheckBoxView.fxml";
     public static final String FILLER_LABEL_STRING = FOLDER + "components/FillerLabel.fxml";
 
     public static final String DETAILED_STUDENT_STRING = FOLDER + "detailedStudent/DetailedStudentView.fxml";

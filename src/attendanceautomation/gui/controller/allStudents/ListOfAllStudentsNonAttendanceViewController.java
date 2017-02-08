@@ -5,9 +5,9 @@
  */
 package attendanceautomation.gui.controller.allStudents;
 
-import attendanceautomation.gui.controller.components.studentAttendanceInformation.StudentAttendanceInformationViewController;
 import attendanceautomation.AttendanceAutomationMain;
 import attendanceautomation.be.Student;
+import attendanceautomation.gui.controller.components.studentAttendanceInformation.StudentAttendanceInformationViewController;
 import attendanceautomation.gui.controls.AllStudentsNonAttendanceCell;
 import attendanceautomation.gui.model.SchoolClassModel;
 import java.io.IOException;
@@ -19,6 +19,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
 
 /**
@@ -30,6 +31,17 @@ public class ListOfAllStudentsNonAttendanceViewController implements Initializab
 
     @FXML
     private ListView<Student> listView;
+    @FXML
+    private BorderPane BorderPane;
+
+    private Node DAYS_IN_MONTH_VIEW;
+
+    public ListOfAllStudentsNonAttendanceViewController() {
+        try {
+            DAYS_IN_MONTH_VIEW = createDaysInMonthView();
+        } catch (Exception e) {
+        }
+    }
 
     /**
      * Initializes the controller class.
@@ -37,6 +49,7 @@ public class ListOfAllStudentsNonAttendanceViewController implements Initializab
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setCellFactory();
+        BorderPane.setTop(DAYS_IN_MONTH_VIEW);
     }
 
     /**
@@ -47,6 +60,18 @@ public class ListOfAllStudentsNonAttendanceViewController implements Initializab
     public void setItemsInList(SchoolClassModel model) {
         //TODO RKL: Add feature to select class.
         listView.setItems(model.getSchoolClasses().get(0).getStudents());
+    }
+
+    /**
+     * Creates the node of the daysInMonthView
+     *
+     * @return
+     * @throws IOException
+     */
+    private Node createDaysInMonthView() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(AttendanceAutomationMain.DAYS_IN_MONTH_STRING));
+        Node node = loader.load();
+        return node;
     }
 
     /**

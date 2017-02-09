@@ -5,10 +5,9 @@
  */
 package attendanceautomation.gui.controller.detailedStudent;
 
-import attendanceautomation.be.enums.EFXMLNames;
 import attendanceautomation.be.Student;
+import attendanceautomation.be.enums.EFXMLNames;
 import attendanceautomation.gui.controller.components.PieChartViewController;
-import attendanceautomation.gui.model.AttendanceModel;
 import attendanceautomation.gui.model.SchoolClassModel;
 import java.io.IOException;
 import java.net.URL;
@@ -100,7 +99,7 @@ public class StudentInformationTopViewController implements Initializable {
         //TODO ALH: Make dynamic
         lblStudentSemester.setText("2.");
         PieChartViewController controller = loader.getController();
-        controller.setData(AttendanceModel.getInstance().getStudentAttendance(currentStudent));
+//        controller.setData(AttendanceModel.getInstance().getStudentAttendance(currentStudent));
 
     }
 

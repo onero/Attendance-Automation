@@ -34,9 +34,9 @@ public class RootViewController implements Initializable {
     private Node MAIN_VIEW;
     private Node ALL_STUDENTS_VIEW;
     private Node DETAILED_STUDENT_VIEW;
-    
+
     private FXMLLoader allStudentLoader;
-    
+
     private FXMLLoader mainViewLoader;
 
     public static RootViewController getInstance() {
@@ -105,7 +105,7 @@ public class RootViewController implements Initializable {
         setCenter(ALL_STUDENTS_VIEW);
         AllStudentsViewController controller = allStudentLoader.getController();
         SearchViewController sController = controller.getSearchViewLoader().getController();
-        sController.setSearchText(SchoolClassModel.getInstance().getSearchString().get());
+        sController.setSearchText(SchoolClassModel.getInstance().getSearchString());
     }
 
     /**
@@ -118,7 +118,7 @@ public class RootViewController implements Initializable {
         setCenter(MAIN_VIEW);
         MainViewController controller = mainViewLoader.getController();
         SearchViewController sController = controller.getSearchViewLoader().getController();
-        sController.setSearchText(SchoolClassModel.getInstance().getSearchString().get());
+        sController.setSearchText(SchoolClassModel.getInstance().getSearchString());
     }
 
     /**

@@ -7,21 +7,33 @@ package attendanceautomation.bll;
 
 import attendanceautomation.be.Student;
 import java.util.ArrayList;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.PieChart;
+import javafx.scene.chart.PieChart.Data;
 
 public class AttendanceManager {
 
-    private ObservableList<PieChart.Data> allStudentsData;
-    private ObservableList<PieChart.Data> studentData;
+    private final ObservableList<PieChart.Data> allStudentsData;
+    private final ObservableList<PieChart.Data> studentData;
 
-    private ArrayList<String> names;
-    private ArrayList<Double> values;
+    private final ArrayList<String> names;
+    private final ArrayList<Double> values;
 
     private double total;
 
     private double percent;
+
+    private final int SCHOOL_DAYS_IN_A_MONTH = 20;
+
+    public AttendanceManager() {
+        allStudentsData = FXCollections.observableArrayList();
+        studentData = FXCollections.observableArrayList();
+        names = new ArrayList<>();
+        values = new ArrayList<>();
+    }
 
     /**
      * Generate an ObservableList<PieChart.Data> with inforation about each
@@ -31,15 +43,11 @@ public class AttendanceManager {
      * @return
      */
     public ObservableList<PieChart.Data> computeAllAttendance(ObservableList<PieChart.Data> pieChartData) {
-        allStudentsData = FXCollections.observableArrayList();
-        studentData = FXCollections.observableArrayList();
-        names = new ArrayList<>();
-        values = new ArrayList<>();
         addNamesToArrays(pieChartData);
         total = 0;
         computeTotal();
         percent = 0;
-        createPieChartDataForEachStudent();
+//        createPieChartDataForEachStudent();
         return allStudentsData;
     }
 
@@ -53,7 +61,7 @@ public class AttendanceManager {
             //Calculate the percent for the person
             percent = (values.get(i) / total) * 100;
             //Create new entry for the person
-            PieChart.Data pieChartEntry = new PieChart.Data(names.get(i), Math.round(percent));
+            Data pieChartEntry = new PieChart.Data(names.get(i), Math.round(percent));
             allStudentsData.add(pieChartEntry);
         }
     }
@@ -86,13 +94,20 @@ public class AttendanceManager {
      * @param student
      * @return attendance
      */
-    public ObservableList<PieChart.Data> computeStudentAttendance(Student student) {
+    public ObservableList<Data> computeStudentAttendance(Student student) {
         studentData.clear();
-        int studentAttendance = 100 - student.getNonAttendancePercentage();
-        PieChart.Data pieChartStudent = new PieChart.Data("Fravær", student.getNonAttendancePercentage());
-        PieChart.Data pieChartAttendance = new PieChart.Data("Fremmøde", studentAttendance);
-        studentData.add(pieChartStudent);
-        studentData.add(pieChartAttendance);
+        double amountOfStudentNonattendances = student.getNonAttendance().size();
+        DoubleProperty studentAttendancePercentage = new SimpleDoubleProperty(SCHOOL_DAYS_IN_A_MONTH - amountOfStudentNonattendances);
+        DoubleProperty studentNonattendancePercentage = new SimpleDoubleProperty((amountOfStudentNonattendances / 20) * 100);
+
+        Data nonAttendance = new Data("Fravær", 0);
+        nonAttendance.pieValueProperty().bind(studentNonattendancePercentage);
+
+        Data attendance = new Data("Fremmøde", 0);
+        attendance.pieValueProperty().bind(studentAttendancePercentage);
+
+        studentData.add(nonAttendance);
+        studentData.add(attendance);
         return studentData;
     }
 

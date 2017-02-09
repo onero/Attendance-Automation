@@ -5,6 +5,8 @@
  */
 package attendanceautomation.gui.controller.components.studentAttendanceInformation;
 
+import attendanceautomation.be.SchoolClass;
+import attendanceautomation.be.SchoolWeek;
 import attendanceautomation.be.Student;
 import attendanceautomation.be.enums.EFXMLNames;
 import attendanceautomation.gui.model.SchoolClassModel;
@@ -38,6 +40,10 @@ public class StudentAttendanceInformationViewController implements Initializable
 
     private SchoolClassModel schoolClassModel;
 
+    public StudentAttendanceInformationViewController() {
+        schoolClassModel = SchoolClassModel.getInstance();
+    }
+
     /**
      * Initializes the controller class.
      */
@@ -48,12 +54,12 @@ public class StudentAttendanceInformationViewController implements Initializable
     /**
      * Creates a ParentCheckBoxView
      */
-    private Node createWeekCheckBoxes(int weekNumber) throws IOException {
+    private Node createWeekCheckBoxes(SchoolWeek schoolWeek) throws IOException {
         weekCheckBoxLoader = new FXMLLoader(getClass().getResource(EFXMLNames.WEEK_CHECK_BOX_VIEW.toString()));
         Node node = weekCheckBoxLoader.load();
         WeekCheckBoxViewController controller = weekCheckBoxLoader.getController();
         controller.setStudent(student);
-        controller.setSchoolWeekNumber(weekNumber);
+        controller.setSchoolWeek(schoolWeek);
         return node;
     }
 
@@ -90,11 +96,10 @@ public class StudentAttendanceInformationViewController implements Initializable
      * @throws IOException
      */
     private void fillUpHBoxWithWeeks() throws IOException {
-        //TODO ALH: Change this to actual weeks!
-        for (int i = 0; i < 4; i++) {
-            HBox.getChildren().add(createWeekCheckBoxes(i));
+        SchoolClass schoolClass = schoolClassModel.getSchoolClasses().get(0);
+        for (SchoolWeek schoolWeek : schoolClass.getSchoolWeeks()) {
+            HBox.getChildren().add(createWeekCheckBoxes(schoolWeek));
             HBox.getChildren().add(createFillerLabel());
-
         }
     }
 

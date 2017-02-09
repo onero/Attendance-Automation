@@ -9,8 +9,6 @@ import attendanceautomation.be.MockData;
 import attendanceautomation.be.SchoolClass;
 import attendanceautomation.be.Student;
 import java.util.ArrayList;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -20,7 +18,7 @@ public class SchoolClassModel {
 
     private final ObservableList<SchoolClass> schoolClasses;
     private ObservableList<Student> students;
-    private StringProperty searchString;
+    private String searchString;
 
     public static SchoolClassModel getInstance() {
         if (instance == null) {
@@ -30,21 +28,23 @@ public class SchoolClassModel {
     }
 
     public SchoolClassModel() {
+        searchString = "";
         schoolClasses = FXCollections.observableArrayList();
         students = FXCollections.observableArrayList();
-        searchString = new SimpleStringProperty();
         addData();
     }
-    
+
+    /**
+     * Add data to the model
+     */
     public void addData() {
         schoolClasses.clear();
         students.clear();
+        //Add mockdata
         MockData mockData = new MockData();
         schoolClasses.add(mockData.getEasv2016A());
-        
-        for (int i = 0; i < schoolClasses.size(); i++) {
-            students.addAll(schoolClasses.get(i).getStudents());
-        }
+
+        students.addAll(schoolClasses.get(0).getStudents());
     }
 
     /**
@@ -78,7 +78,6 @@ public class SchoolClassModel {
 //            students.addAll(schoolClasses.get(i).getStudents());
 //        }
 //    }
-
     public ObservableList<Student> getStudents() {
         return students;
     }
@@ -89,10 +88,10 @@ public class SchoolClassModel {
     }
 
     public void setSearchString(String searchString) {
-        this.searchString.set(searchString);
+        this.searchString = searchString;
     }
 
-    public StringProperty getSearchString() {
+    public String getSearchString() {
         return searchString;
     }
 }

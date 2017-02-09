@@ -5,14 +5,15 @@
  */
 package attendanceautomation.gui.controller.components;
 
+import attendanceautomation.gui.model.AttendanceModel;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.PieChart;
+import javafx.scene.chart.PieChart.Data;
 
 /**
  * FXML Controller class
@@ -23,8 +24,10 @@ public class PieChartViewController implements Initializable {
     @FXML
     private PieChart PieChart;
 
-    private final ObservableList<PieChart.Data> pieChartData
+    private ObservableList<Data> pieChartData
             = FXCollections.observableArrayList();
+
+    AttendanceModel model = AttendanceModel.getInstance();
 
     /**
      * Initializes the controller class.
@@ -40,16 +43,16 @@ public class PieChartViewController implements Initializable {
      *
      * @param newData
      */
-    public void setData(ObservableList<PieChart.Data> newData) {
+    public void setData() {
         pieChartData.clear();
-        pieChartData.addAll(newData);
-        pieChartData.forEach(data
-                -> data.nameProperty().bind(
-                        Bindings.concat(
-                                data.getName(), " ", data.pieValueProperty(), " %"
-                        )
-                )
-        );
+        pieChartData.addAll(model.getPieChartData());
+//        pieChartData.forEach(data
+//                -> data.nameProperty().bind(
+//                        Bindings.concat(
+//                                data.getName(), " ", data.pieValueProperty(), " %"
+//                        )
+//                )
+//        );
 
     }
 

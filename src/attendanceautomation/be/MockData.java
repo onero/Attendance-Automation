@@ -6,10 +6,11 @@
 package attendanceautomation.be;
 
 import attendanceautomation.be.enums.ESchoolDayName;
+import attendanceautomation.be.enums.ESchoolSubject;
 import attendanceautomation.be.enums.ESchoolWeekNumber;
 import attendanceautomation.be.enums.ETeacher;
-import attendanceautomation.be.enums.ESchoolSubject;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MockData {
 
@@ -25,9 +26,9 @@ public class MockData {
         easv2016AStudents = new ArrayList<>();
         schoolDays = new ArrayList<>();
         schoolWeeks = new ArrayList<>();
-        createStudents();
         createSchoolDays();
         createSchoolWeeks();
+        createStudents();
         EASV2016A = new SchoolClass("EASV2016A", schoolWeeks);
         EASV2016A.addAllStudents(easv2016AStudents);
     }
@@ -36,14 +37,12 @@ public class MockData {
      * Create students
      */
     private void createStudents() {
+        HashMap<SchoolWeek, SchoolDay> nonAttendance = new HashMap<>();
         Student adam = new Student("Adam", "Hansen");
         Student bo = new Student("Bo", "Sinclair");
-        bo.setAttendancePercentage(10);
         Student casper = new Student("Casper", "Rødgaard");
-        casper.setAttendancePercentage(15);
         Student casperJ = new Student("Casper", "Jensen");
         Student emil = new Student("Emil", "Johansen");
-        emil.setAttendancePercentage(10);
         Student frederik = new Student("Frederik", "Dyrberg");
         Student jacob = new Student("Jacob", "Enemark");
         Student jens = new Student("Jens", "Nissen");

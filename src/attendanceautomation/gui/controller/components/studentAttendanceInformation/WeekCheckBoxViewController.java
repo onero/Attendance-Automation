@@ -5,13 +5,13 @@
  */
 package attendanceautomation.gui.controller.components.studentAttendanceInformation;
 
-import attendanceautomation.be.SchoolClass;
 import attendanceautomation.be.SchoolDay;
 import attendanceautomation.be.SchoolWeek;
 import attendanceautomation.be.Student;
 import attendanceautomation.gui.model.SchoolClassModel;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -39,19 +39,20 @@ public class WeekCheckBoxViewController implements Initializable {
 
     private Student student;
 
-    //TODO ALH: Change this to a SchoolWeek
-    private int weekNumber;
+    private SchoolWeek schoolWeek;
 
     public WeekCheckBoxViewController() {
         listOfCheckBoxes = new ArrayList<>();
+        schoolClassModel = SchoolClassModel.getInstance();
+        schoolWeek = schoolClassModel.getSchoolClasses().get(0).getSchoolWeeks().get(0);
     }
 
     public void setStudent(Student newStudent) {
         student = newStudent;
     }
 
-    public void setSchoolWeekNumber(int number) {
-        weekNumber = number;
+    public void setSchoolWeek(SchoolWeek schoolWeek) {
+        this.schoolWeek = schoolWeek;
     }
 
     /**
@@ -67,28 +68,44 @@ public class WeekCheckBoxViewController implements Initializable {
      * listOfCheckBoxes.
      */
     private void pouplateWeekHBoxWithCheckBoxes() {
-        schoolClassModel = SchoolClassModel.getInstance();
-        SchoolClass schoolClass = schoolClassModel.getSchoolClasses().get(0);
-        SchoolWeek schoolWeek = schoolClass.getSchoolWeeks().get(0);
-
-        //TODO ALH: Bind the weekCheckBoxes to a week
+        //For each schoolday in the schoolweek
         for (SchoolDay schoolDay : schoolWeek.getSchoolDays()) {
+            //Create a nice new checkbox (SO WE CAN KEEP TRACK OF STUDENTS!)
             CheckBox newCheckBox = new CheckBox();
-            //Add a changelistener to the checkbox when it is checked!
-            newCheckBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
-                @Override
-                public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                    //TODO ALH: Convert this to data for the student
-                    System.out.println("You just gave "
-                            + student.getFullName()
-                            + " unAttendance "
-                            + "in week " + (weekNumber + 1)
-                            + " on day " + (listOfCheckBoxes.indexOf(newCheckBox) + 1));
-                }
-            });
+            //Add the checkbox to the view
             horizontalCheckBoxPane.getChildren().add(newCheckBox);
+            //Add the checkbox to our array, so we can keep track of it
             listOfCheckBoxes.add(newCheckBox);
+
+            addChangeListenerToCheckBox(newCheckBox, schoolDay);
         }
+    }
+
+    /**
+     * Add a changelistener to the checkbox when it is checked! (SO WE CAN
+     * PUNISH STUDENTS!!!)
+     *
+     * @param newCheckBox
+     * @param schoolDay
+     */
+    private void addChangeListenerToCheckBox(CheckBox newCheckBox, SchoolDay schoolDay) {
+        newCheckBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                //Create a hashmap of the attendance
+                HashMap<SchoolWeek, SchoolDay> attendance = new HashMap<>();
+                attendance.put(schoolWeek, schoolDay);
+                //If the student was not attending class
+                if (newCheckBox.isSelected()) {
+                    //PUNISH STUDENT!
+                    student.addNonAttendance(attendance);
+                    //If the student was infact attending school
+                } else {
+                    //Forgive the child <3
+                    student.removeNonAttendance(attendance);
+                }
+            }
+        });
     }
 
     /**

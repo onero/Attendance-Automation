@@ -13,7 +13,6 @@ import attendanceautomation.be.Student;
 import attendanceautomation.be.enums.EFXMLNames;
 import attendanceautomation.gui.controller.components.ComponentsHolderViewController;
 import attendanceautomation.gui.controller.components.PieChartViewController;
-import attendanceautomation.gui.model.AttendanceModel;
 import attendanceautomation.gui.model.SchoolClassModel;
 import java.io.IOException;
 import java.net.URL;
@@ -33,7 +32,7 @@ public class MainViewController implements Initializable {
 
     @FXML
     private BorderPane borderPane;
-    
+
     private FXMLLoader searchViewLoader;
 
     private Node PIE_CHART_NODE;
@@ -43,6 +42,8 @@ public class MainViewController implements Initializable {
     private Node SEARCH_COMBO_HOLDER;
 
     private static MainViewController instance;
+
+    private FXMLLoader mainPieChartLoader;
 
     public static MainViewController getInstance() {
         return instance;
@@ -96,8 +97,6 @@ public class MainViewController implements Initializable {
     public FXMLLoader getSearchViewLoader() {
         return searchViewLoader;
     }
-    
-    
 
     /**
      * Initializes the controller class.
@@ -110,8 +109,6 @@ public class MainViewController implements Initializable {
         borderPane.setTop(SEARCH_COMBO_HOLDER);
         borderPane.setLeft(LIST_VIEW);
     }
-    
-    
 
     /**
      * Creates the node for the PieChartView.
@@ -120,12 +117,16 @@ public class MainViewController implements Initializable {
      * @throws IOException
      */
     private Node createPieChartNode() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.PIE_CHART_VIEW.toString()));
-        Node node = loader.load();
-        PieChartViewController controller = loader.getController();
-        controller.setData(AttendanceModel.getInstance().getPieChartData());
+        mainPieChartLoader = new FXMLLoader(getClass().getResource(EFXMLNames.PIE_CHART_VIEW.toString()));
+        Node node = mainPieChartLoader.load();
+        updatePieData();
 
         return node;
+    }
+
+    public void updatePieData() {
+        PieChartViewController controller = mainPieChartLoader.getController();
+        controller.setData();
     }
 
     /**

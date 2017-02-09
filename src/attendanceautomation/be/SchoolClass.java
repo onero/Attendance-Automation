@@ -81,8 +81,8 @@ public class SchoolClass {
      */
     private void sortStudents() {
         Collections.sort(students, (Student s1, Student s2)
-                -> Integer.toString(s2.getNonAttendancePercentage()).compareTo(
-                        Integer.toString(s1.getNonAttendancePercentage())));
+                -> Double.toString(s2.getNonAttendancePercentage().get()).compareTo(
+                        Double.toString(s1.getNonAttendancePercentage().get())));
     }
 
 }

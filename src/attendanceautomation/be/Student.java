@@ -5,12 +5,20 @@
  */
 package attendanceautomation.be;
 
+import attendanceautomation.bll.AttendanceManager;
 import attendanceautomation.bll.EmailFactory;
 import attendanceautomation.bll.IDFactory;
+import attendanceautomation.gui.model.AttendanceModel;
+import java.util.ArrayList;
+import java.util.HashMap;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.scene.chart.PieChart.Data;
 
 public class Student {
 
-    private int nonAttendancePercentage;
+//    private double nonAttendancePercentage;
+    private final DoubleProperty nonAttendancePercentage;
 
     private final int ID;
 
@@ -22,6 +30,10 @@ public class Student {
 
     private final String email;
 
+    private AttendanceManager manager;
+
+    private final ArrayList<HashMap<SchoolWeek, SchoolDay>> nonAttendance;
+
     private int phone;
 
     public Student(String firstName, String lastName) {
@@ -30,6 +42,9 @@ public class Student {
         this.lastName = lastName;
         fullName = this.firstName + " " + this.lastName;
         email = EmailFactory.getnewEmail(ID, firstName);
+        nonAttendance = new ArrayList<>();
+        nonAttendancePercentage = new SimpleDoubleProperty(0);
+        manager = new AttendanceManager();
     }
 
     /**
@@ -86,12 +101,46 @@ public class Student {
      *
      * @return attendance percentage
      */
-    public int getNonAttendancePercentage() {
+    public DoubleProperty getNonAttendancePercentage() {
+        updateNonAttendancePercentage();
         return nonAttendancePercentage;
     }
 
-    public void setAttendancePercentage(int attendancePercentage) {
-        this.nonAttendancePercentage = attendancePercentage;
+    /**
+     *
+     * @return get days of unAttendance
+     */
+    public ArrayList<HashMap<SchoolWeek, SchoolDay>> getNonAttendance() {
+        return nonAttendance;
+    }
+
+    /**
+     * Adds the parsed day in week to nonAttendance
+     *
+     * @param newNonAttendance
+     */
+    public void addNonAttendance(HashMap<SchoolWeek, SchoolDay> newNonAttendance) {
+        nonAttendance.add(newNonAttendance);
+        updateNonAttendancePercentage();
+        AttendanceModel.getInstance().checkIfStudentIsInChart(this);
+    }
+
+    /**
+     * Adds the parsed day in week to nonAttendance
+     *
+     * @param attendance
+     */
+    public void removeNonAttendance(HashMap<SchoolWeek, SchoolDay> attendance) {
+        nonAttendance.remove(attendance);
+        updateNonAttendancePercentage();
+    }
+
+    /**
+     * Update the nonAttendancePercentage
+     */
+    private void updateNonAttendancePercentage() {
+        Data computedNonAttendance = manager.computeStudentAttendance(this).get(0);
+        nonAttendancePercentage.set(computedNonAttendance.getPieValue());
     }
 
 }

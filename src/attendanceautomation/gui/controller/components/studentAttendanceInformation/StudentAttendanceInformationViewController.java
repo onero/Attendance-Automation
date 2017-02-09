@@ -5,11 +5,14 @@
  */
 package attendanceautomation.gui.controller.components.studentAttendanceInformation;
 
-import attendanceautomation.be.enums.EFXMLNames;
 import attendanceautomation.be.Student;
+import attendanceautomation.be.enums.EFXMLNames;
+import attendanceautomation.gui.model.SchoolClassModel;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -31,23 +34,26 @@ public class StudentAttendanceInformationViewController implements Initializable
 
     private Student student;
 
+    private FXMLLoader weekCheckBoxLoader;
+
+    private SchoolClassModel schoolClassModel;
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        try {
-            fillUpHBox();
-        } catch (Exception e) {
-        }
     }
 
     /**
      * Creates a ParentCheckBoxView
      */
-    private Node createParentCheckBoxView() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.PARENT_CHECK_BOX_VIEW.toString()));
-        Node node = loader.load();
+    private Node createWeekCheckBoxes(int weekNumber) throws IOException {
+        weekCheckBoxLoader = new FXMLLoader(getClass().getResource(EFXMLNames.WEEK_CHECK_BOX_VIEW.toString()));
+        Node node = weekCheckBoxLoader.load();
+        WeekCheckBoxViewController controller = weekCheckBoxLoader.getController();
+        controller.setStudent(student);
+        controller.setSchoolWeekNumber(weekNumber);
         return node;
     }
 
@@ -71,6 +77,11 @@ public class StudentAttendanceInformationViewController implements Initializable
     public void setStudentInfo(Student newStudent) {
         student = newStudent;
         lblStudent.setText(student.getFullName());
+        try {
+            fillUpHBoxWithWeeks();
+        } catch (IOException ex) {
+            Logger.getLogger(StudentAttendanceInformationViewController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -78,14 +89,13 @@ public class StudentAttendanceInformationViewController implements Initializable
      *
      * @throws IOException
      */
-    private void fillUpHBox() throws IOException {
-        HBox.getChildren().add(createParentCheckBoxView());
-        HBox.getChildren().add(createFillerLabel());
-        HBox.getChildren().add(createParentCheckBoxView());
-        HBox.getChildren().add(createFillerLabel());
-        HBox.getChildren().add(createParentCheckBoxView());
-        HBox.getChildren().add(createFillerLabel());
-        HBox.getChildren().add(createParentCheckBoxView());
+    private void fillUpHBoxWithWeeks() throws IOException {
+        //TODO ALH: Change this to actual weeks!
+        for (int i = 0; i < 4; i++) {
+            HBox.getChildren().add(createWeekCheckBoxes(i));
+            HBox.getChildren().add(createFillerLabel());
+
+        }
     }
 
 }

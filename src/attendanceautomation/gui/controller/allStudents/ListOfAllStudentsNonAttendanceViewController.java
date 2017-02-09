@@ -34,11 +34,11 @@ public class ListOfAllStudentsNonAttendanceViewController implements Initializab
     @FXML
     private BorderPane BorderPane;
 
-    private Node DAYS_IN_MONTH_VIEW;
+    private Node WEEKS_IN_MONTH_VIEW;
 
     public ListOfAllStudentsNonAttendanceViewController() {
         try {
-            DAYS_IN_MONTH_VIEW = createDaysInMonthView();
+            WEEKS_IN_MONTH_VIEW = createDaysInMonthView();
         } catch (Exception e) {
         }
     }
@@ -49,7 +49,7 @@ public class ListOfAllStudentsNonAttendanceViewController implements Initializab
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setCellFactory();
-        BorderPane.setTop(DAYS_IN_MONTH_VIEW);
+        BorderPane.setTop(WEEKS_IN_MONTH_VIEW);
     }
 
     /**

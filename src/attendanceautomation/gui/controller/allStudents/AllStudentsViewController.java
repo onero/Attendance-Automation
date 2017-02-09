@@ -5,7 +5,6 @@
  */
 package attendanceautomation.gui.controller.allStudents;
 
-import attendanceautomation.AttendanceAutomationMain;
 import attendanceautomation.be.enums.EFXMLNames;
 import attendanceautomation.gui.model.SchoolClassModel;
 import java.io.IOException;

@@ -11,12 +11,20 @@ public class MockData {
 
     private final ArrayList<Student> easv2016AStudents;
 
+    private final ArrayList<SchoolDay> schoolDays;
+
+    private final ArrayList<SchoolWeek> schoolWeeks;
+
     private final SchoolClass EASV2016A;
 
     public MockData() {
         easv2016AStudents = new ArrayList<>();
+        schoolDays = new ArrayList<>();
+        schoolWeeks = new ArrayList<>();
         createStudents();
-        EASV2016A = new SchoolClass("EASV2016A");
+        createSchoolDays();
+        createSchoolWeeks();
+        EASV2016A = new SchoolClass("EASV2016A", schoolWeeks);
         EASV2016A.addAllStudents(easv2016AStudents);
     }
 
@@ -92,6 +100,86 @@ public class MockData {
      */
     public SchoolClass getEasv2016A() {
         return EASV2016A;
+    }
+
+    private void createSchoolDays() {
+        createMonday();
+        createTuesday();
+        createWednesday();
+        createThursday();
+        createFriday();
+    }
+
+    private void createMonday() {
+        SchoolDay monday = new SchoolDay(ESchoolDayName.MONDAY);
+
+        SchoolLesson SCO = new SchoolLesson(ESchoolSubject.SCO, ETeacher.PETER_STEGGER);
+        SchoolLesson SDE = new SchoolLesson(ESchoolSubject.SDE, ETeacher.JEPPE_LED);
+
+        monday.addLesson(SCO);
+        monday.addLesson(SDE);
+
+        schoolDays.add(monday);
+    }
+
+    private void createTuesday() {
+        SchoolDay tuesday = new SchoolDay(ESchoolDayName.TUEDAY);
+
+        SchoolLesson SDE = new SchoolLesson(ESchoolSubject.SDE, ETeacher.JEPPE_LED);
+        SchoolLesson ITO = new SchoolLesson(ESchoolSubject.ITO, ETeacher.LARS_BILDE);
+
+        tuesday.addLesson(SDE);
+        tuesday.addLesson(ITO);
+
+        schoolDays.add(tuesday);
+    }
+
+    private void createWednesday() {
+        SchoolDay wednesday = new SchoolDay(ESchoolDayName.WEDNESDAY);
+
+        SchoolLesson DBOS = new SchoolLesson(ESchoolSubject.DBOS, ETeacher.BENT_PEDERSEN);
+
+        wednesday.addLesson(DBOS);
+
+        schoolDays.add(wednesday);
+    }
+
+    private void createThursday() {
+        SchoolDay thursday = new SchoolDay(ESchoolDayName.THURSDAY);
+
+        SchoolLesson SCO = new SchoolLesson(ESchoolSubject.SCO, ETeacher.PETER_STEGGER);
+
+        thursday.addLesson(SCO);
+
+        schoolDays.add(thursday);
+    }
+
+    private void createFriday() {
+        SchoolDay friday = new SchoolDay(ESchoolDayName.FRIDAY);
+
+        SchoolLesson SCO = new SchoolLesson(ESchoolSubject.SCO, ETeacher.PETER_STEGGER);
+
+        friday.addLesson(SCO);
+
+        schoolDays.add(friday);
+    }
+
+    private void createSchoolWeeks() {
+        SchoolWeek week5 = new SchoolWeek(ESchoolWeekNumber.WEEK_5);
+        SchoolWeek week6 = new SchoolWeek(ESchoolWeekNumber.WEEK_6);
+        SchoolWeek week7 = new SchoolWeek(ESchoolWeekNumber.WEEK_7);
+        SchoolWeek week8 = new SchoolWeek(ESchoolWeekNumber.WEEK_8);
+        schoolWeeks.add(week5);
+        schoolWeeks.add(week6);
+        schoolWeeks.add(week7);
+        schoolWeeks.add(week8);
+        addSchoolDaysToWeeks();
+    }
+
+    private void addSchoolDaysToWeeks() {
+        for (SchoolWeek schoolWeek : schoolWeeks) {
+            schoolWeek.setSchoolDays(schoolDays);
+        }
     }
 
 }

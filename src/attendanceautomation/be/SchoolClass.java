@@ -12,13 +12,32 @@ import javafx.collections.ObservableList;
 
 public class SchoolClass {
 
-    private final String name;
+    private final String schoolClassName;
 
     private final ObservableList<Student> students;
 
-    public SchoolClass(String name) {
-        this.name = name;
+    private final ArrayList<SchoolWeek> schoolWeeks;
+
+    public SchoolClass(String name, ArrayList<SchoolWeek> schoolWeeks) {
+        this.schoolWeeks = schoolWeeks;
+        schoolClassName = name;
         students = FXCollections.observableArrayList();
+    }
+
+    /**
+     *
+     * @return school class name
+     */
+    public String getSchoolClassName() {
+        return schoolClassName;
+    }
+
+    /**
+     *
+     * @return school weeks
+     */
+    public ArrayList<SchoolWeek> getSchoolWeeks() {
+        return schoolWeeks;
     }
 
     /**
@@ -53,7 +72,7 @@ public class SchoolClass {
      * @return name of schoolclass
      */
     public String getName() {
-        return name;
+        return schoolClassName;
     }
 
     /**

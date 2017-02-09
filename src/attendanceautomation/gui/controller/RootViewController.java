@@ -6,6 +6,10 @@
 package attendanceautomation.gui.controller;
 
 import attendanceautomation.be.enums.EFXMLNames;
+import attendanceautomation.gui.controller.allStudents.AllStudentsViewController;
+import attendanceautomation.gui.controller.components.SearchViewController;
+import attendanceautomation.gui.controller.main.MainViewController;
+import attendanceautomation.gui.model.SchoolClassModel;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -30,6 +34,10 @@ public class RootViewController implements Initializable {
     private Node MAIN_VIEW;
     private Node ALL_STUDENTS_VIEW;
     private Node DETAILED_STUDENT_VIEW;
+    
+    private FXMLLoader allStudentLoader;
+    
+    private FXMLLoader mainViewLoader;
 
     public static RootViewController getInstance() {
         return instance;
@@ -58,8 +66,8 @@ public class RootViewController implements Initializable {
      * @throws IOException
      */
     private Node createMainView() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.MAIN_VIEW.toString()));
-        Node node = loader.load();
+        mainViewLoader = new FXMLLoader(getClass().getResource(EFXMLNames.MAIN_VIEW.toString()));
+        Node node = mainViewLoader.load();
         return node;
     }
 
@@ -70,8 +78,8 @@ public class RootViewController implements Initializable {
      * @throws IOException
      */
     private Node createAllStudents() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.ALL_STUDENTS_VIEW.toString()));
-        Node node = loader.load();
+        allStudentLoader = new FXMLLoader(getClass().getResource(EFXMLNames.ALL_STUDENTS_VIEW.toString()));
+        Node node = allStudentLoader.load();
         return node;
     }
 
@@ -95,6 +103,9 @@ public class RootViewController implements Initializable {
     @FXML
     private void handleAllStudentsButton(ActionEvent event) {
         setCenter(ALL_STUDENTS_VIEW);
+        AllStudentsViewController controller = allStudentLoader.getController();
+        SearchViewController sController = controller.getSearchViewLoader().getController();
+        sController.setSearchText(SchoolClassModel.getInstance().getSearchString().get());
     }
 
     /**
@@ -105,6 +116,9 @@ public class RootViewController implements Initializable {
     @FXML
     private void handleStartView(ActionEvent event) {
         setCenter(MAIN_VIEW);
+        MainViewController controller = mainViewLoader.getController();
+        SearchViewController sController = controller.getSearchViewLoader().getController();
+        sController.setSearchText(SchoolClassModel.getInstance().getSearchString().get());
     }
 
     /**

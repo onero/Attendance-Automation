@@ -41,7 +41,11 @@ public class SearchViewController implements Initializable {
         txtSearch.textProperty().addListener((observable, oldValue, newValue) -> {
             updateListView(newValue);
         });
-    }    
+    } 
+    
+    public void setSearchText(String string) {
+        txtSearch.setText(string);
+    }
 
     @FXML
     private void handleClear(ActionEvent event) {
@@ -49,6 +53,7 @@ public class SearchViewController implements Initializable {
     }
     
     private void updateListView(String value) {
+        SCModel.setSearchString(value);
         studentsForSearch.clear();
         SCModel.addData();
         for (Student student : SCModel.getStudents()) {

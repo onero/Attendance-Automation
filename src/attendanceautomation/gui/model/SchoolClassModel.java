@@ -9,6 +9,8 @@ import attendanceautomation.be.MockData;
 import attendanceautomation.be.SchoolClass;
 import attendanceautomation.be.Student;
 import java.util.ArrayList;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -18,6 +20,7 @@ public class SchoolClassModel {
 
     private final ObservableList<SchoolClass> schoolClasses;
     private ObservableList<Student> students;
+    private StringProperty searchString;
 
     public static SchoolClassModel getInstance() {
         if (instance == null) {
@@ -29,6 +32,7 @@ public class SchoolClassModel {
     public SchoolClassModel() {
         schoolClasses = FXCollections.observableArrayList();
         students = FXCollections.observableArrayList();
+        searchString = new SimpleStringProperty();
         addData();
     }
     
@@ -83,6 +87,12 @@ public class SchoolClassModel {
         students.clear();
         students.addAll(studentsFromSearch);
     }
-    
-    
+
+    public void setSearchString(String searchString) {
+        this.searchString.set(searchString);
+    }
+
+    public StringProperty getSearchString() {
+        return searchString;
+    }
 }

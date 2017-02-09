@@ -30,6 +30,8 @@ public class AllStudentsViewController implements Initializable {
     private Node LIST_VIEW;
     private Node SEARCH_VIEW;
     private Node TOP_VIEW_HOLDER;
+    
+    private FXMLLoader searchViewLoader;
 
     private SchoolClassModel schoolClassModel;
 
@@ -43,6 +45,14 @@ public class AllStudentsViewController implements Initializable {
             System.out.println(ex.getMessage());
         }
     }
+
+    public FXMLLoader getSearchViewLoader() {
+        return searchViewLoader;
+    }
+
+   
+    
+    
 
     /**
      * Initializes the controller class.
@@ -69,8 +79,9 @@ public class AllStudentsViewController implements Initializable {
     }
 
     private Node createSearchView() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.SEARCH_VIEW.toString()));
-        Node node = loader.load();
+        searchViewLoader = new FXMLLoader(getClass().getResource(EFXMLNames.SEARCH_VIEW.toString()));
+        Node node = searchViewLoader.load();
+        
         return node;
     }
 

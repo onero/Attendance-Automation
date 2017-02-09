@@ -33,6 +33,8 @@ public class MainViewController implements Initializable {
 
     @FXML
     private BorderPane borderPane;
+    
+    private FXMLLoader searchViewLoader;
 
     private Node PIE_CHART_NODE;
     private Node LIST_VIEW;
@@ -91,6 +93,12 @@ public class MainViewController implements Initializable {
         }
     }
 
+    public FXMLLoader getSearchViewLoader() {
+        return searchViewLoader;
+    }
+    
+    
+
     /**
      * Initializes the controller class.
      */
@@ -102,6 +110,8 @@ public class MainViewController implements Initializable {
         borderPane.setTop(SEARCH_COMBO_HOLDER);
         borderPane.setLeft(LIST_VIEW);
     }
+    
+    
 
     /**
      * Creates the node for the PieChartView.
@@ -125,8 +135,8 @@ public class MainViewController implements Initializable {
      * @throws IOException
      */
     private Node createSearchBarNode() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.SEARCH_VIEW.toString()));
-        Node node = loader.load();
+        searchViewLoader = new FXMLLoader(getClass().getResource(EFXMLNames.SEARCH_VIEW.toString()));
+        Node node = searchViewLoader.load();
 
         return node;
     }

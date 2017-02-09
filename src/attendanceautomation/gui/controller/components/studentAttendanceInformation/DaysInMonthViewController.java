@@ -5,7 +5,6 @@
  */
 package attendanceautomation.gui.controller.components.studentAttendanceInformation;
 
-import attendanceautomation.AttendanceAutomationMain;
 import attendanceautomation.be.enums.EFXMLNames;
 import java.io.IOException;
 import java.net.URL;
@@ -68,29 +67,40 @@ public class DaysInMonthViewController implements Initializable {
     private void fillUpHBox() throws IOException {
         //TODO ALH: Fix this!
         lblMonth.setText("Februar");
-        HBox.getChildren().add(new Label("1     "));
-        HBox.getChildren().add(new Label("2     "));
-        HBox.getChildren().add(new Label("3     "));
-        HBox.getChildren().add(new Label("4     "));
-        HBox.getChildren().add(new Label("5   "));
+        HBox.getChildren().add(new Label("Week 5"));
         HBox.getChildren().add(createFillerLabel());
-        HBox.getChildren().add(new Label("8    "));
-        HBox.getChildren().add(new Label("9    "));
-        HBox.getChildren().add(new Label("10  "));
-        HBox.getChildren().add(new Label("11  "));
-        HBox.getChildren().add(new Label("12  "));
         HBox.getChildren().add(createFillerLabel());
-        HBox.getChildren().add(new Label("15  "));
-        HBox.getChildren().add(new Label("16  "));
-        HBox.getChildren().add(new Label("17  "));
-        HBox.getChildren().add(new Label("18  "));
-        HBox.getChildren().add(new Label("19    "));
         HBox.getChildren().add(createFillerLabel());
-        HBox.getChildren().add(new Label("22  "));
-        HBox.getChildren().add(new Label("23  "));
-        HBox.getChildren().add(new Label("24  "));
-        HBox.getChildren().add(new Label("25  "));
-        HBox.getChildren().add(new Label("26  "));
+        HBox.getChildren().add(new Label("Week 6"));
+        HBox.getChildren().add(createFillerLabel());
+        HBox.getChildren().add(createFillerLabel());
+        HBox.getChildren().add(createFillerLabel());
+        HBox.getChildren().add(new Label("Week 7"));
+        HBox.getChildren().add(createFillerLabel());
+        HBox.getChildren().add(createFillerLabel());
+        HBox.getChildren().add(createFillerLabel());
+        HBox.getChildren().add(new Label("Week 8"));
+//        HBox.getChildren().add(new Label("2     "));
+//        HBox.getChildren().add(new Label("3     "));
+//        HBox.getChildren().add(new Label("4     "));
+//        HBox.getChildren().add(new Label("5   "));
+//        HBox.getChildren().add(new Label("8    "));
+//        HBox.getChildren().add(new Label("9    "));
+//        HBox.getChildren().add(new Label("10  "));
+//        HBox.getChildren().add(new Label("11  "));
+//        HBox.getChildren().add(new Label("12  "));
+//        HBox.getChildren().add(createFillerLabel());
+//        HBox.getChildren().add(new Label("15  "));
+//        HBox.getChildren().add(new Label("16  "));
+//        HBox.getChildren().add(new Label("17  "));
+//        HBox.getChildren().add(new Label("18  "));
+//        HBox.getChildren().add(new Label("19    "));
+//        HBox.getChildren().add(createFillerLabel());
+//        HBox.getChildren().add(new Label("22  "));
+//        HBox.getChildren().add(new Label("23  "));
+//        HBox.getChildren().add(new Label("24  "));
+//        HBox.getChildren().add(new Label("25  "));
+//        HBox.getChildren().add(new Label("26  "));
 //        HBox.getChildren().add(createParentCheckBoxView());
 //        HBox.getChildren().add(createParentCheckBoxView());
 //        HBox.getChildren().add(createFillerLabel());

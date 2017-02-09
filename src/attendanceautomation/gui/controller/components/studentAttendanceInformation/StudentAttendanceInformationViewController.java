@@ -5,7 +5,6 @@
  */
 package attendanceautomation.gui.controller.components.studentAttendanceInformation;
 
-import attendanceautomation.AttendanceAutomationMain;
 import attendanceautomation.be.enums.EFXMLNames;
 import attendanceautomation.be.Student;
 import java.io.IOException;

@@ -30,7 +30,6 @@ public class SearchViewController implements Initializable {
     private final SchoolClassModel SCModel = SchoolClassModel.getInstance();
 
     public SearchViewController() {
-        
         studentsForSearch = new ArrayList();
     }
     

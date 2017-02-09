@@ -22,6 +22,7 @@ public enum EFXMLNames {
     FILLER_LABEL(FOLDER + "components/FillerLabel.fxml"),
     PIE_CHART_VIEW(FOLDER + "components/PieChartView.fxml"),
     SEARCH_VIEW(FOLDER + "components/SearchView.fxml"),
+    COMPONENTS_HOLDER_VIEW(FOLDER + "components/ComponentsHolderView.fxml"),
     
     DAYS_IN_MONTH_VIEW(FOLDER + "components/studentAttendanceInformation/DaysInMonthView.fxml"),
     PARENT_CHECK_BOX_VIEW(FOLDER + "components/studentAttendanceInformation/ParentCheckBoxView.fxml"),
@@ -29,7 +30,7 @@ public enum EFXMLNames {
     
     ALL_STUDENTS_VIEW(FOLDER + "allStudents/AllStudentsView.fxml"),
     LIST_OF_ALL_STUDENTS_NON_ATTENDANCE_VIEW(FOLDER + "allStudents/ListOfAllStudentsNonAttendanceView.fxml"),
-    MONTH_COMBO_BOX_VIEW(FOLDER + "allStudents/MonthComboBoxView.fxml");
+    MONTH_COMBO_BOX_VIEW(FOLDER + "allStudents/MonthComboboxView.fxml");
     
         
     private final String text;

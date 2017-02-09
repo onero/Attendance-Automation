@@ -32,6 +32,7 @@ public class PieChartViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         PieChart.setData(pieChartData);
+        PieChart.setLegendVisible(false);
     }
 
     /**

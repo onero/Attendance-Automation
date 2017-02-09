@@ -5,11 +5,12 @@
  */
 package attendanceautomation.gui.controller.allStudents;
 
+import attendanceautomation.AttendanceAutomationMain;
+import attendanceautomation.be.enums.EFXMLNames;
+import attendanceautomation.gui.model.SchoolClassModel;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -26,10 +27,12 @@ public class AllStudentsViewController implements Initializable {
     @FXML
     private BorderPane borderPane;
 
-    private Node checkBoxView;
     private Node LIST_VIEW;
-    
-    public AllStudentsViewController(){
+
+    private SchoolClassModel schoolClassModel;
+
+    public AllStudentsViewController() {
+        schoolClassModel = SchoolClassModel.getInstance();
         try {
             LIST_VIEW = createListView();
         } catch (IOException ex) {
@@ -45,10 +48,18 @@ public class AllStudentsViewController implements Initializable {
         borderPane.setCenter(LIST_VIEW);
     }
 
+    /**
+     * Creates the node of the listView and parsed the schoolClassModel to its
+     * controller.
+     *
+     * @return
+     * @throws IOException
+     */
     private Node createListView() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/attendanceautomation/gui/view/allStudents/ListOfAllStudentsNonAttendanceView.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.LIST_OF_ALL_STUDENTS_NON_ATTENDANCE_VIEW.toString()));
         Node node = loader.load();
+        ListOfAllStudentsNonAttendanceViewController controller = loader.getController();
+        controller.setItemsInList(schoolClassModel);
         return node;
     }
-
 }

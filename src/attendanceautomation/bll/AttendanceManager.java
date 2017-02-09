@@ -5,6 +5,7 @@
  */
 package attendanceautomation.bll;
 
+import attendanceautomation.be.Student;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,6 +13,7 @@ import javafx.scene.chart.PieChart;
 
 public class AttendanceManager {
 
+    private ObservableList<PieChart.Data> allStudentsData;
     private ObservableList<PieChart.Data> studentData;
 
     private ArrayList<String> names;
@@ -28,7 +30,8 @@ public class AttendanceManager {
      * @param pieChartData
      * @return
      */
-    public ObservableList<PieChart.Data> computeAttendance(ObservableList<PieChart.Data> pieChartData) {
+    public ObservableList<PieChart.Data> computeAllAttendance(ObservableList<PieChart.Data> pieChartData) {
+        allStudentsData = FXCollections.observableArrayList();
         studentData = FXCollections.observableArrayList();
         names = new ArrayList<>();
         values = new ArrayList<>();
@@ -37,7 +40,7 @@ public class AttendanceManager {
         computeTotal();
         percent = 0;
         createPieChartDataForEachStudent();
-        return studentData;
+        return allStudentsData;
     }
 
     /**
@@ -51,7 +54,7 @@ public class AttendanceManager {
             percent = (values.get(i) / total) * 100;
             //Create new entry for the person
             PieChart.Data pieChartEntry = new PieChart.Data(names.get(i), Math.round(percent));
-            studentData.add(pieChartEntry);
+            allStudentsData.add(pieChartEntry);
         }
     }
 
@@ -75,6 +78,22 @@ public class AttendanceManager {
             names.add(data.getName());
             values.add(data.getPieValue());
         }
+    }
+
+    /**
+     * Calculate the attendance of the student
+     *
+     * @param student
+     * @return attendance
+     */
+    public ObservableList<PieChart.Data> computeStudentAttendance(Student student) {
+        studentData.clear();
+        int studentAttendance = 100 - student.getNonAttendancePercentage();
+        PieChart.Data pieChartStudent = new PieChart.Data("Fravær", student.getNonAttendancePercentage());
+        PieChart.Data pieChartAttendance = new PieChart.Data("Fremmøde", studentAttendance);
+        studentData.add(pieChartStudent);
+        studentData.add(pieChartAttendance);
+        return studentData;
     }
 
 }

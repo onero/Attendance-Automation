@@ -7,6 +7,8 @@ package attendanceautomation.gui.model;
 
 import attendanceautomation.be.MockData;
 import attendanceautomation.be.SchoolClass;
+import attendanceautomation.be.Student;
+import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -15,6 +17,7 @@ public class SchoolClassModel {
     private static SchoolClassModel instance;
 
     private final ObservableList<SchoolClass> schoolClasses;
+    private ObservableList<Student> students;
 
     public static SchoolClassModel getInstance() {
         if (instance == null) {
@@ -25,9 +28,19 @@ public class SchoolClassModel {
 
     public SchoolClassModel() {
         schoolClasses = FXCollections.observableArrayList();
+        students = FXCollections.observableArrayList();
+        addData();
+    }
+    
+    public void addData() {
+        schoolClasses.clear();
+        students.clear();
         MockData mockData = new MockData();
         schoolClasses.add(mockData.getEasv2016A());
-
+        
+        for (int i = 0; i < schoolClasses.size(); i++) {
+            students.addAll(schoolClasses.get(i).getStudents());
+        }
     }
 
     /**
@@ -56,4 +69,20 @@ public class SchoolClassModel {
         return schoolClasses;
     }
 
+//    private void addStudents() {
+//        for (int i = 0; i < schoolClasses.size(); i++) {
+//            students.addAll(schoolClasses.get(i).getStudents());
+//        }
+//    }
+
+    public ObservableList<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(ArrayList<Student> studentsFromSearch) {
+        students.clear();
+        students.addAll(studentsFromSearch);
+    }
+    
+    
 }

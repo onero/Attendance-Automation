@@ -5,7 +5,7 @@
  */
 package attendanceautomation.gui.controller;
 
-import attendanceautomation.AttendanceAutomationMain;
+import attendanceautomation.be.enums.EFXMLNames;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -25,21 +25,30 @@ public class RootViewController implements Initializable {
     @FXML
     private BorderPane borderPane;
 
+    private static RootViewController instance;
+
     private Node MAIN_VIEW;
     private Node ALL_STUDENTS_VIEW;
+    private Node DETAILED_STUDENT_VIEW;
+
+    public static RootViewController getInstance() {
+        return instance;
+    }
 
     public RootViewController() {
         try {
             MAIN_VIEW = createMainView();
             ALL_STUDENTS_VIEW = createAllStudents();
+            DETAILED_STUDENT_VIEW = createDetailedStudentView();
         } catch (IOException ex) {
-            System.out.println("MainView not loaded! " + ex.getMessage());
+            System.out.println("MainView not loaded! " + ex);
         }
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        borderPane.setCenter(MAIN_VIEW);
+        instance = this;
+        setCenter(MAIN_VIEW);
     }
 
     /**
@@ -49,7 +58,7 @@ public class RootViewController implements Initializable {
      * @throws IOException
      */
     private Node createMainView() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(AttendanceAutomationMain.MAIN_VIEW_STRING));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.MAIN_VIEW.toString()));
         Node node = loader.load();
         return node;
     }
@@ -61,7 +70,19 @@ public class RootViewController implements Initializable {
      * @throws IOException
      */
     private Node createAllStudents() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(AttendanceAutomationMain.ALL_STUDENTS_STRING));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.ALL_STUDENTS_VIEW.toString()));
+        Node node = loader.load();
+        return node;
+    }
+
+    /**
+     * Create the StudentInformationTopView
+     *
+     * @return
+     * @throws IOException
+     */
+    private Node createDetailedStudentView() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.DETAILED_STUDENT_VIEW.toString()));
         Node node = loader.load();
         return node;
     }
@@ -93,6 +114,15 @@ public class RootViewController implements Initializable {
      */
     private void setCenter(Node newView) {
         borderPane.setCenter(newView);
+    }
+
+    /**
+     * Sets the node to be the detailed student view
+     *
+     * @param selectedStudent
+     */
+    public void selectDetailedStudentView() {
+        setCenter(DETAILED_STUDENT_VIEW);
     }
 
 }

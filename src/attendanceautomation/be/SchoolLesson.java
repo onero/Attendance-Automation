@@ -5,6 +5,8 @@
  */
 package attendanceautomation.be;
 
+import attendanceautomation.be.enums.ESchoolSubject;
+import attendanceautomation.be.enums.ETeacher;
 import java.util.HashMap;
 
 public class SchoolLesson {
@@ -12,6 +14,7 @@ public class SchoolLesson {
     private HashMap<ESchoolSubject, ETeacher> lesson;
 
     public SchoolLesson(ESchoolSubject subject, ETeacher teacher) {
+        lesson = new HashMap<>();
         lesson.put(subject, teacher);
     }
 

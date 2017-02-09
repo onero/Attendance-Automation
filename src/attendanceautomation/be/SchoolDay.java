@@ -5,6 +5,7 @@
  */
 package attendanceautomation.be;
 
+import attendanceautomation.be.enums.ESchoolDayName;
 import java.util.ArrayList;
 
 public class SchoolDay {
@@ -16,6 +17,7 @@ public class SchoolDay {
     private boolean isSchoolday;
 
     public SchoolDay(ESchoolDayName day) {
+        lessonsInSchoolDay = new ArrayList<>();
         schoolDayName = day;
         isSchoolday = true;
     }
@@ -41,7 +43,7 @@ public class SchoolDay {
      *
      * @return schoolday
      */
-    public ESchoolDayName getSchoolDay() {
+    public ESchoolDayName getSchoolDayName() {
         return schoolDayName;
     }
 

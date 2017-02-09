@@ -6,7 +6,7 @@
 package attendanceautomation.gui.controller.allStudents;
 
 import attendanceautomation.AttendanceAutomationMain;
-import attendanceautomation.be.EFXMLNames;
+import attendanceautomation.be.enums.EFXMLNames;
 import attendanceautomation.be.Student;
 import attendanceautomation.gui.controller.components.studentAttendanceInformation.StudentAttendanceInformationViewController;
 import attendanceautomation.gui.controls.AllStudentsNonAttendanceCell;

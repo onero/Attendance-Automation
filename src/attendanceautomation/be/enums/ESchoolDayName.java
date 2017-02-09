@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package attendanceautomation.be;
+package attendanceautomation.be.enums;
 
-public enum ESchoolSubject {
-    SCO,
-    SDE,
-    ITO,
-    DBOS
+public enum ESchoolDayName {
+    MONDAY,
+    TUEDAY,
+    WEDNESDAY,
+    THURSDAY,
+    FRIDAY
 }

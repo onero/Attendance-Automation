@@ -5,10 +5,14 @@
  */
 package attendanceautomation.gui.controller.main;
 
-import attendanceautomation.gui.controller.components.PieChartViewController;
-import attendanceautomation.AttendanceAutomationMain;
-import attendanceautomation.be.EFXMLNames;
+import attendanceautomation.be.SchoolClass;
+import attendanceautomation.be.SchoolDay;
+import attendanceautomation.be.SchoolLesson;
+import attendanceautomation.be.SchoolWeek;
+import attendanceautomation.be.Student;
+import attendanceautomation.be.enums.EFXMLNames;
 import attendanceautomation.gui.controller.components.ComponentsHolderViewController;
+import attendanceautomation.gui.controller.components.PieChartViewController;
 import attendanceautomation.gui.model.AttendanceModel;
 import attendanceautomation.gui.model.SchoolClassModel;
 import java.io.IOException;
@@ -55,12 +59,43 @@ public class MainViewController implements Initializable {
         } catch (IOException ex) {
             System.out.println("PieChart not loaded!");
         }
+//        testBEData();
+    }
+
+    private void testBEData() {
+        //For each SchoolClass
+        for (SchoolClass schoolClass : schoolClassModel.getSchoolClasses()) {
+            //Print name of class
+            System.out.println(schoolClass.getSchoolClassName());
+            //For each student
+            for (Student student : schoolClass.getStudents()) {
+                //Print name and attendance
+                System.out.println(student.getFullName());
+                System.out.println(student.getNonAttendancePercentage() + " %");
+            }
+            //For each schoolweek
+            for (SchoolWeek schoolWeek : schoolClass.getSchoolWeeks()) {
+                //Print weeknumber
+                System.out.println(schoolWeek.getWeekNumber());
+                //For each day
+                for (SchoolDay schoolDay : schoolWeek.getSchoolDays()) {
+                    //Print name of day
+                    System.out.println(schoolDay.getSchoolDayName());
+                    //For each lesson that day
+                    for (SchoolLesson lesson : schoolDay.getLessons()) {
+                        //Print lesson info
+                        System.out.println(lesson.getLesson());
+                    }
+                }
+            }
+        }
     }
 
     /**
      * Initializes the controller class.
      */
     @Override
+
     public void initialize(URL url, ResourceBundle rb) {
         instance = this;
         borderPane.setCenter(PIE_CHART_NODE);
@@ -83,11 +118,12 @@ public class MainViewController implements Initializable {
 
         return node;
     }
-    
+
     /**
      * Creates the node for the SearchBar.
+     *
      * @return
-     * @throws IOException 
+     * @throws IOException
      */
     private Node createSearchBarNode() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.SEARCH_VIEW.toString()));
@@ -118,11 +154,13 @@ public class MainViewController implements Initializable {
     public SchoolClassModel getSchoolClassModel() {
         return schoolClassModel;
     }
-    
+
     /**
-     * Creates the node for the searchComboHolder and adds the views it needs to hold.
+     * Creates the node for the searchComboHolder and adds the views it needs to
+     * hold.
+     *
      * @return
-     * @throws IOException 
+     * @throws IOException
      */
     private Node createSearchComboHolder() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.COMPONENTS_HOLDER_VIEW.toString()));
@@ -132,11 +170,12 @@ public class MainViewController implements Initializable {
         controller.setBorderPaneCenter(ComboBox);
         return node;
     }
-    
+
     /**
      * Creates the node for the comboBox.
+     *
      * @return
-     * @throws IOException 
+     * @throws IOException
      */
     private Node createComboBox() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.MONTH_COMBO_BOX_VIEW.toString()));

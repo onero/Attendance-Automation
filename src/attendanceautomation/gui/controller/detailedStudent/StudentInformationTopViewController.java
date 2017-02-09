@@ -5,8 +5,7 @@
  */
 package attendanceautomation.gui.controller.detailedStudent;
 
-import attendanceautomation.AttendanceAutomationMain;
-import attendanceautomation.be.EFXMLNames;
+import attendanceautomation.be.enums.EFXMLNames;
 import attendanceautomation.be.Student;
 import attendanceautomation.gui.controller.components.PieChartViewController;
 import attendanceautomation.gui.model.AttendanceModel;
@@ -96,7 +95,7 @@ public class StudentInformationTopViewController implements Initializable {
         //TODO ALH: Make dynamic
         lblFieldOfStudy.setText("Datamatiker");
         //TODO ALH: Make dynamic
-        lblStudentClass.setText(SchoolClassModel.getInstance().getSchoolClasses().get(0).getName());
+        lblStudentClass.setText(SchoolClassModel.getInstance().getSchoolClasses().get(0).getSchoolClassName());
         lblStudentPhone.setText("" + currentStudent.getPhone());
         //TODO ALH: Make dynamic
         lblStudentSemester.setText("2.");

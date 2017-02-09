@@ -5,6 +5,7 @@
  */
 package attendanceautomation.be;
 
+import attendanceautomation.be.enums.ESchoolWeekNumber;
 import java.util.ArrayList;
 
 public class SchoolWeek {
@@ -15,6 +16,14 @@ public class SchoolWeek {
 
     public SchoolWeek(ESchoolWeekNumber number) {
         weekNumber = number;
+    }
+
+    /**
+     *
+     * @return weeknumber
+     */
+    public ESchoolWeekNumber getWeekNumber() {
+        return weekNumber;
     }
 
     /**

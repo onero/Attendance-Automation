@@ -5,6 +5,10 @@
  */
 package attendanceautomation.be;
 
+import attendanceautomation.be.enums.ESchoolDayName;
+import attendanceautomation.be.enums.ESchoolWeekNumber;
+import attendanceautomation.be.enums.ETeacher;
+import attendanceautomation.be.enums.ESchoolSubject;
 import java.util.ArrayList;
 
 public class MockData {

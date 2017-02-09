@@ -69,14 +69,6 @@ public class SchoolClass {
 
     /**
      *
-     * @return name of schoolclass
-     */
-    public String getName() {
-        return schoolClassName;
-    }
-
-    /**
-     *
      * @return students
      */
     public ObservableList<Student> getStudents() {

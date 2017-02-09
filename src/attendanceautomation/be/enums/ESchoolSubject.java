@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package attendanceautomation.be;
+package attendanceautomation.be.enums;
 
-public enum ETeacher {
-    PETER_STEGGER,
-    JEPPE_LED,
-    BENT_PEDERSEN,
-    LARS_BILDE
+public enum ESchoolSubject {
+    SCO,
+    SDE,
+    ITO,
+    DBOS
 }

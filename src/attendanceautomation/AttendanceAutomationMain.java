@@ -5,7 +5,6 @@
  */
 package attendanceautomation;
 
-import attendanceautomation.be.EFXMLNames;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

@@ -5,8 +5,7 @@
  */
 package attendanceautomation.gui.controller;
 
-import attendanceautomation.AttendanceAutomationMain;
-import attendanceautomation.be.EFXMLNames;
+import attendanceautomation.be.enums.EFXMLNames;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -42,7 +41,7 @@ public class RootViewController implements Initializable {
             ALL_STUDENTS_VIEW = createAllStudents();
             DETAILED_STUDENT_VIEW = createDetailedStudentView();
         } catch (IOException ex) {
-            System.out.println("MainView not loaded! " + ex.getMessage());
+            System.out.println("MainView not loaded! " + ex);
         }
     }
 

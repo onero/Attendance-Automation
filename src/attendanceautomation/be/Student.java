@@ -36,7 +36,7 @@ public class Student {
      *
      * @return first name
      */
-    public String getmFirstName() {
+    public String getFirstName() {
         return firstName;
     }
 
@@ -44,7 +44,7 @@ public class Student {
      *
      * @return last name
      */
-    public String getmLastName() {
+    public String getLastName() {
         return lastName;
     }
 

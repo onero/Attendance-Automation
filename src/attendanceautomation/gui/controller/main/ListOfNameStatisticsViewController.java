@@ -5,7 +5,7 @@
  */
 package attendanceautomation.gui.controller.main;
 
-import attendanceautomation.be.EFXMLNames;
+import attendanceautomation.be.enums.EFXMLNames;
 import attendanceautomation.be.Student;
 import attendanceautomation.gui.controller.RootViewController;
 import attendanceautomation.gui.controller.detailedStudent.DetailedStudentViewController;

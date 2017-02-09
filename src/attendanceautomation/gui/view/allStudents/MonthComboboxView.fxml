@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.BorderPane?>
 
 
-<BorderPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="attendanceautomation.gui.controller.allStudents.MonthComboboxViewController">
+<BorderPane minWidth="200" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="attendanceautomation.gui.controller.allStudents.MonthComboboxViewController">
    <center>
       <ComboBox prefHeight="25.0" prefWidth="166.0" BorderPane.alignment="CENTER" />
    </center>

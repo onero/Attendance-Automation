@@ -101,7 +101,6 @@ public class MainViewController implements Initializable {
         borderPane.setCenter(PIE_CHART_NODE);
         borderPane.setTop(SEARCH_COMBO_HOLDER);
         borderPane.setLeft(LIST_VIEW);
-        //TODO RKL: Refactor SearchBar and ComboBox into the same pane after functionality of searchBar is done.
     }
 
     /**
@@ -167,7 +166,7 @@ public class MainViewController implements Initializable {
         Node node = loader.load();
         ComponentsHolderViewController controller = loader.getController();
         controller.setBorderPaneLeft(SEARCH_BAR);
-        controller.setBorderPaneCenter(ComboBox);
+        controller.setBorderPaneRight(ComboBox);
         return node;
     }
 

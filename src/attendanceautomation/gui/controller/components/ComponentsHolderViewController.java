@@ -34,8 +34,8 @@ public class ComponentsHolderViewController implements Initializable {
      * Sets the node of the center of the borderPane.
      * @param node 
      */
-    public void setBorderPaneCenter(Node node){
-        borderPane.setCenter(node);
+    public void setBorderPaneRight(Node node){
+        borderPane.setRight(node);
     }
     
     /**

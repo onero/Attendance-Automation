@@ -17,7 +17,7 @@ import javafx.scene.layout.BorderPane;
  *
  * @author Rasmus
  */
-public class ComponentsHolderViewController implements Initializable {
+public class WhiteComponentHolderController implements Initializable {
 
     @FXML
     private BorderPane borderPane;
@@ -27,7 +27,8 @@ public class ComponentsHolderViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-    }
+        // TODO
+    }    
     
     /**
      * Sets the node of the center of the borderPane.

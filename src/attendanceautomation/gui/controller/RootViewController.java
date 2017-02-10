@@ -6,10 +6,8 @@
 package attendanceautomation.gui.controller;
 
 import attendanceautomation.be.enums.EFXMLNames;
-import attendanceautomation.gui.controller.allStudents.AllStudentsViewController;
-import attendanceautomation.gui.controller.components.SearchViewController;
-import attendanceautomation.gui.controller.main.MainViewController;
-import attendanceautomation.gui.model.SchoolClassModel;
+import attendanceautomation.gui.controller.components.ComponentsHolderViewController;
+import attendanceautomation.gui.controller.components.WhiteComponentHolderController;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -34,10 +32,13 @@ public class RootViewController implements Initializable {
     private Node MAIN_VIEW;
     private Node ALL_STUDENTS_VIEW;
     private Node DETAILED_STUDENT_VIEW;
-
-    private FXMLLoader allStudentLoader;
-
-    private FXMLLoader mainViewLoader;
+    
+    private Node SEARCH_BAR;
+    private Node ComboBox;
+    private Node SEARCH_COMBO_HOLDER;
+    private Node WHITE_COMPONENT_HOLDER_VIEW;
+    
+    private WhiteComponentHolderController whiteComponentHolderController;
 
     public static RootViewController getInstance() {
         return instance;
@@ -48,6 +49,11 @@ public class RootViewController implements Initializable {
             MAIN_VIEW = createMainView();
             ALL_STUDENTS_VIEW = createAllStudents();
             DETAILED_STUDENT_VIEW = createDetailedStudentView();
+            
+            SEARCH_BAR = createSearchBarNode();
+            ComboBox = createComboBox();
+            SEARCH_COMBO_HOLDER = createSearchComboHolder();
+            WHITE_COMPONENT_HOLDER_VIEW = createWhiteComponentHolderView();
         } catch (IOException ex) {
             System.out.println("MainView not loaded! " + ex);
         }
@@ -56,7 +62,7 @@ public class RootViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         instance = this;
-        setCenter(MAIN_VIEW);
+        borderPane.setCenter(WHITE_COMPONENT_HOLDER_VIEW);
     }
 
     /**
@@ -66,8 +72,8 @@ public class RootViewController implements Initializable {
      * @throws IOException
      */
     private Node createMainView() throws IOException {
-        mainViewLoader = new FXMLLoader(getClass().getResource(EFXMLNames.MAIN_VIEW.toString()));
-        Node node = mainViewLoader.load();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.MAIN_VIEW.toString()));
+        Node node = loader.load();
         return node;
     }
 
@@ -78,8 +84,8 @@ public class RootViewController implements Initializable {
      * @throws IOException
      */
     private Node createAllStudents() throws IOException {
-        allStudentLoader = new FXMLLoader(getClass().getResource(EFXMLNames.ALL_STUDENTS_VIEW.toString()));
-        Node node = allStudentLoader.load();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.ALL_STUDENTS_VIEW.toString()));
+        Node node = loader.load();
         return node;
     }
 
@@ -102,8 +108,7 @@ public class RootViewController implements Initializable {
      */
     @FXML
     private void handleAllStudentsButton(ActionEvent event) {
-        setCenter(ALL_STUDENTS_VIEW);
-        AllStudentsViewController controller = allStudentLoader.getController();
+        whiteComponentHolderController.setBorderPaneCenter(ALL_STUDENTS_VIEW);
     }
 
     /**
@@ -113,17 +118,7 @@ public class RootViewController implements Initializable {
      */
     @FXML
     private void handleStartView(ActionEvent event) {
-        setCenter(MAIN_VIEW);
-        MainViewController controller = mainViewLoader.getController();
-    }
-
-    /**
-     * Sets the center node in the borderpane to the parsed view
-     *
-     * @param newView
-     */
-    private void setCenter(Node newView) {
-        borderPane.setCenter(newView);
+        whiteComponentHolderController.setBorderPaneCenter(MAIN_VIEW);
     }
 
     /**
@@ -132,7 +127,57 @@ public class RootViewController implements Initializable {
      * @param selectedStudent
      */
     public void selectDetailedStudentView() {
-        setCenter(DETAILED_STUDENT_VIEW);
+        whiteComponentHolderController.setBorderPaneCenter(DETAILED_STUDENT_VIEW);
+    }
+    
+    /**
+     * Creates the componentHolder that holds the center and topView of mainView and allStudentsView.
+     * @return
+     * @throws IOException 
+     */
+    private Node createWhiteComponentHolderView() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.WHITE_COMPONENT_HOLDER.toString()));
+        Node node = loader.load();
+        whiteComponentHolderController = loader.getController();
+        whiteComponentHolderController.setBoderPaneTop(SEARCH_COMBO_HOLDER);
+        whiteComponentHolderController.setBorderPaneCenter(MAIN_VIEW);
+        return node;
+    }
+    
+    /**
+     * Creates the searchBar.
+     * @return
+     * @throws IOException 
+     */
+    private Node createSearchBarNode() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.SEARCH_VIEW.toString()));
+        Node node = loader.load();
+        return node;
+    }
+    
+    /**
+     * Creates the comboBox.
+     * @return
+     * @throws IOException 
+     */
+    private Node createComboBox() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.MONTH_COMBO_BOX_VIEW.toString()));
+        Node node = loader.load();
+        return node;
+    }
+    
+    /**
+     * Creates the holder for the searchBar and the comboBox.
+     * @return
+     * @throws IOException 
+     */
+    private Node createSearchComboHolder() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.COMPONENTS_HOLDER_VIEW.toString()));
+        Node node = loader.load();
+        ComponentsHolderViewController controller = loader.getController();
+        controller.setBorderPaneLeft(SEARCH_BAR);
+        controller.setBorderPaneRight(ComboBox);
+        return node;
     }
 
 }

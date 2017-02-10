@@ -28,8 +28,6 @@ public class AllStudentsViewController implements Initializable {
     private BorderPane borderPane;
 
     private Node LIST_VIEW;
-    private Node SEARCH_VIEW;
-    private Node TOP_VIEW_HOLDER;
     
     private FXMLLoader searchViewLoader;
 
@@ -39,8 +37,6 @@ public class AllStudentsViewController implements Initializable {
         schoolClassModel = SchoolClassModel.getInstance();
         try {
             LIST_VIEW = createListView();
-            SEARCH_VIEW = createSearchView();
-            TOP_VIEW_HOLDER = createTopViewHolder();
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
@@ -49,14 +45,12 @@ public class AllStudentsViewController implements Initializable {
     public FXMLLoader getSearchViewLoader() {
         return searchViewLoader;
     }
-
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         borderPane.setCenter(LIST_VIEW);
-        borderPane.setTop(TOP_VIEW_HOLDER);
     }
 
     /**
@@ -73,18 +67,21 @@ public class AllStudentsViewController implements Initializable {
         controller.setItemsInList(schoolClassModel);
         return node;
     }
-
-    private Node createSearchView() throws IOException {
-        searchViewLoader = new FXMLLoader(getClass().getResource(EFXMLNames.SEARCH_VIEW.toString()));
-        Node node = searchViewLoader.load();
-        return node;
-    }
-
-    private Node createTopViewHolder() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.COMPONENTS_HOLDER_VIEW.toString()));
-        Node node = loader.load();
-        ComponentsHolderViewController controller = loader.getController();
-        controller.setBorderPaneLeft(SEARCH_VIEW);
-        return node;
-    }
+//<<<<<<< HEAD
+//
+//    private Node createSearchView() throws IOException {
+//        searchViewLoader = new FXMLLoader(getClass().getResource(EFXMLNames.SEARCH_VIEW.toString()));
+//        Node node = searchViewLoader.load();
+//        return node;
+//    }
+//
+//    private Node createTopViewHolder() throws IOException {
+//        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.COMPONENTS_HOLDER_VIEW.toString()));
+//        Node node = loader.load();
+//        ComponentsHolderViewController controller = loader.getController();
+//        controller.setBorderPaneLeft(SEARCH_VIEW);
+//        return node;
+//    }
+//=======
+//>>>>>>> origin/beta
 }

@@ -8,7 +8,6 @@ package attendanceautomation.gui.controller.components;
 import attendanceautomation.be.Student;
 import attendanceautomation.gui.model.SchoolClassModel;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -24,13 +23,9 @@ public class SearchViewController implements Initializable {
 
     @FXML
     private TextField txtSearch;
-    
-    private ArrayList<Student> studentsForSearch;
-    
     private final SchoolClassModel SCModel = SchoolClassModel.getInstance();
 
     public SearchViewController() {
-        studentsForSearch = new ArrayList();
     }
     
     /**
@@ -53,21 +48,12 @@ public class SearchViewController implements Initializable {
     }
     
     private void updateListView(String value) {
-        SCModel.setSearchString(value);
-        studentsForSearch.clear();
-        SCModel.addData();
+        SCModel.getStudentSearchList().clear();
         for (Student student : SCModel.getStudents()) {
             if (student.getFullName().toLowerCase().contains(value.toLowerCase())) {
-                studentsForSearch.add(student);
+                SCModel.updateStudentsFromSearch(student);
             }
         }
-        
-        SCModel.setStudents(studentsForSearch);
-        
-//        for (Student student : studentsForSearch) {
-//            System.out.println(student.getFullName());
-//        }
-//        System.out.println("");
     }
 
     

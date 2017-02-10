@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -10,9 +11,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <GridPane fx:id="GridPane" prefHeight="273.0" prefWidth="1014.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="attendanceautomation.gui.controller.detailedStudent.StudentInformationTopViewController">
   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -21,7 +22,7 @@
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <BorderPane fx:id="BorderPaneLeft" prefHeight="278.0" prefWidth="211.0">
+      <BorderPane fx:id="BorderPaneLeft" prefHeight="296.0" prefWidth="338.0" GridPane.columnIndex="1">
          <top>
             <Label fx:id="lblStudentName" text="STUDENT NAME" BorderPane.alignment="CENTER">
                <font>
@@ -54,7 +55,7 @@
             </Pane>
          </center>
       </BorderPane>
-      <BorderPane fx:id="BorderPaneCenter" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+      <BorderPane fx:id="BorderPaneCenter" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
          <top>
             <Label text="Teachers" BorderPane.alignment="CENTER">
                <font>
@@ -66,7 +67,7 @@
             <ListView fx:id="listTeachers" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
          </center>
       </BorderPane>
-      <BorderPane fx:id="BorderPaneRight" prefHeight="278.0" prefWidth="258.0" GridPane.columnIndex="2">
+      <BorderPane fx:id="BorderPaneRight" prefHeight="278.0" prefWidth="258.0" GridPane.columnIndex="3">
          <top>
             <Label text="Fravær" BorderPane.alignment="CENTER">
                <font>
@@ -75,5 +76,6 @@
             </Label>
          </top>
       </BorderPane>
+      <ImageView fx:id="photoOfStudent" fitHeight="223.0" fitWidth="253.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </GridPane>

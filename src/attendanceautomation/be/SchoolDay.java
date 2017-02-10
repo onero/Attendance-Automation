@@ -14,29 +14,9 @@ public class SchoolDay {
 
     private ArrayList<SchoolLesson> lessonsInSchoolDay;
 
-    private boolean isSchoolday;
-
     public SchoolDay(ESchoolDayName day) {
         lessonsInSchoolDay = new ArrayList<>();
         schoolDayName = day;
-        isSchoolday = true;
-    }
-
-    /**
-     *
-     * @return isSchoolDay
-     */
-    public boolean isIsSchoolday() {
-        return isSchoolday;
-    }
-
-    /**
-     * Sets the boolean isSchoolDay
-     *
-     * @param isSchoolday
-     */
-    public void setIsSchoolday(boolean isSchoolday) {
-        this.isSchoolday = isSchoolday;
     }
 
     /**

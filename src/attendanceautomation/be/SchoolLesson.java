@@ -11,11 +11,31 @@ import java.util.HashMap;
 
 public class SchoolLesson {
 
-    private HashMap<ESchoolSubject, ETeacher> lesson;
+    private final HashMap<ESchoolSubject, ETeacher> lesson;
+
+    private boolean isAttendend;
 
     public SchoolLesson(ESchoolSubject subject, ETeacher teacher) {
         lesson = new HashMap<>();
         lesson.put(subject, teacher);
+        isAttendend = true;
+    }
+
+    /**
+     *
+     * @return isAttended
+     */
+    public boolean getIsAttendend() {
+        return isAttendend;
+    }
+
+    /**
+     * Update the attended status
+     *
+     * @param isAttendend
+     */
+    public void setIsAttendend(boolean isAttendend) {
+        this.isAttendend = isAttendend;
     }
 
     /**

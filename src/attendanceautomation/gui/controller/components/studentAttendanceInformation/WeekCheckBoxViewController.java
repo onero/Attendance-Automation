@@ -46,7 +46,13 @@ public class WeekCheckBoxViewController implements Initializable {
         schoolClassModel = SchoolClassModel.getInstance();
     }
 
-    public void setStudent(Student newStudent, SchoolWeek weekend) {
+    /**
+     * Set data for the student and the week
+     *
+     * @param newStudent
+     * @param weekend
+     */
+    public void setWeekData(Student newStudent, SchoolWeek weekend) {
         student = newStudent;
         schoolWeek = weekend;
         setSchoolWeek(weekend);
@@ -83,6 +89,12 @@ public class WeekCheckBoxViewController implements Initializable {
         }
     }
 
+    /**
+     * Checks for student attendance
+     *
+     * @param schoolDay
+     * @param newCheckBox
+     */
     private void checkForStudentNonAttendance(SchoolDay schoolDay, CheckBox newCheckBox) {
         //Check if student has nonAttendance
         if (student.getNonAttendance().size() > 0) {

@@ -56,7 +56,7 @@ public class StudentAttendanceInformationViewController implements Initializable
         FXMLLoader weekCheckBoxLoader = new FXMLLoader(getClass().getResource(EFXMLNames.WEEK_CHECK_BOX_VIEW.toString()));
         Node node = weekCheckBoxLoader.load();
         WeekCheckBoxViewController controller = weekCheckBoxLoader.getController();
-        controller.setStudent(student, schoolWeek);
+        controller.setWeekData(student, schoolWeek);
         return node;
     }
 

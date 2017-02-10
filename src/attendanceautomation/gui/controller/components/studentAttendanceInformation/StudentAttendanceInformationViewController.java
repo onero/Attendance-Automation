@@ -36,9 +36,7 @@ public class StudentAttendanceInformationViewController implements Initializable
 
     private Student student;
 
-    private FXMLLoader weekCheckBoxLoader;
-
-    private SchoolClassModel schoolClassModel;
+    private final SchoolClassModel schoolClassModel;
 
     public StudentAttendanceInformationViewController() {
         schoolClassModel = SchoolClassModel.getInstance();
@@ -55,11 +53,10 @@ public class StudentAttendanceInformationViewController implements Initializable
      * Creates a ParentCheckBoxView
      */
     private Node createWeekCheckBoxes(SchoolWeek schoolWeek) throws IOException {
-        weekCheckBoxLoader = new FXMLLoader(getClass().getResource(EFXMLNames.WEEK_CHECK_BOX_VIEW.toString()));
+        FXMLLoader weekCheckBoxLoader = new FXMLLoader(getClass().getResource(EFXMLNames.WEEK_CHECK_BOX_VIEW.toString()));
         Node node = weekCheckBoxLoader.load();
         WeekCheckBoxViewController controller = weekCheckBoxLoader.getController();
-        controller.setStudent(student);
-        controller.setSchoolWeek(schoolWeek);
+        controller.setStudent(student, schoolWeek);
         return node;
     }
 
@@ -82,6 +79,8 @@ public class StudentAttendanceInformationViewController implements Initializable
      */
     public void setStudentInfo(Student newStudent) {
         student = newStudent;
+        //Reset checkboxes
+        HBox.getChildren().remove(1, HBox.getChildren().size());
         lblStudent.setText(student.getFullName());
         try {
             fillUpHBoxWithWeeks();

@@ -44,14 +44,16 @@ public class WeekCheckBoxViewController implements Initializable {
     public WeekCheckBoxViewController() {
         listOfCheckBoxes = new ArrayList<>();
         schoolClassModel = SchoolClassModel.getInstance();
-        schoolWeek = schoolClassModel.getSchoolClasses().get(0).getSchoolWeeks().get(0);
     }
 
-    public void setStudent(Student newStudent) {
+    public void setStudent(Student newStudent, SchoolWeek weekend) {
         student = newStudent;
+        schoolWeek = weekend;
+        setSchoolWeek(weekend);
+        pouplateWeekHBoxWithCheckBoxes();
     }
 
-    public void setSchoolWeek(SchoolWeek schoolWeek) {
+    private void setSchoolWeek(SchoolWeek schoolWeek) {
         this.schoolWeek = schoolWeek;
     }
 
@@ -60,7 +62,6 @@ public class WeekCheckBoxViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        pouplateWeekHBoxWithCheckBoxes();
     }
 
     /**
@@ -72,12 +73,31 @@ public class WeekCheckBoxViewController implements Initializable {
         for (SchoolDay schoolDay : schoolWeek.getSchoolDays()) {
             //Create a nice new checkbox (SO WE CAN KEEP TRACK OF STUDENTS!)
             CheckBox newCheckBox = new CheckBox();
+            checkForStudentNonAttendance(schoolDay, newCheckBox);
             //Add the checkbox to the view
             horizontalCheckBoxPane.getChildren().add(newCheckBox);
             //Add the checkbox to our array, so we can keep track of it
             listOfCheckBoxes.add(newCheckBox);
 
             addChangeListenerToCheckBox(newCheckBox, schoolDay);
+        }
+    }
+
+    private void checkForStudentNonAttendance(SchoolDay schoolDay, CheckBox newCheckBox) {
+        //Check if student has nonAttendance
+        if (student.getNonAttendance().size() > 0) {
+            //For each HashMap
+            for (HashMap<SchoolWeek, SchoolDay> hashMap : student.getNonAttendance()) {
+                //Check if the student was nonAttendant this schoolWeek
+                if (hashMap.containsKey(schoolWeek)) {
+                    //Check if the student was nonAttendant this schoolDay
+                    if (hashMap.containsValue(schoolDay)) {
+                        //If he was then check the box
+                        newCheckBox.setSelected(true);
+                    }
+                }
+
+            }
         }
     }
 

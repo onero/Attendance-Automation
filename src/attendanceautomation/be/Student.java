@@ -9,6 +9,7 @@ import attendanceautomation.bll.AttendanceManager;
 import attendanceautomation.bll.EmailFactory;
 import attendanceautomation.bll.IDFactory;
 import attendanceautomation.gui.model.AttendanceModel;
+import attendanceautomation.gui.model.SchoolClassModel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javafx.beans.property.DoubleProperty;
@@ -123,6 +124,7 @@ public class Student {
         nonAttendance.add(newNonAttendance);
         updateNonAttendancePercentage();
         AttendanceModel.getInstance().checkIfStudentIsInChart(this);
+        SchoolClassModel.getInstance().sortStudents();
     }
 
     /**

@@ -10,7 +10,6 @@ import attendanceautomation.bll.AttendanceManager;
 import attendanceautomation.gui.controller.main.MainViewController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
 
 public class AttendanceModel {
@@ -19,7 +18,7 @@ public class AttendanceModel {
 
     private final AttendanceManager attendanceManager;
 
-    private final ObservableList<PieChart.Data> pieChartData;
+    private final ObservableList<Data> pieChartData;
 
     public static AttendanceModel getInstance() {
         if (instance == null) {
@@ -54,15 +53,18 @@ public class AttendanceModel {
      */
     public void checkIfStudentIsInChart(Student student) {
         boolean studentIsThere = false;
+        //Check if there are students in the pieChart
         if (pieChartData.isEmpty()) {
             addNewStudentToChartData(student);
         } else {
             for (Data data : pieChartData) {
+                //Check if the student is in the data
                 if (data.getName().equals(student.getFullName())) {
                     studentIsThere = true;
                 }
             }
             if (!studentIsThere) {
+                //If student isn't there, add the student
                 addNewStudentToChartData(student);
             }
         }

@@ -11,7 +11,6 @@ import attendanceautomation.be.SchoolLesson;
 import attendanceautomation.be.SchoolWeek;
 import attendanceautomation.be.Student;
 import attendanceautomation.be.enums.EFXMLNames;
-import attendanceautomation.gui.controller.components.ComponentsHolderViewController;
 import attendanceautomation.gui.controller.components.PieChartViewController;
 import attendanceautomation.gui.model.SchoolClassModel;
 import java.io.IOException;
@@ -32,7 +31,7 @@ public class MainViewController implements Initializable {
 
     @FXML
     private BorderPane borderPane;
-    
+
     private Node PIE_CHART_NODE;
     private Node LIST_VIEW;
 
@@ -85,7 +84,7 @@ public class MainViewController implements Initializable {
             }
         }
     }
-    
+
     /**
      * Initializes the controller class.
      */

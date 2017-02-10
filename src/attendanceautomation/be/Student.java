@@ -31,7 +31,7 @@ public class Student {
 
     private final String email;
 
-    private AttendanceManager manager;
+    private final AttendanceManager manager;
 
     private final ArrayList<HashMap<SchoolWeek, SchoolDay>> nonAttendance;
 
@@ -46,6 +46,7 @@ public class Student {
         nonAttendance = new ArrayList<>();
         nonAttendancePercentage = new SimpleDoubleProperty(0);
         manager = new AttendanceManager();
+
     }
 
     /**
@@ -135,6 +136,7 @@ public class Student {
     public void removeNonAttendance(HashMap<SchoolWeek, SchoolDay> attendance) {
         nonAttendance.remove(attendance);
         updateNonAttendancePercentage();
+        SchoolClassModel.getInstance().sortStudents();
     }
 
     /**

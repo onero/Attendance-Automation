@@ -120,10 +120,12 @@ public class MainViewController implements Initializable {
         mainPieChartLoader = new FXMLLoader(getClass().getResource(EFXMLNames.PIE_CHART_VIEW.toString()));
         Node node = mainPieChartLoader.load();
         updatePieData();
-
         return node;
     }
 
+    /**
+     * Updated the data in the pieChart
+     */
     public void updatePieData() {
         PieChartViewController controller = mainPieChartLoader.getController();
         controller.setData();

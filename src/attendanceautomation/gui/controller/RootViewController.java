@@ -104,8 +104,8 @@ public class RootViewController implements Initializable {
     private void handleAllStudentsButton(ActionEvent event) {
         setCenter(ALL_STUDENTS_VIEW);
         AllStudentsViewController controller = allStudentLoader.getController();
-        SearchViewController sController = controller.getSearchViewLoader().getController();
-        sController.setSearchText(SchoolClassModel.getInstance().getSearchString());
+//        SearchViewController sController = controller.getSearchViewLoader().getController();
+//        sController.setSearchText(SchoolClassModel.getInstance().getSearchString());
     }
 
     /**

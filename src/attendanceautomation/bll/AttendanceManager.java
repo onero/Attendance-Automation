@@ -11,13 +11,12 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
 
 public class AttendanceManager {
 
-    private final ObservableList<PieChart.Data> allStudentsData;
-    private final ObservableList<PieChart.Data> studentData;
+    private final ObservableList<Data> allStudentsData;
+    private final ObservableList<Data> studentData;
 
     private final ArrayList<String> names;
     private final ArrayList<Double> values;
@@ -42,27 +41,21 @@ public class AttendanceManager {
      * @param pieChartData
      * @return
      */
-    public ObservableList<PieChart.Data> computeAllAttendance(ObservableList<PieChart.Data> pieChartData) {
+    public ObservableList<Data> computeAllAttendance(ObservableList<Data> pieChartData) {
+        allStudentsData.clear();
         addNamesToArrays(pieChartData);
         total = 0;
         computeTotal();
-        percent = 0;
-//        createPieChartDataForEachStudent();
+        computeAllAttendancePercentage();
         return allStudentsData;
     }
 
-    /**
-     * For each student copmute the nonattendance percentage and add their name
-     * and percentage to the piechartdata
-     */
-    private void createPieChartDataForEachStudent() {
-        //For each value find the percentage compared to the total value
+    private void computeAllAttendancePercentage() {
+        percent = 0;
         for (int i = 0; i < names.size(); i++) {
-            //Calculate the percent for the person
-            percent = (values.get(i) / total) * 100;
-            //Create new entry for the person
-            Data pieChartEntry = new PieChart.Data(names.get(i), Math.round(percent));
-            allStudentsData.add(pieChartEntry);
+            percent = (total / values.get(i)) * 100;
+            Data computedData = new Data(names.get(i), percent);
+            allStudentsData.add(computedData);
         }
     }
 
@@ -81,8 +74,8 @@ public class AttendanceManager {
      *
      * @param pieChartData
      */
-    private void addNamesToArrays(ObservableList<PieChart.Data> pieChartData) {
-        for (PieChart.Data data : pieChartData) {
+    private void addNamesToArrays(ObservableList<Data> pieChartData) {
+        for (Data data : pieChartData) {
             names.add(data.getName());
             values.add(data.getPieValue());
         }

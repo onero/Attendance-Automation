@@ -36,12 +36,8 @@ public class SearchViewController implements Initializable {
         txtSearch.textProperty().addListener((observable, oldValue, newValue) -> {
             updateListView(newValue);
         });
-    } 
-    
-    public void setSearchText(String string) {
-        txtSearch.setText(string);
     }
-
+    
     @FXML
     private void handleClear(ActionEvent event) {
         txtSearch.clear();

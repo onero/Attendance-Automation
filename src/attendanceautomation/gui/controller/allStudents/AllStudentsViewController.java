@@ -50,10 +50,6 @@ public class AllStudentsViewController implements Initializable {
         return searchViewLoader;
     }
 
-   
-    
-    
-
     /**
      * Initializes the controller class.
      */
@@ -81,7 +77,6 @@ public class AllStudentsViewController implements Initializable {
     private Node createSearchView() throws IOException {
         searchViewLoader = new FXMLLoader(getClass().getResource(EFXMLNames.SEARCH_VIEW.toString()));
         Node node = searchViewLoader.load();
-        
         return node;
     }
 

@@ -25,6 +25,10 @@ and open the template in the editor.
     -fx-padding: 10 15 10 15;
 }
 
+.padding-left{
+    -fx-padding: 0 0 0 15;
+}
+
 .button{
     -fx-background-color: linear-gradient(rgb(120, 130, 170), rgb(10, 30, 155));
     -fx-text-fill: #fff;
@@ -37,4 +41,8 @@ and open the template in the editor.
 
 .button:pressed{
     -fx-background-color: linear-gradient(rgb(50, 55, 60), rgb(0, 20, 70))
+}
+
+#detailLabel{
+    
 }

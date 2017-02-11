@@ -12,6 +12,7 @@ import attendanceautomation.be.enums.EFXMLNames;
 import attendanceautomation.gui.model.SchoolClassModel;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -96,9 +97,19 @@ public class StudentAttendanceInformationViewController implements Initializable
      */
     private void fillUpHBoxWithWeeks() throws IOException {
         SchoolClass schoolClass = schoolClassModel.getSchoolClasses().get(0);
-        for (SchoolWeek schoolWeek : schoolClass.getSchoolWeeks()) {
-            HBox.getChildren().add(createWeekCheckBoxes(schoolWeek));
-            HBox.getChildren().add(createFillerLabel());
+        
+        //Tsk Tsk Adam. This creates a fillerLabel at the end and we are not interested in that ;) - RKL
+//        for (SchoolWeek schoolWeek : schoolClass.getSchoolWeeks()) {
+//            HBox.getChildren().add(createWeekCheckBoxes(schoolWeek));
+//            HBox.getChildren().add(createFillerLabel());
+//        }
+        
+        ArrayList<SchoolWeek> schoolWeeks = schoolClass.getSchoolWeeks();
+        for(int i = 0; i < schoolWeeks.size(); i++){
+            HBox.getChildren().add(createWeekCheckBoxes(schoolWeeks.get(i)));
+            if(i != schoolWeeks.size() - 1){
+                HBox.getChildren().add(createFillerLabel());
+            }
         }
     }
 

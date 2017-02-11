@@ -32,14 +32,6 @@ import javafx.scene.layout.GridPane;
 public class StudentInformationTopViewController implements Initializable {
 
     @FXML
-    private GridPane GridPane;
-    @FXML
-    private BorderPane BorderPaneLeft;
-    @FXML
-    private BorderPane BorderPaneCenter;
-    @FXML
-    private BorderPane BorderPaneRight;
-    @FXML
     private Label lblStudentName;
     @FXML
     private Label lblStudentEmail;
@@ -53,6 +45,16 @@ public class StudentInformationTopViewController implements Initializable {
     private Label lblStudentClass;
     @FXML
     private ListView<?> listTeachers;
+    @FXML
+    private ImageView photoOfStudent;
+    @FXML
+    private BorderPane studentBorderPane;
+    @FXML
+    private BorderPane holderBorderPane;
+    @FXML
+    private BorderPane TeacherBorderPane;
+    @FXML
+    private BorderPane absenceBorderPane;
 
     private Node pieChart;
 
@@ -65,8 +67,7 @@ public class StudentInformationTopViewController implements Initializable {
     public static StudentInformationTopViewController getInstance() {
         return instance;
     }
-    @FXML
-    private ImageView photoOfStudent;
+    
 
     public StudentInformationTopViewController() {
         try {
@@ -82,7 +83,7 @@ public class StudentInformationTopViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         instance = this;
-        BorderPaneRight.setLeft(pieChart);
+        absenceBorderPane.setLeft(pieChart);
     }
 
     /**

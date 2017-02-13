@@ -6,17 +6,34 @@
 package attendanceautomation.be;
 
 import attendanceautomation.be.enums.ESchoolDayName;
+import attendanceautomation.be.enums.ESchoolSubject;
 import java.util.ArrayList;
 
 public class SchoolDay {
 
     private final ESchoolDayName schoolDayName;
 
-    private ArrayList<SchoolLesson> lessonsInSchoolDay;
+    private final ArrayList<SchoolLesson> lessonsInSchoolDay;
 
     public SchoolDay(ESchoolDayName day) {
         lessonsInSchoolDay = new ArrayList<>();
         schoolDayName = day;
+    }
+
+    /**
+     * Check if the parsed subject is in todays lessons
+     *
+     * @param subject
+     * @return
+     */
+    public boolean containsSubject(ESchoolSubject subject) {
+        boolean containsLesson = false;
+        for (SchoolLesson schoolLesson : lessonsInSchoolDay) {
+            if (schoolLesson.getSubject() == subject) {
+                return true;
+            }
+        }
+        return containsLesson;
     }
 
     /**

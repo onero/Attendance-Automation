@@ -7,43 +7,35 @@ package attendanceautomation.be;
 
 import attendanceautomation.be.enums.ESchoolSubject;
 import attendanceautomation.be.enums.ETeacher;
-import java.util.HashMap;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map.Entry;
 
 public class SchoolLesson {
 
-    private final HashMap<ESchoolSubject, ETeacher> lesson;
+    private final List<java.util.Map.Entry<ESchoolSubject, ETeacher>> lesson;
 
-    private boolean isAttendend;
-
-    public SchoolLesson(ESchoolSubject subject, ETeacher teacher) {
-        lesson = new HashMap<>();
-        lesson.put(subject, teacher);
-        isAttendend = true;
+    public SchoolLesson(ESchoolSubject schoolSubject, ETeacher teacher) {
+        lesson = new ArrayList<>();
+        Entry<ESchoolSubject, ETeacher> newLesson = new SimpleEntry<>(schoolSubject, teacher);
+        lesson.add(newLesson);
     }
 
     /**
      *
-     * @return isAttended
+     * @return subject
      */
-    public boolean getIsAttendend() {
-        return isAttendend;
-    }
-
-    /**
-     * Update the attended status
-     *
-     * @param isAttendend
-     */
-    public void setIsAttendend(boolean isAttendend) {
-        this.isAttendend = isAttendend;
+    public ESchoolSubject getSubject() {
+        return lesson.get(0).getKey();
     }
 
     /**
      *
-     * @return lesson
+     * @return teacher
      */
-    public HashMap<ESchoolSubject, ETeacher> getLesson() {
-        return lesson;
+    public ETeacher getTeacher() {
+        return lesson.get(0).getValue();
     }
 
 }

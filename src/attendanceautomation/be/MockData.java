@@ -22,6 +22,11 @@ public class MockData {
 
     private final SchoolClass EASV2016A;
 
+    private final SchoolLesson SCO = new SchoolLesson(ESchoolSubject.SCO, ETeacher.PETER_STEGGER);
+    private final SchoolLesson SDE = new SchoolLesson(ESchoolSubject.SDE, ETeacher.JEPPE_LED);
+    private final SchoolLesson ITO = new SchoolLesson(ESchoolSubject.ITO, ETeacher.LARS_BILDE);
+    private final SchoolLesson DBOS = new SchoolLesson(ESchoolSubject.DBOS, ETeacher.BENT_PEDERSEN);
+
     public MockData() {
         easv2016AStudents = new ArrayList<>();
         schoolDays = new ArrayList<>();
@@ -30,6 +35,10 @@ public class MockData {
         createSchoolWeeks();
         createStudents();
         EASV2016A = new SchoolClass("EASV2016A", schoolWeeks);
+        EASV2016A.addLessonToClass(SCO);
+        EASV2016A.addLessonToClass(SDE);
+        EASV2016A.addLessonToClass(ITO);
+        EASV2016A.addLessonToClass(DBOS);
         EASV2016A.addAllStudents(easv2016AStudents);
     }
 
@@ -116,9 +125,6 @@ public class MockData {
     private void createMonday() {
         SchoolDay monday = new SchoolDay(ESchoolDayName.MONDAY);
 
-        SchoolLesson SCO = new SchoolLesson(ESchoolSubject.SCO, ETeacher.PETER_STEGGER);
-        SchoolLesson SDE = new SchoolLesson(ESchoolSubject.SDE, ETeacher.JEPPE_LED);
-
         monday.addLesson(SCO);
         monday.addLesson(SDE);
 
@@ -127,9 +133,6 @@ public class MockData {
 
     private void createTuesday() {
         SchoolDay tuesday = new SchoolDay(ESchoolDayName.TUEDAY);
-
-        SchoolLesson SDE = new SchoolLesson(ESchoolSubject.SDE, ETeacher.JEPPE_LED);
-        SchoolLesson ITO = new SchoolLesson(ESchoolSubject.ITO, ETeacher.LARS_BILDE);
 
         tuesday.addLesson(SDE);
         tuesday.addLesson(ITO);
@@ -140,8 +143,6 @@ public class MockData {
     private void createWednesday() {
         SchoolDay wednesday = new SchoolDay(ESchoolDayName.WEDNESDAY);
 
-        SchoolLesson DBOS = new SchoolLesson(ESchoolSubject.DBOS, ETeacher.BENT_PEDERSEN);
-
         wednesday.addLesson(DBOS);
 
         schoolDays.add(wednesday);
@@ -150,8 +151,6 @@ public class MockData {
     private void createThursday() {
         SchoolDay thursday = new SchoolDay(ESchoolDayName.THURSDAY);
 
-        SchoolLesson SCO = new SchoolLesson(ESchoolSubject.SCO, ETeacher.PETER_STEGGER);
-
         thursday.addLesson(SCO);
 
         schoolDays.add(thursday);
@@ -159,8 +158,6 @@ public class MockData {
 
     private void createFriday() {
         SchoolDay friday = new SchoolDay(ESchoolDayName.FRIDAY);
-
-        SchoolLesson SCO = new SchoolLesson(ESchoolSubject.SCO, ETeacher.PETER_STEGGER);
 
         friday.addLesson(SCO);
 

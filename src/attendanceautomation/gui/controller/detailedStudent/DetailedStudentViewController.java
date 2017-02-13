@@ -82,12 +82,13 @@ public class DetailedStudentViewController implements Initializable {
     /**
      * Sets the current student
      *
-     * @param selectStudent
+     * @param selectedStudent
      */
-    public void setCurrentStudent(Student selectStudent) {
-        StudentInformationTopViewController.getInstance().setStudentInfo(selectStudent);
+    public void setCurrentStudent(Student selectedStudent) {
+        StudentInformationTopViewController.getInstance().setStudentInfo(selectedStudent);
         StudentAttendanceInformationViewController controller = attendanceLoader.getController();
-        controller.setStudentInfo(selectStudent);
+        controller.setStudentInfo(selectedStudent);
+        controller.createSubjectView();
     }
 
 }

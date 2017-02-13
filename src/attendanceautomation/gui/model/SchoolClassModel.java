@@ -109,4 +109,5 @@ public class SchoolClassModel {
     public void updateStudentsFromSearch(Student student) {
         studentSearchList.add(student);
     }
+
 }

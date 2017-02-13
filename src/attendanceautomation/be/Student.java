@@ -11,7 +11,6 @@ import attendanceautomation.bll.IDFactory;
 import attendanceautomation.gui.model.AttendanceModel;
 import attendanceautomation.gui.model.SchoolClassModel;
 import java.util.ArrayList;
-import java.util.HashMap;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.chart.PieChart.Data;
@@ -33,7 +32,7 @@ public class Student {
 
     private final AttendanceManager manager;
 
-    private final ArrayList<HashMap<SchoolWeek, SchoolDay>> nonAttendance;
+    private final ArrayList<NonAttendance> nonAttendance;
 
     private int phone;
 
@@ -110,9 +109,9 @@ public class Student {
 
     /**
      *
-     * @return get days of unAttendance
+     * @return nonAttendance
      */
-    public ArrayList<HashMap<SchoolWeek, SchoolDay>> getNonAttendance() {
+    public ArrayList<NonAttendance> getNonAttendance() {
         return nonAttendance;
     }
 
@@ -121,7 +120,7 @@ public class Student {
      *
      * @param newNonAttendance
      */
-    public void addNonAttendance(HashMap<SchoolWeek, SchoolDay> newNonAttendance) {
+    public void addNonAttendance(NonAttendance newNonAttendance) {
         nonAttendance.add(newNonAttendance);
         updateNonAttendancePercentage();
         AttendanceModel.getInstance().checkIfStudentIsInChart(this);
@@ -133,8 +132,17 @@ public class Student {
      *
      * @param attendance
      */
-    public void removeNonAttendance(HashMap<SchoolWeek, SchoolDay> attendance) {
-        nonAttendance.remove(attendance);
+    public void removeNonAttendance(NonAttendance attendance) {
+        for (NonAttendance nonAttend : nonAttendance) {
+            if (nonAttend.getWeekWithoutAttendance() == attendance.getWeekWithoutAttendance()) {
+                if (nonAttend.getDayWithoutAttendance() == attendance.getDayWithoutAttendance()) {
+                    if (nonAttend.getLessonWithoutAttendance() == attendance.getLessonWithoutAttendance()) {
+                        nonAttendance.remove(nonAttend);
+                        break;
+                    }
+                }
+            }
+        }
         updateNonAttendancePercentage();
         SchoolClassModel.getInstance().sortStudents();
     }

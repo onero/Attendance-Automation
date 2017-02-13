@@ -78,7 +78,7 @@ public class MainViewController implements Initializable {
                     //For each lesson that day
                     for (SchoolLesson lesson : schoolDay.getLessons()) {
                         //Print lesson info
-                        System.out.println(lesson.getLesson());
+                        System.out.println(lesson.getSubject());
                     }
                 }
             }

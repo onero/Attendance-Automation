@@ -138,7 +138,9 @@ public class StudentAttendanceInformationViewController implements Initializable
             //add checkboxes to the HBox
             subjectHBox.getChildren().add(createWeekCheckBoxes(schoolWeek));
             //And fillerLabel in between
-            subjectHBox.getChildren().add(createFillerLabel());
+            if (schoolClass.getSchoolWeeks().indexOf(schoolWeek) != this.schoolClass.getSchoolWeeks().size() - 1) {
+                subjectHBox.getChildren().add(createFillerLabel());
+            }
         }
     }
 

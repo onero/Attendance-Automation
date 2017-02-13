@@ -37,6 +37,7 @@ public class RootViewController implements Initializable {
     private Node ComboBox;
     private Node SEARCH_COMBO_HOLDER;
     private Node WHITE_COMPONENT_HOLDER_VIEW;
+    private Node EMPTY_TOP_BAR;
     
     private WhiteComponentHolderController whiteComponentHolderController;
 
@@ -54,6 +55,7 @@ public class RootViewController implements Initializable {
             ComboBox = createComboBox();
             SEARCH_COMBO_HOLDER = createSearchComboHolder();
             WHITE_COMPONENT_HOLDER_VIEW = createWhiteComponentHolderView();
+            EMPTY_TOP_BAR = createEmptyTopBar();
         } catch (IOException ex) {
             System.out.println("MainView not loaded! " + ex);
         }
@@ -102,23 +104,25 @@ public class RootViewController implements Initializable {
     }
 
     /**
-     * Sets the All_STUDENTS_VIEW as the center node
+     * In the WhiteComponentController. Sets the center and the topView.
      *
      * @param event
      */
     @FXML
     private void handleAllStudentsButton(ActionEvent event) {
         whiteComponentHolderController.setBorderPaneCenter(ALL_STUDENTS_VIEW);
+        whiteComponentHolderController.setBoderPaneTop(SEARCH_COMBO_HOLDER);
     }
 
     /**
-     * Sets the MAIN_VIEW as the center view
+     * In the WhiteComponentController. Sets the center and the topView.
      *
      * @param event
      */
     @FXML
     private void handleStartView(ActionEvent event) {
         whiteComponentHolderController.setBorderPaneCenter(MAIN_VIEW);
+        whiteComponentHolderController.setBoderPaneTop(SEARCH_COMBO_HOLDER);
     }
 
     /**
@@ -128,6 +132,7 @@ public class RootViewController implements Initializable {
      */
     public void selectDetailedStudentView() {
         whiteComponentHolderController.setBorderPaneCenter(DETAILED_STUDENT_VIEW);
+        whiteComponentHolderController.setBoderPaneTop(EMPTY_TOP_BAR);
     }
     
     /**
@@ -177,6 +182,17 @@ public class RootViewController implements Initializable {
         ComponentsHolderViewController controller = loader.getController();
         controller.setBorderPaneLeft(SEARCH_BAR);
         controller.setBorderPaneRight(ComboBox);
+        return node;
+    }
+    
+    /**
+     * Creates the emptyTopBar.
+     * @return
+     * @throws IOException 
+     */
+    private Node createEmptyTopBar() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.COMPONENTS_HOLDER_VIEW.toString()));
+        Node node = loader.load();
         return node;
     }
 

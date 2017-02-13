@@ -124,7 +124,7 @@ public class Student {
         nonAttendance.add(newNonAttendance);
         updateNonAttendancePercentage();
         AttendanceModel.getInstance().checkIfStudentIsInChart(this);
-        SchoolClassModel.getInstance().sortStudents();
+        SchoolClassModel.getInstance().sortStudentsOnAttendance();
     }
 
     /**
@@ -144,7 +144,7 @@ public class Student {
             }
         }
         updateNonAttendancePercentage();
-        SchoolClassModel.getInstance().sortStudents();
+        SchoolClassModel.getInstance().sortStudentsOnAttendance();
     }
 
     /**

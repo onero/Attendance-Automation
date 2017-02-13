@@ -82,21 +82,29 @@ public class SchoolClassModel {
      * @return students from search
      */
     public ObservableList<Student> getStudentSearchList() {
+        sortStudentsOnAttendance();
         return studentSearchList;
     }
 
     public ObservableList<Student> getStudents() {
-        Collections.sort(students, (Student o1, Student o2)
-                -> (o1.getFullName().compareTo(o2.getFullName())));
+        sortStudentsOnName();
         return students;
     }
 
     /**
      * Sort list on nonAttendance Descending
      */
-    public void sortStudents() {
+    public void sortStudentsOnAttendance() {
         Collections.sort(studentSearchList, (Student o1, Student o2)
                 -> (o1.getNonAttendancePercentage().get() < o2.getNonAttendancePercentage().get()) ? 1 : 0);
+    }
+
+    /**
+     * Sort list on FullName Ascending
+     */
+    public void sortStudentsOnName() {
+        Collections.sort(students, (Student o1, Student o2)
+                -> (o1.getFullName().compareTo(o2.getFullName())));
     }
 
     public void setStudents(ArrayList<Student> studentsFromSearch) {

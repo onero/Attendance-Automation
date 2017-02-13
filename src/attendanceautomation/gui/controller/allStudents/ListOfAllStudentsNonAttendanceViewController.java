@@ -59,7 +59,7 @@ public class ListOfAllStudentsNonAttendanceViewController implements Initializab
      */
     public void setItemsInList(SchoolClassModel model) {
         //TODO RKL: Add feature to select class.
-        listView.setItems(model.getStudentSearchList());
+        listView.setItems(model.getStudents());
     }
 
     /**

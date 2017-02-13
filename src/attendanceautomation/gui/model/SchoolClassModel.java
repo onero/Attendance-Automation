@@ -77,11 +77,17 @@ public class SchoolClassModel {
         return schoolClasses;
     }
 
+    /**
+     *
+     * @return students from search
+     */
     public ObservableList<Student> getStudentSearchList() {
         return studentSearchList;
     }
 
     public ObservableList<Student> getStudents() {
+        Collections.sort(students, (Student o1, Student o2)
+                -> (o1.getFullName().compareTo(o2.getFullName())));
         return students;
     }
 

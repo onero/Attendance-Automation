@@ -36,6 +36,8 @@ public class StudentAttendanceInformationViewController implements Initializable
 
     private Student student;
 
+    private Node weeksInMonthView;
+
     private final SchoolClassModel schoolClassModel;
 
     private final SchoolClass schoolClass;
@@ -77,7 +79,34 @@ public class StudentAttendanceInformationViewController implements Initializable
         //Clear the VBox list
         VBox.getChildren().clear();
 
+        createWeeksInCurrentMonth();
+
         createHBoxesForEachSubject(schoolClass);
+    }
+
+    /**
+     * Create and insert the weeks in current month
+     */
+    private void createWeeksInCurrentMonth() {
+        try {
+            weeksInMonthView = createWeeksInMonthView();
+        } catch (IOException ex) {
+            System.out.println("Shit!");
+        }
+        //Add the weeks in the month above the subjects
+        VBox.getChildren().add(weeksInMonthView);
+    }
+
+    /**
+     * Creates the node of the daysInMonthView
+     *
+     * @return
+     * @throws IOException
+     */
+    private Node createWeeksInMonthView() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.DAYS_IN_MONTH_VIEW.toString()));
+        Node node = loader.load();
+        return node;
     }
 
     /**

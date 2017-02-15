@@ -38,13 +38,13 @@ public class DetailedStudentViewController implements Initializable {
     public static DetailedStudentViewController getInstance() {
         return instance;
     }
-    
-    public DetailedStudentViewController(){
+
+    public DetailedStudentViewController() {
         instance = this;
         try {
             studentInformationTopView = createTopView();
             studentAttendanceInformationCenterView = createCenterView();
-        } catch (Exception e) {
+        } catch (IOException e) {
             System.out.println("Couldn't create topView " + e);
         }
     }
@@ -53,7 +53,7 @@ public class DetailedStudentViewController implements Initializable {
      * Initializes the controller class.
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb) {        
+    public void initialize(URL url, ResourceBundle rb) {
         borderPane.setTop(studentInformationTopView);
         borderPane.setCenter(studentAttendanceInformationCenterView);
     }

@@ -59,6 +59,18 @@ public class DetailedStudentViewController implements Initializable {
     }
 
     /**
+     * Sets the current student
+     *
+     * @param selectedStudent
+     */
+    public void setCurrentStudent(Student selectedStudent) {
+        StudentInformationTopViewController.getInstance().setStudentInfo(selectedStudent);
+        StudentAttendanceInformationViewController controller = attendanceLoader.getController();
+        controller.setStudentInfo(selectedStudent);
+        controller.createSubjectView();
+    }
+
+    /**
      * Create the StudentInformationTopView
      *
      * @return
@@ -80,18 +92,6 @@ public class DetailedStudentViewController implements Initializable {
         attendanceLoader = new FXMLLoader(getClass().getResource(EFXMLNames.STUDENTS_ATTENDANCE_INFORMATION.toString()));
         Node node = attendanceLoader.load();
         return node;
-    }
-
-    /**
-     * Sets the current student
-     *
-     * @param selectedStudent
-     */
-    public void setCurrentStudent(Student selectedStudent) {
-        StudentInformationTopViewController.getInstance().setStudentInfo(selectedStudent);
-        StudentAttendanceInformationViewController controller = attendanceLoader.getController();
-        controller.setStudentInfo(selectedStudent);
-        controller.createSubjectView();
     }
 
 }

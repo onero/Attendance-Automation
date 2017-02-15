@@ -98,18 +98,6 @@ public class StudentAttendanceInformationViewController implements Initializable
     }
 
     /**
-     * Creates the node of the daysInMonthView
-     *
-     * @return
-     * @throws IOException
-     */
-    private Node createWeeksInMonthView() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.DAYS_IN_MONTH_VIEW.toString()));
-        Node node = loader.load();
-        return node;
-    }
-
-    /**
      * Create a new HBox for each subject
      *
      * @param schoolClass
@@ -202,6 +190,18 @@ public class StudentAttendanceInformationViewController implements Initializable
         Node node = weekCheckBoxLoader.load();
         WeekCheckBoxViewController controller = weekCheckBoxLoader.getController();
         controller.setSubjectWeekData(student, schoolWeek, schoolLesson);
+        return node;
+    }
+
+    /**
+     * Creates the node of the daysInMonthView
+     *
+     * @return
+     * @throws IOException
+     */
+    private Node createWeeksInMonthView() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.DAYS_IN_MONTH_VIEW.toString()));
+        Node node = loader.load();
         return node;
     }
 

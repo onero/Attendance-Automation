@@ -7,7 +7,9 @@ package attendanceautomation.gui.controller.allStudents;
 
 import attendanceautomation.be.Student;
 import attendanceautomation.be.enums.EFXMLNames;
+import attendanceautomation.gui.controller.RootViewController;
 import attendanceautomation.gui.controller.components.studentAttendanceInformation.StudentAttendanceInformationViewController;
+import attendanceautomation.gui.controller.detailedStudent.DetailedStudentViewController;
 import attendanceautomation.gui.controls.AllStudentsNonAttendanceCell;
 import attendanceautomation.gui.model.SchoolClassModel;
 import java.io.IOException;
@@ -19,6 +21,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
 
@@ -38,8 +41,9 @@ public class ListOfAllStudentsNonAttendanceViewController implements Initializab
 
     public ListOfAllStudentsNonAttendanceViewController() {
         try {
-            WEEKS_IN_MONTH_VIEW = createDaysInMonthView();
-        } catch (Exception e) {
+            WEEKS_IN_MONTH_VIEW = createWeeksInMonthView();
+        } catch (IOException e) {
+            System.out.println("Couldn't create weeksInMonth");
         }
     }
 
@@ -63,15 +67,18 @@ public class ListOfAllStudentsNonAttendanceViewController implements Initializab
     }
 
     /**
-     * Creates the node of the daysInMonthView
+     * Switches the center node to be the detailed student view
      *
-     * @return
-     * @throws IOException
+     * @param event
      */
-    private Node createDaysInMonthView() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.DAYS_IN_MONTH_VIEW.toString()));
-        Node node = loader.load();
-        return node;
+    @FXML
+    private void handleOpenStudentDetails(MouseEvent event) {
+        //If user double clicks. Switch view
+        if (event.getClickCount() == 2) {
+            RootViewController.getInstance().selectDetailedStudentView();
+            Student selectedStudent = listView.getSelectionModel().getSelectedItem();
+            DetailedStudentViewController.getInstance().setCurrentStudent(selectedStudent);
+        }
     }
 
     /**
@@ -97,6 +104,18 @@ public class ListOfAllStudentsNonAttendanceViewController implements Initializab
                 return cell;
             }
         });
+    }
+
+    /**
+     * Creates the node of the daysInMonthView
+     *
+     * @return
+     * @throws IOException
+     */
+    private Node createWeeksInMonthView() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.DAYS_IN_MONTH_VIEW.toString()));
+        Node node = loader.load();
+        return node;
     }
 
 }

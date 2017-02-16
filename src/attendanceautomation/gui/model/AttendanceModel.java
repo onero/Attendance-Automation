@@ -8,6 +8,7 @@ package attendanceautomation.gui.model;
 import attendanceautomation.be.Student;
 import attendanceautomation.bll.AttendanceManager;
 import attendanceautomation.gui.controller.main.MainViewController;
+import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.PieChart.Data;
@@ -18,7 +19,9 @@ public class AttendanceModel {
 
     private final AttendanceManager attendanceManager;
 
-    private final ObservableList<Data> pieChartData;
+    private ArrayList<Data> pieChartData;
+
+    private ObservableList<Data> computedPieChartData;
 
     public static AttendanceModel getInstance() {
         if (instance == null) {
@@ -28,7 +31,9 @@ public class AttendanceModel {
     }
 
     public AttendanceModel() {
-        pieChartData = FXCollections.observableArrayList();
+        pieChartData = new ArrayList<>();
+
+        computedPieChartData = FXCollections.observableArrayList();
 
         attendanceManager = new AttendanceManager();
 
@@ -42,8 +47,16 @@ public class AttendanceModel {
      * @param student
      * @return
      */
-    public ObservableList<Data> getStudentAttendance(Student student) {
+    public ArrayList<Data> getStudentAttendance(Student student) {
         return attendanceManager.computeStudentAttendance(student);
+    }
+
+    /**
+     * Compute the pieChartData according to total percentage for each student
+     */
+    public void computeTotalPieChartPercentage() {
+        computedPieChartData.clear();
+        computedPieChartData.addAll(attendanceManager.computeAllAttendance(pieChartData));
     }
 
     /**
@@ -60,6 +73,7 @@ public class AttendanceModel {
             for (Data data : pieChartData) {
                 //Check if the student is in the data
                 if (data.getName().equals(student.getFullName())) {
+                    data.setPieValue(student.getNonAttendancePercentage().get());
                     studentIsThere = true;
                 }
             }
@@ -73,7 +87,6 @@ public class AttendanceModel {
 
     private void addNewStudentToChartData(Student student) {
         Data nonAttendance = new Data(student.getFullName(), student.getNonAttendancePercentage().get());
-        nonAttendance.pieValueProperty().bind(student.getNonAttendancePercentage());
         pieChartData.add(nonAttendance);
     }
 
@@ -82,7 +95,6 @@ public class AttendanceModel {
      */
     private void addNonAttendantStudentsToChartData() {
         //TODO ALH: Make sure than this can be dynamic for more classes
-        //TODO ALH: Make sure this is calculated as a total
         for (Student student : SchoolClassModel.getInstance().getSchoolClasses().get(0).getStudents()) {
             if (student.getNonAttendancePercentage().get() > 0) {
                 addNewStudentToChartData(student);
@@ -95,7 +107,8 @@ public class AttendanceModel {
      * @return piechart data
      */
     public ObservableList<Data> getPieChartData() {
-        return pieChartData;
+        computeTotalPieChartPercentage();
+        return computedPieChartData;
     }
 
 }

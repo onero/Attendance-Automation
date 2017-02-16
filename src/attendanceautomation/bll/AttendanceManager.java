@@ -6,33 +6,30 @@
 package attendanceautomation.bll;
 
 import attendanceautomation.be.Student;
+import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.chart.PieChart.Data;
 
 public class AttendanceManager {
 
-    private final ObservableList<Data> allStudentsData;
-    private final ObservableList<Data> studentData;
+    private ArrayList<Data> allStudentsData;
+    private ArrayList<Data> studentData;
 
-    private final ArrayList<String> names;
-    private final ArrayList<Double> values;
+    private ArrayList<String> names;
+    private ArrayList<Double> values;
 
     private double total;
 
     private double percent;
 
-    private final int SCHOOL_DAYS_IN_A_MONTH = 20;
+    private final DecimalFormat decimalFormatter;
 
     public AttendanceManager() {
-        allStudentsData = FXCollections.observableArrayList();
-        studentData = FXCollections.observableArrayList();
-        names = new ArrayList<>();
-        values = new ArrayList<>();
+        decimalFormatter = new DecimalFormat("#.##");
     }
+
+    private final int SCHOOL_DAYS_IN_A_MONTH = 20;
 
     /**
      * Generate an ObservableList<PieChart.Data> with inforation about each
@@ -41,21 +38,44 @@ public class AttendanceManager {
      * @param pieChartData
      * @return
      */
-    public ObservableList<Data> computeAllAttendance(ObservableList<Data> pieChartData) {
-        allStudentsData.clear();
-        addNamesToArrays(pieChartData);
+    public ArrayList<Data> computeAllAttendance(ArrayList<Data> pieChartData) {
+        allStudentsData = new ArrayList<>();
+        names = new ArrayList<>();
+        values = new ArrayList<>();
+        addNamesAndValuesToArrays(pieChartData);
         total = 0;
         computeTotal();
         computeAllAttendancePercentage();
         return allStudentsData;
     }
 
+    /**
+     * Computate the total attendance percentage for each student, calculated on
+     * the amount of students with NonAttendance
+     */
     private void computeAllAttendancePercentage() {
         percent = 0;
         for (int i = 0; i < names.size(); i++) {
-            percent = (total / values.get(i)) * 100;
+            //Calculate
+            percent = (values.get(i) / total) * 100;
+
+            formatDouble();
+
             Data computedData = new Data(names.get(i), percent);
             allStudentsData.add(computedData);
+        }
+    }
+
+    /**
+     * Format number according to right format
+     */
+    private void formatDouble() {
+        String percentFormatted = decimalFormatter.format(percent);
+        try {
+            //Parse formatted string to double
+            percent = decimalFormatter.parse(percentFormatted).doubleValue();
+        } catch (ParseException ex) {
+            System.out.println("Cannot convert number " + ex);
         }
     }
 
@@ -74,7 +94,7 @@ public class AttendanceManager {
      *
      * @param pieChartData
      */
-    private void addNamesToArrays(ObservableList<Data> pieChartData) {
+    private void addNamesAndValuesToArrays(ArrayList<Data> pieChartData) {
         for (Data data : pieChartData) {
             names.add(data.getName());
             values.add(data.getPieValue());
@@ -87,17 +107,15 @@ public class AttendanceManager {
      * @param student
      * @return attendance
      */
-    public ObservableList<Data> computeStudentAttendance(Student student) {
-        studentData.clear();
+    public ArrayList<Data> computeStudentAttendance(Student student) {
+        studentData = new ArrayList<>();
         double amountOfStudentNonattendances = student.getNonAttendance().size();
-        DoubleProperty studentAttendancePercentage = new SimpleDoubleProperty(SCHOOL_DAYS_IN_A_MONTH - amountOfStudentNonattendances);
-        DoubleProperty studentNonattendancePercentage = new SimpleDoubleProperty((amountOfStudentNonattendances / 20) * 100);
+        double studentNonattendancePercentage = ((amountOfStudentNonattendances / 20) * 100);
+        double studentAttendancePercentage = (SCHOOL_DAYS_IN_A_MONTH - amountOfStudentNonattendances);
 
-        Data nonAttendance = new Data("Fravær", 0);
-        nonAttendance.pieValueProperty().bind(studentNonattendancePercentage);
+        Data nonAttendance = new Data("Fravær", studentNonattendancePercentage);
 
-        Data attendance = new Data("Fremmøde", 0);
-        attendance.pieValueProperty().bind(studentAttendancePercentage);
+        Data attendance = new Data("Fremmøde", studentAttendancePercentage);
 
         studentData.add(nonAttendance);
         studentData.add(attendance);

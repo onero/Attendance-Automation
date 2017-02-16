@@ -103,7 +103,9 @@ public class Student {
      * @return attendance percentage
      */
     public DoubleProperty getNonAttendancePercentage() {
-        updateNonAttendancePercentage();
+        if (nonAttendance.size() > 0) {
+            updateNonAttendancePercentage();
+        }
         return nonAttendancePercentage;
     }
 
@@ -151,6 +153,7 @@ public class Student {
      * Update the nonAttendancePercentage
      */
     private void updateNonAttendancePercentage() {
+        AttendanceManager manager = new AttendanceManager();
         Data computedNonAttendance = manager.computeStudentAttendance(this).get(0);
         nonAttendancePercentage.set(computedNonAttendance.getPieValue());
     }

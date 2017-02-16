@@ -10,7 +10,6 @@ import attendanceautomation.be.enums.ESchoolSubject;
 import attendanceautomation.be.enums.ESchoolWeekNumber;
 import attendanceautomation.be.enums.ETeacher;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class MockData {
 
@@ -46,7 +45,6 @@ public class MockData {
      * Create students
      */
     private void createStudents() {
-        HashMap<SchoolWeek, SchoolDay> nonAttendance = new HashMap<>();
         Student adam = new Student("Adam", "Hansen");
         Student bo = new Student("Bo", "Sinclair");
         Student casper = new Student("Casper", "Rødgaard");

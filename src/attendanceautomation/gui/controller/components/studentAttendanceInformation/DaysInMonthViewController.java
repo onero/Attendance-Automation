@@ -14,6 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
 /**
@@ -24,9 +25,11 @@ import javafx.scene.layout.HBox;
 public class DaysInMonthViewController implements Initializable {
 
     @FXML
-    private HBox HBox;
-    @FXML
     private Label lblMonth;
+    @FXML
+    private GridPane GridPane;
+    @FXML
+    private HBox HBox;
 
     /**
      * Initializes the controller class.
@@ -39,14 +42,6 @@ public class DaysInMonthViewController implements Initializable {
         }
     }
 
-//    /**
-//     * Creates a ParentCheckBoxView
-//     */
-//    private Node createParentCheckBoxView() throws IOException {
-//        FXMLLoader loader = new FXMLLoader(getClass().getResource(AttendanceAutomationMain.PARENT_CHECKBOX_STRING));
-//        Node node = loader.load();
-//        return node;
-//    }
     /**
      * Creates a fillerLabel.
      *
@@ -67,45 +62,61 @@ public class DaysInMonthViewController implements Initializable {
     private void fillUpHBox() throws IOException {
         //TODO ALH: Fix this!
         lblMonth.setText("Februar");
-        HBox.getChildren().add(new Label("Week 5"));
-        HBox.getChildren().add(createFillerLabel());
-        HBox.getChildren().add(createFillerLabel());
-        HBox.getChildren().add(createFillerLabel());
-        HBox.getChildren().add(new Label("Week 6"));
-        HBox.getChildren().add(createFillerLabel());
-        HBox.getChildren().add(createFillerLabel());
-        HBox.getChildren().add(createFillerLabel());
-        HBox.getChildren().add(new Label("Week 7"));
-        HBox.getChildren().add(createFillerLabel());
-        HBox.getChildren().add(createFillerLabel());
-        HBox.getChildren().add(createFillerLabel());
-        HBox.getChildren().add(new Label("Week 8"));
-//        HBox.getChildren().add(new Label("2     "));
-//        HBox.getChildren().add(new Label("3     "));
-//        HBox.getChildren().add(new Label("4     "));
-//        HBox.getChildren().add(new Label("5   "));
-//        HBox.getChildren().add(new Label("8    "));
-//        HBox.getChildren().add(new Label("9    "));
-//        HBox.getChildren().add(new Label("10  "));
-//        HBox.getChildren().add(new Label("11  "));
-//        HBox.getChildren().add(new Label("12  "));
-//        HBox.getChildren().add(createFillerLabel());
-//        HBox.getChildren().add(new Label("15  "));
-//        HBox.getChildren().add(new Label("16  "));
-//        HBox.getChildren().add(new Label("17  "));
-//        HBox.getChildren().add(new Label("18  "));
-//        HBox.getChildren().add(new Label("19    "));
-//        HBox.getChildren().add(createFillerLabel());
-//        HBox.getChildren().add(new Label("22  "));
-//        HBox.getChildren().add(new Label("23  "));
-//        HBox.getChildren().add(new Label("24  "));
-//        HBox.getChildren().add(new Label("25  "));
-//        HBox.getChildren().add(new Label("26  "));
-//        HBox.getChildren().add(createParentCheckBoxView());
-//        HBox.getChildren().add(createParentCheckBoxView());
-//        HBox.getChildren().add(createFillerLabel());
-//        HBox.getChildren().add(createParentCheckBoxView());
-//        HBox.getChildren().add(createFillerLabel());
+        //Create week 5
+        GridPane.addColumn(0, new Label("Week 5"));
+        HBox daysInWeek5Box = createDaysInWeekBox();
+        GridPane.add(daysInWeek5Box, 0, 1);
+
+        //Create gap before next week
+        GridPane.add(createFillerLabel(), 1, 0);
+        GridPane.add(createFillerLabel(), 2, 0);
+
+        /**
+         * Create week 6
+         */
+        GridPane.add(new Label("Week 6"), 3, 0);
+        HBox daysInWeek6Box = createDaysInWeekBox();
+        GridPane.add(daysInWeek6Box, 3, 1);
+
+        //Create gap before next week
+        GridPane.add(createFillerLabel(), 4, 0);
+
+        /**
+         * Create week 7
+         */
+        GridPane.add(new Label("Week 7"), 5, 0);
+        HBox daysInWeek7Box = createDaysInWeekBox();
+        GridPane.add(daysInWeek7Box, 5, 1);
+
+        //Create gap before next week
+        GridPane.add(createFillerLabel(), 6, 0);
+
+        /**
+         * Create week 8
+         */
+        GridPane.add(new Label("Week 8"), 7, 0);
+        HBox daysInWeek8Box = createDaysInWeekBox();
+        GridPane.add(daysInWeek8Box, 7, 1);
+    }
+
+    /**
+     * Create an HBox containing the days in the week
+     *
+     * @return
+     */
+    private HBox createDaysInWeekBox() {
+        HBox daysInWeekBox = new HBox();
+        daysInWeekBox.getChildren().add(new Label("M"));
+        daysInWeekBox.getChildren().add(new Label("     "));
+        daysInWeekBox.getChildren().add(new Label("T"));
+        daysInWeekBox.getChildren().add(new Label("     "));
+        daysInWeekBox.getChildren().add(new Label("O"));
+        daysInWeekBox.getChildren().add(new Label("     "));
+        daysInWeekBox.getChildren().add(new Label("T"));
+        daysInWeekBox.getChildren().add(new Label("     "));
+        daysInWeekBox.getChildren().add(new Label("F"));
+        daysInWeekBox.setMinWidth(150);
+        return daysInWeekBox;
     }
 
 }

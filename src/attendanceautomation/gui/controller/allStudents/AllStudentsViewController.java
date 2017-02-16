@@ -6,7 +6,6 @@
 package attendanceautomation.gui.controller.allStudents;
 
 import attendanceautomation.be.enums.EFXMLNames;
-import attendanceautomation.gui.controller.components.ComponentsHolderViewController;
 import attendanceautomation.gui.model.SchoolClassModel;
 import java.io.IOException;
 import java.net.URL;
@@ -28,7 +27,7 @@ public class AllStudentsViewController implements Initializable {
     private BorderPane borderPane;
 
     private Node LIST_VIEW;
-    
+
     private FXMLLoader searchViewLoader;
 
     private SchoolClassModel schoolClassModel;
@@ -45,6 +44,7 @@ public class AllStudentsViewController implements Initializable {
     public FXMLLoader getSearchViewLoader() {
         return searchViewLoader;
     }
+
     /**
      * Initializes the controller class.
      */

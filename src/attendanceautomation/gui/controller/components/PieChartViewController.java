@@ -25,10 +25,14 @@ public class PieChartViewController implements Initializable {
     @FXML
     private PieChart PieChart;
 
-    private ObservableList<Data> pieChartData
-            = FXCollections.observableArrayList();
+    private final ObservableList<Data> pieChartData;
 
-    AttendanceModel model = AttendanceModel.getInstance();
+    private final AttendanceModel attendanceModel;
+
+    public PieChartViewController() {
+        attendanceModel = AttendanceModel.getInstance();
+        pieChartData = FXCollections.observableArrayList();
+    }
 
     /**
      * Initializes the controller class.
@@ -42,12 +46,19 @@ public class PieChartViewController implements Initializable {
     /**
      * Bind the data to the chart
      *
-     * @param newData
      */
     public void setData() {
         pieChartData.clear();
-        pieChartData.addAll(model.getPieChartData());
+        pieChartData.addAll(attendanceModel.getPieChartData());
 
+        displayDataInformationOnChart();
+
+    }
+
+    /**
+     * For each data entry in the PieChart, display the name and value
+     */
+    private void displayDataInformationOnChart() {
         pieChartData.forEach(data
                 -> data.nameProperty().bind(
                         Bindings.concat(
@@ -55,7 +66,6 @@ public class PieChartViewController implements Initializable {
                         )
                 )
         );
-
     }
 
 }

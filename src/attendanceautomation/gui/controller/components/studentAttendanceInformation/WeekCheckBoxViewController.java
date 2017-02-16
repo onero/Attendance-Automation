@@ -11,7 +11,6 @@ import attendanceautomation.be.SchoolLesson;
 import attendanceautomation.be.SchoolWeek;
 import attendanceautomation.be.Student;
 import attendanceautomation.be.enums.ESchoolSubject;
-import attendanceautomation.gui.model.SchoolClassModel;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -35,8 +34,6 @@ public class WeekCheckBoxViewController implements Initializable {
     @FXML
     private HBox horizontalCheckBoxPane;
 
-    private SchoolClassModel schoolClassModel;
-
     private final ArrayList<CheckBox> listOfCheckBoxes;
 
     private Student student;
@@ -45,7 +42,6 @@ public class WeekCheckBoxViewController implements Initializable {
 
     public WeekCheckBoxViewController() {
         listOfCheckBoxes = new ArrayList<>();
-        schoolClassModel = SchoolClassModel.getInstance();
     }
 
     /**

@@ -146,6 +146,7 @@ public class Student {
             }
         }
         updateNonAttendancePercentage();
+        AttendanceModel.getInstance().checkIfStudentIsInChart(this);
         SchoolClassModel.getInstance().sortStudentsOnAttendance();
     }
 

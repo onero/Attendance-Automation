@@ -5,7 +5,7 @@
  */
 package attendanceautomation.gui.controller.components;
 
-import attendanceautomation.gui.model.AttendanceModel;
+import attendanceautomation.gui.model.PieChartModel;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
@@ -27,10 +27,10 @@ public class PieChartViewController implements Initializable {
 
     private final ObservableList<Data> pieChartData;
 
-    private final AttendanceModel attendanceModel;
+    private final PieChartModel attendanceModel;
 
     public PieChartViewController() {
-        attendanceModel = AttendanceModel.getInstance();
+        attendanceModel = PieChartModel.getInstance();
         pieChartData = FXCollections.observableArrayList();
     }
 

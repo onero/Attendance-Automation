@@ -8,7 +8,7 @@ package attendanceautomation.be;
 import attendanceautomation.bll.AttendanceManager;
 import attendanceautomation.bll.EmailFactory;
 import attendanceautomation.bll.IDFactory;
-import attendanceautomation.gui.model.AttendanceModel;
+import attendanceautomation.gui.model.PieChartModel;
 import attendanceautomation.gui.model.SchoolClassModel;
 import java.util.ArrayList;
 import javafx.beans.property.DoubleProperty;
@@ -125,7 +125,7 @@ public class Student {
     public void addNonAttendance(NonAttendance newNonAttendance) {
         nonAttendance.add(newNonAttendance);
         updateNonAttendancePercentage();
-        AttendanceModel.getInstance().checkIfStudentIsInChart(this);
+        PieChartModel.getInstance().checkIfStudentIsInChart(this);
         SchoolClassModel.getInstance().sortStudentsOnAttendance();
     }
 
@@ -146,7 +146,7 @@ public class Student {
             }
         }
         updateNonAttendancePercentage();
-        AttendanceModel.getInstance().checkIfStudentIsInChart(this);
+        PieChartModel.getInstance().checkIfStudentIsInChart(this);
         SchoolClassModel.getInstance().sortStudentsOnAttendance();
     }
 

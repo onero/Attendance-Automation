@@ -13,9 +13,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.PieChart.Data;
 
-public class AttendanceModel {
+public class PieChartModel {
 
-    private static AttendanceModel instance;
+    private static PieChartModel instance;
 
     private final AttendanceManager attendanceManager;
 
@@ -23,14 +23,14 @@ public class AttendanceModel {
 
     private ObservableList<Data> computedPieChartData;
 
-    public static AttendanceModel getInstance() {
+    public static PieChartModel getInstance() {
         if (instance == null) {
-            instance = new AttendanceModel();
+            instance = new PieChartModel();
         }
         return instance;
     }
 
-    public AttendanceModel() {
+    public PieChartModel() {
         pieChartData = new ArrayList<>();
 
         computedPieChartData = FXCollections.observableArrayList();

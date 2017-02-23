@@ -29,7 +29,7 @@ public class AttendanceManager {
         decimalFormatter = new DecimalFormat("#.##");
     }
 
-    private final int SCHOOL_DAYS_IN_A_MONTH = 20;
+    private final int SCHOOL_LESSONS_IN_A_MONTH = 20;
 
     /**
      * Generate an ObservableList<PieChart.Data> with inforation about each
@@ -110,8 +110,8 @@ public class AttendanceManager {
     public ArrayList<Data> computeStudentAttendance(Student student) {
         studentData = new ArrayList<>();
         double amountOfStudentNonattendances = student.getNonAttendance().size();
-        double studentNonattendancePercentage = ((amountOfStudentNonattendances / SCHOOL_DAYS_IN_A_MONTH) * 100);
-        double studentAttendancePercentage = (SCHOOL_DAYS_IN_A_MONTH - amountOfStudentNonattendances);
+        double studentNonattendancePercentage = ((amountOfStudentNonattendances / SCHOOL_LESSONS_IN_A_MONTH) * 100);
+        double studentAttendancePercentage = (SCHOOL_LESSONS_IN_A_MONTH - amountOfStudentNonattendances);
 
         Data nonAttendance = new Data("Fravær", studentNonattendancePercentage);
 

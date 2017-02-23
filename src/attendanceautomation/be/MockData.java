@@ -5,18 +5,39 @@
  */
 package attendanceautomation.be;
 
+import attendanceautomation.be.enums.ESchoolDayName;
+import attendanceautomation.be.enums.ESchoolSubject;
+import attendanceautomation.be.enums.ESchoolWeekNumber;
+import attendanceautomation.be.enums.ETeacher;
 import java.util.ArrayList;
 
 public class MockData {
 
     private final ArrayList<Student> easv2016AStudents;
 
+    private final ArrayList<SchoolDay> schoolDays;
+
+    private final ArrayList<SchoolWeek> schoolWeeks;
+
     private final SchoolClass EASV2016A;
+
+    private final SchoolLesson SCO = new SchoolLesson(ESchoolSubject.SCO, ETeacher.PETER_STEGGER);
+    private final SchoolLesson SDE = new SchoolLesson(ESchoolSubject.SDE, ETeacher.JEPPE_LED);
+    private final SchoolLesson ITO = new SchoolLesson(ESchoolSubject.ITO, ETeacher.LARS_BILDE);
+    private final SchoolLesson DBOS = new SchoolLesson(ESchoolSubject.DBOS, ETeacher.BENT_PEDERSEN);
 
     public MockData() {
         easv2016AStudents = new ArrayList<>();
+        schoolDays = new ArrayList<>();
+        schoolWeeks = new ArrayList<>();
+        createSchoolDays();
+        createSchoolWeeks();
         createStudents();
-        EASV2016A = new SchoolClass("EASV2016A");
+        EASV2016A = new SchoolClass("EASV2016A", schoolWeeks);
+        EASV2016A.addLessonToClass(SCO);
+        EASV2016A.addLessonToClass(SDE);
+        EASV2016A.addLessonToClass(ITO);
+        EASV2016A.addLessonToClass(DBOS);
         EASV2016A.addAllStudents(easv2016AStudents);
     }
 
@@ -26,12 +47,9 @@ public class MockData {
     private void createStudents() {
         Student adam = new Student("Adam", "Hansen");
         Student bo = new Student("Bo", "Sinclair");
-        bo.setAttendancePercentage(10);
         Student casper = new Student("Casper", "Rødgaard");
-        casper.setAttendancePercentage(15);
         Student casperJ = new Student("Casper", "Jensen");
         Student emil = new Student("Emil", "Johansen");
-        emil.setAttendancePercentage(10);
         Student frederik = new Student("Frederik", "Dyrberg");
         Student jacob = new Student("Jacob", "Enemark");
         Student jens = new Student("Jens", "Nissen");
@@ -92,6 +110,74 @@ public class MockData {
      */
     public SchoolClass getEasv2016A() {
         return EASV2016A;
+    }
+
+    private void createSchoolDays() {
+        createMonday();
+        createTuesday();
+        createWednesday();
+        createThursday();
+        createFriday();
+    }
+
+    private void createMonday() {
+        SchoolDay monday = new SchoolDay(ESchoolDayName.MONDAY);
+
+        monday.addLesson(SCO);
+        monday.addLesson(SDE);
+
+        schoolDays.add(monday);
+    }
+
+    private void createTuesday() {
+        SchoolDay tuesday = new SchoolDay(ESchoolDayName.TUEDAY);
+
+        tuesday.addLesson(SDE);
+        tuesday.addLesson(ITO);
+
+        schoolDays.add(tuesday);
+    }
+
+    private void createWednesday() {
+        SchoolDay wednesday = new SchoolDay(ESchoolDayName.WEDNESDAY);
+
+        wednesday.addLesson(DBOS);
+
+        schoolDays.add(wednesday);
+    }
+
+    private void createThursday() {
+        SchoolDay thursday = new SchoolDay(ESchoolDayName.THURSDAY);
+
+        thursday.addLesson(SCO);
+
+        schoolDays.add(thursday);
+    }
+
+    private void createFriday() {
+        SchoolDay friday = new SchoolDay(ESchoolDayName.FRIDAY);
+
+        friday.addLesson(SCO);
+
+        schoolDays.add(friday);
+    }
+
+    private void createSchoolWeeks() {
+        SchoolWeek week5 = new SchoolWeek(ESchoolWeekNumber.WEEK_5);
+        SchoolWeek week6 = new SchoolWeek(ESchoolWeekNumber.WEEK_6);
+        SchoolWeek week7 = new SchoolWeek(ESchoolWeekNumber.WEEK_7);
+        SchoolWeek week8 = new SchoolWeek(ESchoolWeekNumber.WEEK_8);
+        schoolWeeks.add(week5);
+        schoolWeeks.add(week6);
+        schoolWeeks.add(week7);
+        schoolWeeks.add(week8);
+        addSchoolDaysToWeeks();
+    }
+
+    private void addSchoolDaysToWeeks() {
+        for (SchoolWeek schoolWeek : schoolWeeks) {
+            schoolWeek.setSchoolDays(schoolDays);
+        }
     }
 
 }

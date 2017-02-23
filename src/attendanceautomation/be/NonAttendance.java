@@ -5,22 +5,30 @@
  */
 package attendanceautomation.be;
 
-import java.util.Date;
-
 public class NonAttendance {
 
-    private final Date date;
+    private final SchoolWeek weekWithoutAttendance;
 
-    public NonAttendance(Date date) {
-        this.date = date;
+    private final SchoolDay dayWithoutAttendance;
+
+    private final SchoolLesson lessonWithoutAttendance;
+
+    public NonAttendance(SchoolWeek weekWithoutAttendance, SchoolDay dayWithoutAttendance, SchoolLesson lessonWithoutAttendance) {
+        this.weekWithoutAttendance = weekWithoutAttendance;
+        this.dayWithoutAttendance = dayWithoutAttendance;
+        this.lessonWithoutAttendance = lessonWithoutAttendance;
     }
 
-    /**
-     *
-     * @return date
-     */
-    public Date getDate() {
-        return date;
+    public SchoolWeek getWeekWithoutAttendance() {
+        return weekWithoutAttendance;
+    }
+
+    public SchoolDay getDayWithoutAttendance() {
+        return dayWithoutAttendance;
+    }
+
+    public SchoolLesson getLessonWithoutAttendance() {
+        return lessonWithoutAttendance;
     }
 
 }

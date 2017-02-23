@@ -16,14 +16,13 @@ import javafx.stage.Stage;
  * @author gta1
  */
 public class AttendanceAutomationMain extends Application {
-    
-    private static final String FOLDER = "/attendanceautomation/gui/view/";
-    public static final String MAIN_VIEW_STRING = FOLDER + "main/MainView.fxml";
-    public static final String ALL_STUDENTS_STRING = FOLDER + "allStudents/AllStudentsView.fxml";
+
+    public static final String FOLDER = "/attendanceautomation/gui/view/";
+    private final String ATTENDANCE_AUTOMATION_MAIN = "gui/view/RootView.fxml";
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("gui/view/RootView.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource(ATTENDANCE_AUTOMATION_MAIN));
 
         Scene scene = new Scene(root);
 

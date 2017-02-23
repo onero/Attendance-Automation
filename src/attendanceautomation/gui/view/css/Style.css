@@ -12,3 +12,37 @@ and open the template in the editor.
     -fx-border-color: rgb(0, 0, 0);
     -fx-border-width: 1;
 }
+
+.mainBackground{
+    -fx-background-color: linear-gradient(rgb(50, 55, 60), rgb(0, 20, 70))
+}
+
+.whiteBackground{
+    -fx-background-color: #fff;
+}
+
+.padding{
+    -fx-padding: 10 15 10 15;
+}
+
+.padding-left{
+    -fx-padding: 0 0 0 15;
+}
+
+.button{
+    -fx-background-color: linear-gradient(rgb(120, 130, 170), rgb(10, 30, 155));
+    -fx-text-fill: #fff;
+    -fx-font-weight: bold;
+}
+
+.button:hover{
+    -fx-background-color: linear-gradient(rgb(176, 195, 252), rgb(0, 30, 155))
+}
+
+.button:pressed{
+    -fx-background-color: linear-gradient(rgb(50, 55, 60), rgb(0, 20, 70))
+}
+
+#detailLabel{
+    
+}

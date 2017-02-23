@@ -39,7 +39,8 @@ public class NameStatisticsViewController implements Initializable {
      */
     public void setStudentInfo(Student student) {
         lblName.setText(student.getFullName());
-        lblAttendance.setText("" + student.getAttendancePercentage() + " %");
+        lblAttendance.textProperty().bind(student.getNonAttendancePercentage().asString());
+//        
     }
 
 }

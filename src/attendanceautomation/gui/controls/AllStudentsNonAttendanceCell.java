@@ -6,7 +6,7 @@
 package attendanceautomation.gui.controls;
 
 import attendanceautomation.be.Student;
-import attendanceautomation.gui.controller.allStudents.StudentAttendanceInformationViewController;
+import attendanceautomation.gui.controller.components.studentAttendanceInformation.StudentAttendanceInformationViewController;
 import javafx.scene.Node;
 import javafx.scene.control.ListCell;
 
@@ -14,40 +14,41 @@ import javafx.scene.control.ListCell;
  *
  * @author Rasmus
  */
-public class AllStudentsNonAttendanceCell extends ListCell<Student>{
-    
+public class AllStudentsNonAttendanceCell extends ListCell<Student> {
+
     private Node view;
-    
+
     private StudentAttendanceInformationViewController controller;
-    
-    public AllStudentsNonAttendanceCell(){        
+
+    public AllStudentsNonAttendanceCell() {
     }
 
     @Override
-    protected void updateItem(Student item, boolean empty) {
-        super.updateItem(item, empty);
-        if(empty){
+    protected void updateItem(Student student, boolean empty) {
+        super.updateItem(student, empty);
+        if (empty) {
             setGraphic(null);
-        }else{
-            //TODO RKL: Parse student to the controller.
-            //controller.(the method Adam made).
+        } else {
+            controller.setStudentInfo(student);
             setGraphic(view);
         }
     }
-    
+
     /**
      * Sets the controller.
-     * @param controller 
+     *
+     * @param controller
      */
-    public void setController(StudentAttendanceInformationViewController controller){
+    public void setController(StudentAttendanceInformationViewController controller) {
         this.controller = controller;
     }
-    
+
     /**
      * Sets the view displayed in the ListView.
-     * @param view 
+     *
+     * @param view
      */
-    public void setView(Node view){
+    public void setView(Node view) {
         this.view = view;
     }
 }

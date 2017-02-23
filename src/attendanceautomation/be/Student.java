@@ -5,12 +5,20 @@
  */
 package attendanceautomation.be;
 
+import attendanceautomation.bll.AttendanceManager;
 import attendanceautomation.bll.EmailFactory;
 import attendanceautomation.bll.IDFactory;
+import attendanceautomation.gui.model.PieChartModel;
+import attendanceautomation.gui.model.SchoolClassModel;
+import java.util.ArrayList;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.scene.chart.PieChart.Data;
 
 public class Student {
 
-    private int attendancePercentage;
+//    private double nonAttendancePercentage;
+    private final DoubleProperty nonAttendancePercentage;
 
     private final int ID;
 
@@ -22,6 +30,10 @@ public class Student {
 
     private final String email;
 
+    private final AttendanceManager manager;
+
+    private final ArrayList<NonAttendance> nonAttendance;
+
     private int phone;
 
     public Student(String firstName, String lastName) {
@@ -30,13 +42,17 @@ public class Student {
         this.lastName = lastName;
         fullName = this.firstName + " " + this.lastName;
         email = EmailFactory.getnewEmail(ID, firstName);
+        nonAttendance = new ArrayList<>();
+        nonAttendancePercentage = new SimpleDoubleProperty(0);
+        manager = new AttendanceManager();
+
     }
 
     /**
      *
      * @return first name
      */
-    public String getmFirstName() {
+    public String getFirstName() {
         return firstName;
     }
 
@@ -44,7 +60,7 @@ public class Student {
      *
      * @return last name
      */
-    public String getmLastName() {
+    public String getLastName() {
         return lastName;
     }
 
@@ -86,12 +102,61 @@ public class Student {
      *
      * @return attendance percentage
      */
-    public int getAttendancePercentage() {
-        return attendancePercentage;
+    public DoubleProperty getNonAttendancePercentage() {
+        if (nonAttendance.size() > 0) {
+            updateNonAttendancePercentage();
+        }
+        return nonAttendancePercentage;
     }
 
-    public void setAttendancePercentage(int attendancePercentage) {
-        this.attendancePercentage = attendancePercentage;
+    /**
+     *
+     * @return nonAttendance
+     */
+    public ArrayList<NonAttendance> getNonAttendance() {
+        return nonAttendance;
+    }
+
+    /**
+     * Adds the parsed day in week to nonAttendance
+     *
+     * @param newNonAttendance
+     */
+    public void addNonAttendance(NonAttendance newNonAttendance) {
+        nonAttendance.add(newNonAttendance);
+        updateNonAttendancePercentage();
+        PieChartModel.getInstance().checkIfStudentIsInChart(this);
+        SchoolClassModel.getInstance().sortStudentsOnAttendance();
+    }
+
+    /**
+     * Adds the parsed day in week to nonAttendance
+     *
+     * @param attendance
+     */
+    public void removeNonAttendance(NonAttendance attendance) {
+        for (NonAttendance nonAttend : nonAttendance) {
+            if (nonAttend.getWeekWithoutAttendance() == attendance.getWeekWithoutAttendance()) {
+                if (nonAttend.getDayWithoutAttendance() == attendance.getDayWithoutAttendance()) {
+                    if (nonAttend.getLessonWithoutAttendance() == attendance.getLessonWithoutAttendance()) {
+                        nonAttendance.remove(nonAttend);
+                        break;
+                    }
+                }
+            }
+        }
+        updateNonAttendancePercentage();
+        PieChartModel.getInstance().checkIfStudentIsInChart(this);
+        SchoolClassModel.getInstance().sortStudentsOnAttendance();
+    }
+
+    /**
+     * Update the nonAttendancePercentage
+     */
+    private void updateNonAttendancePercentage() {
+        AttendanceManager manager = new AttendanceManager();
+        Data computedNonAttendance = manager.computeStudentAttendance(this).get(0);
+        nonAttendancePercentage.set(computedNonAttendance.getPieValue());
     }
 
 }

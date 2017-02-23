@@ -5,10 +5,9 @@
  */
 package attendanceautomation.gui.controller.detailedStudent;
 
-import attendanceautomation.be.enums.EFXMLNames;
 import attendanceautomation.be.Student;
+import attendanceautomation.be.enums.EFXMLNames;
 import attendanceautomation.gui.controller.components.PieChartViewController;
-import attendanceautomation.gui.model.AttendanceModel;
 import attendanceautomation.gui.model.SchoolClassModel;
 import java.io.IOException;
 import java.net.URL;
@@ -21,6 +20,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 
@@ -31,14 +31,6 @@ import javafx.scene.layout.GridPane;
  */
 public class StudentInformationTopViewController implements Initializable {
 
-    @FXML
-    private GridPane GridPane;
-    @FXML
-    private BorderPane BorderPaneLeft;
-    @FXML
-    private BorderPane BorderPaneCenter;
-    @FXML
-    private BorderPane BorderPaneRight;
     @FXML
     private Label lblStudentName;
     @FXML
@@ -53,6 +45,16 @@ public class StudentInformationTopViewController implements Initializable {
     private Label lblStudentClass;
     @FXML
     private ListView<?> listTeachers;
+    @FXML
+    private ImageView photoOfStudent;
+    @FXML
+    private BorderPane studentBorderPane;
+    @FXML
+    private BorderPane holderBorderPane;
+    @FXML
+    private BorderPane TeacherBorderPane;
+    @FXML
+    private BorderPane absenceBorderPane;
 
     private Node pieChart;
 
@@ -65,6 +67,7 @@ public class StudentInformationTopViewController implements Initializable {
     public static StudentInformationTopViewController getInstance() {
         return instance;
     }
+    
 
     public StudentInformationTopViewController() {
         try {
@@ -80,7 +83,7 @@ public class StudentInformationTopViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         instance = this;
-        BorderPaneRight.setLeft(pieChart);
+        absenceBorderPane.setLeft(pieChart);
     }
 
     /**
@@ -100,7 +103,11 @@ public class StudentInformationTopViewController implements Initializable {
         //TODO ALH: Make dynamic
         lblStudentSemester.setText("2.");
         PieChartViewController controller = loader.getController();
-        controller.setData(AttendanceModel.getInstance().getStudentAttendance(currentStudent));
+//        controller.setData(AttendanceModel.getInstance().getStudentAttendance(currentStudent));
+
+    }
+    
+    private void pictureOfStudent() {
 
     }
 

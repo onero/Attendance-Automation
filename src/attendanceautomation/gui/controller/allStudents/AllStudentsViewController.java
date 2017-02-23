@@ -5,7 +5,6 @@
  */
 package attendanceautomation.gui.controller.allStudents;
 
-import attendanceautomation.AttendanceAutomationMain;
 import attendanceautomation.be.enums.EFXMLNames;
 import attendanceautomation.gui.model.SchoolClassModel;
 import java.io.IOException;
@@ -29,6 +28,8 @@ public class AllStudentsViewController implements Initializable {
 
     private Node LIST_VIEW;
 
+    private FXMLLoader searchViewLoader;
+
     private SchoolClassModel schoolClassModel;
 
     public AllStudentsViewController() {
@@ -38,6 +39,10 @@ public class AllStudentsViewController implements Initializable {
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
+    }
+
+    public FXMLLoader getSearchViewLoader() {
+        return searchViewLoader;
     }
 
     /**
@@ -62,4 +67,21 @@ public class AllStudentsViewController implements Initializable {
         controller.setItemsInList(schoolClassModel);
         return node;
     }
+//<<<<<<< HEAD
+//
+//    private Node createSearchView() throws IOException {
+//        searchViewLoader = new FXMLLoader(getClass().getResource(EFXMLNames.SEARCH_VIEW.toString()));
+//        Node node = searchViewLoader.load();
+//        return node;
+//    }
+//
+//    private Node createTopViewHolder() throws IOException {
+//        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.COMPONENTS_HOLDER_VIEW.toString()));
+//        Node node = loader.load();
+//        ComponentsHolderViewController controller = loader.getController();
+//        controller.setBorderPaneLeft(SEARCH_VIEW);
+//        return node;
+//    }
+//=======
+//>>>>>>> origin/beta
 }

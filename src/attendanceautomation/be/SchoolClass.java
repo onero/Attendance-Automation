@@ -18,10 +18,13 @@ public class SchoolClass {
 
     private final ArrayList<SchoolWeek> schoolWeeks;
 
+    private final ArrayList<SchoolLesson> lessons;
+
     public SchoolClass(String name, ArrayList<SchoolWeek> schoolWeeks) {
         this.schoolWeeks = schoolWeeks;
         schoolClassName = name;
         students = FXCollections.observableArrayList();
+        lessons = new ArrayList<>();
     }
 
     /**
@@ -30,6 +33,23 @@ public class SchoolClass {
      */
     public String getSchoolClassName() {
         return schoolClassName;
+    }
+
+    /**
+     * Add the suject with teacher to the array
+     *
+     * @param lesson
+     */
+    public void addLessonToClass(SchoolLesson lesson) {
+        lessons.add(lesson);
+    }
+
+    /**
+     *
+     * @return lessons for the class
+     */
+    public ArrayList<SchoolLesson> getLessons() {
+        return lessons;
     }
 
     /**
@@ -81,8 +101,8 @@ public class SchoolClass {
      */
     private void sortStudents() {
         Collections.sort(students, (Student s1, Student s2)
-                -> Integer.toString(s2.getNonAttendancePercentage()).compareTo(
-                        Integer.toString(s1.getNonAttendancePercentage())));
+                -> Double.toString(s2.getNonAttendancePercentage().get()).compareTo(
+                        Double.toString(s1.getNonAttendancePercentage().get())));
     }
 
 }

@@ -5,9 +5,8 @@
  */
 package attendanceautomation.gui.controller.detailedStudent;
 
-import attendanceautomation.AttendanceAutomationMain;
-import attendanceautomation.be.enums.EFXMLNames;
 import attendanceautomation.be.Student;
+import attendanceautomation.be.enums.EFXMLNames;
 import attendanceautomation.gui.controller.components.studentAttendanceInformation.StudentAttendanceInformationViewController;
 import java.io.IOException;
 import java.net.URL;
@@ -40,20 +39,35 @@ public class DetailedStudentViewController implements Initializable {
         return instance;
     }
 
+    public DetailedStudentViewController() {
+        instance = this;
+        try {
+            studentInformationTopView = createTopView();
+            studentAttendanceInformationCenterView = createCenterView();
+        } catch (IOException e) {
+            System.out.println("Couldn't create topView " + e);
+        }
+    }
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        instance = this;
-        try {
-            studentInformationTopView = createTopView();
-            studentAttendanceInformationCenterView = createCenterView();
-        } catch (Exception e) {
-            System.out.println("Couldn't create topView " + e);
-        }
         borderPane.setTop(studentInformationTopView);
         borderPane.setCenter(studentAttendanceInformationCenterView);
+    }
+
+    /**
+     * Sets the current student
+     *
+     * @param selectedStudent
+     */
+    public void setCurrentStudent(Student selectedStudent) {
+        StudentInformationTopViewController.getInstance().setStudentInfo(selectedStudent);
+        StudentAttendanceInformationViewController controller = attendanceLoader.getController();
+        controller.setStudentInfo(selectedStudent);
+        controller.createSubjectView();
     }
 
     /**
@@ -78,17 +92,6 @@ public class DetailedStudentViewController implements Initializable {
         attendanceLoader = new FXMLLoader(getClass().getResource(EFXMLNames.STUDENTS_ATTENDANCE_INFORMATION.toString()));
         Node node = attendanceLoader.load();
         return node;
-    }
-
-    /**
-     * Sets the current student
-     *
-     * @param selectStudent
-     */
-    public void setCurrentStudent(Student selectStudent) {
-        StudentInformationTopViewController.getInstance().setStudentInfo(selectStudent);
-        StudentAttendanceInformationViewController controller = attendanceLoader.getController();
-        controller.setStudentInfo(selectStudent);
     }
 
 }

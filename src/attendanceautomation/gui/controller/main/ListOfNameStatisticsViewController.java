@@ -48,7 +48,7 @@ public class ListOfNameStatisticsViewController implements Initializable {
      */
     public void setItemsInList(SchoolClassModel model) {
         //TODO ALH: Add feature to select class
-        listView.setItems(model.getStudents());
+        listView.setItems(model.getStudentSearchList());
     }
 
     /**

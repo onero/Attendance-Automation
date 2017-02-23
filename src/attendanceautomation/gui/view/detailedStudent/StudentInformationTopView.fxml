@@ -1,40 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<GridPane fx:id="GridPane" prefHeight="273.0" prefWidth="1014.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="attendanceautomation.gui.controller.detailedStudent.StudentInformationTopViewController">
-  <columnConstraints>
-    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-  </columnConstraints>
-  <rowConstraints>
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-  </rowConstraints>
-   <children>
-      <BorderPane fx:id="BorderPaneLeft" prefHeight="278.0" prefWidth="211.0">
-         <top>
-            <Label fx:id="lblStudentName" text="STUDENT NAME" BorderPane.alignment="CENTER">
-               <font>
-                  <Font name="System Bold" size="23.0" />
-               </font>
-            </Label>
-         </top>
+<BorderPane styleClass="padding" stylesheets="@../css/Style.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="attendanceautomation.gui.controller.detailedStudent.StudentInformationTopViewController">
+   <center>
+      <BorderPane fx:id="holderBorderPane" maxWidth="500" prefHeight="225.0" styleClass="padding-left" stylesheets="@../css/Style.css" BorderPane.alignment="CENTER">
+         <left>
+            <BorderPane fx:id="TeacherBorderPane" prefHeight="200.0" prefWidth="225.0" styleClass="border" stylesheets="@../css/Style.css" BorderPane.alignment="CENTER">
+               <top>
+                  <Label text="Teachers" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="23.0" />
+                     </font>
+                  </Label>
+               </top>
+               <center>
+                  <ListView fx:id="listTeachers" prefHeight="225.0" prefWidth="225.0" BorderPane.alignment="CENTER" />
+               </center>
+            </BorderPane>
+         </left>
          <center>
-            <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="154.0" prefWidth="208.0" BorderPane.alignment="CENTER">
+            <BorderPane fx:id="absenceBorderPane" styleClass="border" stylesheets="@../css/Style.css" BorderPane.alignment="CENTER">
+               <top>
+                  <Label text="Fravær" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="23.0" />
+                     </font>
+                  </Label>
+               </top>
+            </BorderPane>
+         </center>
+      </BorderPane>
+   </center>
+   <left>
+      <BorderPane fx:id="studentBorderPane" prefHeight="225.0" prefWidth="250.0" stylesheets="@../css/Style.css" BorderPane.alignment="CENTER">
+         <center>
+            <Pane prefHeight="154.0" prefWidth="225.0" BorderPane.alignment="CENTER">
                <children>
-                  <VBox prefHeight="163.0" prefWidth="62.0" spacing="15.0">
+                  <VBox prefHeight="163.0" prefWidth="80.0" spacing="15.0">
                      <children>
-                        <Label text="Email:" />
+                        <Label id="detailLabel" text="Email:" />
                         <Label text="Tlf:" />
                         <Label text="Studie:" />
                         <Label text="Semester:" />
@@ -43,7 +55,7 @@
                   </VBox>
                   <VBox layoutX="74.0" prefHeight="163.0" prefWidth="134.0" spacing="15.0">
                      <children>
-                        <Label fx:id="lblStudentEmail" text="Test@Testesen.dk" />
+                        <Label id="detailLabel" fx:id="lblStudentEmail" text="Test@Testesen.dk" />
                         <Label fx:id="lblStudentPhone" text="12345678" />
                         <Label fx:id="lblFieldOfStudy" text="Datamatiker" />
                         <Label fx:id="lblStudentSemester" text="2." />
@@ -53,27 +65,20 @@
                </children>
             </Pane>
          </center>
-      </BorderPane>
-      <BorderPane fx:id="BorderPaneCenter" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
          <top>
-            <Label text="Teachers" BorderPane.alignment="CENTER">
+            <Label fx:id="lblStudentName" text="STUDENT NAME" underline="true" BorderPane.alignment="CENTER">
                <font>
                   <Font name="System Bold" size="23.0" />
                </font>
             </Label>
          </top>
-         <center>
-            <ListView fx:id="listTeachers" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-         </center>
+         <styleClass>
+            <String fx:value="border" />
+            <String fx:value="padding" />
+         </styleClass>
       </BorderPane>
-      <BorderPane fx:id="BorderPaneRight" prefHeight="278.0" prefWidth="258.0" GridPane.columnIndex="2">
-         <top>
-            <Label text="Fravær" BorderPane.alignment="CENTER">
-               <font>
-                  <Font name="System Bold" size="23.0" />
-               </font>
-            </Label>
-         </top>
-      </BorderPane>
-   </children>
-</GridPane>
+   </left>
+   <right>
+      <ImageView fx:id="photoOfStudent" fitHeight="182.0" fitWidth="225.0" pickOnBounds="true" preserveRatio="true" styleClass="border" BorderPane.alignment="CENTER" />
+   </right>
+</BorderPane>

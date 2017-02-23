@@ -6,9 +6,9 @@
 package attendanceautomation.be;
 
 import attendanceautomation.be.enums.ESchoolDayName;
+import attendanceautomation.be.enums.ESchoolSubject;
 import attendanceautomation.be.enums.ESchoolWeekNumber;
 import attendanceautomation.be.enums.ETeacher;
-import attendanceautomation.be.enums.ESchoolSubject;
 import java.util.ArrayList;
 
 public class MockData {
@@ -21,14 +21,23 @@ public class MockData {
 
     private final SchoolClass EASV2016A;
 
+    private final SchoolLesson SCO = new SchoolLesson(ESchoolSubject.SCO, ETeacher.PETER_STEGGER);
+    private final SchoolLesson SDE = new SchoolLesson(ESchoolSubject.SDE, ETeacher.JEPPE_LED);
+    private final SchoolLesson ITO = new SchoolLesson(ESchoolSubject.ITO, ETeacher.LARS_BILDE);
+    private final SchoolLesson DBOS = new SchoolLesson(ESchoolSubject.DBOS, ETeacher.BENT_PEDERSEN);
+
     public MockData() {
         easv2016AStudents = new ArrayList<>();
         schoolDays = new ArrayList<>();
         schoolWeeks = new ArrayList<>();
-        createStudents();
         createSchoolDays();
         createSchoolWeeks();
+        createStudents();
         EASV2016A = new SchoolClass("EASV2016A", schoolWeeks);
+        EASV2016A.addLessonToClass(SCO);
+        EASV2016A.addLessonToClass(SDE);
+        EASV2016A.addLessonToClass(ITO);
+        EASV2016A.addLessonToClass(DBOS);
         EASV2016A.addAllStudents(easv2016AStudents);
     }
 
@@ -38,12 +47,9 @@ public class MockData {
     private void createStudents() {
         Student adam = new Student("Adam", "Hansen");
         Student bo = new Student("Bo", "Sinclair");
-        bo.setAttendancePercentage(10);
         Student casper = new Student("Casper", "Rødgaard");
-        casper.setAttendancePercentage(15);
         Student casperJ = new Student("Casper", "Jensen");
         Student emil = new Student("Emil", "Johansen");
-        emil.setAttendancePercentage(10);
         Student frederik = new Student("Frederik", "Dyrberg");
         Student jacob = new Student("Jacob", "Enemark");
         Student jens = new Student("Jens", "Nissen");
@@ -117,9 +123,6 @@ public class MockData {
     private void createMonday() {
         SchoolDay monday = new SchoolDay(ESchoolDayName.MONDAY);
 
-        SchoolLesson SCO = new SchoolLesson(ESchoolSubject.SCO, ETeacher.PETER_STEGGER);
-        SchoolLesson SDE = new SchoolLesson(ESchoolSubject.SDE, ETeacher.JEPPE_LED);
-
         monday.addLesson(SCO);
         monday.addLesson(SDE);
 
@@ -128,9 +131,6 @@ public class MockData {
 
     private void createTuesday() {
         SchoolDay tuesday = new SchoolDay(ESchoolDayName.TUEDAY);
-
-        SchoolLesson SDE = new SchoolLesson(ESchoolSubject.SDE, ETeacher.JEPPE_LED);
-        SchoolLesson ITO = new SchoolLesson(ESchoolSubject.ITO, ETeacher.LARS_BILDE);
 
         tuesday.addLesson(SDE);
         tuesday.addLesson(ITO);
@@ -141,8 +141,6 @@ public class MockData {
     private void createWednesday() {
         SchoolDay wednesday = new SchoolDay(ESchoolDayName.WEDNESDAY);
 
-        SchoolLesson DBOS = new SchoolLesson(ESchoolSubject.DBOS, ETeacher.BENT_PEDERSEN);
-
         wednesday.addLesson(DBOS);
 
         schoolDays.add(wednesday);
@@ -151,8 +149,6 @@ public class MockData {
     private void createThursday() {
         SchoolDay thursday = new SchoolDay(ESchoolDayName.THURSDAY);
 
-        SchoolLesson SCO = new SchoolLesson(ESchoolSubject.SCO, ETeacher.PETER_STEGGER);
-
         thursday.addLesson(SCO);
 
         schoolDays.add(thursday);
@@ -160,8 +156,6 @@ public class MockData {
 
     private void createFriday() {
         SchoolDay friday = new SchoolDay(ESchoolDayName.FRIDAY);
-
-        SchoolLesson SCO = new SchoolLesson(ESchoolSubject.SCO, ETeacher.PETER_STEGGER);
 
         friday.addLesson(SCO);
 

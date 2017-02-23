@@ -23,24 +23,24 @@ public enum EFXMLNames {
     PIE_CHART_VIEW(FOLDER + "components/PieChartView.fxml"),
     SEARCH_VIEW(FOLDER + "components/SearchView.fxml"),
     COMPONENTS_HOLDER_VIEW(FOLDER + "components/ComponentsHolderView.fxml"),
+    WHITE_COMPONENT_HOLDER(FOLDER + "components/WhiteComponentHolder.fxml"),
     
     DAYS_IN_MONTH_VIEW(FOLDER + "components/studentAttendanceInformation/DaysInMonthView.fxml"),
-    PARENT_CHECK_BOX_VIEW(FOLDER + "components/studentAttendanceInformation/ParentCheckBoxView.fxml"),
-    STUDENTS_ATTENDANCE_INFORMATION (FOLDER + "components/studentAttendanceInformation/StudentAttendanceInformationView.fxml"),
+    WEEK_CHECK_BOX_VIEW(FOLDER + "components/studentAttendanceInformation/WeekCheckBoxView.fxml"),
+    STUDENTS_ATTENDANCE_INFORMATION(FOLDER + "components/studentAttendanceInformation/StudentAttendanceInformationView.fxml"),
     
     ALL_STUDENTS_VIEW(FOLDER + "allStudents/AllStudentsView.fxml"),
     LIST_OF_ALL_STUDENTS_NON_ATTENDANCE_VIEW(FOLDER + "allStudents/ListOfAllStudentsNonAttendanceView.fxml"),
     MONTH_COMBO_BOX_VIEW(FOLDER + "allStudents/MonthComboboxView.fxml");
-    
-        
+
     private final String text;
-    
-    private EFXMLNames(final String text){
+
+    private EFXMLNames(final String text) {
         this.text = text;
     }
-    
+
     @Override
-    public String toString(){
+    public String toString() {
         return text;
     }
 }

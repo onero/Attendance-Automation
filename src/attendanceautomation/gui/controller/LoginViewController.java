@@ -43,7 +43,7 @@ public class LoginViewController implements Initializable {
 
     @FXML
     private void processLogin(ActionEvent event) {
-        
+        errorMessage.setText("Hello " + userId.getText() + " the password is wrong. \nPlease try agian.");
     }
     
 }

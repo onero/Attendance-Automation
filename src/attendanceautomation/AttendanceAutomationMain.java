@@ -19,7 +19,7 @@ public class AttendanceAutomationMain extends Application {
 
     public static final String FOLDER = "/attendanceautomation/gui/view/";
     private final String ATTENDANCE_AUTOMATION_MAIN = "gui/view/RootView.fxml";
-    private final String LOGIN = "gui/view/LoginView.fxml";
+//    private final String LOGIN = "gui/view/LoginView.fxml";
 
     @Override
     public void start(Stage stage) throws Exception {

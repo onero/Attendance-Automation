@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package attendanceautomation.gui.controller;
+package attendanceautomation.gui.controller.login;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -18,7 +18,7 @@ import javafx.scene.control.TextField;
 /**
  * FXML Controller class
  *
- * @author Skovgaard
+ * @author Mathias
  */
 public class LoginViewController implements Initializable {
 
@@ -35,7 +35,7 @@ public class LoginViewController implements Initializable {
      * Initializes the controller class.
      */
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void initialize(URL url, ResourceBundle rb) {
         errorMessage.setText("");
         userId.setPromptText("Brugernavn");
         password.setPromptText("Password");

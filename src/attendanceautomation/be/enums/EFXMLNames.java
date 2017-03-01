@@ -33,8 +33,7 @@ public enum EFXMLNames {
     LIST_OF_ALL_STUDENTS_NON_ATTENDANCE_VIEW(FOLDER + "allStudents/ListOfAllStudentsNonAttendanceView.fxml"),
     MONTH_COMBO_BOX_VIEW(FOLDER + "allStudents/MonthComboboxView.fxml"),
     
-//  TODO: uncomment this when view is made  
-    LOGIN_VIEW(FOLDER + "login/loginView.fxml");
+    LOGIN_VIEW(FOLDER + "login/LoginView.fxml");
 
     private final String text;
 

@@ -51,7 +51,7 @@ public class RootViewController implements Initializable {
             MAIN_VIEW = createMainView();
             ALL_STUDENTS_VIEW = createAllStudents();
             DETAILED_STUDENT_VIEW = createDetailedStudentView();
-//            LOGIN_VIEW = createLoginView();
+            LOGIN_VIEW = createLoginView();
 
             SEARCH_BAR = createSearchBarNode();
             ComboBox = createComboBox();
@@ -66,9 +66,8 @@ public class RootViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         instance = this;
-        borderPane.setCenter(WHITE_COMPONENT_HOLDER_VIEW);
-        //Todo: replace white component with this.
-//        borderPane.setCenter(LOGIN_VIEW);
+//        borderPane.setCenter(WHITE_COMPONENT_HOLDER_VIEW);
+        borderPane.setCenter(LOGIN_VIEW);
     }
 
     /**
@@ -112,11 +111,11 @@ public class RootViewController implements Initializable {
      * @return
      * @throws IOException 
      */
-//    private Node createLoginView() throws IOException {
-//        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.LOGIN_VIEW.toString()));
-//        Node node = loader.load();
-//        return node;
-//    }
+    private Node createLoginView() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.LOGIN_VIEW.toString()));
+        Node node = loader.load();
+        return node;
+    }
 
     /**
      * In the WhiteComponentController. Sets the center and the topView.

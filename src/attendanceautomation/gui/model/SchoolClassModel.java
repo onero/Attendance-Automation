@@ -5,9 +5,11 @@
  */
 package attendanceautomation.gui.model;
 
-import attendanceautomation.be.MockData;
 import attendanceautomation.be.SchoolClass;
+import attendanceautomation.be.SchoolSemesterSubject;
 import attendanceautomation.be.Student;
+import attendanceautomation.be.enums.ESchoolSubject;
+import attendanceautomation.be.enums.ETeacher;
 import java.util.ArrayList;
 import java.util.Collections;
 import javafx.collections.FXCollections;
@@ -34,21 +36,26 @@ public class SchoolClassModel {
         schoolClasses = FXCollections.observableArrayList();
         students = FXCollections.observableArrayList();
         studentSearchList = FXCollections.observableArrayList();
-
-        addMockData();
+        addMockStudents();
     }
 
-    /**
-     * Add data to the model
-     */
-    private void addMockData() {
-        //Add mockdata
-        MockData mockData = new MockData();
-        schoolClasses.add(mockData.getEasv2016A());
-        for (int i = 0; i < schoolClasses.size(); i++) {
-            students.addAll(schoolClasses.get(i).getStudents());
-        }
-        studentSearchList.addAll(students);
+    private void addMockStudents() {
+        SchoolClass CS2016A = new SchoolClass("CS2016A");
+        schoolClasses.add(CS2016A);
+
+        SchoolSemesterSubject SCO = new SchoolSemesterSubject(ESchoolSubject.SCO, ETeacher.PETER_STEGGER);
+        SchoolSemesterSubject SDE = new SchoolSemesterSubject(ESchoolSubject.SDE, ETeacher.JEPPE_LED);
+        SchoolSemesterSubject ITO = new SchoolSemesterSubject(ESchoolSubject.ITO, ETeacher.LARS_BILDE);
+        SchoolSemesterSubject DBOS = new SchoolSemesterSubject(ESchoolSubject.DBOS, ETeacher.BENT_PEDERSEN);
+        CS2016A.addSemesterSubjectToClass(SCO);
+        CS2016A.addSemesterSubjectToClass(SDE);
+        CS2016A.addSemesterSubjectToClass(ITO);
+        CS2016A.addSemesterSubjectToClass(DBOS);
+
+        Student adam = new Student("Adam", "Hansen");
+        Student rasmus = new Student("Rasmus", "Lindved");
+        students.add(adam);
+        students.add(rasmus);
     }
 
     /**

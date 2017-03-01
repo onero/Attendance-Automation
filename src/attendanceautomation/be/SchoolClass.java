@@ -7,24 +7,19 @@ package attendanceautomation.be;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 public class SchoolClass {
 
     private final String schoolClassName;
 
-    private final ObservableList<Student> students;
+    private final ArrayList<Student> students;
 
-    private final ArrayList<SchoolWeek> schoolWeeks;
+    private final ArrayList<SchoolSemesterSubject> semesterSubjects;
 
-    private final ArrayList<SchoolLesson> lessons;
-
-    public SchoolClass(String name, ArrayList<SchoolWeek> schoolWeeks) {
-        this.schoolWeeks = schoolWeeks;
+    public SchoolClass(String name) {
         schoolClassName = name;
-        students = FXCollections.observableArrayList();
-        lessons = new ArrayList<>();
+        students = new ArrayList<>();
+        semesterSubjects = new ArrayList<>();
     }
 
     /**
@@ -40,24 +35,16 @@ public class SchoolClass {
      *
      * @param lesson
      */
-    public void addLessonToClass(SchoolLesson lesson) {
-        lessons.add(lesson);
+    public void addSemesterSubjectToClass(SchoolSemesterSubject lesson) {
+        semesterSubjects.add(lesson);
     }
 
     /**
      *
      * @return lessons for the class
      */
-    public ArrayList<SchoolLesson> getLessons() {
-        return lessons;
-    }
-
-    /**
-     *
-     * @return school weeks
-     */
-    public ArrayList<SchoolWeek> getSchoolWeeks() {
-        return schoolWeeks;
+    public ArrayList<SchoolSemesterSubject> getSemesterSubjects() {
+        return semesterSubjects;
     }
 
     /**
@@ -91,7 +78,7 @@ public class SchoolClass {
      *
      * @return students
      */
-    public ObservableList<Student> getStudents() {
+    public ArrayList<Student> getStudents() {
         sortStudents();
         return students;
     }

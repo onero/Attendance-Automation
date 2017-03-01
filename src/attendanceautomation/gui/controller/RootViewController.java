@@ -52,7 +52,7 @@ public class RootViewController implements Initializable {
             DETAILED_STUDENT_VIEW = createDetailedStudentView();
 
             SEARCH_BAR = createSearchBarNode();
-            ComboBox = createComboBox();
+//            ComboBox = createComboBox();
             SEARCH_COMBO_HOLDER = createSearchComboHolder();
             WHITE_COMPONENT_HOLDER_VIEW = createWhiteComponentHolderView();
             EMPTY_TOP_BAR = createEmptyTopBar();
@@ -115,6 +115,7 @@ public class RootViewController implements Initializable {
             createAllStudents();
         } catch (IOException ex) {
             System.out.println("Couldn't recreate allStudentsView");
+            System.out.println(ex);
         }
         whiteComponentHolderController.setBorderPaneCenter(ALL_STUDENTS_VIEW);
         whiteComponentHolderController.setBoderPaneTop(SEARCH_COMBO_HOLDER);
@@ -192,7 +193,8 @@ public class RootViewController implements Initializable {
         Node node = loader.load();
         ComponentsHolderViewController controller = loader.getController();
         controller.setBorderPaneLeft(SEARCH_BAR);
-        controller.setBorderPaneRight(ComboBox);
+        //Removed until need be!
+//        controller.setBorderPaneRight(ComboBox);
         return node;
     }
 

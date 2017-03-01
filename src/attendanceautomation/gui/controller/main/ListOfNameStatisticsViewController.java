@@ -5,8 +5,8 @@
  */
 package attendanceautomation.gui.controller.main;
 
-import attendanceautomation.be.enums.EFXMLNames;
 import attendanceautomation.be.Student;
+import attendanceautomation.be.enums.EFXMLNames;
 import attendanceautomation.gui.controller.RootViewController;
 import attendanceautomation.gui.controller.detailedStudent.DetailedStudentViewController;
 import attendanceautomation.gui.controls.StudentListViewCell;
@@ -48,7 +48,7 @@ public class ListOfNameStatisticsViewController implements Initializable {
      */
     public void setItemsInList(SchoolClassModel model) {
         //TODO ALH: Add feature to select class
-        listView.setItems(model.getStudentSearchList());
+        listView.setItems(model.getStudents());
     }
 
     /**

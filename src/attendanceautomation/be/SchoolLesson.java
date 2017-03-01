@@ -5,37 +5,25 @@
  */
 package attendanceautomation.be;
 
-import attendanceautomation.be.enums.ESchoolSubject;
-import attendanceautomation.be.enums.ETeacher;
-import java.util.AbstractMap.SimpleEntry;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map.Entry;
+import java.util.Date;
 
 public class SchoolLesson {
 
-    private final List<java.util.Map.Entry<ESchoolSubject, ETeacher>> lesson;
+    private final SchoolSemesterSubject semesterSubject;
 
-    public SchoolLesson(ESchoolSubject schoolSubject, ETeacher teacher) {
-        lesson = new ArrayList<>();
-        Entry<ESchoolSubject, ETeacher> newLesson = new SimpleEntry<>(schoolSubject, teacher);
-        lesson.add(newLesson);
+    private final Date lessonDate;
+
+    public SchoolLesson(SchoolSemesterSubject semesterSubject, Date lessonDate) {
+        this.semesterSubject = semesterSubject;
+        this.lessonDate = lessonDate;
     }
 
-    /**
-     *
-     * @return subject
-     */
-    public ESchoolSubject getSubject() {
-        return lesson.get(0).getKey();
+    public SchoolSemesterSubject getSemesterSubject() {
+        return semesterSubject;
     }
 
-    /**
-     *
-     * @return teacher
-     */
-    public ETeacher getTeacher() {
-        return lesson.get(0).getValue();
+    public Date getLessonDate() {
+        return lessonDate;
     }
 
 }

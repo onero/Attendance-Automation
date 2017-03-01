@@ -30,11 +30,7 @@ public class Student {
 
     private final String email;
 
-    private final AttendanceManager manager;
-
     private final ArrayList<NonAttendance> nonAttendance;
-
-    private int phone;
 
     public Student(String firstName, String lastName) {
         ID = IDFactory.getNewID();
@@ -44,8 +40,6 @@ public class Student {
         email = EmailFactory.getnewEmail(ID, firstName);
         nonAttendance = new ArrayList<>();
         nonAttendancePercentage = new SimpleDoubleProperty(0);
-        manager = new AttendanceManager();
-
     }
 
     /**
@@ -75,27 +69,10 @@ public class Student {
 
     /**
      *
-     * @return phone number
-     */
-    public int getPhone() {
-        return phone;
-    }
-
-    /**
-     *
      * @return email
      */
     public String getEmail() {
         return email;
-    }
-
-    /**
-     * Update the phone number
-     *
-     * @param mPhone
-     */
-    public void setPhone(int mPhone) {
-        this.phone = mPhone;
     }
 
     /**
@@ -135,15 +112,8 @@ public class Student {
      * @param attendance
      */
     public void removeNonAttendance(NonAttendance attendance) {
-        for (NonAttendance nonAttend : nonAttendance) {
-            if (nonAttend.getWeekWithoutAttendance() == attendance.getWeekWithoutAttendance()) {
-                if (nonAttend.getDayWithoutAttendance() == attendance.getDayWithoutAttendance()) {
-                    if (nonAttend.getLessonWithoutAttendance() == attendance.getLessonWithoutAttendance()) {
-                        nonAttendance.remove(nonAttend);
-                        break;
-                    }
-                }
-            }
+        if (nonAttendance.contains(attendance)) {
+            nonAttendance.remove(attendance);
         }
         updateNonAttendancePercentage();
         PieChartModel.getInstance().checkIfStudentIsInChart(this);

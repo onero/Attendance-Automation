@@ -6,14 +6,15 @@
 package attendanceautomation.gui.controller.components.studentAttendanceInformation;
 
 import attendanceautomation.be.SchoolClass;
-import attendanceautomation.be.SchoolLesson;
-import attendanceautomation.be.SchoolWeek;
+import attendanceautomation.be.SchoolSemesterSubject;
 import attendanceautomation.be.Student;
 import attendanceautomation.be.enums.EFXMLNames;
 import attendanceautomation.gui.model.SchoolClassModel;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -68,19 +69,21 @@ public class StudentAttendanceInformationViewController implements Initializable
             fillUpHBoxWithWeeks();
         } catch (IOException ex) {
             System.out.println("Couldn't fill up HBoxes");
+            System.out.println(ex);
         }
     }
 
     /**
      * Create the SubjectView
      *
+     * @param newStudent
      */
-    public void createSubjectView() {
+    public void createSubjectView(Student newStudent) {
+        student = newStudent;
         //Clear the VBox list
         VBox.getChildren().clear();
 
-        createWeeksInCurrentMonth();
-
+//        createWeeksInCurrentMonth();
         createHBoxesForEachSubject(schoolClass);
     }
 
@@ -103,22 +106,23 @@ public class StudentAttendanceInformationViewController implements Initializable
      * @param schoolClass
      */
     private void createHBoxesForEachSubject(SchoolClass schoolClass) {
-        for (SchoolLesson lesson : schoolClass.getLessons()) {
+        //TODO ALH: Make for each loop dynamic for each class
+        for (SchoolSemesterSubject semesterSubject : schoolClass.getSemesterSubjects()) {
             //Create the subject Hbox
             HBox subjectHBox = new HBox();
             subjectHBox.setPrefHeight(59);
             subjectHBox.setPrefWidth(320);
             //Create a label for the HBox with the schoolSubject
-            Label subjectName = new Label(lesson.getSubject().toString());
+            Label subjectName = new Label(semesterSubject.getSubject().toString());
             subjectName.setMinWidth(150);
             subjectName.setPrefWidth(150);
             //Add the label
             subjectHBox.getChildren().add(subjectName);
             try {
                 //Fill the subject HBox with checkboxes
-                fillSubjectHboxWithCheckBoxes(schoolClass, subjectHBox, lesson);
-            } catch (IOException e) {
-                System.out.println("Couldn't create subjects");
+                fillSubjectHboxWithCheckBoxes(subjectHBox, semesterSubject);
+            } catch (IOException ex) {
+                Logger.getLogger(StudentAttendanceInformationViewController.class.getName()).log(Level.SEVERE, null, ex);
             }
             //Add the Subject HBox to the VBox list of subjects
             VBox.getChildren().add(subjectHBox);
@@ -132,14 +136,29 @@ public class StudentAttendanceInformationViewController implements Initializable
      * @param subjectHBox
      * @throws IOException
      */
-    private void fillSubjectHboxWithCheckBoxes(SchoolClass schoolClass, HBox subjectHBox, SchoolLesson schoolLesson) throws IOException {
-        //For each week in the current month
-        for (SchoolWeek schoolWeek : schoolClass.getSchoolWeeks()) {
-            //add checkboxes to the HBox
-            subjectHBox.getChildren().add(createSubjectCheckBoxes(schoolWeek, schoolLesson));
-            //And fillerLabel in between
-            subjectHBox.getChildren().add(createFillerLabel());
-        }
+    private void fillSubjectHboxWithCheckBoxes(HBox subjectHBox, SchoolSemesterSubject semesterSubject) throws IOException {
+        subjectHBox.getChildren().add(createSubjectCheckBoxes(semesterSubject));
+        //And fillerLabel in between
+        subjectHBox.getChildren().add(createFillerLabel());
+        //add checkboxes to the HBox
+        subjectHBox.getChildren().add(createSubjectCheckBoxes(semesterSubject));
+        //And fillerLabel in between
+        subjectHBox.getChildren().add(createFillerLabel());
+        //add checkboxes to the HBox
+        subjectHBox.getChildren().add(createSubjectCheckBoxes(semesterSubject));
+        //And fillerLabel in between
+        subjectHBox.getChildren().add(createFillerLabel());
+        //add checkboxes to the HBox
+        subjectHBox.getChildren().add(createSubjectCheckBoxes(semesterSubject));
+    }
+
+    /**
+     * Fills the hBox up to look nicely.
+     *
+     * @throws IOException
+     */
+    private void fillUpHBoxWithWeeks() throws IOException {
+        fillWeekHboxWithCheckBoxes();
     }
 
     /**
@@ -149,47 +168,37 @@ public class StudentAttendanceInformationViewController implements Initializable
      * @param subjectHBox
      * @throws IOException
      */
-    private void fillWeekHboxWithCheckBoxes(SchoolClass schoolClass, HBox subjectHBox) throws IOException {
-        //For each week in the current month
-        for (SchoolWeek schoolWeek : schoolClass.getSchoolWeeks()) {
-            //add checkboxes to the HBox
-            subjectHBox.getChildren().add(createWeekCheckBoxes(schoolWeek));
-            //If it is not the last week
-            if (schoolClass.getSchoolWeeks().indexOf(schoolWeek) != this.schoolClass.getSchoolWeeks().size() - 1) {
-                //And fillerLabel after the checkboxes
-                subjectHBox.getChildren().add(createFillerLabel());
-            }
-        }
-    }
-
-    /**
-     * Fills the hBox up to look nicely.
-     *
-     * @throws IOException
-     */
-    private void fillUpHBoxWithWeeks() throws IOException {
-        fillWeekHboxWithCheckBoxes(schoolClass, HBox);
+    private void fillWeekHboxWithCheckBoxes() throws IOException {
+        //TODO ALH: Make this dynamic
+        //add checkboxes to the HBox
+        HBox.getChildren().add(createWeekCheckBoxes());
+        HBox.getChildren().add(createFillerLabel());
+        HBox.getChildren().add(createWeekCheckBoxes());
+        HBox.getChildren().add(createFillerLabel());
+        HBox.getChildren().add(createWeekCheckBoxes());
+        HBox.getChildren().add(createFillerLabel());
+        HBox.getChildren().add(createWeekCheckBoxes());
     }
 
     /**
      * Creates a ParentCheckBoxView
      */
-    private Node createWeekCheckBoxes(SchoolWeek schoolWeek) throws IOException {
+    private Node createWeekCheckBoxes() throws IOException {
         FXMLLoader weekCheckBoxLoader = new FXMLLoader(getClass().getResource(EFXMLNames.WEEK_CHECK_BOX_VIEW.toString()));
         Node node = weekCheckBoxLoader.load();
         WeekCheckBoxViewController controller = weekCheckBoxLoader.getController();
-        controller.setWeekData(student, schoolWeek);
+        controller.setWeekData(student);
         return node;
     }
 
     /**
      * Creates a ParentCheckBoxView
      */
-    private Node createSubjectCheckBoxes(SchoolWeek schoolWeek, SchoolLesson schoolLesson) throws IOException {
+    private Node createSubjectCheckBoxes(SchoolSemesterSubject semesterSubject) throws IOException {
         FXMLLoader weekCheckBoxLoader = new FXMLLoader(getClass().getResource(EFXMLNames.WEEK_CHECK_BOX_VIEW.toString()));
         Node node = weekCheckBoxLoader.load();
         WeekCheckBoxViewController controller = weekCheckBoxLoader.getController();
-        controller.setSubjectWeekData(student, schoolWeek, schoolLesson);
+        controller.setSubjectWeekData(student, semesterSubject);
         return node;
     }
 
@@ -216,5 +225,4 @@ public class StudentAttendanceInformationViewController implements Initializable
         Node node = loader.load();
         return node;
     }
-
 }

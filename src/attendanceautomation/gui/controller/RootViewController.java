@@ -35,6 +35,7 @@ public class RootViewController implements Initializable {
     private Node ALL_STUDENTS_VIEW;
     private Node DETAILED_STUDENT_VIEW;
     private Node LOGIN_VIEW;
+    private Node LOGOUT_VIEW;
 
     private Node SEARCH_BAR;
     private Node ComboBox;
@@ -58,6 +59,7 @@ public class RootViewController implements Initializable {
             ALL_STUDENTS_VIEW = createAllStudents();
             DETAILED_STUDENT_VIEW = createDetailedStudentView();
             LOGIN_VIEW = createLoginView();
+            LOGOUT_VIEW = createLogoutView();
 
             SEARCH_BAR = createSearchBarNode();
             ComboBox = createComboBox();
@@ -122,6 +124,12 @@ public class RootViewController implements Initializable {
         Node node = loader.load();
         return node;
     }
+    
+    private Node createLogoutView() throws IOException{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.LOGOUT_VIEW.toString()));
+        Node node = loader.load();
+        return node;
+    }
 
     /**
      * In the WhiteComponentController. Sets the center and the topView.
@@ -154,7 +162,7 @@ public class RootViewController implements Initializable {
     /**
      * Sets the node to be the detailed student view
      *
-     * @param selectedStudent
+     * selectedStudent
      */
     public void selectDetailedStudentView() {
         whiteComponentHolderController.setBorderPaneCenter(DETAILED_STUDENT_VIEW);
@@ -172,6 +180,7 @@ public class RootViewController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.WHITE_COMPONENT_HOLDER.toString()));
         Node node = loader.load();
         whiteComponentHolderController = loader.getController();
+        whiteComponentHolderController.setBorderPaneRight(LOGOUT_VIEW);
         whiteComponentHolderController.setBoderPaneTop(EMPTY_TOP_BAR);
         whiteComponentHolderController.setBorderPaneCenter(LOGIN_VIEW);
         return node;
@@ -213,6 +222,7 @@ public class RootViewController implements Initializable {
         ComponentsHolderViewController controller = loader.getController();
         controller.setBorderPaneLeft(SEARCH_BAR);
         controller.setBorderPaneRight(ComboBox);
+        
         return node;
     }
 

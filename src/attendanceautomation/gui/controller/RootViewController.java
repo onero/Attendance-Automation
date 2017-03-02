@@ -73,13 +73,7 @@ public class RootViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         instance = this;
         borderPane.setCenter(WHITE_COMPONENT_HOLDER_VIEW);
-        
-        //Temporarily solved
-        startButton.setDisable(true);
-        startButton.setVisible(false);
-        allStudentsButton.setDisable(true);
-        allStudentsButton.setVisible(false);
-//        borderPane.setCenter(LOGIN_VIEW);
+        hideBottomButtons();
     }
 
     /**
@@ -126,8 +120,6 @@ public class RootViewController implements Initializable {
     private Node createLoginView() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.LOGIN_VIEW.toString()));
         Node node = loader.load();
-//        LoginViewController loginViewController = loader.getController();
-//        loginViewController.setRootViewController(instance);
         return node;
     }
 
@@ -237,12 +229,22 @@ public class RootViewController implements Initializable {
     }
 
     /**
-     * 
+     * Makes it so that you can see and use the buttons in the bottom bar.
      */
-    public void setDisabledButtonsOff() {
+    public void ShowBottomButtons() {
         startButton.setDisable(false);
         startButton.setVisible(true);
         allStudentsButton.setDisable(false);
         allStudentsButton.setVisible(true);
+    }
+
+    /**
+     * "Clears" the bottom bar so that you can't see or click the buttons before you're logged in.
+     */
+    private void hideBottomButtons() {
+        startButton.setDisable(true);
+        startButton.setVisible(false);
+        allStudentsButton.setDisable(true);
+        allStudentsButton.setVisible(false);
     }
 }

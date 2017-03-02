@@ -6,6 +6,7 @@
 package attendanceautomation.gui.controller.login;
 
 import attendanceautomation.gui.controller.RootViewController;
+import attendanceautomation.gui.model.LoginModel;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -32,7 +33,11 @@ public class LoginViewController implements Initializable {
     @FXML
     private Label errorMessage;
     
-//    private RootViewController rootViewController;
+    private final LoginModel loginModel;
+
+    public LoginViewController() {
+        loginModel = LoginModel.getInstance();
+    }
 
     /**
      * Initializes the controller class.
@@ -51,22 +56,14 @@ public class LoginViewController implements Initializable {
      */
     @FXML
     private void processLogin(ActionEvent event) {
-        if (//TODO: Verification from Manager.
-                true) {
+        if (loginModel.verifyLogin(userId.getText(), password.getText())) {
             RootViewController rootViewController = RootViewController.getInstance();
             rootViewController.handleStartView(event);
-            //Temporarily solved.
-            rootViewController.setDisabledButtonsOff();
+            rootViewController.ShowBottomButtons();
         } else {
-            errorMessage.setText("Hello " + userId.getText() + " the password is wrong. \nPlease try agian.");   
+            errorMessage.setText("Hello " + userId.getText() + " the password is wrong. \nPlease try agian."); 
+            //Clears the PasswordField for better usability
+            password.clear();
         }
     }
-
-    /**
-     * Sets the RootViewController.
-     * @param rootViewController 
-     */
-//    public void setRootViewController(RootViewController rootViewController) {
-//        this.rootViewController = rootViewController;
-//    }
 }

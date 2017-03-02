@@ -5,6 +5,8 @@
  */
 package attendanceautomation.gui.controller.login;
 
+import attendanceautomation.gui.controller.RootViewController;
+import attendanceautomation.gui.controller.components.WhiteComponentHolderController;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -28,10 +30,16 @@ public class LogoutViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+    }
 
+    /**
+     * Logs off and returns to the login page.
+     * @param event
+     */
     @FXML
     private void processLogout(ActionEvent event) {
+        RootViewController rootViewController = RootViewController.getInstance();
+        rootViewController.logout();
     }
-    
+
 }

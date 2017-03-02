@@ -145,7 +145,7 @@ public class RootViewController implements Initializable {
             System.out.println("Couldn't recreate allStudentsView");
         }
         whiteComponentHolderController.setBorderPaneCenter(ALL_STUDENTS_VIEW);
-        whiteComponentHolderController.setBoderPaneTop(SEARCH_COMBO_HOLDER);
+        whiteComponentHolderController.setBorderPaneTop(SEARCH_COMBO_HOLDER);
     }
 
     /**
@@ -156,9 +156,9 @@ public class RootViewController implements Initializable {
     @FXML
     public void handleStartView(ActionEvent event) {
         whiteComponentHolderController.setBorderPaneCenter(MAIN_VIEW);
-        whiteComponentHolderController.setBoderPaneTop(SEARCH_COMBO_HOLDER);
+        whiteComponentHolderController.setBorderPaneTop(SEARCH_COMBO_HOLDER);
     }
-    
+        
     /**
      * Sets the node to be the detailed student view
      *
@@ -166,7 +166,16 @@ public class RootViewController implements Initializable {
      */
     public void selectDetailedStudentView() {
         whiteComponentHolderController.setBorderPaneCenter(DETAILED_STUDENT_VIEW);
-        whiteComponentHolderController.setBoderPaneTop(EMPTY_TOP_BAR);
+        whiteComponentHolderController.setBorderPaneTop(EMPTY_TOP_BAR);
+    }
+    /**
+     * Returns the user to the login page.
+     */
+    public void logout() {
+        whiteComponentHolderController.setBorderPaneCenter(LOGIN_VIEW);
+        whiteComponentHolderController.setBorderPaneTop(EMPTY_TOP_BAR);
+        hideBottomButtons();
+
     }
 
     /**
@@ -181,7 +190,7 @@ public class RootViewController implements Initializable {
         Node node = loader.load();
         whiteComponentHolderController = loader.getController();
         whiteComponentHolderController.setBorderPaneRight(LOGOUT_VIEW);
-        whiteComponentHolderController.setBoderPaneTop(EMPTY_TOP_BAR);
+        whiteComponentHolderController.setBorderPaneTop(EMPTY_TOP_BAR);
         whiteComponentHolderController.setBorderPaneCenter(LOGIN_VIEW);
         return node;
     }
@@ -221,7 +230,9 @@ public class RootViewController implements Initializable {
         Node node = loader.load();
         ComponentsHolderViewController controller = loader.getController();
         controller.setBorderPaneLeft(SEARCH_BAR);
+        controller.setBorderPaneCenter(LOGOUT_VIEW);
         controller.setBorderPaneRight(ComboBox);
+
         
         return node;
     }
@@ -236,6 +247,7 @@ public class RootViewController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.COMPONENTS_HOLDER_VIEW.toString()));
         Node node = loader.load();
         return node;
+        
     }
 
     /**

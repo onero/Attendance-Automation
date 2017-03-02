@@ -23,4 +23,27 @@ public enum ESemester {
     public String toString() {
         return text;
     }
+
+    /**
+     * Get the ESemester matching the string
+     *
+     * @param eSemester
+     * @return
+     */
+    public static ESemester getESemesterFromString(String eSemester) {
+        switch (eSemester) {
+            case "1. Semester":
+                return FIRST_SEMESTER;
+            case "2. Semester":
+                return SECOND_SEMESTER;
+            case "3. Semester":
+                return THIRD_SEMESTER;
+            case "4. Semester":
+                return FOURTH_SEMESTER;
+            case "5. Semester":
+                return FIFTH_SEMESTER;
+            default:
+                return null;
+        }
+    }
 }

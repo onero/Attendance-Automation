@@ -45,7 +45,7 @@ public class StudentAttendanceInformationViewController implements Initializable
 
     public StudentAttendanceInformationViewController() {
         schoolClassModel = SchoolClassModel.getInstance();
-        schoolClass = schoolClassModel.getSchoolClasses().get(0);
+        schoolClass = schoolClassModel.getCurrentSchoolClass();
     }
 
     /**

@@ -6,36 +6,47 @@
 package attendanceautomation.be;
 
 import attendanceautomation.be.enums.ESchoolSubject;
+import attendanceautomation.be.enums.ESemester;
 import attendanceautomation.be.enums.ETeacher;
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public class SchoolSemesterSubject {
 
-    private final List<java.util.Map.Entry<ESchoolSubject, ETeacher>> lesson;
+    private final int ID;
 
-    public SchoolSemesterSubject(ESchoolSubject schoolSubject, ETeacher teacher) {
-        lesson = new ArrayList<>();
-        Map.Entry<ESchoolSubject, ETeacher> newLesson = new AbstractMap.SimpleEntry<>(schoolSubject, teacher);
-        lesson.add(newLesson);
+    private final SchoolClass schoolClass;
+
+    private final ESemester semester;
+
+    private final ESchoolSubject subject;
+
+    private final ETeacher teacher;
+
+    public SchoolSemesterSubject(int id, SchoolClass newSchoolClass, ESemester newSemester, ESchoolSubject newSubject, ETeacher newTeacher) {
+        ID = id;
+        schoolClass = newSchoolClass;
+        semester = newSemester;
+        subject = newSubject;
+        teacher = newTeacher;
     }
 
-    /**
-     *
-     * @return subject
-     */
+    public int getID() {
+        return ID;
+    }
+
+    public SchoolClass getSchoolClass() {
+        return schoolClass;
+    }
+
+    public ESemester getSemester() {
+        return semester;
+    }
+
     public ESchoolSubject getSubject() {
-        return lesson.get(0).getKey();
+        return subject;
     }
 
-    /**
-     *
-     * @return teacher
-     */
     public ETeacher getTeacher() {
-        return lesson.get(0).getValue();
+        return teacher;
     }
 
 }

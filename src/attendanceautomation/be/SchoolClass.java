@@ -7,8 +7,11 @@ package attendanceautomation.be;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class SchoolClass {
+
+    private final int ID;
 
     private final String schoolClassName;
 
@@ -16,10 +19,15 @@ public class SchoolClass {
 
     private final ArrayList<SchoolSemesterSubject> semesterSubjects;
 
-    public SchoolClass(String name) {
+    public SchoolClass(int ID, String name) {
+        this.ID = ID;
         schoolClassName = name;
         students = new ArrayList<>();
         semesterSubjects = new ArrayList<>();
+    }
+
+    public int getID() {
+        return ID;
     }
 
     /**
@@ -37,6 +45,15 @@ public class SchoolClass {
      */
     public void addSemesterSubjectToClass(SchoolSemesterSubject lesson) {
         semesterSubjects.add(lesson);
+    }
+
+    /**
+     * Add all subjects to SchoolClass
+     *
+     * @param subjects
+     */
+    public void addAllSemesterSubjectsToClass(List<SchoolSemesterSubject> subjects) {
+        semesterSubjects.addAll(subjects);
     }
 
     /**
@@ -61,7 +78,7 @@ public class SchoolClass {
      *
      * @param allStudents
      */
-    public void addAllStudents(ArrayList<Student> allStudents) {
+    public void addAllStudents(List<Student> allStudents) {
         students.addAll(allStudents);
     }
 

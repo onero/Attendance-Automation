@@ -6,8 +6,6 @@
 package attendanceautomation.be;
 
 import attendanceautomation.bll.AttendanceManager;
-import attendanceautomation.bll.EmailFactory;
-import attendanceautomation.bll.IDFactory;
 import attendanceautomation.gui.model.PieChartModel;
 import attendanceautomation.gui.model.SchoolClassModel;
 import java.util.ArrayList;
@@ -17,7 +15,6 @@ import javafx.scene.chart.PieChart.Data;
 
 public class Student {
 
-//    private double nonAttendancePercentage;
     private final DoubleProperty nonAttendancePercentage;
 
     private final int ID;
@@ -32,12 +29,20 @@ public class Student {
 
     private final ArrayList<NonAttendance> nonAttendance;
 
-    public Student(String firstName, String lastName) {
-        ID = IDFactory.getNewID();
+    /**
+     * Create real student from DB
+     *
+     * @param id
+     * @param firstName
+     * @param lastName
+     * @param email
+     */
+    public Student(int id, String firstName, String lastName, String email) {
+        ID = id;
         this.firstName = firstName;
         this.lastName = lastName;
         fullName = this.firstName + " " + this.lastName;
-        email = EmailFactory.getnewEmail(ID, firstName);
+        this.email = email;
         nonAttendance = new ArrayList<>();
         nonAttendancePercentage = new SimpleDoubleProperty(0);
     }

@@ -6,8 +6,19 @@
 package attendanceautomation.be.enums;
 
 public enum ESchoolSubject {
-    SCO,
-    SDE,
-    ITO,
-    DBOS
+    SCO("SCO"),
+    SDE("SDE"),
+    ITO("ITO"),
+    DBOS("DBOS");
+
+    private final String text;
+
+    private ESchoolSubject(final String text) {
+        this.text = text;
+    }
+
+    @Override
+    public String toString() {
+        return text;
+    }
 }

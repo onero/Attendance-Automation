@@ -6,8 +6,40 @@
 package attendanceautomation.be.enums;
 
 public enum ETeacher {
-    PETER_STEGGER,
-    JEPPE_LED,
-    BENT_PEDERSEN,
-    LARS_BILDE
+    PETER_STEGGER("Peter Stegger"),
+    JEPPE_LED("Jeppe Lid"),
+    BENT_PEDERSEN("Bent Pedersen"),
+    LARS_BILDE("Lars Bilde");
+
+    private final String text;
+
+    private ETeacher(final String text) {
+        this.text = text;
+    }
+
+    @Override
+    public String toString() {
+        return text;
+    }
+
+    /**
+     * Get the ESemester matching the string
+     *
+     * @param eTeacher
+     * @return
+     */
+    public static ETeacher getETeacherFromString(String eTeacher) {
+        switch (eTeacher) {
+            case "Peter":
+                return PETER_STEGGER;
+            case "Jeppe":
+                return JEPPE_LED;
+            case "Bent":
+                return BENT_PEDERSEN;
+            case "Lars":
+                return LARS_BILDE;
+            default:
+                return null;
+        }
+    }
 }

@@ -96,7 +96,7 @@ public class StudentInformationTopViewController implements Initializable {
         //TODO ALH: Make dynamic
         lblFieldOfStudy.setText("Datamatiker");
         //TODO ALH: Make dynamic
-        lblStudentClass.setText(SchoolClassModel.getInstance().getSchoolClasses().get(0).getSchoolClassName());
+        lblStudentClass.setText(SchoolClassModel.getInstance().getCurrentSchoolClass().getSchoolClassName());
         //TODO ALH: Make dynamic
         lblStudentSemester.setText("2.");
         PieChartViewController controller = loader.getController();

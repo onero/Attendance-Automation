@@ -5,7 +5,6 @@
  */
 package attendanceautomation.dal;
 
-import attendanceautomation.be.NonAttendance;
 import attendanceautomation.be.SchoolClass;
 import attendanceautomation.be.SchoolSemesterSubject;
 import attendanceautomation.be.Student;
@@ -63,10 +62,7 @@ public class AttendanceAutomationDAOFacade {
         //For each student
         for (Student student : schoolClass.getStudents()) {
             //Get a hold of their attendance
-            List<NonAttendance> nonAttendanceForStudent = attendanceDAO.getAllNonAttendanceForASpecificStudent(student.getID());
-            for (NonAttendance nonAttendance : nonAttendanceForStudent) {
-                student.addNonAttendance(nonAttendance);
-            }
+            student.addAllNonAttendance(attendanceDAO.getAllNonAttendanceForASpecificStudent(student.getID()));
         }
     }
 

@@ -9,11 +9,14 @@ import java.util.Date;
 
 public class SchoolLesson {
 
+    private final int ID;
+
     private final SchoolSemesterSubject semesterSubject;
 
     private final Date lessonDate;
 
-    public SchoolLesson(SchoolSemesterSubject semesterSubject, Date lessonDate) {
+    public SchoolLesson(int id, SchoolSemesterSubject semesterSubject, Date lessonDate) {
+        ID = id;
         this.semesterSubject = semesterSubject;
         this.lessonDate = lessonDate;
     }

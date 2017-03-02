@@ -19,7 +19,6 @@ import javafx.scene.layout.BorderPane;
 /**
  * FXML Controller class
  *
- * @author Rasmus
  */
 public class AllStudentsViewController implements Initializable {
 

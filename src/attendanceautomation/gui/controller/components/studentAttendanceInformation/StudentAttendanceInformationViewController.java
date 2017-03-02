@@ -6,12 +6,15 @@
 package attendanceautomation.gui.controller.components.studentAttendanceInformation;
 
 import attendanceautomation.be.SchoolClass;
+import attendanceautomation.be.SchoolClassSemesterLesson;
 import attendanceautomation.be.SchoolSemesterSubject;
 import attendanceautomation.be.Student;
 import attendanceautomation.be.enums.EFXMLNames;
 import attendanceautomation.gui.model.SchoolClassModel;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -171,23 +174,52 @@ public class StudentAttendanceInformationViewController implements Initializable
     private void fillWeekHboxWithCheckBoxes() throws IOException {
         //TODO ALH: Make this dynamic
         //add checkboxes to the HBox
-        HBox.getChildren().add(createWeekCheckBoxes());
+
+        //TODO ALH: Recreate as array with SchoolWeeks!
+        Calendar dayOfFirstWeekFebruary = Calendar.getInstance();
+        dayOfFirstWeekFebruary.set(Calendar.YEAR, 2017);
+        dayOfFirstWeekFebruary.set(Calendar.MONTH, Calendar.FEBRUARY);
+        dayOfFirstWeekFebruary.setFirstDayOfWeek(Calendar.MONDAY);
+        dayOfFirstWeekFebruary.set(Calendar.WEEK_OF_MONTH, 1);
+        dayOfFirstWeekFebruary.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+//        HBox.getChildren().add(createWeekCheckBoxes(dayOfFirstWeekFebruary));
         HBox.getChildren().add(createFillerLabel());
-        HBox.getChildren().add(createWeekCheckBoxes());
+
+        Calendar dayOfFirstWeekFebruary1 = Calendar.getInstance();
+        dayOfFirstWeekFebruary.set(Calendar.YEAR, 2017);
+        dayOfFirstWeekFebruary.set(Calendar.MONTH, Calendar.FEBRUARY);
+        dayOfFirstWeekFebruary.setFirstDayOfWeek(Calendar.MONDAY);
+        dayOfFirstWeekFebruary.set(Calendar.WEEK_OF_MONTH, 2);
+        dayOfFirstWeekFebruary.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+//        HBox.getChildren().add(createWeekCheckBoxes(dayOfFirstWeekFebruary1));
         HBox.getChildren().add(createFillerLabel());
-        HBox.getChildren().add(createWeekCheckBoxes());
+
+        Calendar dayOfFirstWeekFebruary2 = Calendar.getInstance();
+        dayOfFirstWeekFebruary.set(Calendar.YEAR, 2017);
+        dayOfFirstWeekFebruary.set(Calendar.MONTH, Calendar.FEBRUARY);
+        dayOfFirstWeekFebruary.setFirstDayOfWeek(Calendar.MONDAY);
+        dayOfFirstWeekFebruary.set(Calendar.WEEK_OF_MONTH, 3);
+        dayOfFirstWeekFebruary.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+//        HBox.getChildren().add(createWeekCheckBoxes(dayOfFirstWeekFebruary2));
         HBox.getChildren().add(createFillerLabel());
-        HBox.getChildren().add(createWeekCheckBoxes());
+
+        Calendar dayOfFirstWeekFebruary3 = Calendar.getInstance();
+        dayOfFirstWeekFebruary.set(Calendar.YEAR, 2017);
+        dayOfFirstWeekFebruary.set(Calendar.MONTH, Calendar.FEBRUARY);
+        dayOfFirstWeekFebruary.setFirstDayOfWeek(Calendar.MONDAY);
+        dayOfFirstWeekFebruary.set(Calendar.WEEK_OF_MONTH, 4);
+        dayOfFirstWeekFebruary.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+//        HBox.getChildren().add(createWeekCheckBoxes(dayOfFirstWeekFebruary3));
     }
 
     /**
      * Creates a ParentCheckBoxView
      */
-    private Node createWeekCheckBoxes() throws IOException {
+    private Node createWeekCheckBoxes(Calendar startDate, ArrayList<ArrayList<SchoolClassSemesterLesson>> weekLessons) throws IOException {
         FXMLLoader weekCheckBoxLoader = new FXMLLoader(getClass().getResource(EFXMLNames.WEEK_CHECK_BOX_VIEW.toString()));
         Node node = weekCheckBoxLoader.load();
         WeekCheckBoxViewController controller = weekCheckBoxLoader.getController();
-        controller.setWeekData(student);
+        controller.setWeekData(student, startDate, weekLessons);
         return node;
     }
 

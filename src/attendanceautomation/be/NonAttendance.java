@@ -7,17 +7,17 @@ package attendanceautomation.be;
 
 public class NonAttendance {
 
-    private final SchoolSemesterSubject semesterSubject;
+    private final SchoolClassSemesterLesson schoolClassSemesterLesson;
 
     private final int studentID;
 
-    public NonAttendance(SchoolSemesterSubject newSubject, int newStudentID) {
-        semesterSubject = newSubject;
+    public NonAttendance(SchoolClassSemesterLesson newLesson, int newStudentID) {
+        schoolClassSemesterLesson = newLesson;
         studentID = newStudentID;
     }
 
-    public SchoolSemesterSubject getSemesterSubject() {
-        return semesterSubject;
+    public SchoolClassSemesterLesson getSchoolClassSemesterLesson() {
+        return schoolClassSemesterLesson;
     }
 
     public int getStudentID() {

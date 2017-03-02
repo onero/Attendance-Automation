@@ -112,11 +112,10 @@ public class SchoolClassDAO {
      */
     public ArrayList<SchoolSemesterSubject> getAllSchoolSemesterSubjectsFromSpecificSchoolClass(int schoolClassID) throws SQLException {
         ArrayList<SchoolSemesterSubject> schoolSemesterSubjects = new ArrayList<>();
-
         String sql = "SELECT "
                 + "semesterSubject.ID "
                 + "AS "
-                + "'SemesterID' , "
+                + "'SemesterID', "
                 + "c.ID "
                 + "AS "
                 + "'SchoolClassID', "
@@ -137,11 +136,13 @@ public class SchoolClassDAO {
                 + "JOIN Semester sem ON semesterSubject.SemesterID = sem.ID "
                 + "JOIN SchoolSubject schoolSubject ON semesterSubject.SchoolSubjectID = schoolSubject.ID "
                 + "JOIN Teacher t ON semesterSubject.TeacherID = t.ID "
-                + "WHERE c.ID = " + schoolClassID;
+                + "WHERE c.ID = ?";
 
         try (Connection con = cm.getConnection()) {
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(sql);
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, schoolClassID);
+
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 schoolSemesterSubjects.add(getOneSchoolSemesterSubject(rs));
             }

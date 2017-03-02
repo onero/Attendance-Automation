@@ -5,6 +5,7 @@
  */
 package attendanceautomation.dal;
 
+import attendanceautomation.be.NonAttendance;
 import attendanceautomation.be.SchoolClass;
 import attendanceautomation.be.SchoolSemesterSubject;
 import attendanceautomation.be.Student;
@@ -20,6 +21,7 @@ public class AttendanceAutomationDAOFacade {
 
     private final StudentDAO studentDAO;
     private final SchoolClassDAO schoolClassDAO;
+    private final AttendanceDAO attendanceDAO;
 
     private SchoolClass schoolClass;
 
@@ -33,6 +35,7 @@ public class AttendanceAutomationDAOFacade {
     private AttendanceAutomationDAOFacade() {
         studentDAO = StudentDAO.getInstance();
         schoolClassDAO = SchoolClassDAO.getInstance();
+        attendanceDAO = AttendanceDAO.getInstance();
     }
 
     /**
@@ -46,9 +49,25 @@ public class AttendanceAutomationDAOFacade {
 
         addStudentsInSchoolClass(schoolClass.getID());
 
+        addNonAttendanceToStudents();
+
         addSchoolSemesterSubjectsInSchoolClass(schoolClass.getID());
 
         return schoolClass;
+    }
+
+    /**
+     * Add nonattendance for each student
+     */
+    private void addNonAttendanceToStudents() {
+        //For each student
+        for (Student student : schoolClass.getStudents()) {
+            //Get a hold of their attendance
+            List<NonAttendance> nonAttendanceForStudent = attendanceDAO.getAllNonAttendanceForASpecificStudent(student.getID());
+            for (NonAttendance nonAttendance : nonAttendanceForStudent) {
+                student.addNonAttendance(nonAttendance);
+            }
+        }
     }
 
     /**

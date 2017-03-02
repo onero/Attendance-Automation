@@ -8,6 +8,7 @@ package attendanceautomation.dal;
 import attendanceautomation.be.Student;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -34,7 +35,7 @@ public class StudentDAO {
         try {
             cm = DBConnectionManager.getInstance();
         } catch (IOException ex) {
-            System.out.println("Coudn't make connection to DB");
+            System.out.println("Couldn't make connection to DB");
             Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -48,14 +49,15 @@ public class StudentDAO {
      */
     public List<Student> getAllSchoolClassStudentsFromSpecificSchoolClass(int schoolClassID) throws SQLException {
         List<Student> students = new ArrayList<>();
-
         String sql = "SELECT * "
                 + "FROM Student s "
                 + "JOIN SchoolClassStudent cs ON s.ID = cs.StudentID "
-                + "WHERE cs.SchoolClassID = " + schoolClassID;
+                + "WHERE cs.SchoolClassID = ?";
         try (Connection con = cm.getConnection()) {
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(sql);
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, schoolClassID);
+
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 students.add(getOneStudent(rs));
             }

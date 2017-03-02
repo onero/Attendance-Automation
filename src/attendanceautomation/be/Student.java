@@ -47,6 +47,10 @@ public class Student {
         nonAttendancePercentage = new SimpleDoubleProperty(0);
     }
 
+    public int getID() {
+        return ID;
+    }
+
     /**
      *
      * @return first name
@@ -107,8 +111,8 @@ public class Student {
     public void addNonAttendance(NonAttendance newNonAttendance) {
         nonAttendance.add(newNonAttendance);
         updateNonAttendancePercentage();
-        PieChartModel.getInstance().checkIfStudentIsInChart(this);
-        SchoolClassModel.getInstance().sortStudentsOnAttendance();
+//        PieChartModel.getInstance().checkIfStudentIsInChart(this);
+//        SchoolClassModel.getInstance().sortStudentsOnAttendance();
     }
 
     /**

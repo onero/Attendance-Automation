@@ -8,6 +8,7 @@ package attendanceautomation.gui.controller;
 import attendanceautomation.be.enums.EFXMLNames;
 import attendanceautomation.gui.controller.components.ComponentsHolderViewController;
 import attendanceautomation.gui.controller.components.WhiteComponentHolderController;
+import attendanceautomation.gui.controller.login.LoginViewController;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -16,6 +17,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 
 /**
@@ -41,10 +43,14 @@ public class RootViewController implements Initializable {
     private Node EMPTY_TOP_BAR;
 
     private WhiteComponentHolderController whiteComponentHolderController;
-
+    
     public static RootViewController getInstance() {
         return instance;
     }
+    @FXML
+    private Button startButton;
+    @FXML
+    private Button allStudentsButton;
 
     public RootViewController() {
         try {
@@ -56,8 +62,8 @@ public class RootViewController implements Initializable {
             SEARCH_BAR = createSearchBarNode();
             ComboBox = createComboBox();
             SEARCH_COMBO_HOLDER = createSearchComboHolder();
-            WHITE_COMPONENT_HOLDER_VIEW = createWhiteComponentHolderView();
             EMPTY_TOP_BAR = createEmptyTopBar();
+            WHITE_COMPONENT_HOLDER_VIEW = createWhiteComponentHolderView();
         } catch (IOException ex) {
             System.out.println("MainView not loaded! " + ex);
         }
@@ -66,8 +72,14 @@ public class RootViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         instance = this;
-//        borderPane.setCenter(WHITE_COMPONENT_HOLDER_VIEW);
-        borderPane.setCenter(LOGIN_VIEW);
+        borderPane.setCenter(WHITE_COMPONENT_HOLDER_VIEW);
+        
+        //Temporarily solved
+        startButton.setDisable(true);
+        startButton.setVisible(false);
+        allStudentsButton.setDisable(true);
+        allStudentsButton.setVisible(false);
+//        borderPane.setCenter(LOGIN_VIEW);
     }
 
     /**
@@ -107,13 +119,15 @@ public class RootViewController implements Initializable {
     }
     
     /**
-     * Creates the LoginView
+     * Creates the LoginView and sets it's RootViewController.
      * @return
      * @throws IOException 
      */
     private Node createLoginView() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.LOGIN_VIEW.toString()));
         Node node = loader.load();
+//        LoginViewController loginViewController = loader.getController();
+//        loginViewController.setRootViewController(instance);
         return node;
     }
 
@@ -140,11 +154,11 @@ public class RootViewController implements Initializable {
      * @param event
      */
     @FXML
-    private void handleStartView(ActionEvent event) {
+    public void handleStartView(ActionEvent event) {
         whiteComponentHolderController.setBorderPaneCenter(MAIN_VIEW);
         whiteComponentHolderController.setBoderPaneTop(SEARCH_COMBO_HOLDER);
     }
-
+    
     /**
      * Sets the node to be the detailed student view
      *
@@ -166,11 +180,11 @@ public class RootViewController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.WHITE_COMPONENT_HOLDER.toString()));
         Node node = loader.load();
         whiteComponentHolderController = loader.getController();
-        whiteComponentHolderController.setBoderPaneTop(SEARCH_COMBO_HOLDER);
-        whiteComponentHolderController.setBorderPaneCenter(MAIN_VIEW);
+        whiteComponentHolderController.setBoderPaneTop(EMPTY_TOP_BAR);
+        whiteComponentHolderController.setBorderPaneCenter(LOGIN_VIEW);
         return node;
     }
-
+    
     /**
      * Creates the searchBar.
      *
@@ -222,4 +236,13 @@ public class RootViewController implements Initializable {
         return node;
     }
 
+    /**
+     * 
+     */
+    public void setDisabledButtonsOff() {
+        startButton.setDisable(false);
+        startButton.setVisible(true);
+        allStudentsButton.setDisable(false);
+        allStudentsButton.setVisible(true);
+    }
 }

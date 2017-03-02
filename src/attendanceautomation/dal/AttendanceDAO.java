@@ -7,6 +7,7 @@ package attendanceautomation.dal;
 
 import attendanceautomation.be.NonAttendance;
 import attendanceautomation.be.SchoolClassSemesterLesson;
+import attendanceautomation.be.SchoolSemesterSubject;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,6 +22,8 @@ import java.util.logging.Logger;
 public class AttendanceDAO {
 
     private static AttendanceDAO instance;
+
+    private List<SchoolSemesterSubject> schoolSemesterSubjects;
 
     private DBConnectionManager cm;
 
@@ -102,8 +105,57 @@ public class AttendanceDAO {
         int semesterSubjectID = rs.getInt("SemesterSubjectID");
         Date semesterLessonDate = rs.getDate("SemesterLessonDate");
 
-        SchoolClassSemesterLesson semesterLesson = new SchoolClassSemesterLesson(semesterLessonID, semesterSubjectID, semesterLessonDate);
+        SchoolSemesterSubject semesterSubject = getSchoolSemesterSubjectsFromSpecificSemesterID(semesterSubjectID);
+        SchoolClassSemesterLesson semesterLesson = new SchoolClassSemesterLesson(semesterLessonID, semesterSubject, semesterLessonDate);
 
         return semesterLesson;
+    }
+
+    /**
+     * Get a list of all SchoolSemesterSubjects from the DB with their relevant
+     * data
+     *
+     * @param semesterSubjectID
+     * @return
+     * @throws SQLException
+     */
+    public SchoolSemesterSubject getSchoolSemesterSubjectsFromSpecificSemesterID(int semesterSubjectID) throws SQLException {
+        schoolSemesterSubjects = new ArrayList<>();
+        String sql = "SELECT "
+                + "semesterSubject.ID "
+                + "AS "
+                + "'SemesterID', "
+                + "c.ID "
+                + "AS "
+                + "'SchoolClassID', "
+                + "c.Name "
+                + "AS "
+                + "'SchoolClassName', "
+                + "sem.Name "
+                + "AS "
+                + "'SemesterName', "
+                + "schoolSubject.Name "
+                + "AS "
+                + "'SchoolSubjectName', "
+                + "t.FirstName "
+                + "AS "
+                + "'TeacherFirstName'"
+                + "FROM SchoolClassSemesterSubject semesterSubject "
+                + "JOIN SchoolClass c ON semesterSubject.SchoolClassID = c.ID "
+                + "JOIN Semester sem ON semesterSubject.SemesterID = sem.ID "
+                + "JOIN SchoolSubject schoolSubject ON semesterSubject.SchoolSubjectID = schoolSubject.ID "
+                + "JOIN Teacher t ON semesterSubject.TeacherID = t.ID "
+                + "WHERE semesterSubject.ID = ?";
+
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, semesterSubjectID);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return SchoolClassDAO.getInstance().getOneSchoolSemesterSubject(rs);
+            }
+            return null;
+        }
     }
 }

@@ -17,12 +17,15 @@ public class SchoolClass {
 
     private final ArrayList<Student> students;
 
+    private final ArrayList<SchoolClassSemesterLesson> semesterLessons;
+
     private final ArrayList<SchoolSemesterSubject> semesterSubjects;
 
     public SchoolClass(int ID, String name) {
         this.ID = ID;
         schoolClassName = name;
         students = new ArrayList<>();
+        semesterLessons = new ArrayList<>();
         semesterSubjects = new ArrayList<>();
     }
 
@@ -43,8 +46,17 @@ public class SchoolClass {
      *
      * @param lesson
      */
-    public void addSemesterSubjectToClass(SchoolSemesterSubject lesson) {
-        semesterSubjects.add(lesson);
+    public void addSemesterLessonsoClass(SchoolClassSemesterLesson lesson) {
+        semesterLessons.add(lesson);
+    }
+
+    /**
+     * Add the suject with teacher to the array
+     *
+     * @param subject
+     */
+    public void addSemesterSubject(SchoolSemesterSubject subject) {
+        semesterSubjects.add(subject);
     }
 
     /**
@@ -52,16 +64,25 @@ public class SchoolClass {
      *
      * @param subjects
      */
-    public void addAllSemesterSubjectsToClass(List<SchoolSemesterSubject> subjects) {
+    public void addAllSemesterSubjects(List<SchoolSemesterSubject> subjects) {
         semesterSubjects.addAll(subjects);
     }
 
     /**
+     * Add all subjects to SchoolClass
      *
-     * @return lessons for the class
+     * @param lessons
      */
+    public void addAllSemesterLessonsToClass(List<SchoolClassSemesterLesson> lessons) {
+        semesterLessons.addAll(lessons);
+    }
+
     public ArrayList<SchoolSemesterSubject> getSemesterSubjects() {
         return semesterSubjects;
+    }
+
+    public ArrayList<SchoolClassSemesterLesson> getSemesterLessons() {
+        return semesterLessons;
     }
 
     /**

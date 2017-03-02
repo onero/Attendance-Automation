@@ -11,13 +11,13 @@ public class SchoolClassSemesterLesson {
 
     private final int ID;
 
-    private final int schoolClassSemesterSubjectID;
+    private final SchoolSemesterSubject semesterSubject;
 
     private final Date date;
 
-    public SchoolClassSemesterLesson(int id, int schoolClassSemesterSubjectID, Date date) {
+    public SchoolClassSemesterLesson(int id, SchoolSemesterSubject schoolClassSemesterSubject, Date date) {
         ID = id;
-        this.schoolClassSemesterSubjectID = schoolClassSemesterSubjectID;
+        semesterSubject = schoolClassSemesterSubject;
         this.date = date;
     }
 
@@ -25,8 +25,8 @@ public class SchoolClassSemesterLesson {
         return ID;
     }
 
-    public int getSchoolClassSemesterSubjectID() {
-        return schoolClassSemesterSubjectID;
+    public SchoolSemesterSubject getSemesterSubject() {
+        return semesterSubject;
     }
 
     public Date getDate() {

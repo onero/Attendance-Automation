@@ -5,8 +5,8 @@
  */
 package attendanceautomation.dal;
 
+import attendanceautomation.be.NonAttendance;
 import attendanceautomation.be.SchoolClass;
-import attendanceautomation.be.SchoolSemesterSubject;
 import attendanceautomation.be.Student;
 import attendanceautomation.bll.SchoolClassManager;
 import java.sql.SQLException;
@@ -52,7 +52,13 @@ public class AttendanceAutomationDAOFacade {
 
         addSchoolSemesterSubjectsInSchoolClass(schoolClass.getID());
 
+        addSchoolSemesterLessonsInSchoolClass(schoolClass.getID());
+
         return schoolClass;
+    }
+
+    public void saveNewNonAttendance(NonAttendance newNonAttendance) {
+
     }
 
     /**
@@ -84,7 +90,18 @@ public class AttendanceAutomationDAOFacade {
      */
     private void addSchoolSemesterSubjectsInSchoolClass(int schoolClassID) {
         try {
-            schoolClass.addAllSemesterSubjectsToClass(schoolClassDAO.getAllSchoolSemesterSubjectsFromSpecificSchoolClass(schoolClassID));
+            schoolClass.addAllSemesterSubjects(schoolClassDAO.getAllSchoolSemesterSubjectsFromSpecificSchoolClass(schoolClassID));
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * Add data for all the SchoolSemesterSubject
+     */
+    private void addSchoolSemesterLessonsInSchoolClass(int schoolClassID) {
+        try {
+            schoolClass.addAllSemesterLessonsToClass(schoolClassDAO.getAllSchoolSemesterLessonsFromSpecificSchoolClass(schoolClassID));
         } catch (SQLException ex) {
             Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -135,18 +152,17 @@ public class AttendanceAutomationDAOFacade {
         return null;
     }
 
-    /**
-     * Get all SchoolClasses from DB
-     *
-     * @return
-     */
-    private List<SchoolSemesterSubject> getAllSchoolClassSemesterSubjects() {
-        try {
-            return schoolClassDAO.getAllSchoolSemesterSubjects();
-        } catch (SQLException ex) {
-            Logger.getLogger(SchoolClassManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
+//    /**
+//     * Get all SchoolClasses from DB
+//     *
+//     * @return
+//     */
+//    private List<SchoolSemesterSubject> getAllSchoolClassSemesterSubjects() {
+//        try {
+//            return schoolClassDAO.getAllSchoolSemesterSubjectsFromSpecificSchoolClass();
+//        } catch (SQLException ex) {
+//            Logger.getLogger(SchoolClassManager.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        return null;
+//    }
 }

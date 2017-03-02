@@ -5,6 +5,7 @@
  */
 package attendanceautomation.gui.model;
 
+import attendanceautomation.be.NonAttendance;
 import attendanceautomation.be.SchoolClass;
 import attendanceautomation.be.Student;
 import attendanceautomation.bll.SchoolClassManager;
@@ -31,7 +32,7 @@ public class SchoolClassModel {
         return instance;
     }
 
-    public SchoolClassModel() {
+    private SchoolClassModel() {
         schoolClassManager = SchoolClassManager.getInstance();
         searchString = "";
         students = FXCollections.observableArrayList();
@@ -42,6 +43,10 @@ public class SchoolClassModel {
     private void loadDataFromDB() {
         currentSchoolClass = schoolClassManager.getAllSchoolClassDataForSpecificSchoolClass(1);
         students.addAll(currentSchoolClass.getStudents());
+    }
+
+    public void saveNewNonAttendance(NonAttendance newNonAttendance) {
+
     }
 
     /**

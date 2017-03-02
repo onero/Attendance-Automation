@@ -6,10 +6,11 @@
 package attendanceautomation.gui.controller.components.studentAttendanceInformation;
 
 import attendanceautomation.be.NonAttendance;
+import attendanceautomation.be.SchoolClass;
 import attendanceautomation.be.SchoolClassSemesterLesson;
-import attendanceautomation.be.SchoolLesson;
 import attendanceautomation.be.SchoolSemesterSubject;
 import attendanceautomation.be.Student;
+import attendanceautomation.gui.model.SchoolClassModel;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -42,8 +43,11 @@ public class WeekCheckBoxViewController implements Initializable {
 
     private Student student;
 
+    private final SchoolClass schoolClass;
+
     public WeekCheckBoxViewController() {
         listOfCheckBoxes = new ArrayList<>();
+        schoolClass = SchoolClassModel.getInstance().getCurrentSchoolClass();
     }
 
     /**
@@ -51,12 +55,11 @@ public class WeekCheckBoxViewController implements Initializable {
      *
      * @param newStudent
      * @param startDate
-     * @param weekLessons
      */
-    public void setWeekData(Student newStudent, Calendar startDate, ArrayList<ArrayList<SchoolClassSemesterLesson>> weekLessons) {
+    public void setWeekData(Student newStudent, Calendar startDate) {
         student = newStudent;
         try {
-            pouplateWeekHBoxWithCheckBoxes(startDate, weekLessons);
+            pouplateWeekHBoxWithCheckBoxes(startDate);
         } catch (ParseException ex) {
             Logger.getLogger(WeekCheckBoxViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -111,7 +114,7 @@ public class WeekCheckBoxViewController implements Initializable {
      * Creates 5 checkBoxes and puts them in the horizontalCheckBoxPane and
      * listOfCheckBoxes.
      */
-    private void pouplateWeekHBoxWithCheckBoxes(Calendar startCal, ArrayList<ArrayList<SchoolClassSemesterLesson>> weekLessons) throws ParseException {
+    private void pouplateWeekHBoxWithCheckBoxes(Calendar startCal) throws ParseException {
         Calendar endCal = Calendar.getInstance();
         //Get year of startDate
         endCal.set(Calendar.YEAR, startCal.get(1));
@@ -124,12 +127,21 @@ public class WeekCheckBoxViewController implements Initializable {
         endCal.set(Calendar.DAY_OF_MONTH, startCal.get(5) + 4);
         Date startDate = startCal.getTime();
         Date endDate = endCal.getTime();
+
+        ArrayList<SchoolClassSemesterLesson> allSemesterLessons = new ArrayList<>(schoolClass.getSemesterLessons());
+        ArrayList<SchoolClassSemesterLesson> lessonsOnThisDay;
+
         //For each schoolday in the schoolweek
         while (startDate.before(endDate)) {
+            lessonsOnThisDay = new ArrayList<>();
+            //TODO ALH: FIX SUBJECTS!
+            for (SchoolClassSemesterLesson lesson : allSemesterLessons) {
+                if (lesson.getDate().getDate() == startDate.getDate()) {
+                    lessonsOnThisDay.add(lesson);
+                }
+            }
             //Create a nice new checkbox (SO WE CAN KEEP TRACK OF STUDENTS!)
             CheckBox newCheckBox = new CheckBox();
-            //Create list of schoolLessons this day
-            int schoolDayWithLessons = startDate.getDay();
 //            ArrayList<SchoolLesson> schoolDayLessons = weekLessons.get(schoolDayWithLessons);
             //Check if the student has nonAttendance this day
             checkDayForStudentNonAttendance(newCheckBox, startDate);
@@ -137,7 +149,7 @@ public class WeekCheckBoxViewController implements Initializable {
             horizontalCheckBoxPane.getChildren().add(newCheckBox);
             //Add the checkbox to our array, so we can keep track of it
             listOfCheckBoxes.add(newCheckBox);
-//            addWeekChangeListenerToCheckBox(newCheckBox, schoolDayLessons);
+            addWeekChangeListenerToCheckBox(newCheckBox, lessonsOnThisDay);
             //Increase the date we are putting in
             startDate.setDate(startDate.getDate() + 1);
         }
@@ -155,7 +167,7 @@ public class WeekCheckBoxViewController implements Initializable {
             //For each HashMap
             for (NonAttendance nonAttendance : student.getNonAttendance()) {
                 //Check if the student was nonAttendant this schoolDay
-                if (nonAttendance.getSchoolClassSemesterLesson().getDate().equals(day)) {
+                if (nonAttendance.getSchoolClassSemesterLesson().getDate().getDate() == day.getDate()) {
                     newCheckBox.setSelected(true);
                     break;
                 }
@@ -195,17 +207,18 @@ public class WeekCheckBoxViewController implements Initializable {
      * @param newCheckBox
      * @param schoolDay
      */
-    private void addWeekChangeListenerToCheckBox(CheckBox newCheckBox, ArrayList<SchoolLesson> lessonsThisDay) {
+    private void addWeekChangeListenerToCheckBox(CheckBox newCheckBox, ArrayList<SchoolClassSemesterLesson> lessonsThisDay) {
         newCheckBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 //If the student was not attending class
                 if (newCheckBox.isSelected()) {
                     //PUNISH STUDENT!
-                    for (SchoolLesson lesson : lessonsThisDay) {
-//                        NonAttendance newNonAttendance = new NonAttendance(, student.getID());
-                    }
-                    //If the student was infact attending school
+                    for (SchoolClassSemesterLesson lesson : lessonsThisDay) {
+                        NonAttendance newNonAttendance = new NonAttendance(lesson, student.getID());
+                        student.addNonAttendance(newNonAttendance);
+                        SchoolClassModel.getInstance().saveNewNonAttendance(newNonAttendance);
+                    } //If the student was infact attending school
                 } else {
                     //Forgive the child <3
 //                    for (SchoolLesson lesson : schoolDay.getLessons()) {
@@ -214,7 +227,8 @@ public class WeekCheckBoxViewController implements Initializable {
 //                    }
                 }
             }
-        });
+        }
+        );
     }
 
     /**

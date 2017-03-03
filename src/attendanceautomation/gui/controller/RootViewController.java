@@ -179,7 +179,7 @@ public class RootViewController implements Initializable {
         hideBottomButtons();
 
     }
-
+    
     /**
      * Creates the componentHolder that holds the center and topView of mainView
      * and allStudentsView.

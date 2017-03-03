@@ -15,6 +15,8 @@ public class LoginModel {
     
     private final String TEACHER_PASSWORD = "teacher";
     private final String STUDENT_PASSWORD = "student";
+    private final String STUDENT_USERNAME = "teacheruser";
+    private final String TEACHER_USERNAME = "studentuser";
     
     public static LoginModel getInstance() {
         if (instance == null) {
@@ -25,15 +27,16 @@ public class LoginModel {
     
     /**
      * Contacts the LoginManager by sending the  and verifies the user.
+     * @param username
+     * @param password
      * @return 
      */
     public boolean verifyLogin(String username, String password) {
-        //Temporarily solved by only checking the password
-//        if (password.matches(TEACHER_PASSWORD) || password.matches(STUDENT_PASSWORD)) {
-//            return true;
-//        } else {
-//            return false;
-//        }
         return true;
+    }
+    
+    public boolean isUserStudent(String username) {
+        return // matches the username with a student via the loginmanager.
+                username.equals(STUDENT_USERNAME);
     }
 }

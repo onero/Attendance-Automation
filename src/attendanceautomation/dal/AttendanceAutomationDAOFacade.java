@@ -60,8 +60,8 @@ public class AttendanceAutomationDAOFacade {
      *
      * @param newNonAttendance
      */
-    public void saveNewNonAttendance(NonAttendance newNonAttendance) {
-        attendanceDAO.AddNonAttendance(newNonAttendance);
+    public void addNewNonAttendance(NonAttendance newNonAttendance) {
+        attendanceDAO.addNonAttendance(newNonAttendance);
     }
 
     /**
@@ -70,7 +70,7 @@ public class AttendanceAutomationDAOFacade {
      * @param nonAttendanceToRemove
      */
     public void removeNonAttendanceFromSpecificStudent(NonAttendance nonAttendanceToRemove) {
-        attendanceDAO.RemoveNonAttendance(nonAttendanceToRemove);
+        attendanceDAO.removeNonAttendance(nonAttendanceToRemove);
     }
 
     /**

@@ -41,8 +41,8 @@ public class SchoolClassManager {
      *
      * @param newNonAttendance
      */
-    public void saveNewAttendance(NonAttendance newNonAttendance) {
-        AADAOFacade.saveNewNonAttendance(newNonAttendance);
+    public void addNewAttendance(NonAttendance newNonAttendance) {
+        AADAOFacade.addNewNonAttendance(newNonAttendance);
     }
 
     /**
@@ -52,15 +52,6 @@ public class SchoolClassManager {
      */
     public void removeNonAttendance(NonAttendance newNonAttendance) {
         AADAOFacade.removeNonAttendanceFromSpecificStudent(newNonAttendance);
-    }
-
-    /**
-     * Update student attendance
-     *
-     * @param studentID
-     */
-    public void updateStudentAttendance(int studentID) {
-
     }
 
 }

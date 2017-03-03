@@ -164,7 +164,7 @@ public class AttendanceDAO {
      *
      * @param newNonAttendance
      */
-    public void AddNonAttendance(NonAttendance newNonAttendance) {
+    public void addNonAttendance(NonAttendance newNonAttendance) {
         String sql = "INSERT INTO StudentLessonNonAttendance"
                 + "(SchoolClassSemesterLessonID, StudentID) "
                 + "VALUES(?, ?)";
@@ -186,7 +186,7 @@ public class AttendanceDAO {
      *
      * @param newNonAttendance
      */
-    public void RemoveNonAttendance(NonAttendance newNonAttendance) {
+    public void removeNonAttendance(NonAttendance newNonAttendance) {
         String sql = "DELETE FROM StudentLessonNonAttendance "
                 + "WHERE SchoolClassSemesterLessonID = ? "
                 + "AND StudentID = ?";

@@ -45,14 +45,22 @@ public class SchoolClassModel {
         students.addAll(currentSchoolClass.getStudents());
     }
 
-    public void saveNewNonAttendance(NonAttendance newNonAttendance) {
-        schoolClassManager.saveNewAttendance(newNonAttendance);
-        schoolClassManager.updateStudentAttendance(newNonAttendance.getStudentID());
+    /**
+     * Add new studentNonAttendance to DB
+     *
+     * @param newNonAttendance
+     */
+    public void addNewNonAttendance(NonAttendance newNonAttendance) {
+        schoolClassManager.addNewAttendance(newNonAttendance);
     }
 
+    /**
+     * Remove studentNonAttendance from DB
+     *
+     * @param attendanceToRemove
+     */
     public void removeNonAttendance(NonAttendance attendanceToRemove) {
         schoolClassManager.removeNonAttendance(attendanceToRemove);
-        schoolClassManager.updateStudentAttendance(attendanceToRemove.getStudentID());
     }
 
     /**

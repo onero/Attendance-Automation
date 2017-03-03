@@ -40,11 +40,11 @@ public class ListOfAllStudentsNonAttendanceViewController implements Initializab
     private Node WEEKS_IN_MONTH_VIEW;
 
     public ListOfAllStudentsNonAttendanceViewController() {
-        try {
-            WEEKS_IN_MONTH_VIEW = createWeeksInMonthView();
-        } catch (IOException e) {
-            System.out.println("Couldn't create weeksInMonth");
-        }
+//        try {
+//            WEEKS_IN_MONTH_VIEW = createWeeksInMonthView();
+//        } catch (IOException e) {
+//            System.out.println("Couldn't create weeksInMonth");
+//        }
     }
 
     /**
@@ -53,7 +53,7 @@ public class ListOfAllStudentsNonAttendanceViewController implements Initializab
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setCellFactory();
-        BorderPane.setTop(WEEKS_IN_MONTH_VIEW);
+//        BorderPane.setTop(WEEKS_IN_MONTH_VIEW);
     }
 
     /**
@@ -99,7 +99,8 @@ public class ListOfAllStudentsNonAttendanceViewController implements Initializab
                     cell.setGraphic(node);
                     return cell;
                 } catch (IOException ex) {
-                    System.out.println("Error loading allStudents listView!" + ex.getMessage());
+                    System.out.println("Error loading allStudents listView!");
+                    System.out.println(ex);
                 }
                 return cell;
             }

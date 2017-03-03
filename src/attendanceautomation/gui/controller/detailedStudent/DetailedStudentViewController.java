@@ -66,8 +66,7 @@ public class DetailedStudentViewController implements Initializable {
     public void setCurrentStudent(Student selectedStudent) {
         StudentInformationTopViewController.getInstance().setStudentInfo(selectedStudent);
         StudentAttendanceInformationViewController controller = attendanceLoader.getController();
-        controller.setStudentInfo(selectedStudent);
-        controller.createSubjectView();
+        controller.createSubjectView(selectedStudent);
     }
 
     /**

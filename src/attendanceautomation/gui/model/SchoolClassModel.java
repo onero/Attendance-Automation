@@ -5,9 +5,10 @@
  */
 package attendanceautomation.gui.model;
 
-import attendanceautomation.be.MockData;
+import attendanceautomation.be.NonAttendance;
 import attendanceautomation.be.SchoolClass;
 import attendanceautomation.be.Student;
+import attendanceautomation.bll.SchoolClassManager;
 import java.util.ArrayList;
 import java.util.Collections;
 import javafx.collections.FXCollections;
@@ -17,7 +18,9 @@ public class SchoolClassModel {
 
     private static SchoolClassModel instance;
 
-    private final ObservableList<SchoolClass> schoolClasses;
+    private final SchoolClassManager schoolClassManager;
+
+    private SchoolClass currentSchoolClass;
     private final ObservableList<Student> students;
     private final ObservableList<Student> studentSearchList;
     private String searchString;
@@ -29,26 +32,21 @@ public class SchoolClassModel {
         return instance;
     }
 
-    public SchoolClassModel() {
+    private SchoolClassModel() {
+        schoolClassManager = SchoolClassManager.getInstance();
         searchString = "";
-        schoolClasses = FXCollections.observableArrayList();
         students = FXCollections.observableArrayList();
         studentSearchList = FXCollections.observableArrayList();
-
-        addMockData();
+        loadDataFromDB();
     }
 
-    /**
-     * Add data to the model
-     */
-    private void addMockData() {
-        //Add mockdata
-        MockData mockData = new MockData();
-        schoolClasses.add(mockData.getEasv2016A());
-        for (int i = 0; i < schoolClasses.size(); i++) {
-            students.addAll(schoolClasses.get(i).getStudents());
-        }
-        studentSearchList.addAll(students);
+    private void loadDataFromDB() {
+        currentSchoolClass = schoolClassManager.getAllSchoolClassDataForSpecificSchoolClass(1);
+        students.addAll(currentSchoolClass.getStudents());
+    }
+
+    public void saveNewNonAttendance(NonAttendance newNonAttendance) {
+
     }
 
     /**
@@ -56,25 +54,12 @@ public class SchoolClassModel {
      *
      * @param newSchoolClass
      */
-    public void addSchoolClass(SchoolClass newSchoolClass) {
-        schoolClasses.add(newSchoolClass);
+    public void setCurrentSchoolClass(SchoolClass newSchoolClass) {
+        currentSchoolClass = newSchoolClass;
     }
 
-    /**
-     * Remove selected schoolclass
-     *
-     * @param schoolClassToRemove
-     */
-    public void removeSchoolClass(SchoolClass schoolClassToRemove) {
-        schoolClasses.remove(schoolClassToRemove);
-    }
-
-    /**
-     *
-     * @return school classes
-     */
-    public ObservableList<SchoolClass> getSchoolClasses() {
-        return schoolClasses;
+    public SchoolClass getCurrentSchoolClass() {
+        return currentSchoolClass;
     }
 
     /**

@@ -5,31 +5,13 @@
  */
 package attendanceautomation.dal;
 
-import attendanceautomation.be.Student;
-import java.util.ArrayList;
-
 /**
  *
  * @author Rasmus
  */
 public class LoginDAO {
 
-    private final Student mockStudent;
-    private final Student mockTeacher;
-
-    private final ArrayList<Student> mockListOfStudents;
-
     public LoginDAO() {
-        mockStudent = new Student("Rasmus", "Lindved");
-        mockTeacher = new Student("Adam", "Hansen");
-        mockListOfStudents = new ArrayList<>();
-
-        mockListOfStudents.add(mockStudent);
-        mockListOfStudents.add(mockTeacher);
-    }
-
-    public ArrayList<Student> getMockStudents() {
-        return mockListOfStudents;
     }
 
     /**

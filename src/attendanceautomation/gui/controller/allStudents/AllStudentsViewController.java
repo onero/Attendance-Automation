@@ -19,7 +19,6 @@ import javafx.scene.layout.BorderPane;
 /**
  * FXML Controller class
  *
- * @author Rasmus
  */
 public class AllStudentsViewController implements Initializable {
 
@@ -67,7 +66,6 @@ public class AllStudentsViewController implements Initializable {
         controller.setItemsInList(schoolClassModel);
         return node;
     }
-//<<<<<<< HEAD
 //
 //    private Node createSearchView() throws IOException {
 //        searchViewLoader = new FXMLLoader(getClass().getResource(EFXMLNames.SEARCH_VIEW.toString()));
@@ -82,6 +80,4 @@ public class AllStudentsViewController implements Initializable {
 //        controller.setBorderPaneLeft(SEARCH_VIEW);
 //        return node;
 //    }
-//=======
-//>>>>>>> origin/beta
 }

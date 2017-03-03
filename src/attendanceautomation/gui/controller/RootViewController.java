@@ -8,7 +8,6 @@ package attendanceautomation.gui.controller;
 import attendanceautomation.be.enums.EFXMLNames;
 import attendanceautomation.gui.controller.components.ComponentsHolderViewController;
 import attendanceautomation.gui.controller.components.WhiteComponentHolderController;
-import attendanceautomation.gui.controller.login.LoginViewController;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -44,7 +43,7 @@ public class RootViewController implements Initializable {
     private Node EMPTY_TOP_BAR;
 
     private WhiteComponentHolderController whiteComponentHolderController;
-    
+
     public static RootViewController getInstance() {
         return instance;
     }
@@ -62,7 +61,7 @@ public class RootViewController implements Initializable {
             LOGOUT_VIEW = createLogoutView();
 
             SEARCH_BAR = createSearchBarNode();
-            ComboBox = createComboBox();
+//            ComboBox = createComboBox();
             SEARCH_COMBO_HOLDER = createSearchComboHolder();
             EMPTY_TOP_BAR = createEmptyTopBar();
             WHITE_COMPONENT_HOLDER_VIEW = createWhiteComponentHolderView();
@@ -113,19 +112,20 @@ public class RootViewController implements Initializable {
         Node node = loader.load();
         return node;
     }
-    
+
     /**
      * Creates the LoginView and sets it's RootViewController.
+     *
      * @return
-     * @throws IOException 
+     * @throws IOException
      */
     private Node createLoginView() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.LOGIN_VIEW.toString()));
         Node node = loader.load();
         return node;
     }
-    
-    private Node createLogoutView() throws IOException{
+
+    private Node createLogoutView() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.LOGOUT_VIEW.toString()));
         Node node = loader.load();
         return node;
@@ -143,6 +143,7 @@ public class RootViewController implements Initializable {
             createAllStudents();
         } catch (IOException ex) {
             System.out.println("Couldn't recreate allStudentsView");
+            System.out.println(ex);
         }
         whiteComponentHolderController.setBorderPaneCenter(ALL_STUDENTS_VIEW);
         whiteComponentHolderController.setBorderPaneTop(SEARCH_COMBO_HOLDER);
@@ -158,7 +159,7 @@ public class RootViewController implements Initializable {
         whiteComponentHolderController.setBorderPaneCenter(MAIN_VIEW);
         whiteComponentHolderController.setBorderPaneTop(SEARCH_COMBO_HOLDER);
     }
-        
+
     /**
      * Sets the node to be the detailed student view
      *
@@ -168,6 +169,7 @@ public class RootViewController implements Initializable {
         whiteComponentHolderController.setBorderPaneCenter(DETAILED_STUDENT_VIEW);
         whiteComponentHolderController.setBorderPaneTop(EMPTY_TOP_BAR);
     }
+
     /**
      * Returns the user to the login page.
      */
@@ -194,7 +196,7 @@ public class RootViewController implements Initializable {
         whiteComponentHolderController.setBorderPaneCenter(LOGIN_VIEW);
         return node;
     }
-    
+
     /**
      * Creates the searchBar.
      *
@@ -230,10 +232,9 @@ public class RootViewController implements Initializable {
         Node node = loader.load();
         ComponentsHolderViewController controller = loader.getController();
         controller.setBorderPaneLeft(SEARCH_BAR);
+        //Removed until need be!
+//        controller.setBorderPaneRight(ComboBox);
         controller.setBorderPaneCenter(LOGOUT_VIEW);
-        controller.setBorderPaneRight(ComboBox);
-
-        
         return node;
     }
 
@@ -247,7 +248,7 @@ public class RootViewController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.COMPONENTS_HOLDER_VIEW.toString()));
         Node node = loader.load();
         return node;
-        
+
     }
 
     /**
@@ -261,7 +262,8 @@ public class RootViewController implements Initializable {
     }
 
     /**
-     * "Clears" the bottom bar so that you can't see or click the buttons before you're logged in.
+     * "Clears" the bottom bar so that you can't see or click the buttons before
+     * you're logged in.
      */
     private void hideBottomButtons() {
         startButton.setDisable(true);

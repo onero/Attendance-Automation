@@ -22,7 +22,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 
 /**
  * FXML Controller class
@@ -67,7 +66,6 @@ public class StudentInformationTopViewController implements Initializable {
     public static StudentInformationTopViewController getInstance() {
         return instance;
     }
-    
 
     public StudentInformationTopViewController() {
         try {
@@ -98,16 +96,11 @@ public class StudentInformationTopViewController implements Initializable {
         //TODO ALH: Make dynamic
         lblFieldOfStudy.setText("Datamatiker");
         //TODO ALH: Make dynamic
-        lblStudentClass.setText(SchoolClassModel.getInstance().getSchoolClasses().get(0).getSchoolClassName());
-        lblStudentPhone.setText("" + currentStudent.getPhone());
+        lblStudentClass.setText(SchoolClassModel.getInstance().getCurrentSchoolClass().getSchoolClassName());
         //TODO ALH: Make dynamic
         lblStudentSemester.setText("2.");
         PieChartViewController controller = loader.getController();
 //        controller.setData(AttendanceModel.getInstance().getStudentAttendance(currentStudent));
-
-    }
-    
-    private void pictureOfStudent() {
 
     }
 

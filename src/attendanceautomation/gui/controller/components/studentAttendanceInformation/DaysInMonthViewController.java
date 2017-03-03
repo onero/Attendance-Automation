@@ -64,8 +64,8 @@ public class DaysInMonthViewController implements Initializable {
         lblMonth.setText("Februar");
         //Create week 5
         GridPane.addColumn(0, new Label("Week 5"));
-        HBox daysInWeek5Box = createDaysInWeekBox();
-        GridPane.add(daysInWeek5Box, 0, 1);
+//        HBox daysInWeek5Box = createDaysInWeekBox();
+//        GridPane.add(daysInWeek5Box, 0, 1);
 
         //Create gap before next week
         GridPane.add(createFillerLabel(), 1, 0);
@@ -75,8 +75,8 @@ public class DaysInMonthViewController implements Initializable {
          * Create week 6
          */
         GridPane.add(new Label("Week 6"), 3, 0);
-        HBox daysInWeek6Box = createDaysInWeekBox();
-        GridPane.add(daysInWeek6Box, 3, 1);
+//        HBox daysInWeek6Box = createDaysInWeekBox();
+//        GridPane.add(daysInWeek6Box, 3, 1);
 
         //Create gap before next week
         GridPane.add(createFillerLabel(), 4, 0);
@@ -85,8 +85,8 @@ public class DaysInMonthViewController implements Initializable {
          * Create week 7
          */
         GridPane.add(new Label("Week 7"), 5, 0);
-        HBox daysInWeek7Box = createDaysInWeekBox();
-        GridPane.add(daysInWeek7Box, 5, 1);
+//        HBox daysInWeek7Box = createDaysInWeekBox();
+//        GridPane.add(daysInWeek7Box, 5, 1);
 
         //Create gap before next week
         GridPane.add(createFillerLabel(), 6, 0);
@@ -95,8 +95,8 @@ public class DaysInMonthViewController implements Initializable {
          * Create week 8
          */
         GridPane.add(new Label("Week 8"), 7, 0);
-        HBox daysInWeek8Box = createDaysInWeekBox();
-        GridPane.add(daysInWeek8Box, 7, 1);
+//        HBox daysInWeek8Box = createDaysInWeekBox();
+//        GridPane.add(daysInWeek8Box, 7, 1);
     }
 
     /**

@@ -7,7 +7,7 @@ package attendanceautomation.bll;
 
 import attendanceautomation.be.Student;
 import attendanceautomation.dal.LoginDAO;
-import java.util.ArrayList;
+import attendanceautomation.gui.model.SchoolClassModel;
 
 /**
  *
@@ -29,8 +29,7 @@ public class LoginManager {
      * @return
      */
     public boolean checkIfUserExist(String userName) {
-        ArrayList<Student> mockListOfStudents = loginDAO.getMockStudents();
-        for (Student student : mockListOfStudents) {
+        for (Student student : SchoolClassModel.getInstance().getStudents()) {
             if (student.getEmail().equals(userName)) {
                 return true;
             }
@@ -47,9 +46,8 @@ public class LoginManager {
      */
     public boolean validateLoginAttempt(String userName, String password) {
         boolean succesfullLogin = false;
-        ArrayList<Student> mockListOfStudents = loginDAO.getMockStudents();
         Student user = null;
-        for (Student student : mockListOfStudents) {
+        for (Student student : SchoolClassModel.getInstance().getStudents()) {
             if (student.getEmail().equals(userName)) {
                 user = student;
             }

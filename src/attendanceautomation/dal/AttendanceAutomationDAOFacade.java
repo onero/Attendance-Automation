@@ -8,9 +8,7 @@ package attendanceautomation.dal;
 import attendanceautomation.be.NonAttendance;
 import attendanceautomation.be.SchoolClass;
 import attendanceautomation.be.Student;
-import attendanceautomation.bll.SchoolClassManager;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -57,8 +55,22 @@ public class AttendanceAutomationDAOFacade {
         return schoolClass;
     }
 
+    /**
+     * Add NonAttendance to student
+     *
+     * @param newNonAttendance
+     */
     public void saveNewNonAttendance(NonAttendance newNonAttendance) {
+        attendanceDAO.AddNonAttendance(newNonAttendance);
+    }
 
+    /**
+     * Remove NonAttendance for specific student
+     *
+     * @param nonAttendanceToRemove
+     */
+    public void removeNonAttendanceFromSpecificStudent(NonAttendance nonAttendanceToRemove) {
+        attendanceDAO.RemoveNonAttendance(nonAttendanceToRemove);
     }
 
     /**
@@ -121,48 +133,4 @@ public class AttendanceAutomationDAOFacade {
         }
         return null;
     }
-
-    /**
-     * Get all students from DB
-     *
-     * @return
-     */
-    private List<Student> getAllSchoolClassStudents() {
-        try {
-            return studentDAO.getAllSchoolClassStudents();
-        } catch (SQLException ex) {
-            System.out.println("Couldn't load students");
-            Logger.getLogger(SchoolClassManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
-    /**
-     * Get all SchoolClasses from DB
-     *
-     * @return
-     */
-    private List<SchoolClass> getAllSchoolClasses() {
-        try {
-            return schoolClassDAO.getAllSchoolClasses();
-        } catch (SQLException ex) {
-            System.out.println("Couldn't load SchoolClasses");
-            Logger.getLogger(SchoolClassManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
-//    /**
-//     * Get all SchoolClasses from DB
-//     *
-//     * @return
-//     */
-//    private List<SchoolSemesterSubject> getAllSchoolClassSemesterSubjects() {
-//        try {
-//            return schoolClassDAO.getAllSchoolSemesterSubjectsFromSpecificSchoolClass();
-//        } catch (SQLException ex) {
-//            Logger.getLogger(SchoolClassManager.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        return null;
-//    }
 }

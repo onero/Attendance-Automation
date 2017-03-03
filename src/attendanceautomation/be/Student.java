@@ -6,7 +6,6 @@
 package attendanceautomation.be;
 
 import attendanceautomation.bll.AttendanceManager;
-import attendanceautomation.gui.model.PieChartModel;
 import attendanceautomation.gui.model.SchoolClassModel;
 import java.util.ArrayList;
 import java.util.List;
@@ -130,7 +129,7 @@ public class Student {
             nonAttendance.remove(attendance);
         }
         updateNonAttendancePercentage();
-        PieChartModel.getInstance().checkIfStudentIsInChart(this);
+//        PieChartModel.getInstance().checkIfStudentIsInChart(this);
         SchoolClassModel.getInstance().sortStudentsOnAttendance();
     }
 

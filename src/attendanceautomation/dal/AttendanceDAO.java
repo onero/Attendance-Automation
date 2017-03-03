@@ -158,4 +158,48 @@ public class AttendanceDAO {
             return null;
         }
     }
+
+    /**
+     * Add NonAttendance to DB
+     *
+     * @param newNonAttendance
+     */
+    public void AddNonAttendance(NonAttendance newNonAttendance) {
+        String sql = "INSERT INTO StudentLessonNonAttendance"
+                + "(SchoolClassSemesterLessonID, StudentID) "
+                + "VALUES(?, ?)";
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, newNonAttendance.getSchoolClassSemesterLesson().getID());
+            ps.setInt(2, newNonAttendance.getStudentID());
+
+            ps.executeUpdate();
+        } catch (SQLException sqlException) {
+            System.out.println();
+            System.out.println("Couldn't add NonAttendance to DB");
+            System.out.println(sqlException);
+        }
+    }
+
+    /**
+     * Add NonAttendance to DB
+     *
+     * @param newNonAttendance
+     */
+    public void RemoveNonAttendance(NonAttendance newNonAttendance) {
+        String sql = "DELETE FROM StudentLessonNonAttendance "
+                + "WHERE SchoolClassSemesterLessonID = ? "
+                + "AND StudentID = ?";
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, newNonAttendance.getSchoolClassSemesterLesson().getID());
+            ps.setInt(2, newNonAttendance.getStudentID());
+
+            ps.executeUpdate();
+        } catch (SQLException sqlException) {
+            System.out.println();
+            System.out.println("Couldn't remove NonAttendance to DB");
+            System.out.println(sqlException);
+        }
+    }
 }

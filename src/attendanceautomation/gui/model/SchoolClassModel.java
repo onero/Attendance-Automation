@@ -46,7 +46,13 @@ public class SchoolClassModel {
     }
 
     public void saveNewNonAttendance(NonAttendance newNonAttendance) {
+        schoolClassManager.saveNewAttendance(newNonAttendance);
+        schoolClassManager.updateStudentAttendance(newNonAttendance.getStudentID());
+    }
 
+    public void removeNonAttendance(NonAttendance attendanceToRemove) {
+        schoolClassManager.removeNonAttendance(attendanceToRemove);
+        schoolClassManager.updateStudentAttendance(attendanceToRemove.getStudentID());
     }
 
     /**

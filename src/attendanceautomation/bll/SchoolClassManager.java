@@ -5,6 +5,7 @@
  */
 package attendanceautomation.bll;
 
+import attendanceautomation.be.NonAttendance;
 import attendanceautomation.be.SchoolClass;
 import attendanceautomation.dal.AttendanceAutomationDAOFacade;
 
@@ -25,8 +26,41 @@ public class SchoolClassManager {
         AADAOFacade = AttendanceAutomationDAOFacade.getInstance();
     }
 
+    /**
+     * Get all SchoolClass data
+     *
+     * @param id
+     * @return
+     */
     public SchoolClass getAllSchoolClassDataForSpecificSchoolClass(int id) {
         return AADAOFacade.getSchoolClassDataForSpecificSchoolClass(id);
+    }
+
+    /**
+     * Update attendance for student
+     *
+     * @param newNonAttendance
+     */
+    public void saveNewAttendance(NonAttendance newNonAttendance) {
+        AADAOFacade.saveNewNonAttendance(newNonAttendance);
+    }
+
+    /**
+     * Update attendance for student
+     *
+     * @param newNonAttendance
+     */
+    public void removeNonAttendance(NonAttendance newNonAttendance) {
+        AADAOFacade.removeNonAttendanceFromSpecificStudent(newNonAttendance);
+    }
+
+    /**
+     * Update student attendance
+     *
+     * @param studentID
+     */
+    public void updateStudentAttendance(int studentID) {
+
     }
 
 }

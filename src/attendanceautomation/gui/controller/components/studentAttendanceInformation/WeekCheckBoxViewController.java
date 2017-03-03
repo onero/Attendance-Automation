@@ -39,6 +39,8 @@ public class WeekCheckBoxViewController implements Initializable {
     @FXML
     private HBox horizontalCheckBoxPane;
 
+    private final SchoolClassModel schoolClassModel;
+
     private final ArrayList<CheckBox> listOfCheckBoxes;
 
     private Student student;
@@ -48,6 +50,7 @@ public class WeekCheckBoxViewController implements Initializable {
     public WeekCheckBoxViewController() {
         listOfCheckBoxes = new ArrayList<>();
         schoolClass = SchoolClassModel.getInstance().getCurrentSchoolClass();
+        schoolClassModel = SchoolClassModel.getInstance();
     }
 
     /**
@@ -134,7 +137,6 @@ public class WeekCheckBoxViewController implements Initializable {
         //For each schoolday in the schoolweek
         while (startDate.before(endDate)) {
             lessonsOnThisDay = new ArrayList<>();
-            //TODO ALH: FIX SUBJECTS!
             for (SchoolClassSemesterLesson lesson : allSemesterLessons) {
                 if (lesson.getDate().getDate() == startDate.getDate()) {
                     lessonsOnThisDay.add(lesson);
@@ -217,14 +219,15 @@ public class WeekCheckBoxViewController implements Initializable {
                     for (SchoolClassSemesterLesson lesson : lessonsThisDay) {
                         NonAttendance newNonAttendance = new NonAttendance(lesson, student.getID());
                         student.addNonAttendance(newNonAttendance);
-                        SchoolClassModel.getInstance().saveNewNonAttendance(newNonAttendance);
+                        schoolClassModel.saveNewNonAttendance(newNonAttendance);
                     } //If the student was infact attending school
                 } else {
                     //Forgive the child <3
-//                    for (SchoolLesson lesson : schoolDay.getLessons()) {
-//                        NonAttendance newNonAttendance = new NonAttendance(schoolWeek, schoolDay, lesson);
-//                        student.removeNonAttendance(newNonAttendance);
-//                    }
+                    for (SchoolClassSemesterLesson lesson : lessonsThisDay) {
+                        NonAttendance nonAttendanceToRemove = new NonAttendance(lesson, student.getID());
+                        student.removeNonAttendance(nonAttendanceToRemove);
+                        schoolClassModel.removeNonAttendance(nonAttendanceToRemove);
+                    }
                 }
             }
         }

@@ -88,7 +88,7 @@ public class LoginManagerTest {
         String userName = "adam3964@easv365.dk";
         String password = "teacher";
         LoginManager instance = new LoginManager();
-        boolean expResult = true;
+        boolean expResult = false;
         boolean result = instance.validateLoginAttempt(userName, password);
         assertEquals(expResult, result);
     }
@@ -102,7 +102,7 @@ public class LoginManagerTest {
         String userName = "adam3964@easv365.dk";
         String password = "random";
         LoginManager instance = new LoginManager();
-        boolean expResult = true;
+        boolean expResult = false;
         boolean result = instance.validateLoginAttempt(userName, password);
         assertEquals(expResult, result);
     }

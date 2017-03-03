@@ -34,7 +34,7 @@ public class RootViewController implements Initializable {
     private Node ALL_STUDENTS_VIEW;
     private Node DETAILED_STUDENT_VIEW;
     private Node LOGIN_VIEW;
-    private Node LOGOUT_VIEW;
+    private Node LOGOUT_BUTTON;
 
     private Node SEARCH_BAR;
     private Node ComboBox;
@@ -58,7 +58,7 @@ public class RootViewController implements Initializable {
             ALL_STUDENTS_VIEW = createAllStudents();
             DETAILED_STUDENT_VIEW = createDetailedStudentView();
             LOGIN_VIEW = createLoginView();
-            LOGOUT_VIEW = createLogoutView();
+            LOGOUT_BUTTON = createLogoutView();
 
             SEARCH_BAR = createSearchBarNode();
 //            ComboBox = createComboBox();
@@ -126,7 +126,7 @@ public class RootViewController implements Initializable {
     }
 
     private Node createLogoutView() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.LOGOUT_VIEW.toString()));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.LOGOUT_BUTTON.toString()));
         Node node = loader.load();
         return node;
     }
@@ -191,7 +191,6 @@ public class RootViewController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.WHITE_COMPONENT_HOLDER.toString()));
         Node node = loader.load();
         whiteComponentHolderController = loader.getController();
-        whiteComponentHolderController.setBorderPaneRight(LOGOUT_VIEW);
         whiteComponentHolderController.setBorderPaneTop(EMPTY_TOP_BAR);
         whiteComponentHolderController.setBorderPaneCenter(LOGIN_VIEW);
         return node;
@@ -232,9 +231,9 @@ public class RootViewController implements Initializable {
         Node node = loader.load();
         ComponentsHolderViewController controller = loader.getController();
         controller.setBorderPaneLeft(SEARCH_BAR);
+        controller.setBorderPaneRight(LOGOUT_BUTTON);
         //Removed until need be!
 //        controller.setBorderPaneRight(ComboBox);
-        controller.setBorderPaneCenter(LOGOUT_VIEW);
         return node;
     }
 

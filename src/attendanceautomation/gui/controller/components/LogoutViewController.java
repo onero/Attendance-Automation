@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package attendanceautomation.gui.controller.login;
+package attendanceautomation.gui.controller.components;
 
 import attendanceautomation.gui.controller.RootViewController;
-import attendanceautomation.gui.controller.components.WhiteComponentHolderController;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 
 /**
@@ -22,10 +22,12 @@ import javafx.scene.control.Hyperlink;
 public class LogoutViewController implements Initializable {
 
     @FXML
-    private Hyperlink logout;
+    private Button logout;
 
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {

@@ -6,8 +6,8 @@
 package attendanceautomation.gui.views.main.controller;
 
 import attendanceautomation.be.enums.EFXMLNames;
-import attendanceautomation.gui.views.sharedComponents.pieChart.controller.PieChartViewController;
 import attendanceautomation.gui.model.SchoolClassModel;
+import attendanceautomation.gui.views.sharedComponents.pieChart.controller.PieChartViewController;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -43,7 +43,7 @@ public class MainViewController implements Initializable {
     public MainViewController() {
         schoolClassModel = SchoolClassModel.getInstance();
         try {
-//            PIE_CHART_NODE = createPieChartNode();
+            PIE_CHART_NODE = createPieChartNode();
             LIST_VIEW = createListView();
         } catch (IOException ex) {
             System.out.println("PieChart not loaded!");
@@ -59,7 +59,7 @@ public class MainViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         instance = this;
         borderPane.setLeft(LIST_VIEW);
-//        borderPane.setCenter(PIE_CHART_NODE);
+        borderPane.setCenter(PIE_CHART_NODE);
     }
 
     /**

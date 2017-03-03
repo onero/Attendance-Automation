@@ -11,7 +11,7 @@ public class DBConnectionManager {
 
     private static DBConnectionManager instance;
 
-    private static final String CONFIG_FILE_NAME = "MyTunesDB.cfg";
+    private static final String CONFIG_FILE_NAME = "AttendanceAutomationDB.cfg";
     private final SQLServerDataSource ds;
 
     public static DBConnectionManager getInstance() throws IOException {

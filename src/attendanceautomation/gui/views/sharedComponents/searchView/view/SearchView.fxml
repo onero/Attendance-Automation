@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+
+<HBox fx:id="hBoxSearch" prefHeight="25.0" prefWidth="250.0" styleClass="padding" stylesheets="@../../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="attendanceautomation.gui.views.sharedComponents.searchView.controller.SearchViewController">
+   <children>
+      <TextField fx:id="txtSearch" prefHeight="25.0" prefWidth="154.0" />
+      <JFXButton onAction="#handleClear" prefHeight="25.0" text="Clear" />
+   </children>
+</HBox>

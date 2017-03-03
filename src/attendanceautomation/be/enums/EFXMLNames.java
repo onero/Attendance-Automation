@@ -12,29 +12,24 @@ import static attendanceautomation.AttendanceAutomationMain.FOLDER;
  * @author Rasmus
  */
 public enum EFXMLNames {
-    MAIN_VIEW(FOLDER + "main/MainView.fxml"),
-    NAME_STATISTICS_VIEW(FOLDER + "main/NameStatisticsView.fxml"),
-    LIST_OF_NAMES_STATISTICS_VIEW(FOLDER + "main/ListOfNameStatisticsView.fxml"),
-    
-    DETAILED_STUDENT_VIEW(FOLDER + "detailedStudent/DetailedStudentView.fxml"),
-    STUDENT_INFORMATION_TOP_VIEW(FOLDER + "detailedStudent/StudentInformationTopView.fxml"),
-    
-    FILLER_LABEL(FOLDER + "components/FillerLabel.fxml"),
-    PIE_CHART_VIEW(FOLDER + "components/PieChartView.fxml"),
-    SEARCH_VIEW(FOLDER + "components/SearchView.fxml"),
-    COMPONENTS_HOLDER_VIEW(FOLDER + "components/ComponentsHolderView.fxml"),
-    WHITE_COMPONENT_HOLDER(FOLDER + "components/WhiteComponentHolder.fxml"),
-    
-    DAYS_IN_MONTH_VIEW(FOLDER + "components/studentAttendanceInformation/DaysInMonthView.fxml"),
-    WEEK_CHECK_BOX_VIEW(FOLDER + "components/studentAttendanceInformation/WeekCheckBoxView.fxml"),
-    STUDENTS_ATTENDANCE_INFORMATION(FOLDER + "components/studentAttendanceInformation/StudentAttendanceInformationView.fxml"),
-    
-    ALL_STUDENTS_VIEW(FOLDER + "allStudents/AllStudentsView.fxml"),
-    LIST_OF_ALL_STUDENTS_NON_ATTENDANCE_VIEW(FOLDER + "allStudents/ListOfAllStudentsNonAttendanceView.fxml"),
-    MONTH_COMBO_BOX_VIEW(FOLDER + "allStudents/MonthComboboxView.fxml"),
-    
-    LOGIN_VIEW(FOLDER + "login/LoginView.fxml"),
-    LOGOUT_BUTTON(FOLDER + "components/LogoutView.fxml");
+    MAIN_VIEW(FOLDER + "main/view/MainView.fxml"),
+    NAME_STATISTICS_VIEW(FOLDER + "main/view/NameStatisticsView.fxml"),
+    LIST_OF_NAMES_STATISTICS_VIEW(FOLDER + "main/view/ListOfNameStatisticsView.fxml"),
+    DETAILED_STUDENT_VIEW(FOLDER + "detailedStudent/view/DetailedStudentView.fxml"),
+    STUDENT_INFORMATION_TOP_VIEW(FOLDER + "detailedStudent/view/StudentInformationTopView.fxml"),
+    FILLER_LABEL(FOLDER + "sharedComponents/fillerLabel/view/FillerLabel.fxml"),
+    PIE_CHART_VIEW(FOLDER + "sharedComponents/pieChart/view/PieChartView.fxml"),
+    SEARCH_VIEW(FOLDER + "sharedComponents/searchView/view/SearchView.fxml"),
+    COMPONENTS_HOLDER_VIEW(FOLDER + "sharedComponents/componentsHolder/view/ComponentsHolderView.fxml"),
+    WHITE_COMPONENT_HOLDER(FOLDER + "sharedComponents/whiteComponentHolder/view/WhiteComponentHolder.fxml"),
+    DAYS_IN_MONTH_VIEW(FOLDER + "sharedComponents/studentAttendanceInformation/view/DaysInMonthView.fxml"),
+    WEEK_CHECK_BOX_VIEW(FOLDER + "sharedComponents/studentAttendanceInformation/view/WeekCheckBoxView.fxml"),
+    STUDENTS_ATTENDANCE_INFORMATION(FOLDER + "sharedComponents/studentAttendanceInformation/view/StudentAttendanceInformationView.fxml"),
+    ALL_STUDENTS_VIEW(FOLDER + "allStudents/view/AllStudentsView.fxml"),
+    LIST_OF_ALL_STUDENTS_NON_ATTENDANCE_VIEW(FOLDER + "allStudents/view/ListOfAllStudentsNonAttendanceView.fxml"),
+    MONTH_COMBO_BOX_VIEW(FOLDER + "allStudents/view/MonthComboboxView.fxml"),
+    LOGIN_VIEW(FOLDER + "login/view/LoginView.fxml"),
+    LOGOUT_BUTTON(FOLDER + "login/view/LogoutView.fxml");
 
     private final String text;
 

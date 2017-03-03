@@ -7,7 +7,7 @@ package attendanceautomation.gui.model;
 
 import attendanceautomation.be.Student;
 import attendanceautomation.bll.AttendanceManager;
-import attendanceautomation.gui.controller.main.MainViewController;
+import attendanceautomation.gui.views.main.controller.MainViewController;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

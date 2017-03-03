@@ -140,6 +140,7 @@ public class RootViewController implements Initializable {
     private void handleAllStudentsButton(ActionEvent event) {
         //Recreate allStudentsView to ensure updated view with NonAttendance
         try {
+//            SchoolClassModel.getInstance().updateStudentInfo();
             createAllStudents();
         } catch (IOException ex) {
             System.out.println("Couldn't recreate allStudentsView");
@@ -179,7 +180,7 @@ public class RootViewController implements Initializable {
         hideBottomButtons();
 
     }
-    
+
     /**
      * Creates the componentHolder that holds the center and topView of mainView
      * and allStudentsView.

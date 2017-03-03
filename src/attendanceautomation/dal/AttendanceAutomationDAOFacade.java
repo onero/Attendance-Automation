@@ -9,6 +9,7 @@ import attendanceautomation.be.NonAttendance;
 import attendanceautomation.be.SchoolClass;
 import attendanceautomation.be.Student;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -44,15 +45,29 @@ public class AttendanceAutomationDAOFacade {
     public SchoolClass getSchoolClassDataForSpecificSchoolClass(int id) {
         schoolClass = getSchoolClassByID(id);
 
-        addStudentsInSchoolClass(schoolClass.getID());
+        schoolClass.addAllStudents(getStudentsInSchoolClass(schoolClass.getID()));;
 
-        addNonAttendanceToStudents();
+        addNonAttendanceToStudents(schoolClass.getStudents());
 
         addSchoolSemesterSubjectsInSchoolClass(schoolClass.getID());
 
         addSchoolSemesterLessonsInSchoolClass(schoolClass.getID());
 
         return schoolClass;
+    }
+
+    /**
+     * Update information for schoolclass students
+     *
+     * @return
+     */
+    public List<Student> getUpdatedStudentInfo() {
+        List<Student> students;
+        students = getStudentsInSchoolClass(schoolClass.getID());
+
+        addNonAttendanceToStudents(students);
+
+        return students;
     }
 
     /**
@@ -76,9 +91,9 @@ public class AttendanceAutomationDAOFacade {
     /**
      * Add nonattendance for each student
      */
-    private void addNonAttendanceToStudents() {
+    private void addNonAttendanceToStudents(List<Student> studentsInSchoolClass) {
         //For each student
-        for (Student student : schoolClass.getStudents()) {
+        for (Student student : studentsInSchoolClass) {
             //Get a hold of their attendance
             student.addAllNonAttendance(attendanceDAO.getAllNonAttendanceForASpecificStudent(student.getID()));
         }
@@ -89,12 +104,13 @@ public class AttendanceAutomationDAOFacade {
      *
      * @param schoolClassID
      */
-    private void addStudentsInSchoolClass(int schoolClassID) {
+    private List<Student> getStudentsInSchoolClass(int schoolClassID) {
         try {
-            schoolClass.addAllStudents(studentDAO.getAllSchoolClassStudentsFromSpecificSchoolClass(schoolClassID));
+            return studentDAO.getAllSchoolClassStudentsFromSpecificSchoolClass(schoolClassID);
         } catch (SQLException ex) {
             Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return null;
     }
 
     /**

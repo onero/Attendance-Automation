@@ -7,7 +7,9 @@ package attendanceautomation.bll;
 
 import attendanceautomation.be.NonAttendance;
 import attendanceautomation.be.SchoolClass;
+import attendanceautomation.be.Student;
 import attendanceautomation.dal.AttendanceAutomationDAOFacade;
+import java.util.List;
 
 public class SchoolClassManager {
 
@@ -24,6 +26,15 @@ public class SchoolClassManager {
 
     private SchoolClassManager() {
         AADAOFacade = AttendanceAutomationDAOFacade.getInstance();
+    }
+
+    /**
+     * Get the updated studentInfo from DB
+     *
+     * @return
+     */
+    public List<Student> getUpdatedStudents() {
+        return AADAOFacade.getUpdatedStudentInfo();
     }
 
     /**

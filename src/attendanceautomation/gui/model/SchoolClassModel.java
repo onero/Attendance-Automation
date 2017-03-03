@@ -40,9 +40,17 @@ public class SchoolClassModel {
         loadDataFromDB();
     }
 
+    /**
+     * Load newest data from DB
+     */
     private void loadDataFromDB() {
         currentSchoolClass = schoolClassManager.getAllSchoolClassDataForSpecificSchoolClass(1);
         students.addAll(currentSchoolClass.getStudents());
+    }
+
+    public void updateStudentInfo() {
+        students.clear();
+        students.addAll(schoolClassManager.getUpdatedStudents());
     }
 
     /**

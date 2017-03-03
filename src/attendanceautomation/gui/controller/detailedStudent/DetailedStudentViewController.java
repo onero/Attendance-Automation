@@ -64,6 +64,7 @@ public class DetailedStudentViewController implements Initializable {
      * @param selectedStudent
      */
     public void setCurrentStudent(Student selectedStudent) {
+//        SchoolClassModel.getInstance().updateStudentInfo();
         StudentInformationTopViewController.getInstance().setStudentInfo(selectedStudent);
         StudentAttendanceInformationViewController controller = attendanceLoader.getController();
         controller.createSubjectView(selectedStudent);

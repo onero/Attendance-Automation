@@ -58,7 +58,7 @@ public class WhiteComponentHolderController implements Initializable {
      * Sets the node at the top of the borderPane.
      * @param node 
      */
-    public void setBoderPaneTop(Node node){
+    public void setBorderPaneTop(Node node){
         borderPane.setTop(node);
     }
     

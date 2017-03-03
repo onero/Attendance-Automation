@@ -16,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 
 /**
@@ -32,6 +33,8 @@ public class RootViewController implements Initializable {
     private Node MAIN_VIEW;
     private Node ALL_STUDENTS_VIEW;
     private Node DETAILED_STUDENT_VIEW;
+    private Node LOGIN_VIEW;
+    private Node LOGOUT_VIEW;
 
     private Node SEARCH_BAR;
     private Node ComboBox;
@@ -44,18 +47,24 @@ public class RootViewController implements Initializable {
     public static RootViewController getInstance() {
         return instance;
     }
+    @FXML
+    private Button startButton;
+    @FXML
+    private Button allStudentsButton;
 
     public RootViewController() {
         try {
             MAIN_VIEW = createMainView();
             ALL_STUDENTS_VIEW = createAllStudents();
             DETAILED_STUDENT_VIEW = createDetailedStudentView();
+            LOGIN_VIEW = createLoginView();
+            LOGOUT_VIEW = createLogoutView();
 
             SEARCH_BAR = createSearchBarNode();
 //            ComboBox = createComboBox();
             SEARCH_COMBO_HOLDER = createSearchComboHolder();
-            WHITE_COMPONENT_HOLDER_VIEW = createWhiteComponentHolderView();
             EMPTY_TOP_BAR = createEmptyTopBar();
+            WHITE_COMPONENT_HOLDER_VIEW = createWhiteComponentHolderView();
         } catch (IOException ex) {
             System.out.println("MainView not loaded! " + ex);
         }
@@ -65,6 +74,7 @@ public class RootViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         instance = this;
         borderPane.setCenter(WHITE_COMPONENT_HOLDER_VIEW);
+        hideBottomButtons();
     }
 
     /**
@@ -104,6 +114,24 @@ public class RootViewController implements Initializable {
     }
 
     /**
+     * Creates the LoginView and sets it's RootViewController.
+     *
+     * @return
+     * @throws IOException
+     */
+    private Node createLoginView() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.LOGIN_VIEW.toString()));
+        Node node = loader.load();
+        return node;
+    }
+
+    private Node createLogoutView() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.LOGOUT_VIEW.toString()));
+        Node node = loader.load();
+        return node;
+    }
+
+    /**
      * In the WhiteComponentController. Sets the center and the topView.
      *
      * @param event
@@ -118,7 +146,7 @@ public class RootViewController implements Initializable {
             System.out.println(ex);
         }
         whiteComponentHolderController.setBorderPaneCenter(ALL_STUDENTS_VIEW);
-        whiteComponentHolderController.setBoderPaneTop(SEARCH_COMBO_HOLDER);
+        whiteComponentHolderController.setBorderPaneTop(SEARCH_COMBO_HOLDER);
     }
 
     /**
@@ -127,19 +155,29 @@ public class RootViewController implements Initializable {
      * @param event
      */
     @FXML
-    private void handleStartView(ActionEvent event) {
+    public void handleStartView(ActionEvent event) {
         whiteComponentHolderController.setBorderPaneCenter(MAIN_VIEW);
-        whiteComponentHolderController.setBoderPaneTop(SEARCH_COMBO_HOLDER);
+        whiteComponentHolderController.setBorderPaneTop(SEARCH_COMBO_HOLDER);
     }
 
     /**
      * Sets the node to be the detailed student view
      *
-     * @param selectedStudent
+     * selectedStudent
      */
     public void selectDetailedStudentView() {
         whiteComponentHolderController.setBorderPaneCenter(DETAILED_STUDENT_VIEW);
-        whiteComponentHolderController.setBoderPaneTop(EMPTY_TOP_BAR);
+        whiteComponentHolderController.setBorderPaneTop(EMPTY_TOP_BAR);
+    }
+
+    /**
+     * Returns the user to the login page.
+     */
+    public void logout() {
+        whiteComponentHolderController.setBorderPaneCenter(LOGIN_VIEW);
+        whiteComponentHolderController.setBorderPaneTop(EMPTY_TOP_BAR);
+        hideBottomButtons();
+
     }
 
     /**
@@ -153,8 +191,9 @@ public class RootViewController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.WHITE_COMPONENT_HOLDER.toString()));
         Node node = loader.load();
         whiteComponentHolderController = loader.getController();
-        whiteComponentHolderController.setBoderPaneTop(SEARCH_COMBO_HOLDER);
-        whiteComponentHolderController.setBorderPaneCenter(MAIN_VIEW);
+        whiteComponentHolderController.setBorderPaneRight(LOGOUT_VIEW);
+        whiteComponentHolderController.setBorderPaneTop(EMPTY_TOP_BAR);
+        whiteComponentHolderController.setBorderPaneCenter(LOGIN_VIEW);
         return node;
     }
 
@@ -195,6 +234,7 @@ public class RootViewController implements Initializable {
         controller.setBorderPaneLeft(SEARCH_BAR);
         //Removed until need be!
 //        controller.setBorderPaneRight(ComboBox);
+        controller.setBorderPaneCenter(LOGOUT_VIEW);
         return node;
     }
 
@@ -208,6 +248,27 @@ public class RootViewController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.COMPONENTS_HOLDER_VIEW.toString()));
         Node node = loader.load();
         return node;
+
     }
 
+    /**
+     * Makes it so that you can see and use the buttons in the bottom bar.
+     */
+    public void ShowBottomButtons() {
+        startButton.setDisable(false);
+        startButton.setVisible(true);
+        allStudentsButton.setDisable(false);
+        allStudentsButton.setVisible(true);
+    }
+
+    /**
+     * "Clears" the bottom bar so that you can't see or click the buttons before
+     * you're logged in.
+     */
+    private void hideBottomButtons() {
+        startButton.setDisable(true);
+        startButton.setVisible(false);
+        allStudentsButton.setDisable(true);
+        allStudentsButton.setVisible(false);
+    }
 }

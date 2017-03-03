@@ -19,11 +19,11 @@ public class AttendanceAutomationMain extends Application {
 
     public static final String FOLDER = "/attendanceautomation/gui/view/";
     private final String ATTENDANCE_AUTOMATION_MAIN = "gui/view/RootView.fxml";
+//    private final String LOGIN = "gui/view/LoginView.fxml";
 
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource(ATTENDANCE_AUTOMATION_MAIN));
-
         Scene scene = new Scene(root);
 
         stage.setScene(scene);
@@ -36,5 +36,7 @@ public class AttendanceAutomationMain extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+    
+    
 
 }

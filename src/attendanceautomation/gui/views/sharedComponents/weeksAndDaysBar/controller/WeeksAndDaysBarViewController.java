@@ -56,17 +56,26 @@ public class WeeksAndDaysBarViewController implements Initializable {
     public void setWidth(int widthMonth, int widthWeek) {
         lblMonth.setPrefWidth(widthMonth);
         lblMonth.setMinWidth(widthMonth);
+        lblMonth.setMaxWidth(widthMonth);
 
         lblWeek1.setPrefWidth(widthWeek);
         lblWeek2.setPrefWidth(widthWeek);
         lblWeek3.setPrefWidth(widthWeek);
+        lblWeek4.setPrefWidth(widthWeek);
 
         lblWeek1.setMinWidth(widthWeek);
         lblWeek2.setMinWidth(widthWeek);
         lblWeek3.setMinWidth(widthWeek);
+        lblWeek4.setMinWidth(widthWeek);
+
+        lblWeek1.setMaxWidth(widthWeek);
+        lblWeek2.setMaxWidth(widthWeek);
+        lblWeek3.setMaxWidth(widthWeek);
+        lblWeek4.setMaxWidth(widthWeek);
 
         fillerLabel.setPrefWidth(widthMonth);
         fillerLabel.setMinWidth(widthMonth);
+        fillerLabel.setMaxWidth(widthMonth);
 
         daysWeek1.setPrefWidth(widthWeek);
         daysWeek2.setPrefWidth(widthWeek);
@@ -77,6 +86,11 @@ public class WeeksAndDaysBarViewController implements Initializable {
         daysWeek2.setMinWidth(widthWeek);
         daysWeek3.setMinWidth(widthWeek);
         daysWeek4.setMinWidth(widthWeek);
+
+        daysWeek1.setMaxWidth(widthWeek);
+        daysWeek2.setMaxWidth(widthWeek);
+        daysWeek3.setMaxWidth(widthWeek);
+        daysWeek4.setMaxWidth(widthWeek);
     }
 
     /**

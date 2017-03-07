@@ -40,7 +40,7 @@ public class AttendanceManagerTest {
         //25%
         expectedList.add(new Data("Adam", 25));
         //And 75%
-        expectedList.add(new Data("Ramus", 75));
+        expectedList.add(new Data("Rasmus", 75));
 
         double expResult = expectedList.get(0).getPieValue();
 

@@ -6,6 +6,7 @@
 package attendanceautomation.gui.views.rootView.controller;
 
 import attendanceautomation.be.enums.EFXMLNames;
+import attendanceautomation.gui.model.SchoolClassModel;
 import attendanceautomation.gui.views.sharedComponents.componentsHolder.controller.ComponentsHolderViewController;
 import attendanceautomation.gui.views.sharedComponents.searchView.controller.SearchViewController;
 import attendanceautomation.gui.views.sharedComponents.whiteComponentHolder.controller.WhiteComponentHolderController;
@@ -141,6 +142,7 @@ public class RootViewController implements Initializable {
     @FXML
     private void handleAllStudentsButton(ActionEvent event) {
         //Recreate allStudentsView to ensure updated view with NonAttendance
+        SchoolClassModel.getInstance().sortStudentsOnName();
         try {
 //            SchoolClassModel.getInstance().updateStudentInfo();
             createAllStudents();

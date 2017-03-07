@@ -7,10 +7,10 @@ package attendanceautomation.gui.views.main.controller;
 
 import attendanceautomation.be.Student;
 import attendanceautomation.be.enums.EFXMLNames;
-import attendanceautomation.gui.views.rootView.controller.RootViewController;
-import attendanceautomation.gui.views.detailedStudent.controller.DetailedStudentViewController;
 import attendanceautomation.gui.controls.StudentListViewCell;
 import attendanceautomation.gui.model.SchoolClassModel;
+import attendanceautomation.gui.views.detailedStudent.controller.DetailedStudentViewController;
+import attendanceautomation.gui.views.rootView.controller.RootViewController;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;

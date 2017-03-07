@@ -9,10 +9,11 @@ import attendanceautomation.be.SchoolClass;
 import attendanceautomation.be.SchoolSemesterSubject;
 import attendanceautomation.be.Student;
 import attendanceautomation.be.enums.EFXMLNames;
+import attendanceautomation.gui.model.SchemaModel;
 import attendanceautomation.gui.model.SchoolClassModel;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Calendar;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,11 +43,14 @@ public class StudentAttendanceInformationViewController implements Initializable
 
     private final SchoolClassModel schoolClassModel;
 
+    private final SchemaModel schemaModel;
+
     private final SchoolClass schoolClass;
 
     public StudentAttendanceInformationViewController() {
         schoolClassModel = SchoolClassModel.getInstance();
         schoolClass = schoolClassModel.getCurrentSchoolClass();
+        schemaModel = new SchemaModel();
     }
 
     /**
@@ -123,43 +127,41 @@ public class StudentAttendanceInformationViewController implements Initializable
      * @throws IOException
      */
     private void fillSubjectHboxWithCheckBoxes(HBox subjectHBox, SchoolSemesterSubject semesterSubject) throws IOException {
-        Calendar dayOfFirstWeekFebruary = Calendar.getInstance();
-        dayOfFirstWeekFebruary.set(Calendar.YEAR, 2017);
-        dayOfFirstWeekFebruary.set(Calendar.MONTH, Calendar.FEBRUARY);
-        dayOfFirstWeekFebruary.setFirstDayOfWeek(Calendar.MONDAY);
-        dayOfFirstWeekFebruary.set(Calendar.WEEK_OF_MONTH, 1);
-        dayOfFirstWeekFebruary.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+//        Calendar dayOfFirstWeekFebruary = Calendar.getInstance();
+//        dayOfFirstWeekFebruary.set(Calendar.YEAR, 2017);
+//        dayOfFirstWeekFebruary.set(Calendar.MONTH, Calendar.FEBRUARY);
+//        dayOfFirstWeekFebruary.setFirstDayOfWeek(Calendar.MONDAY);
+//        dayOfFirstWeekFebruary.set(Calendar.WEEK_OF_MONTH, 1);
+//        dayOfFirstWeekFebruary.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
 
-        subjectHBox.getChildren().add(createSubjectCheckBoxes(dayOfFirstWeekFebruary, semesterSubject));
+        subjectHBox.getChildren().add(createSubjectCheckBoxes(schemaModel.getFirstWeekFebruary(), semesterSubject));
         subjectHBox.getChildren().add(createFillerLabel());
 
-        Calendar dayOfFirstWeekFebruary1 = Calendar.getInstance();
-        dayOfFirstWeekFebruary1.set(Calendar.YEAR, 2017);
-        dayOfFirstWeekFebruary1.set(Calendar.MONTH, Calendar.FEBRUARY);
-        dayOfFirstWeekFebruary1.setFirstDayOfWeek(Calendar.MONDAY);
-        dayOfFirstWeekFebruary1.set(Calendar.WEEK_OF_MONTH, 2);
-        dayOfFirstWeekFebruary1.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-
-        subjectHBox.getChildren().add(createSubjectCheckBoxes(dayOfFirstWeekFebruary1, semesterSubject));
+//        Calendar dayOfFirstWeekFebruary1 = Calendar.getInstance();
+//        dayOfFirstWeekFebruary1.set(Calendar.YEAR, 2017);
+//        dayOfFirstWeekFebruary1.set(Calendar.MONTH, Calendar.FEBRUARY);
+//        dayOfFirstWeekFebruary1.setFirstDayOfWeek(Calendar.MONDAY);
+//        dayOfFirstWeekFebruary1.set(Calendar.WEEK_OF_MONTH, 2);
+//        dayOfFirstWeekFebruary1.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        subjectHBox.getChildren().add(createSubjectCheckBoxes(schemaModel.getSecondWeekFebruary(), semesterSubject));
         subjectHBox.getChildren().add(createFillerLabel());
-        Calendar dayOfFirstWeekFebruary2 = Calendar.getInstance();
-        dayOfFirstWeekFebruary2.set(Calendar.YEAR, 2017);
-        dayOfFirstWeekFebruary2.set(Calendar.MONTH, Calendar.FEBRUARY);
-        dayOfFirstWeekFebruary2.setFirstDayOfWeek(Calendar.MONDAY);
-        dayOfFirstWeekFebruary2.set(Calendar.WEEK_OF_MONTH, 3);
-        dayOfFirstWeekFebruary2.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+//        Calendar dayOfFirstWeekFebruary2 = Calendar.getInstance();
+//        dayOfFirstWeekFebruary2.set(Calendar.YEAR, 2017);
+//        dayOfFirstWeekFebruary2.set(Calendar.MONTH, Calendar.FEBRUARY);
+//        dayOfFirstWeekFebruary2.setFirstDayOfWeek(Calendar.MONDAY);
+//        dayOfFirstWeekFebruary2.set(Calendar.WEEK_OF_MONTH, 3);
+//        dayOfFirstWeekFebruary2.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
 
-        subjectHBox.getChildren().add(createSubjectCheckBoxes(dayOfFirstWeekFebruary2, semesterSubject));
+        subjectHBox.getChildren().add(createSubjectCheckBoxes(schemaModel.getThirdWeekFebruary(), semesterSubject));
         subjectHBox.getChildren().add(createFillerLabel());
 
-        Calendar dayOfFirstWeekFebruary3 = Calendar.getInstance();
-        dayOfFirstWeekFebruary3.set(Calendar.YEAR, 2017);
-        dayOfFirstWeekFebruary3.set(Calendar.MONTH, Calendar.FEBRUARY);
-        dayOfFirstWeekFebruary3.setFirstDayOfWeek(Calendar.MONDAY);
-        dayOfFirstWeekFebruary3.set(Calendar.WEEK_OF_MONTH, 4);
-        dayOfFirstWeekFebruary3.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-
-        subjectHBox.getChildren().add(createSubjectCheckBoxes(dayOfFirstWeekFebruary3, semesterSubject));
+//        Calendar dayOfFirstWeekFebruary3 = Calendar.getInstance();
+//        dayOfFirstWeekFebruary3.set(Calendar.YEAR, 2017);
+//        dayOfFirstWeekFebruary3.set(Calendar.MONTH, Calendar.FEBRUARY);
+//        dayOfFirstWeekFebruary3.setFirstDayOfWeek(Calendar.MONDAY);
+//        dayOfFirstWeekFebruary3.set(Calendar.WEEK_OF_MONTH, 4);
+//        dayOfFirstWeekFebruary3.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        subjectHBox.getChildren().add(createSubjectCheckBoxes(schemaModel.getLastWeekFebruary(), semesterSubject));
         subjectHBox.getChildren().add(createFillerLabel());
     }
 
@@ -175,65 +177,61 @@ public class StudentAttendanceInformationViewController implements Initializable
         //add checkboxes to the HBox
 
         //TODO ALH: Recreate as array with SchoolWeeks!
-        Calendar dayOfFirstWeekFebruary = Calendar.getInstance();
-        dayOfFirstWeekFebruary.set(Calendar.YEAR, 2017);
-        dayOfFirstWeekFebruary.set(Calendar.MONTH, Calendar.FEBRUARY);
-        dayOfFirstWeekFebruary.setFirstDayOfWeek(Calendar.MONDAY);
-        dayOfFirstWeekFebruary.set(Calendar.WEEK_OF_MONTH, 1);
-        dayOfFirstWeekFebruary.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-
-        HBox.getChildren().add(createWeekCheckBoxes(dayOfFirstWeekFebruary));
+//        Calendar dayOfFirstWeekFebruary = Calendar.getInstance();
+//        dayOfFirstWeekFebruary.set(Calendar.YEAR, 2017);
+//        dayOfFirstWeekFebruary.set(Calendar.MONTH, Calendar.FEBRUARY);
+//        dayOfFirstWeekFebruary.setFirstDayOfWeek(Calendar.MONDAY);
+//        dayOfFirstWeekFebruary.set(Calendar.WEEK_OF_MONTH, 1);
+//        dayOfFirstWeekFebruary.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        HBox.getChildren().add(createWeekCheckBoxes(schemaModel.getFirstWeekFebruary()));
         HBox.getChildren().add(createFillerLabel());
 
-        Calendar dayOfFirstWeekFebruary1 = Calendar.getInstance();
-        dayOfFirstWeekFebruary1.set(Calendar.YEAR, 2017);
-        dayOfFirstWeekFebruary1.set(Calendar.MONTH, Calendar.FEBRUARY);
-        dayOfFirstWeekFebruary1.setFirstDayOfWeek(Calendar.MONDAY);
-        dayOfFirstWeekFebruary1.set(Calendar.WEEK_OF_MONTH, 2);
-        dayOfFirstWeekFebruary1.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-
-        HBox.getChildren().add(createWeekCheckBoxes(dayOfFirstWeekFebruary1));
+//        Calendar dayOfFirstWeekFebruary1 = Calendar.getInstance();
+//        dayOfFirstWeekFebruary1.set(Calendar.YEAR, 2017);
+//        dayOfFirstWeekFebruary1.set(Calendar.MONTH, Calendar.FEBRUARY);
+//        dayOfFirstWeekFebruary1.setFirstDayOfWeek(Calendar.MONDAY);
+//        dayOfFirstWeekFebruary1.set(Calendar.WEEK_OF_MONTH, 2);
+//        dayOfFirstWeekFebruary1.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        HBox.getChildren().add(createWeekCheckBoxes(schemaModel.getSecondWeekFebruary()));
         HBox.getChildren().add(createFillerLabel());
 
-        Calendar dayOfFirstWeekFebruary2 = Calendar.getInstance();
-        dayOfFirstWeekFebruary2.set(Calendar.YEAR, 2017);
-        dayOfFirstWeekFebruary2.set(Calendar.MONTH, Calendar.FEBRUARY);
-        dayOfFirstWeekFebruary2.setFirstDayOfWeek(Calendar.MONDAY);
-        dayOfFirstWeekFebruary2.set(Calendar.WEEK_OF_MONTH, 3);
-        dayOfFirstWeekFebruary2.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-
-        HBox.getChildren().add(createWeekCheckBoxes(dayOfFirstWeekFebruary2));
+//        Calendar dayOfFirstWeekFebruary2 = Calendar.getInstance();
+//        dayOfFirstWeekFebruary2.set(Calendar.YEAR, 2017);
+//        dayOfFirstWeekFebruary2.set(Calendar.MONTH, Calendar.FEBRUARY);
+//        dayOfFirstWeekFebruary2.setFirstDayOfWeek(Calendar.MONDAY);
+//        dayOfFirstWeekFebruary2.set(Calendar.WEEK_OF_MONTH, 3);
+//        dayOfFirstWeekFebruary2.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        HBox.getChildren().add(createWeekCheckBoxes(schemaModel.getThirdWeekFebruary()));
         HBox.getChildren().add(createFillerLabel());
 
-        Calendar dayOfFirstWeekFebruary3 = Calendar.getInstance();
-        dayOfFirstWeekFebruary3.set(Calendar.YEAR, 2017);
-        dayOfFirstWeekFebruary3.set(Calendar.MONTH, Calendar.FEBRUARY);
-        dayOfFirstWeekFebruary3.setFirstDayOfWeek(Calendar.MONDAY);
-        dayOfFirstWeekFebruary3.set(Calendar.WEEK_OF_MONTH, 4);
-        dayOfFirstWeekFebruary3.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-
-        HBox.getChildren().add(createWeekCheckBoxes(dayOfFirstWeekFebruary3));
+//        Calendar dayOfFirstWeekFebruary3 = Calendar.getInstance();
+//        dayOfFirstWeekFebruary3.set(Calendar.YEAR, 2017);
+//        dayOfFirstWeekFebruary3.set(Calendar.MONTH, Calendar.FEBRUARY);
+//        dayOfFirstWeekFebruary3.setFirstDayOfWeek(Calendar.MONDAY);
+//        dayOfFirstWeekFebruary3.set(Calendar.WEEK_OF_MONTH, 4);
+//        dayOfFirstWeekFebruary3.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        HBox.getChildren().add(createWeekCheckBoxes(schemaModel.getLastWeekFebruary()));
     }
 
     /**
      * Creates a ParentCheckBoxView
      */
-    private Node createWeekCheckBoxes(Calendar startDate) throws IOException {
+    private Node createWeekCheckBoxes(List<Integer> week) throws IOException {
         FXMLLoader weekCheckBoxLoader = new FXMLLoader(getClass().getResource(EFXMLNames.WEEK_CHECK_BOX_VIEW.toString()));
         Node node = weekCheckBoxLoader.load();
         WeekCheckBoxViewController controller = weekCheckBoxLoader.getController();
-        controller.setWeekData(student, startDate);
+        controller.setWeekData(student, week);
         return node;
     }
 
     /**
      * Creates a ParentCheckBoxView
      */
-    private Node createSubjectCheckBoxes(Calendar startCal, SchoolSemesterSubject semesterSubject) throws IOException {
+    private Node createSubjectCheckBoxes(List<Integer> week, SchoolSemesterSubject semesterSubject) throws IOException {
         FXMLLoader weekCheckBoxLoader = new FXMLLoader(getClass().getResource(EFXMLNames.WEEK_CHECK_BOX_VIEW.toString()));
         Node node = weekCheckBoxLoader.load();
         WeekCheckBoxViewController controller = weekCheckBoxLoader.getController();
-        controller.setSubjectWeekData(student, startCal, semesterSubject);
+        controller.setSubjectWeekData(student, week, semesterSubject);
         return node;
     }
 

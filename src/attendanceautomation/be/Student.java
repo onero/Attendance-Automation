@@ -7,7 +7,6 @@ package attendanceautomation.be;
 
 import attendanceautomation.bll.AttendanceManager;
 import attendanceautomation.gui.model.PieChartModel;
-import attendanceautomation.gui.model.SchoolClassModel;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.beans.property.DoubleProperty;
@@ -113,7 +112,6 @@ public class Student {
         nonAttendance.add(newNonAttendance);
         updateNonAttendancePercentage();
         PieChartModel.getInstance().checkIfStudentIsInChart(this);
-        SchoolClassModel.getInstance().sortStudentsOnAttendance();
     }
 
     public void addAllNonAttendance(List<NonAttendance> allNonAttendance) {
@@ -134,7 +132,6 @@ public class Student {
         }
         updateNonAttendancePercentage();
         PieChartModel.getInstance().checkIfStudentIsInChart(this);
-        SchoolClassModel.getInstance().sortStudentsOnAttendance();
     }
 
     /**

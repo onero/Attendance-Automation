@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="attendanceautomation.gui.views.sharedComponents.weeksAndDaysBar.controller.WeeksAndDaysBarViewController">
+   <center>
+      <HBox BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="lblWeek1" text="Week 1">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <padding>
+                  <Insets right="0.0" />
+               </padding></Label>
+            <Label fx:id="lblWeek2" text="Week 2">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <padding>
+                  <Insets right="0.0" />
+               </padding></Label>
+            <Label fx:id="lblWeek3" text="Week 3">
+               <padding>
+                  <Insets right="0.0" />
+               </padding></Label>
+            <Label fx:id="lblWeek4" text="Week 4">
+               <padding>
+                  <Insets right="0.0" />
+               </padding></Label>
+         </children>
+      </HBox>
+   </center>
+   <left>
+      <Label fx:id="lblMonth" text="Month" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets left="10.0" right="0.0" />
+         </BorderPane.margin></Label>
+   </left>
+</BorderPane>

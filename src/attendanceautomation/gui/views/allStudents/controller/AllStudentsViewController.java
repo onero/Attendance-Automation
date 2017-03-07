@@ -7,6 +7,7 @@ package attendanceautomation.gui.views.allStudents.controller;
 
 import attendanceautomation.be.enums.EFXMLNames;
 import attendanceautomation.gui.model.SchoolClassModel;
+import attendanceautomation.gui.views.sharedComponents.weeksAndDaysBar.controller.WeeksAndDaysBarViewController;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -31,10 +32,13 @@ public class AllStudentsViewController implements Initializable {
 
     private SchoolClassModel schoolClassModel;
 
+    private Node weeksAndDaysBar;
+
     public AllStudentsViewController() {
         schoolClassModel = SchoolClassModel.getInstance();
         try {
             LIST_VIEW = createListView();
+            weeksAndDaysBar = createWeeksAndDaysBar();
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
@@ -50,6 +54,7 @@ public class AllStudentsViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         borderPane.setCenter(LIST_VIEW);
+        borderPane.setTop(weeksAndDaysBar);
     }
 
     /**
@@ -80,4 +85,14 @@ public class AllStudentsViewController implements Initializable {
 //        controller.setBorderPaneLeft(SEARCH_VIEW);
 //        return node;
 //    }
+
+    private Node createWeeksAndDaysBar() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.WEEK_AND_DAYS_BAR.toString()));
+        Node node = loader.load();
+
+        WeeksAndDaysBarViewController controller = loader.getController();
+        controller.setWidth(150, 190);
+        controller.setFebruary();
+        return node;
+    }
 }

@@ -8,6 +8,7 @@ package attendanceautomation.gui.views.detailedStudent.controller;
 import attendanceautomation.be.Student;
 import attendanceautomation.be.enums.EFXMLNames;
 import attendanceautomation.gui.views.sharedComponents.studentAttendanceInformation.controller.StudentAttendanceInformationViewController;
+import attendanceautomation.gui.views.sharedComponents.weeksAndDaysBar.controller.WeeksAndDaysBarViewController;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -33,6 +34,8 @@ public class DetailedStudentViewController implements Initializable {
 
     private Node studentAttendanceInformationCenterView;
 
+    private Node weeksAndDaysBar;
+
     private FXMLLoader attendanceLoader;
 
     public static DetailedStudentViewController getInstance() {
@@ -44,6 +47,7 @@ public class DetailedStudentViewController implements Initializable {
         try {
             studentInformationTopView = createTopView();
             studentAttendanceInformationCenterView = createCenterView();
+            weeksAndDaysBar = createWeeksAndDaysBar();
         } catch (IOException e) {
             System.out.println("Couldn't create topView " + e);
         }
@@ -55,7 +59,8 @@ public class DetailedStudentViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         borderPane.setTop(studentInformationTopView);
-        borderPane.setCenter(studentAttendanceInformationCenterView);
+        borderPane.setCenter(weeksAndDaysBar);
+        borderPane.setBottom(studentAttendanceInformationCenterView);
     }
 
     /**
@@ -91,6 +96,15 @@ public class DetailedStudentViewController implements Initializable {
     private Node createCenterView() throws IOException {
         attendanceLoader = new FXMLLoader(getClass().getResource(EFXMLNames.STUDENTS_ATTENDANCE_INFORMATION.toString()));
         Node node = attendanceLoader.load();
+        return node;
+    }
+
+    private Node createWeeksAndDaysBar() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.WEEK_AND_DAYS_BAR.toString()));
+        Node node = loader.load();
+        WeeksAndDaysBarViewController controller = loader.getController();
+        controller.setWidth(140, 190);
+        controller.setFebruary();
         return node;
     }
 

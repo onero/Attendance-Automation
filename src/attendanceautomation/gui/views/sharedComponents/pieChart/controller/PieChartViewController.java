@@ -27,10 +27,10 @@ public class PieChartViewController implements Initializable {
 
     private final ObservableList<Data> pieChartData;
 
-    private final PieChartModel attendanceModel;
+    private final PieChartModel pieChartModel;
 
     public PieChartViewController() {
-        attendanceModel = PieChartModel.getInstance();
+        pieChartModel = PieChartModel.getInstance();
         pieChartData = FXCollections.observableArrayList();
     }
 
@@ -49,7 +49,7 @@ public class PieChartViewController implements Initializable {
      */
     public void setData() {
         pieChartData.clear();
-        pieChartData.addAll(attendanceModel.getPieChartData());
+        pieChartData.addAll(pieChartModel.getPieChartData());
 
         displayDataInformationOnChart();
 

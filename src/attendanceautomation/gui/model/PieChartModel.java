@@ -19,9 +19,9 @@ public class PieChartModel {
 
     private final AttendanceManager attendanceManager;
 
-    private ArrayList<Data> pieChartData;
+    private final ArrayList<Data> pieChartData;
 
-    private ObservableList<Data> computedPieChartData;
+    private final ObservableList<Data> computedPieChartData;
 
     public static PieChartModel getInstance() {
         if (instance == null) {

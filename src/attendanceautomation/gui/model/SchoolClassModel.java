@@ -46,6 +46,7 @@ public class SchoolClassModel {
     private void loadDataFromDB() {
         currentSchoolClass = schoolClassManager.getAllSchoolClassDataForSpecificSchoolClass(1);
         students.addAll(currentSchoolClass.getStudents());
+        sortStudentsOnAttendance();
     }
 
     public void updateStudentInfo() {

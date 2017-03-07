@@ -14,7 +14,6 @@ import attendanceautomation.gui.model.SchoolClassModel;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -108,14 +107,14 @@ public class WeekCheckBoxViewController implements Initializable {
      */
     private void createCheckBoxesForTheSubjectForEachDayInCurrentWeek(List<Integer> week, SchoolSemesterSubject subject) {
         //For each schoolday in the schoolweek
-        for (int i : week) {
-            getAllLessonOnThisDay(i);
+        for (int day : week) {
+            getAllLessonOnThisDay(day);
             //Create a nice new checkbox (SO WE CAN KEEP TRACK OF STUDENTS!)
             CheckBox newCheckBox = new CheckBox();
             //Start with disabling the checkbox
             newCheckBox.setDisable(true);
             //Set the checkbox visible again if the day contains the subject
-            checkIfLessonIsOnThisDay(subject, newCheckBox, i);
+            checkIfLessonIsOnThisDay(subject, newCheckBox, day);
             //Add the checkbox to the view
             horizontalCheckBoxPane.getChildren().add(newCheckBox);
             //Add the checkbox to our array, so we can keep track of it
@@ -161,30 +160,9 @@ public class WeekCheckBoxViewController implements Initializable {
     }
 
     /**
-     * Sets the Calendar data to be the last day of the current week
-     *
-     * @param startCal
-     * @return
-     */
-    private Calendar setLastDayOfCurrentWeek(Calendar startCal) {
-        Calendar endCal = Calendar.getInstance();
-        //Get year of startDate
-        endCal.set(Calendar.YEAR, startCal.get(1));
-        //Get month of startDate
-        endCal.set(Calendar.MONTH, startCal.get(2));
-        //Make sure that first day of the week is monday!!!
-        endCal.setFirstDayOfWeek(Calendar.MONDAY);
-        //Set the endDate to be on friday the same week
-        //TODO ALH: Research possibility to be more explicit here - Set DAY_OF_WEEK = Friday?
-        endCal.set(Calendar.DAY_OF_MONTH, startCal.get(5) + 4);
-        return endCal;
-    }
-
-    /**
      * Creates checkboxes for each day in the week
      */
     private void populateWeekHBoxWithCheckBoxes(List<Integer> week) throws ParseException {
-
         addACheckBoxForEachDayInCurrentWeek(week);
     }
 
@@ -196,17 +174,17 @@ public class WeekCheckBoxViewController implements Initializable {
      */
     private void addACheckBoxForEachDayInCurrentWeek(List<Integer> week) {
         //For each schoolday in the schoolweek
-        for (int i : week) {
-            getAllLessonOnThisDay(i);
+        for (int day : week) {
+            getAllLessonOnThisDay(day);
             //Create a nice new checkbox (SO WE CAN KEEP TRACK OF STUDENTS!)
             CheckBox newCheckBox = new CheckBox();
             //Check if the student has nonAttendance this day
-            checkDayForStudentNonAttendance(newCheckBox, i);
+            checkDayForStudentNonAttendance(newCheckBox, day);
             //Add the checkbox to the view
             horizontalCheckBoxPane.getChildren().add(newCheckBox);
             //Add the checkbox to our array, so we can keep track of it
             listOfCheckBoxes.add(newCheckBox);
-//            addWeekChangeListenerToCheckBox(newCheckBox, lessonsThisDay);
+            addWeekChangeListenerToCheckBox(newCheckBox, lessonsThisDay);
             //Increase the date we are putting in
 
         }

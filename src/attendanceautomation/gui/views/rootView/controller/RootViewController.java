@@ -163,6 +163,7 @@ public class RootViewController implements Initializable {
     public void handleStartView(ActionEvent event) {
         whiteComponentHolderController.setBorderPaneCenter(MAIN_VIEW);
         searchViewController.showSearchBar(true);
+        SchoolClassModel.getInstance().sortStudentsOnAttendance();
     }
 
     /**

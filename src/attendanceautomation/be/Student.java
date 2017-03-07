@@ -126,8 +126,11 @@ public class Student {
      * @param attendance
      */
     public void removeNonAttendance(NonAttendance attendance) {
-        if (nonAttendance.contains(attendance)) {
-            nonAttendance.remove(attendance);
+        for (NonAttendance nonAttendance1 : nonAttendance) {
+            if (nonAttendance1.getSchoolClassSemesterLesson().getID() == attendance.getSchoolClassSemesterLesson().getID()) {
+                nonAttendance.remove(nonAttendance1);
+                break;
+            }
         }
         updateNonAttendancePercentage();
         PieChartModel.getInstance().checkIfStudentIsInChart(this);

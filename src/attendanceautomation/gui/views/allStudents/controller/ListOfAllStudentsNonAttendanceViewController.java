@@ -7,11 +7,11 @@ package attendanceautomation.gui.views.allStudents.controller;
 
 import attendanceautomation.be.Student;
 import attendanceautomation.be.enums.EFXMLNames;
-import attendanceautomation.gui.views.rootView.controller.RootViewController;
-import attendanceautomation.gui.views.sharedComponents.studentAttendanceInformation.controller.StudentAttendanceInformationViewController;
-import attendanceautomation.gui.views.detailedStudent.controller.DetailedStudentViewController;
 import attendanceautomation.gui.controls.AllStudentsNonAttendanceCell;
 import attendanceautomation.gui.model.SchoolClassModel;
+import attendanceautomation.gui.views.detailedStudent.controller.DetailedStudentViewController;
+import attendanceautomation.gui.views.rootView.controller.RootViewController;
+import attendanceautomation.gui.views.sharedComponents.studentAttendanceInformation.controller.StudentAttendanceInformationViewController;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;

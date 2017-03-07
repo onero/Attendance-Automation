@@ -89,12 +89,10 @@ public class SchoolClassModel {
      * @return students from search
      */
     public ObservableList<Student> getStudentSearchList() {
-        sortStudentsOnAttendance();
         return studentSearchList;
     }
 
     public ObservableList<Student> getStudents() {
-        sortStudentsOnName();
         return students;
     }
 
@@ -102,7 +100,7 @@ public class SchoolClassModel {
      * Sort list on nonAttendance Descending
      */
     public void sortStudentsOnAttendance() {
-        Collections.sort(studentSearchList, (Student o1, Student o2)
+        Collections.sort(students, (Student o1, Student o2)
                 -> (o1.getNonAttendancePercentage().get() < o2.getNonAttendancePercentage().get()) ? 1 : 0);
     }
 

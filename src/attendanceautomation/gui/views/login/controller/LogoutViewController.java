@@ -57,7 +57,7 @@ public class LogoutViewController implements Initializable {
 
             if (type == yesButton) {
                 RootViewController rootViewController = RootViewController.getInstance();
-                rootViewController.logout();
+                rootViewController.handleLogout();
 
             }
         });

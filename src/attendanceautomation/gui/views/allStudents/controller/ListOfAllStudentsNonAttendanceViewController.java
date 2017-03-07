@@ -75,7 +75,7 @@ public class ListOfAllStudentsNonAttendanceViewController implements Initializab
     private void handleOpenStudentDetails(MouseEvent event) {
         //If user double clicks. Switch view
         if (event.getClickCount() == 2) {
-            RootViewController.getInstance().selectDetailedStudentView();
+            RootViewController.getInstance().handleDetailedStudentView();
             Student selectedStudent = listView.getSelectionModel().getSelectedItem();
             DetailedStudentViewController.getInstance().setCurrentStudent(selectedStudent);
         }

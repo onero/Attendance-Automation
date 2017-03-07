@@ -5,8 +5,8 @@
  */
 package attendanceautomation.gui.views.login.controller;
 
-import attendanceautomation.gui.views.rootView.controller.RootViewController;
 import attendanceautomation.gui.model.LoginModel;
+import attendanceautomation.gui.views.rootView.controller.RootViewController;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -32,7 +32,7 @@ public class LoginViewController implements Initializable {
     private Button login;
     @FXML
     private Label errorMessage;
-    
+
     private final LoginModel loginModel;
 
     public LoginViewController() {
@@ -47,29 +47,30 @@ public class LoginViewController implements Initializable {
         errorMessage.setText("");
         userId.setPromptText("Brugernavn");
         password.setPromptText("Password");
-    }    
+    }
 
     /**
-     * Sends a request to the LoginManager for a verification of the user and logs it in, which will 
-     * send it to the AllstudentsView or displays an error message.
-     * @param event 
+     * Sends a request to the LoginManager for a verification of the user and
+     * logs it in, which will send it to the AllstudentsView or displays an
+     * error message.
+     *
+     * @param event
      */
     @FXML
     private void processLogin(ActionEvent event) {
         if (loginModel.verifyLogin(userId.getText(), password.getText())) {
             RootViewController rootViewController = RootViewController.getInstance();
             if (!loginModel.isUserStudent(userId.getText())) {
-                rootViewController.handleStartView(event);
-                rootViewController.ShowBottomButtons();
+                rootViewController.handleLogin();
+                rootViewController.ShowBottomButtons(true);
             } else {
-                rootViewController.selectDetailedStudentView();
+                rootViewController.handleDetailedStudentView();
             }
         } else {
-            errorMessage.setText("Hello " + userId.getText() + " the password is wrong. \nPlease try agian."); 
+            errorMessage.setText("Hello " + userId.getText() + " the password is wrong. \nPlease try agian.");
             //Clears the PasswordField for better usability
             password.clear();
         }
     }
-    
-    
+
 }

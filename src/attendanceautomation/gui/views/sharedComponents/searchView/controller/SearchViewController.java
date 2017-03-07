@@ -7,12 +7,14 @@ package attendanceautomation.gui.views.sharedComponents.searchView.controller;
 
 import attendanceautomation.be.Student;
 import attendanceautomation.gui.model.SchoolClassModel;
+import com.jfoenix.controls.JFXButton;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 
 /**
  * FXML Controller class
@@ -24,10 +26,14 @@ public class SearchViewController implements Initializable {
     @FXML
     private TextField txtSearch;
     private final SchoolClassModel SCModel = SchoolClassModel.getInstance();
+    @FXML
+    private HBox hBoxSearch;
+    @FXML
+    private JFXButton btnClear;
 
     public SearchViewController() {
     }
-    
+
     /**
      * Initializes the controller class.
      */
@@ -37,12 +43,12 @@ public class SearchViewController implements Initializable {
             updateListView(newValue);
         });
     }
-    
+
     @FXML
     private void handleClear(ActionEvent event) {
         txtSearch.clear();
     }
-    
+
     private void updateListView(String value) {
         SCModel.getStudentSearchList().clear();
         for (Student student : SCModel.getStudents()) {
@@ -52,5 +58,11 @@ public class SearchViewController implements Initializable {
         }
     }
 
-    
+    public void showSearchBar(boolean visible) {
+        txtSearch.setDisable(!visible);
+        txtSearch.setVisible(visible);
+        btnClear.setDisable(!visible);
+        btnClear.setVisible(visible);
+    }
+
 }

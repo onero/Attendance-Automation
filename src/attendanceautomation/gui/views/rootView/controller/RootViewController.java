@@ -7,6 +7,7 @@ package attendanceautomation.gui.views.rootView.controller;
 
 import attendanceautomation.be.enums.EFXMLNames;
 import attendanceautomation.gui.views.sharedComponents.componentsHolder.controller.ComponentsHolderViewController;
+import attendanceautomation.gui.views.sharedComponents.searchView.controller.SearchViewController;
 import attendanceautomation.gui.views.sharedComponents.whiteComponentHolder.controller.WhiteComponentHolderController;
 import java.io.IOException;
 import java.net.URL;
@@ -43,6 +44,7 @@ public class RootViewController implements Initializable {
     private Node EMPTY_TOP_BAR;
 
     private WhiteComponentHolderController whiteComponentHolderController;
+    private SearchViewController searchViewController;
 
     public static RootViewController getInstance() {
         return instance;
@@ -74,7 +76,7 @@ public class RootViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         instance = this;
         borderPane.setCenter(WHITE_COMPONENT_HOLDER_VIEW);
-        hideBottomButtons();
+        ShowBottomButtons(false);
     }
 
     /**
@@ -147,7 +149,7 @@ public class RootViewController implements Initializable {
             System.out.println(ex);
         }
         whiteComponentHolderController.setBorderPaneCenter(ALL_STUDENTS_VIEW);
-        whiteComponentHolderController.setBorderPaneTop(SEARCH_COMBO_HOLDER);
+        searchViewController.showSearchBar(true);
     }
 
     /**
@@ -158,7 +160,7 @@ public class RootViewController implements Initializable {
     @FXML
     public void handleStartView(ActionEvent event) {
         whiteComponentHolderController.setBorderPaneCenter(MAIN_VIEW);
-        whiteComponentHolderController.setBorderPaneTop(SEARCH_COMBO_HOLDER);
+        searchViewController.showSearchBar(true);
     }
 
     /**
@@ -166,19 +168,29 @@ public class RootViewController implements Initializable {
      *
      * selectedStudent
      */
-    public void selectDetailedStudentView() {
+    public void handleDetailedStudentView() {
         whiteComponentHolderController.setBorderPaneCenter(DETAILED_STUDENT_VIEW);
-        whiteComponentHolderController.setBorderPaneTop(EMPTY_TOP_BAR);
+        searchViewController.showSearchBar(false);
     }
 
     /**
      * Returns the user to the login page.
      */
-    public void logout() {
+    public void handleLogout() {
         whiteComponentHolderController.setBorderPaneCenter(LOGIN_VIEW);
         whiteComponentHolderController.setBorderPaneTop(EMPTY_TOP_BAR);
-        hideBottomButtons();
+        ShowBottomButtons(false);
 
+    }
+
+    /**
+     * Sends the user to the right screen depending on which user it is. If it's
+     * a teacher he gets sent to the start view if it's a student he will be
+     * sent to the detailed student view.
+     */
+    public void handleLogin() {
+        whiteComponentHolderController.setBorderPaneCenter(MAIN_VIEW);
+        whiteComponentHolderController.setBorderPaneTop(SEARCH_COMBO_HOLDER);
     }
 
     /**
@@ -206,6 +218,7 @@ public class RootViewController implements Initializable {
     private Node createSearchBarNode() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.SEARCH_VIEW.toString()));
         Node node = loader.load();
+        searchViewController = loader.getController();
         return node;
     }
 
@@ -254,21 +267,10 @@ public class RootViewController implements Initializable {
     /**
      * Makes it so that you can see and use the buttons in the bottom bar.
      */
-    public void ShowBottomButtons() {
-        startButton.setDisable(false);
-        startButton.setVisible(true);
-        allStudentsButton.setDisable(false);
-        allStudentsButton.setVisible(true);
-    }
-
-    /**
-     * "Clears" the bottom bar so that you can't see or click the buttons before
-     * you're logged in.
-     */
-    private void hideBottomButtons() {
-        startButton.setDisable(true);
-        startButton.setVisible(false);
-        allStudentsButton.setDisable(true);
-        allStudentsButton.setVisible(false);
+    public void ShowBottomButtons(boolean visible) {
+        startButton.setDisable(!visible);
+        startButton.setVisible(visible);
+        allStudentsButton.setDisable(!visible);
+        allStudentsButton.setVisible(visible);
     }
 }

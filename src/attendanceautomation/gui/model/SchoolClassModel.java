@@ -11,6 +11,7 @@ import attendanceautomation.be.Student;
 import attendanceautomation.bll.SchoolClassManager;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -21,8 +22,8 @@ public class SchoolClassModel {
     private final SchoolClassManager schoolClassManager;
 
     private SchoolClass currentSchoolClass;
+    private final List<Student> studentsFromDB;
     private final ObservableList<Student> students;
-    private final ObservableList<Student> studentSearchList;
     private String searchString;
 
     public static SchoolClassModel getInstance() {
@@ -36,8 +37,8 @@ public class SchoolClassModel {
         schoolClassManager = SchoolClassManager.getInstance();
         searchString = "";
         students = FXCollections.observableArrayList();
-        studentSearchList = FXCollections.observableArrayList();
         loadDataFromDB();
+        studentsFromDB = new ArrayList<>(students);
     }
 
     /**
@@ -89,8 +90,8 @@ public class SchoolClassModel {
      *
      * @return students from search
      */
-    public ObservableList<Student> getStudentSearchList() {
-        return studentSearchList;
+    public List<Student> getStudentsFromDB() {
+        return studentsFromDB;
     }
 
     public ObservableList<Student> getStudents() {
@@ -113,11 +114,6 @@ public class SchoolClassModel {
                 -> (o1.getFullName().compareTo(o2.getFullName())));
     }
 
-    public void setStudents(ArrayList<Student> studentsFromSearch) {
-        students.clear();
-        students.addAll(studentsFromSearch);
-    }
-
     public void setSearchString(String searchString) {
         this.searchString = searchString;
     }
@@ -127,7 +123,7 @@ public class SchoolClassModel {
     }
 
     public void updateStudentsFromSearch(Student student) {
-        studentSearchList.add(student);
+        students.add(student);
     }
 
 }

@@ -50,8 +50,8 @@ public class SearchViewController implements Initializable {
     }
 
     private void updateListView(String value) {
-        SCModel.getStudentSearchList().clear();
-        for (Student student : SCModel.getStudents()) {
+        SCModel.getStudents().clear();
+        for (Student student : SCModel.getStudentsFromDB()) {
             if (student.getFullName().toLowerCase().contains(value.toLowerCase())) {
                 SCModel.updateStudentsFromSearch(student);
             }

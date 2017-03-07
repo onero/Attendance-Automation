@@ -59,11 +59,9 @@ public class ListOfAllStudentsNonAttendanceViewController implements Initializab
     /**
      * Populate the list vith students.
      *
-     * @param model
      */
-    public void setItemsInList(SchoolClassModel model) {
-        //TODO RKL: Add feature to select class.
-        listView.setItems(model.getStudents());
+    public void setItemsInList() {
+        listView.setItems(SchoolClassModel.getInstance().getStudents());
     }
 
     /**

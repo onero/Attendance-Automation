@@ -44,7 +44,7 @@ public class SchoolClassModel {
     /**
      * Load newest data from DB
      */
-    private void loadDataFromDB() {
+    public void loadDataFromDB() {
         currentSchoolClass = schoolClassManager.getAllSchoolClassDataForSpecificSchoolClass(1);
         students.addAll(currentSchoolClass.getStudents());
         sortStudentsOnAttendance();

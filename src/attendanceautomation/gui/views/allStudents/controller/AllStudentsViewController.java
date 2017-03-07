@@ -63,7 +63,7 @@ public class AllStudentsViewController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.LIST_OF_ALL_STUDENTS_NON_ATTENDANCE_VIEW.toString()));
         Node node = loader.load();
         ListOfAllStudentsNonAttendanceViewController controller = loader.getController();
-        controller.setItemsInList(schoolClassModel);
+        controller.setItemsInList();
         return node;
     }
 //

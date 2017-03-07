@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 
 /**
  * FXML Controller class
@@ -28,6 +29,16 @@ public class WeeksAndDaysBarViewController implements Initializable {
     private Label lblWeek3;
     @FXML
     private Label lblWeek4;
+    @FXML
+    private Label fillerLabel;
+    @FXML
+    private HBox daysWeek1;
+    @FXML
+    private HBox daysWeek2;
+    @FXML
+    private HBox daysWeek3;
+    @FXML
+    private HBox daysWeek4;
 
     /**
      * Initializes the controller class.
@@ -37,7 +48,7 @@ public class WeeksAndDaysBarViewController implements Initializable {
     }
 
     /**
-     * Sets the prefered and minnimum width of the label.
+     * Sets the prefered and minnimum width of the labels.
      *
      * @param widthMonth
      * @param widthWeek
@@ -53,6 +64,19 @@ public class WeeksAndDaysBarViewController implements Initializable {
         lblWeek1.setMinWidth(widthWeek);
         lblWeek2.setMinWidth(widthWeek);
         lblWeek3.setMinWidth(widthWeek);
+
+        fillerLabel.setPrefWidth(widthMonth);
+        fillerLabel.setMinWidth(widthMonth);
+
+        daysWeek1.setPrefWidth(widthWeek);
+        daysWeek2.setPrefWidth(widthWeek);
+        daysWeek3.setPrefWidth(widthWeek);
+        daysWeek4.setPrefWidth(widthWeek);
+
+        daysWeek1.setMinWidth(widthWeek);
+        daysWeek2.setMinWidth(widthWeek);
+        daysWeek3.setMinWidth(widthWeek);
+        daysWeek4.setMinWidth(widthWeek);
     }
 
     /**

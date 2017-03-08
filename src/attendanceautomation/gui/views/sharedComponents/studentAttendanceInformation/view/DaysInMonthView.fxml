@@ -7,9 +7,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<HBox fx:id="HBox" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="attendanceautomation.gui.views.sharedComponents.studentAttendanceInformation.controller.DaysInMonthViewController">
+<HBox fx:id="HBox" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="attendanceautomation.gui.views.sharedComponents.studentAttendanceInformation.controller.DaysInMonthViewController">
    <children>
-      <Label fx:id="lblMonth" minWidth="150.0" prefHeight="30.0" prefWidth="84.0" text="Februar">
+      <Label fx:id="lblMonth" minWidth="150.0" prefHeight="30.0" prefWidth="84.0" styleClass="labels" stylesheets="@../../../css/Style.css" text="Februar">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>

@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<BorderPane fx:id="borderPane" prefHeight="630" prefWidth="900" stylesheets="@../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="attendanceautomation.gui.views.rootView.controller.RootViewController">
+<BorderPane fx:id="borderPane" prefHeight="630" prefWidth="900" styleClass="borderPane" stylesheets="@../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="attendanceautomation.gui.views.rootView.controller.RootViewController">
    <bottom>
       <GridPane stylesheets="@../../css/Style.css" BorderPane.alignment="CENTER">
         <columnConstraints>

@@ -46,21 +46,21 @@
             <Label fx:id="fillerLabel" />
             <HBox fx:id="daysWeek1">
                <children>
-                  <Label text="M">
+                  <Label maxWidth="30.0" minWidth="30.0" prefWidth="30.0" text="M">
                      <HBox.margin>
-                        <Insets left="4.0" right="17.0" />
+                        <Insets left="4.0" />
                      </HBox.margin></Label>
-                  <Label text="T">
+                  <Label maxWidth="27.0" minWidth="27.0" prefWidth="27.0" text="T">
                      <HBox.margin>
-                        <Insets right="18.0" />
+                        <Insets />
                      </HBox.margin></Label>
-                  <Label text="O">
+                  <Label maxWidth="29.0" minWidth="29.0" prefWidth="29.0" text="O">
                      <HBox.margin>
-                        <Insets right="17.0" />
+                        <Insets />
                      </HBox.margin></Label>
-                  <Label text="T">
+                  <Label maxWidth="29.0" minWidth="29.0" prefWidth="29.0" text="T">
                      <HBox.margin>
-                        <Insets right="20.0" />
+                        <Insets />
                      </HBox.margin></Label>
                   <Label text="F">
                      <HBox.margin>

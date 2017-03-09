@@ -38,6 +38,8 @@ public class DetailedStudentViewController implements Initializable {
 
     private FXMLLoader attendanceLoader;
 
+    private StudentAttendanceInformationViewController studentAttendanceInfoController;
+
     public static DetailedStudentViewController getInstance() {
         return instance;
     }
@@ -96,6 +98,7 @@ public class DetailedStudentViewController implements Initializable {
     private Node createCenterView() throws IOException {
         attendanceLoader = new FXMLLoader(getClass().getResource(EFXMLNames.STUDENTS_ATTENDANCE_INFORMATION.toString()));
         Node node = attendanceLoader.load();
+        studentAttendanceInfoController = attendanceLoader.getController();
         return node;
     }
 
@@ -106,6 +109,10 @@ public class DetailedStudentViewController implements Initializable {
         controller.setWidth(140, 190);
         controller.setFebruary();
         return node;
+    }
+
+    public StudentAttendanceInformationViewController getStudentAttendanceInfoController() {
+        return studentAttendanceInfoController;
     }
 
 }

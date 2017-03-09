@@ -247,4 +247,8 @@ public class StudentAttendanceInformationViewController implements Initializable
         Node node = loader.load();
         return node;
     }
+
+    public void setAccesRestrictions() {
+        System.out.println("Now the Checkboxes are disabled :D");
+    }
 }

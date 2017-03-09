@@ -216,6 +216,7 @@ public class RootViewController implements Initializable {
             }
         }
         detailedStudentViewController.setCurrentStudent(adam);
+        detailedStudentViewController.getStudentAttendanceInfoController().setAccesRestrictions();
     }
 
     /**

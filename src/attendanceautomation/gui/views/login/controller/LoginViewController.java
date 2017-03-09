@@ -60,10 +60,10 @@ public class LoginViewController implements Initializable {
     private void processLogin(ActionEvent event) {
         if (loginModel.verifyLogin(userId.getText(), password.getText())) {
             RootViewController rootViewController = RootViewController.getInstance();
-            if (!loginModel.isUserStudent(userId.getText())) {
-                rootViewController.handleTeacherLogin();
-            } else {
+            if (loginModel.isUserStudent(userId.getText())) {
                 rootViewController.handleStudentLogin();
+            } else {
+                rootViewController.handleTeacherLogin();
             }
         } else {
             errorMessage.setText("Hello " + userId.getText() + " the password is wrong. \nPlease try agian.");

@@ -120,6 +120,8 @@ public class WeekCheckBoxViewController implements Initializable {
             //Add the checkbox to our array, so we can keep track of it
             listOfCheckBoxes.add(newCheckBox);
             //Increase the date we are putting in
+
+            //Checks if the user is a student, if true disables the checkbox again.
         }
     }
 

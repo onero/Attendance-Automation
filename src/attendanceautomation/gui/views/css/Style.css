@@ -13,9 +13,9 @@ and open the template in the editor.
     -fx-background-image: url("CoarseGrid.png");
     -fx-background-repeat: repeat;
     -fx-background-color:
-        linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),
-        linear-gradient(#20262b, #191d22),
-        radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));
+        linear-gradient(#38424b 0%, #1f2429 100%, #191d22 100%),
+        linear-gradient(#585859, #333333),
+        radial-gradient(center 100% 100%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));
 }
 
 .border{
@@ -29,8 +29,8 @@ and open the template in the editor.
     -fx-background-repeat: repeat;
     -fx-background-color:
         linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),
-        linear-gradient(#20262b, #191d22),
-        radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));
+        linear-gradient(#191616, #050404),
+        radial-gradient(center 80% 60%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));
 }
 
 .whiteBackground{
@@ -102,6 +102,12 @@ and open the template in the editor.
     -fx-font-family: "Arial";
     -fx-text-fill: #fff;
     -fx-effect: dropshadow( one-pass-box , rgba(0, 0, 0, 1), 0, 0.0 , 0 , 1 );
+}
+
+.labelss{
+    -fx-font-family: "Arial";
+    -fx-text-fill: #000000;
+    -fx-effect: dropshadow( one-pass-box , rgba(0, 0, 0, 0.2), 0, 0.0 , 0 , 1 );
 }
 
 #detailLabel{

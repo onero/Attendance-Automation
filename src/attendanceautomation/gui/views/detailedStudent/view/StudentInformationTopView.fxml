@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="rootBorderPane" styleClass="padding" stylesheets="@../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="attendanceautomation.gui.views.detailedStudent.controller.StudentInformationTopViewController">
+<BorderPane fx:id="rootBorderPane" styleClass="padding" stylesheets="@../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="attendanceautomation.gui.views.detailedStudent.controller.StudentInformationTopViewController">
    <left>
       <BorderPane fx:id="studentBorderPane" prefHeight="225.0" prefWidth="250.0" stylesheets="@../../css/Style.css" BorderPane.alignment="CENTER">
          <top>
@@ -18,14 +18,10 @@
                </font>
             </Label>
          </top>
-         <styleClass>
-            <String fx:value="border" />
-            <String fx:value="padding" />
-         </styleClass>
          <center>
-            <Pane prefHeight="143.0" prefWidth="218.0" BorderPane.alignment="CENTER">
+            <Pane prefHeight="143.0" prefWidth="218.0" stylesheets="@../../css/Style.css" BorderPane.alignment="CENTER">
                <children>
-                  <VBox prefHeight="163.0" prefWidth="80.0" spacing="15.0">
+                  <VBox prefHeight="178.0" prefWidth="80.0" spacing="15.0">
                      <children>
                         <Label id="detailLabel" styleClass="labels" text="Email:" />
                         <Label styleClass="labels" text="Tlf:" />
@@ -34,7 +30,7 @@
                         <Label styleClass="labels" text="Klasse:" />
                      </children>
                   </VBox>
-                  <VBox layoutX="74.0" prefHeight="163.0" prefWidth="134.0" spacing="15.0">
+                  <VBox layoutX="74.0" prefHeight="178.0" prefWidth="146.0" spacing="15.0">
                      <children>
                         <Label id="detailLabel" fx:id="lblStudentEmail" styleClass="labels" text="Test@Testesen.dk" />
                         <Label fx:id="lblStudentPhone" styleClass="labels" text="12345678" />
@@ -46,10 +42,14 @@
                </children>
             </Pane>
          </center>
+         <styleClass>
+            <String fx:value="padding" />
+            <String fx:value="studentInfo" />
+         </styleClass>
       </BorderPane>
    </left>
    <center>
-      <BorderPane fx:id="TeacherBorderPane" prefHeight="200.0" prefWidth="225.0" styleClass="border" stylesheets="@../../css/Style.css" BorderPane.alignment="CENTER">
+      <BorderPane fx:id="TeacherBorderPane" prefHeight="200.0" prefWidth="225.0" styleClass="studentInfo" stylesheets="@../../css/Style.css" BorderPane.alignment="CENTER">
          <top>
             <Label styleClass="labels" text="Teachers" BorderPane.alignment="CENTER">
                <font>
@@ -58,7 +58,7 @@
             </Label>
          </top>
          <center>
-            <ListView fx:id="listTeachers" prefHeight="225.0" prefWidth="225.0" styleClass="mainBackground" stylesheets="@../../css/Style.css" BorderPane.alignment="CENTER" />
+            <ListView fx:id="listTeachers" prefHeight="225.0" prefWidth="225.0" styleClass="studentInfo" stylesheets="@../../css/Style.css" BorderPane.alignment="CENTER" />
          </center>
       </BorderPane>
    </center>

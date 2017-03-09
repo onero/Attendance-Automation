@@ -5,8 +5,10 @@
  */
 package attendanceautomation.gui.views.rootView.controller;
 
+import attendanceautomation.be.Student;
 import attendanceautomation.be.enums.EFXMLNames;
 import attendanceautomation.gui.model.SchoolClassModel;
+import attendanceautomation.gui.views.detailedStudent.controller.DetailedStudentViewController;
 import attendanceautomation.gui.views.sharedComponents.componentsHolder.controller.ComponentsHolderViewController;
 import attendanceautomation.gui.views.sharedComponents.searchView.controller.SearchViewController;
 import attendanceautomation.gui.views.sharedComponents.whiteComponentHolder.controller.WhiteComponentHolderController;
@@ -46,6 +48,7 @@ public class RootViewController implements Initializable {
 
     private WhiteComponentHolderController whiteComponentHolderController;
     private SearchViewController searchViewController;
+    private DetailedStudentViewController detailedStudentViewController;
 
     public static RootViewController getInstance() {
         return instance;
@@ -113,6 +116,7 @@ public class RootViewController implements Initializable {
     private Node createDetailedStudentView() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.DETAILED_STUDENT_VIEW.toString()));
         Node node = loader.load();
+        detailedStudentViewController = loader.getController();
         return node;
     }
 
@@ -191,9 +195,27 @@ public class RootViewController implements Initializable {
      * a teacher he gets sent to the start view if it's a student he will be
      * sent to the detailed student view.
      */
-    public void handleLogin() {
+    public void handleTeacherLogin() {
         whiteComponentHolderController.setBorderPaneCenter(MAIN_VIEW);
         whiteComponentHolderController.setBorderPaneTop(SEARCH_COMBO_HOLDER);
+        ShowBottomButtons(true);
+    }
+
+    /**
+     *
+     */
+    public void handleStudentLogin() {
+        whiteComponentHolderController.setBorderPaneCenter(DETAILED_STUDENT_VIEW);
+        whiteComponentHolderController.setBorderPaneTop(SEARCH_COMBO_HOLDER);
+        ShowBottomButtons(false);
+        searchViewController.showSearchBar(false);
+        Student adam = new Student(0, null, null, null);
+        for (Student student : SchoolClassModel.getInstance().getStudents()) {
+            if (student.getFirstName().equals("Adam")) {
+                adam = student;
+            }
+        }
+        detailedStudentViewController.setCurrentStudent(adam);
     }
 
     /**

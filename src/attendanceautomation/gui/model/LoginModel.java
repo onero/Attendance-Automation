@@ -5,38 +5,47 @@
  */
 package attendanceautomation.gui.model;
 
+import attendanceautomation.bll.LoginManager;
+
 /**
  *
  * @author Mathias
  */
 public class LoginModel {
-    
+
     private static LoginModel instance;
-    
-    private final String TEACHER_PASSWORD = "teacher";
-    private final String STUDENT_PASSWORD = "student";
-    private final String STUDENT_USERNAME = "teacheruser";
-    private final String TEACHER_USERNAME = "studentuser";
-    
+    private final LoginManager loginManager;
+
     public static LoginModel getInstance() {
         if (instance == null) {
             instance = new LoginModel();
         }
         return instance;
     }
-    
+
+    public LoginModel() {
+        loginManager = new LoginManager();
+    }
+
     /**
-     * Contacts the LoginManager by sending the  and verifies the user.
+     * Contacts the LoginManager by sending the and verifies the user.
+     *
      * @param username
      * @param password
-     * @return 
+     * @return
      */
     public boolean verifyLogin(String username, String password) {
-        return true;
+        boolean verification = false;
+        if (loginManager.checkIfUserExist(username)) {
+            if (loginManager.validateLoginAttempt(username, password)) {
+                verification = true;
+            }
+        }
+        return verification;
     }
-    
+
     public boolean isUserStudent(String username) {
         return // matches the username with a student via the loginmanager.
-                username.equals(STUDENT_USERNAME);
+                username.equals("adam3964@easv365.dk");
     }
 }

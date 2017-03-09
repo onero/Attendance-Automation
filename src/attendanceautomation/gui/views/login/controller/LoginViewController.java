@@ -61,10 +61,9 @@ public class LoginViewController implements Initializable {
         if (loginModel.verifyLogin(userId.getText(), password.getText())) {
             RootViewController rootViewController = RootViewController.getInstance();
             if (!loginModel.isUserStudent(userId.getText())) {
-                rootViewController.handleLogin();
-                rootViewController.ShowBottomButtons(true);
+                rootViewController.handleTeacherLogin();
             } else {
-                rootViewController.handleDetailedStudentView();
+                rootViewController.handleStudentLogin();
             }
         } else {
             errorMessage.setText("Hello " + userId.getText() + " the password is wrong. \nPlease try agian.");

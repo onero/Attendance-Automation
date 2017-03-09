@@ -47,10 +47,17 @@ public class StudentAttendanceInformationViewController implements Initializable
 
     private final SchoolClass schoolClass;
 
+    private boolean isStudentLogin;
+
     public StudentAttendanceInformationViewController() {
         schoolClassModel = SchoolClassModel.getInstance();
         schoolClass = schoolClassModel.getCurrentSchoolClass();
         schemaModel = new SchemaModel();
+        isStudentLogin = false;
+    }
+
+    public void setIsStudentLogin() {
+        isStudentLogin = true;
     }
 
     /**
@@ -118,6 +125,7 @@ public class StudentAttendanceInformationViewController implements Initializable
             //Add the Subject HBox to the VBox list of subjects
             VBox.getChildren().add(subjectHBox);
         }
+        isStudentLogin = false;
     }
 
     /**
@@ -164,6 +172,7 @@ public class StudentAttendanceInformationViewController implements Initializable
 //        dayOfFirstWeekFebruary3.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         subjectHBox.getChildren().add(createSubjectCheckBoxes(schemaModel.getLastWeekFebruary(), semesterSubject));
         subjectHBox.getChildren().add(createFillerLabel());
+
     }
 
     /**
@@ -212,6 +221,7 @@ public class StudentAttendanceInformationViewController implements Initializable
 //        dayOfFirstWeekFebruary3.set(Calendar.WEEK_OF_MONTH, 4);
 //        dayOfFirstWeekFebruary3.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         HBox.getChildren().add(createWeekCheckBoxes(schemaModel.getLastWeekFebruary()));
+
     }
 
     /**
@@ -225,6 +235,12 @@ public class StudentAttendanceInformationViewController implements Initializable
         return node;
     }
 
+    private void checkIsStudentLogin(WeekCheckBoxViewController controller) {
+        if (isStudentLogin) {
+            controller.setIsStudentLogin();
+        }
+    }
+
     /**
      * Creates a ParentCheckBoxView
      */
@@ -232,6 +248,7 @@ public class StudentAttendanceInformationViewController implements Initializable
         FXMLLoader weekCheckBoxLoader = new FXMLLoader(getClass().getResource(EFXMLNames.WEEK_CHECK_BOX_VIEW.toString()));
         Node node = weekCheckBoxLoader.load();
         WeekCheckBoxViewController controller = weekCheckBoxLoader.getController();
+        checkIsStudentLogin(controller);
         controller.setSubjectWeekData(student, week, semesterSubject);
         return node;
     }
@@ -246,9 +263,5 @@ public class StudentAttendanceInformationViewController implements Initializable
         FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.FILLER_LABEL.toString()));
         Node node = loader.load();
         return node;
-    }
-
-    public void setAccesRestrictions() {
-        System.out.println("Now the Checkboxes are disabled :D");
     }
 }

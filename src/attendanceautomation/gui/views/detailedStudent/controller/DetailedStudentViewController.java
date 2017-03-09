@@ -40,12 +40,15 @@ public class DetailedStudentViewController implements Initializable {
 
     private StudentAttendanceInformationViewController studentAttendanceInfoController;
 
+    private boolean isStudentLogin;
+
     public static DetailedStudentViewController getInstance() {
         return instance;
     }
 
     public DetailedStudentViewController() {
         instance = this;
+        isStudentLogin = false;
         try {
             studentInformationTopView = createTopView();
             studentAttendanceInformationCenterView = createCenterView();
@@ -65,6 +68,10 @@ public class DetailedStudentViewController implements Initializable {
         borderPane.setBottom(studentAttendanceInformationCenterView);
     }
 
+    public void setIsStudentLogin() {
+        isStudentLogin = true;
+    }
+
     /**
      * Sets the current student
      *
@@ -74,7 +81,11 @@ public class DetailedStudentViewController implements Initializable {
 //        SchoolClassModel.getInstance().updateStudentInfo();
         StudentInformationTopViewController.getInstance().setStudentInfo(selectedStudent);
         StudentAttendanceInformationViewController controller = attendanceLoader.getController();
+        if (isStudentLogin) {
+            controller.setIsStudentLogin();
+        }
         controller.createSubjectView(selectedStudent);
+        isStudentLogin = false;
     }
 
     /**

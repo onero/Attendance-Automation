@@ -187,6 +187,7 @@ public class RootViewController implements Initializable {
         whiteComponentHolderController.setBorderPaneCenter(LOGIN_VIEW);
         whiteComponentHolderController.setBorderPaneTop(EMPTY_TOP_BAR);
         ShowBottomButtons(false);
+        searchViewController.showSearchBar(true);
 
     }
 
@@ -215,8 +216,8 @@ public class RootViewController implements Initializable {
                 adam = student;
             }
         }
+        detailedStudentViewController.setIsStudentLogin();
         detailedStudentViewController.setCurrentStudent(adam);
-        detailedStudentViewController.getStudentAttendanceInfoController().setAccesRestrictions();
     }
 
     /**

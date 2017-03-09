@@ -88,8 +88,13 @@ and open the template in the editor.
 
 }
     .chart-pie-label{
+    -fx-font-family: "Arial";
     -fx-fill: #fff;
-
+    -fx-effect: dropshadow( one-pass-box , rgba(0, 0, 0, 1), 0, 0.0 , 0 , 1 );
+}
+.chart-pie{
+    -fx-border-width: 0px;
+    /*-fx-border-color: #000000;*/
 }
 
 

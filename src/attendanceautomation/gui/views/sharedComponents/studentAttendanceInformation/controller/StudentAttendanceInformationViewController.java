@@ -106,6 +106,7 @@ public class StudentAttendanceInformationViewController implements Initializable
             Label subjectName = new Label(semesterSubject.getSubject().toString());
             subjectName.setMinWidth(150);
             subjectName.setPrefWidth(150);
+//            subjectName.setTextFill(Color.web("#fff"));
             //Add the label
             subjectHBox.getChildren().add(subjectName);
             try {

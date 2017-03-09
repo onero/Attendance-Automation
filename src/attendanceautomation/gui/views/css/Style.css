@@ -87,21 +87,13 @@ and open the template in the editor.
         rgba(255,255,255,0));
 
 }
-
-.pieChart{
-    /*    
-    Er igang med at finde ud af at køre labels i piechartet hvide.
-    
-    -fx-font-family: "Arial";
-        -fx-text-fill: #fff;
-        -fx-effect: dropshadow( one-pass-box , rgba(0, 0, 0, 0), 0, 0.0 , 0 , 0 );
-        -fx-font-weight: bold;*/
+    .chart-pie-label{
     -fx-fill: #fff;
 
 }
 
 
-.labels{
+.label{
     -fx-font-family: "Arial";
     -fx-text-fill: #fff;
     -fx-effect: dropshadow( one-pass-box , rgba(0, 0, 0, 1), 0, 0.0 , 0 , 1 );

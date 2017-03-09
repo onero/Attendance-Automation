@@ -7,6 +7,6 @@
 <HBox fx:id="hBoxSearch" prefHeight="25.0" prefWidth="250.0" styleClass="padding" stylesheets="@../../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="attendanceautomation.gui.views.sharedComponents.searchView.controller.SearchViewController">
    <children>
       <TextField fx:id="txtSearch" prefHeight="51.0" prefWidth="151.0" />
-      <JFXButton fx:id="btnClear" onAction="#handleClear" prefHeight="35.0" prefWidth="71.0" text="Clear" />
+      <JFXButton fx:id="btnClear" onAction="#handleClear" prefHeight="35.0" prefWidth="100.0" text="Clear" />
    </children>
 </HBox>

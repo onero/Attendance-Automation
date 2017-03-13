@@ -8,6 +8,7 @@ package attendanceautomation.gui.views.rootView.controller;
 import attendanceautomation.be.enums.EFXMLNames;
 import attendanceautomation.gui.model.SchoolClassModel;
 import attendanceautomation.gui.views.detailedStudent.controller.DetailedStudentViewController;
+import attendanceautomation.gui.views.login.controller.LoginViewController;
 import attendanceautomation.gui.views.sharedComponents.componentsHolder.controller.ComponentsHolderViewController;
 import attendanceautomation.gui.views.sharedComponents.searchView.controller.SearchViewController;
 import attendanceautomation.gui.views.sharedComponents.whiteComponentHolder.controller.WhiteComponentHolderController;
@@ -207,6 +208,8 @@ public class RootViewController implements Initializable {
                     whiteComponentHolderController.setBorderPaneCenter(MAIN_VIEW);
                     whiteComponentHolderController.setBorderPaneTop(SEARCH_COMBO_HOLDER);
                     ShowBottomButtons(true);
+                    LoginViewController.getInstance().hideSpinner();
+                    LoginViewController.getInstance().showLoginButton();
                 } catch (IOException ex) {
                     System.out.println("Error whilst logging in as teacher");
                     System.out.println(ex);
@@ -235,6 +238,8 @@ public class RootViewController implements Initializable {
 
         detailedStudentViewController.setIsStudentLogin();
         detailedStudentViewController.setCurrentStudent(schoolClassModel.getCurrentStudent());
+        LoginViewController.getInstance().hideSpinner();
+        LoginViewController.getInstance().showLoginButton();
 
     }
 

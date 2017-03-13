@@ -50,6 +50,11 @@ public class SearchViewController implements Initializable {
         SCModel.sortStudentsOnAttendance();
     }
 
+    /**
+     * Add all students from search to observable list
+     *
+     * @param value
+     */
     private void updateListView(String value) {
         SCModel.getStudents().clear();
         for (Student student : SCModel.getStudentsFromDB()) {
@@ -59,6 +64,11 @@ public class SearchViewController implements Initializable {
         }
     }
 
+    /**
+     * Display the showbar or hide it
+     *
+     * @param visible
+     */
     public void showSearchBar(boolean visible) {
         txtSearch.setDisable(!visible);
         txtSearch.setVisible(visible);

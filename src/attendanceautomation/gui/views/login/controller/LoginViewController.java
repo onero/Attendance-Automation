@@ -7,10 +7,12 @@ package attendanceautomation.gui.views.login.controller;
 
 import attendanceautomation.gui.model.LoginModel;
 import attendanceautomation.gui.views.rootView.controller.RootViewController;
+import com.jfoenix.controls.JFXSpinner;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -28,8 +30,18 @@ public class LoginViewController implements Initializable {
     private PasswordField userPassword;
     @FXML
     private Label errorMessage;
+    @FXML
+    private JFXSpinner spinner;
+    @FXML
+    private Button btnLogin;
+
+    private static LoginViewController instance;
 
     private final LoginModel loginModel;
+
+    public static LoginViewController getInstance() {
+        return instance;
+    }
 
     public LoginViewController() {
         loginModel = LoginModel.getInstance();
@@ -40,9 +52,11 @@ public class LoginViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        instance = this;
         errorMessage.setText("");
         userId.setPromptText("Brugernavn");
         userPassword.setPromptText("Password");
+        spinner.setVisible(false);
     }
 
     /**
@@ -54,20 +68,53 @@ public class LoginViewController implements Initializable {
      */
     @FXML
     private void processLogin() {
+        spinner.setVisible(true);
+        btnLogin.setDisable(true);
         String username = userId.getText();
         String password = userPassword.getText();
+        checkUserExists(username, password);
+    }
+
+    /**
+     * Check if user exists
+     *
+     * @param username
+     * @param password
+     */
+    private void checkUserExists(String username, String password) {
         if (loginModel.verifyUserExists(username)) {
             RootViewController rootViewController = RootViewController.getInstance();
-            if (loginModel.isUserTeacher(username)) {
-                verifyTeacher(password, rootViewController, username);
-            } else {
-                verifyStudent(password, rootViewController, username);
-            }
+            checkForTeacherOrStudent(username, password, rootViewController);
         } else {
+            spinner.setVisible(false);
+            btnLogin.setDisable(false);
             errorMessage.setText("Hello " + userId.getText() + " the password is wrong. \nPlease try agian.");
             //Clears the PasswordField for better usability
             userPassword.clear();
         }
+    }
+
+    /**
+     * Check if user is a teacher or a student
+     *
+     * @param username
+     * @param password
+     * @param rootViewController
+     */
+    private void checkForTeacherOrStudent(String username, String password, RootViewController rootViewController) {
+        if (loginModel.isUserTeacher(username)) {
+            verifyTeacher(password, rootViewController, username);
+        } else {
+            verifyStudent(password, rootViewController, username);
+        }
+    }
+
+    public void hideSpinner() {
+        spinner.setVisible(false);
+    }
+
+    public void showLoginButton() {
+        btnLogin.setDisable(false);
     }
 
     private void verifyStudent(String password, RootViewController rootViewController, String username) {

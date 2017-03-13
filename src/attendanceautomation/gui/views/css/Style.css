@@ -1,0 +1,142 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 06-02-2017, 11:47:01
+    Author     : gta1
+*/
+
+.borderPane{
+    /*    -fx-background-color: linear-gradient(rgb(191, 0, 0), rgb(255, 66, 66))*/
+    -fx-background-image: url("CoarseGrid.png");
+    -fx-background-repeat: repeat;
+    -fx-background-color:
+        linear-gradient(#38424b 0%, #1f2429 100%, #191d22 100%),
+        linear-gradient(#585859, #333333),
+        radial-gradient(center 100% 100%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));
+}
+
+.border{
+    -fx-border-color: rgb(0, 0, 0);
+    -fx-border-width: 1;
+}
+
+.studentInfo{
+    -fx-background-image: url("CoarseGrid.png");
+    -fx-background-repeat: repeat;
+    -fx-background-color:
+        linear-gradient(#38424b 0%, #1f2429 100%, #191d22 100%),
+        linear-gradient(#000000, #000000),
+        radial-gradient(center 50% 50%, radius 85%, rgba(114,131,148,0.9), rgba(255,255,255,0));
+}
+
+.mainBackground{
+    /*    -fx-background-color: linear-gradient(rgb(43, 43, 43), rgb(0, 0, 0))*/
+    -fx-background-image: url("CoarseGrid.png");
+    -fx-background-repeat: repeat;
+    -fx-background-color:
+        linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),
+        linear-gradient(#191616, #050404),
+        radial-gradient(center 80% 60%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));
+}
+
+.whiteBackground{
+    -fx-background-color: #fff;
+}
+
+.padding{
+    -fx-padding: 10 15 10 15;
+}
+
+.padding-left{
+    -fx-padding: 0 0 0 15;
+}
+
+.loginButton{
+    -fx-background-color:
+        rgba(255, 255, 255, 0.08),
+        rgba(0, 0, 0, 0.8),
+        #090a0c,
+        linear-gradient(#4a5661 0%, #1f2429 20%, #1f242a 100%),
+        linear-gradient(#242a2e, #23282e),
+        radial-gradient(center 50% 0%, radius 100%, rgba(135,142,148,0.9),
+        rgba(255,255,255,0));
+    -fx-background-radius: 7, 6, 5, 4, 3, 5;
+    -fx-background-insets: -3 -3 -4 -3, -3, 0, 1, 2, 0;
+    -fx-font-family: "Arial";
+    -fx-font-size: 35;
+    -fx-text-fill: white;
+    -fx-text-fill: linear-gradient(white, #d0d0d0);
+    -fx-padding: 10 20 10 20;
+}
+
+.button{
+    /*    -fx-background-color: linear-gradient(rgb(50, 115, 255), rgb(25, 22, 117));
+        -fx-text-fill: #fff;
+        -fx-font-weight: bold;*/
+    -fx-background-color:
+        rgba(255, 255, 255, 0.08),
+        rgba(0, 0, 0, 0.8),
+        #090a0c,
+        linear-gradient(#4a5661 0%, #1f2429 20%, #1f242a 100%),
+        linear-gradient(#242a2e, #23282e),
+        radial-gradient(center 50% 0%, radius 100%, rgba(135,142,148,0.9),
+        rgba(255,255,255,0));
+    -fx-background-radius: 7, 6, 5, 4, 3, 5;
+    -fx-background-insets: -3 -3 -4 -3, -3, 0, 1, 2, 0;
+    -fx-font-family: "Arial";
+    -fx-text-fill: white;
+    -fx-text-fill: linear-gradient(white, #d0d0d0);
+    -fx-padding: 10 20 10 20;
+
+}
+
+.button:hover{
+    /*-fx-background-color: linear-gradient(rgb(176, 195, 252), rgb(0, 30, 155))*/
+    -fx-background-color:   rgba(255, 255, 255, 0.08), rgba(48, 48, 48, 1), #090a0c,
+        linear-gradient(#4a5661 0%, #1f2429 20%, #1f242a 100%),
+        linear-gradient(#3f4950, #23282e),
+        radial-gradient(center 50% 0%, radius 100%, rgba(135,142,148,0.9),
+        rgba(255,255,255,0));
+}
+
+.button:pressed{
+    /*-fx-background-color: linear-gradient(rgb(50, 55, 60), rgb(0, 20, 70))*/
+    -fx-background-color:
+        rgba(255, 255, 255, 0.08),
+        rgba(0, 0, 0, 0.8),
+        #090a0c,
+        linear-gradient(#4a5661 0%, #1f2429 20%, #1f242a 100%),
+        linear-gradient(#242a2e, #23282e),
+        radial-gradient(center 50% 0%, radius 100%, rgba(200,200,200,0.9),
+        rgba(255,255,255,0));
+
+}
+    .chart-pie-label{
+    -fx-font-family: "Arial";
+    -fx-fill: #fff;
+    -fx-effect: dropshadow( one-pass-box , rgba(0, 0, 0, 1), 0, 0.0 , 0 , 1 );
+}
+.chart-pie{
+    -fx-border-width: 0px;
+    /*-fx-border-color: #000000;*/
+}
+
+
+.label{
+    -fx-font-family: "Arial";
+    -fx-text-fill: #fff;
+    -fx-effect: dropshadow( one-pass-box , rgba(0, 0, 0, 1), 0, 0.0 , 0 , 1 );
+}
+
+.labelss{
+    -fx-font-family: "Arial";
+    -fx-text-fill: #000000;
+    -fx-effect: dropshadow( one-pass-box , rgba(0, 0, 0, 0.2), 0, 0.0 , 0 , 1 );
+}
+
+#detailLabel{
+
+}

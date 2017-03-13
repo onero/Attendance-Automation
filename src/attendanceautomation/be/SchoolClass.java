@@ -7,24 +7,30 @@ package attendanceautomation.be;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import java.util.List;
 
 public class SchoolClass {
 
+    private final int ID;
+
     private final String schoolClassName;
 
-    private final ObservableList<Student> students;
+    private final ArrayList<Student> students;
 
-    private final ArrayList<SchoolWeek> schoolWeeks;
+    private final ArrayList<SchoolClassSemesterLesson> semesterLessons;
 
-    private final ArrayList<SchoolLesson> lessons;
+    private final ArrayList<SchoolSemesterSubject> semesterSubjects;
 
-    public SchoolClass(String name, ArrayList<SchoolWeek> schoolWeeks) {
-        this.schoolWeeks = schoolWeeks;
+    public SchoolClass(int ID, String name) {
+        this.ID = ID;
         schoolClassName = name;
-        students = FXCollections.observableArrayList();
-        lessons = new ArrayList<>();
+        students = new ArrayList<>();
+        semesterLessons = new ArrayList<>();
+        semesterSubjects = new ArrayList<>();
+    }
+
+    public int getID() {
+        return ID;
     }
 
     /**
@@ -40,24 +46,43 @@ public class SchoolClass {
      *
      * @param lesson
      */
-    public void addLessonToClass(SchoolLesson lesson) {
-        lessons.add(lesson);
+    public void addSemesterLessonsoClass(SchoolClassSemesterLesson lesson) {
+        semesterLessons.add(lesson);
     }
 
     /**
+     * Add the suject with teacher to the array
      *
-     * @return lessons for the class
+     * @param subject
      */
-    public ArrayList<SchoolLesson> getLessons() {
-        return lessons;
+    public void addSemesterSubject(SchoolSemesterSubject subject) {
+        semesterSubjects.add(subject);
     }
 
     /**
+     * Add all subjects to SchoolClass
      *
-     * @return school weeks
+     * @param subjects
      */
-    public ArrayList<SchoolWeek> getSchoolWeeks() {
-        return schoolWeeks;
+    public void addAllSemesterSubjects(List<SchoolSemesterSubject> subjects) {
+        semesterSubjects.addAll(subjects);
+    }
+
+    /**
+     * Add all subjects to SchoolClass
+     *
+     * @param lessons
+     */
+    public void addAllSemesterLessonsToClass(List<SchoolClassSemesterLesson> lessons) {
+        semesterLessons.addAll(lessons);
+    }
+
+    public ArrayList<SchoolSemesterSubject> getSemesterSubjects() {
+        return semesterSubjects;
+    }
+
+    public ArrayList<SchoolClassSemesterLesson> getSemesterLessons() {
+        return semesterLessons;
     }
 
     /**
@@ -74,7 +99,7 @@ public class SchoolClass {
      *
      * @param allStudents
      */
-    public void addAllStudents(ArrayList<Student> allStudents) {
+    public void addAllStudents(List<Student> allStudents) {
         students.addAll(allStudents);
     }
 
@@ -91,7 +116,7 @@ public class SchoolClass {
      *
      * @return students
      */
-    public ObservableList<Student> getStudents() {
+    public ArrayList<Student> getStudents() {
         sortStudents();
         return students;
     }

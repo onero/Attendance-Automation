@@ -7,28 +7,21 @@ package attendanceautomation.be;
 
 public class NonAttendance {
 
-    private final SchoolWeek weekWithoutAttendance;
+    private final SchoolClassSemesterLesson schoolClassSemesterLesson;
 
-    private final SchoolDay dayWithoutAttendance;
+    private final int studentID;
 
-    private final SchoolLesson lessonWithoutAttendance;
-
-    public NonAttendance(SchoolWeek weekWithoutAttendance, SchoolDay dayWithoutAttendance, SchoolLesson lessonWithoutAttendance) {
-        this.weekWithoutAttendance = weekWithoutAttendance;
-        this.dayWithoutAttendance = dayWithoutAttendance;
-        this.lessonWithoutAttendance = lessonWithoutAttendance;
+    public NonAttendance(SchoolClassSemesterLesson newLesson, int newStudentID) {
+        schoolClassSemesterLesson = newLesson;
+        studentID = newStudentID;
     }
 
-    public SchoolWeek getWeekWithoutAttendance() {
-        return weekWithoutAttendance;
+    public SchoolClassSemesterLesson getSchoolClassSemesterLesson() {
+        return schoolClassSemesterLesson;
     }
 
-    public SchoolDay getDayWithoutAttendance() {
-        return dayWithoutAttendance;
-    }
-
-    public SchoolLesson getLessonWithoutAttendance() {
-        return lessonWithoutAttendance;
+    public int getStudentID() {
+        return studentID;
     }
 
 }

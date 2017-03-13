@@ -6,18 +6,15 @@
 package attendanceautomation.be;
 
 import attendanceautomation.bll.AttendanceManager;
-import attendanceautomation.bll.EmailFactory;
-import attendanceautomation.bll.IDFactory;
 import attendanceautomation.gui.model.PieChartModel;
-import attendanceautomation.gui.model.SchoolClassModel;
 import java.util.ArrayList;
+import java.util.List;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.chart.PieChart.Data;
 
 public class Student {
 
-//    private double nonAttendancePercentage;
     private final DoubleProperty nonAttendancePercentage;
 
     private final int ID;
@@ -30,22 +27,28 @@ public class Student {
 
     private final String email;
 
-    private final AttendanceManager manager;
-
     private final ArrayList<NonAttendance> nonAttendance;
 
-    private int phone;
-
-    public Student(String firstName, String lastName) {
-        ID = IDFactory.getNewID();
+    /**
+     * Create real student from DB
+     *
+     * @param id
+     * @param firstName
+     * @param lastName
+     * @param email
+     */
+    public Student(int id, String firstName, String lastName, String email) {
+        ID = id;
         this.firstName = firstName;
         this.lastName = lastName;
         fullName = this.firstName + " " + this.lastName;
-        email = EmailFactory.getnewEmail(ID, firstName);
+        this.email = email;
         nonAttendance = new ArrayList<>();
         nonAttendancePercentage = new SimpleDoubleProperty(0);
-        manager = new AttendanceManager();
+    }
 
+    public int getID() {
+        return ID;
     }
 
     /**
@@ -75,27 +78,10 @@ public class Student {
 
     /**
      *
-     * @return phone number
-     */
-    public int getPhone() {
-        return phone;
-    }
-
-    /**
-     *
      * @return email
      */
     public String getEmail() {
         return email;
-    }
-
-    /**
-     * Update the phone number
-     *
-     * @param mPhone
-     */
-    public void setPhone(int mPhone) {
-        this.phone = mPhone;
     }
 
     /**
@@ -126,7 +112,10 @@ public class Student {
         nonAttendance.add(newNonAttendance);
         updateNonAttendancePercentage();
         PieChartModel.getInstance().checkIfStudentIsInChart(this);
-        SchoolClassModel.getInstance().sortStudentsOnAttendance();
+    }
+
+    public void addAllNonAttendance(List<NonAttendance> allNonAttendance) {
+        nonAttendance.addAll(allNonAttendance);
     }
 
     /**
@@ -135,19 +124,14 @@ public class Student {
      * @param attendance
      */
     public void removeNonAttendance(NonAttendance attendance) {
-        for (NonAttendance nonAttend : nonAttendance) {
-            if (nonAttend.getWeekWithoutAttendance() == attendance.getWeekWithoutAttendance()) {
-                if (nonAttend.getDayWithoutAttendance() == attendance.getDayWithoutAttendance()) {
-                    if (nonAttend.getLessonWithoutAttendance() == attendance.getLessonWithoutAttendance()) {
-                        nonAttendance.remove(nonAttend);
-                        break;
-                    }
-                }
+        for (NonAttendance nonAttendance1 : nonAttendance) {
+            if (nonAttendance1.getSchoolClassSemesterLesson().getID() == attendance.getSchoolClassSemesterLesson().getID()) {
+                nonAttendance.remove(nonAttendance1);
+                break;
             }
         }
         updateNonAttendancePercentage();
         PieChartModel.getInstance().checkIfStudentIsInChart(this);
-        SchoolClassModel.getInstance().sortStudentsOnAttendance();
     }
 
     /**

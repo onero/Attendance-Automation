@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="attendanceautomation.gui.views.sharedComponents.weeksAndDaysBar.controller.WeeksAndDaysBarViewController">
+   <center>
+      <HBox BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="lblWeek1" styleClass="labels" stylesheets="@../../../css/Style.css" text="Week 1">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <padding>
+                  <Insets right="0.0" />
+               </padding></Label>
+            <Label fx:id="lblWeek2" styleClass="labels" stylesheets="@../../../css/Style.css" text="Week 2">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <padding>
+                  <Insets right="0.0" />
+               </padding></Label>
+            <Label fx:id="lblWeek3" styleClass="labels" stylesheets="@../../../css/Style.css" text="Week 3">
+               <padding>
+                  <Insets right="0.0" />
+               </padding></Label>
+            <Label fx:id="lblWeek4" styleClass="labels" stylesheets="@../../../css/Style.css" text="Week 4">
+               <padding>
+                  <Insets right="0.0" />
+               </padding></Label>
+         </children>
+      </HBox>
+   </center>
+   <left>
+      <Label fx:id="lblMonth" styleClass="labels" stylesheets="@../../../css/Style.css" text="Month" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets left="10.0" right="0.0" />
+         </BorderPane.margin></Label>
+   </left>
+   <bottom>
+      <HBox BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="fillerLabel" />
+            <HBox fx:id="daysWeek1">
+               <children>
+                  <Label styleClass="labels" stylesheets="@../../../css/Style.css" text="M">
+                     <HBox.margin>
+                        <Insets left="4.0" right="17.0" />
+                     </HBox.margin></Label>
+                  <Label styleClass="labels" stylesheets="@../../../css/Style.css" text="T">
+                     <HBox.margin>
+                        <Insets right="18.0" />
+                     </HBox.margin></Label>
+                  <Label styleClass="labels" stylesheets="@../../../css/Style.css" text="O">
+                     <HBox.margin>
+                        <Insets right="17.0" />
+                     </HBox.margin></Label>
+                  <Label styleClass="labels" stylesheets="@../../../css/Style.css" text="T">
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin></Label>
+                  <Label styleClass="labels" stylesheets="@../../../css/Style.css" text="F">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin></Label>
+               </children>
+            </HBox>
+            <HBox fx:id="daysWeek2">
+               <children>
+                  <Label styleClass="labels" stylesheets="@../../../css/Style.css" text="M">
+                     <HBox.margin>
+                        <Insets left="4.0" right="17.0" />
+                     </HBox.margin></Label>
+                  <Label styleClass="labels" stylesheets="@../../../css/Style.css" text="T">
+                     <HBox.margin>
+                        <Insets right="18.0" />
+                     </HBox.margin></Label>
+                  <Label styleClass="labels" stylesheets="@../../../css/Style.css" text="O">
+                     <HBox.margin>
+                        <Insets right="17.0" />
+                     </HBox.margin></Label>
+                  <Label styleClass="labels" stylesheets="@../../../css/Style.css" text="T">
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin></Label>
+                  <Label styleClass="labels" stylesheets="@../../../css/Style.css" text="F" />
+               </children>
+            </HBox>
+            <HBox fx:id="daysWeek3">
+               <children>
+                  <Label styleClass="labels" stylesheets="@../../../css/Style.css" text="M">
+                     <HBox.margin>
+                        <Insets left="4.0" right="17.0" />
+                     </HBox.margin></Label>
+                  <Label styleClass="labels" stylesheets="@../../../css/Style.css" text="T">
+                     <HBox.margin>
+                        <Insets right="18.0" />
+                     </HBox.margin></Label>
+                  <Label styleClass="labels" stylesheets="@../../../css/Style.css" text="O">
+                     <HBox.margin>
+                        <Insets right="17.0" />
+                     </HBox.margin></Label>
+                  <Label styleClass="labels" stylesheets="@../../../css/Style.css" text="T">
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin></Label>
+                  <Label styleClass="labels" stylesheets="@../../../css/Style.css" text="F" />
+               </children>
+            </HBox>
+            <HBox fx:id="daysWeek4">
+               <children>
+                  <Label styleClass="labels" stylesheets="@../../../css/Style.css" text="M">
+                     <HBox.margin>
+                        <Insets left="4.0" right="17.0" />
+                     </HBox.margin></Label>
+                  <Label styleClass="labels" stylesheets="@../../../css/Style.css" text="T">
+                     <HBox.margin>
+                        <Insets right="18.0" />
+                     </HBox.margin></Label>
+                  <Label styleClass="labels" stylesheets="@../../../css/Style.css" text="O">
+                     <HBox.margin>
+                        <Insets right="17.0" />
+                     </HBox.margin></Label>
+                  <Label styleClass="labels" stylesheets="@../../../css/Style.css" text="T">
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin></Label>
+                  <Label styleClass="labels" stylesheets="@../../../css/Style.css" text="F" />
+               </children>
+            </HBox>
+         </children>
+         <BorderPane.margin>
+            <Insets left="10.0" />
+         </BorderPane.margin>
+      </HBox>
+   </bottom>
+</BorderPane>

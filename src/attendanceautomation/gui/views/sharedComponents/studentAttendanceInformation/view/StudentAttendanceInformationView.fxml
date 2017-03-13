@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="VBox" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="attendanceautomation.gui.views.sharedComponents.studentAttendanceInformation.controller.StudentAttendanceInformationViewController">
+   <children>
+      <HBox fx:id="HBox" prefHeight="59.0" prefWidth="320.0">
+         <children>
+            <Label fx:id="lblStudent" minWidth="150" prefWidth="150" styleClass="labelss" stylesheets="@../../../css/Style.css" text="Donald Duck" />
+         </children>
+      </HBox>
+   </children>
+</VBox>

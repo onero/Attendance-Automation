@@ -36,7 +36,7 @@ public class SchoolClassManager {
      */
     public List<Student> getStudentsWithDataFromSchoolClass(int schoolClassId) {
         List<Student> schoolClassStudents = AADAOFacade.getStudentsFromSchoolClass(schoolClassId);
-        getNonAttendanceForAllStudents(schoolClassStudents, schoolClassId);
+        getNonAttendanceForAllStudents(schoolClassStudents);
         return schoolClassStudents;
     }
 
@@ -83,9 +83,9 @@ public class SchoolClassManager {
      * @param schoolClassStudents
      * @param id
      */
-    private void getNonAttendanceForAllStudents(List<Student> schoolClassStudents, int id) {
+    private void getNonAttendanceForAllStudents(List<Student> schoolClassStudents) {
         for (Student schoolClassStudent : schoolClassStudents) {
-            schoolClassStudent.addAllNonAttendance(AADAOFacade.getNonAttendanceForStudentByID(id));
+            schoolClassStudent.addAllNonAttendance(AADAOFacade.getNonAttendanceForStudentByID(schoolClassStudent.getID()));
         }
     }
 

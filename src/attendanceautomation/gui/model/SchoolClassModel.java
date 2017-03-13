@@ -46,8 +46,12 @@ public class SchoolClassModel {
      * Load newest data from DB
      */
     public void loadDataFromDB() {
+        //TODO ALH: Load standard class for teacher
+        students.clear();
+        studentsFromDB.clear();
         currentSchoolClass = schoolClassManager.getAllSchoolClassDataForSpecificSchoolClass(1);
-        students.addAll(currentSchoolClass.getStudents());
+        studentsFromDB.addAll(currentSchoolClass.getStudents());
+        students.addAll(studentsFromDB);
         sortStudentsOnAttendance();
     }
 

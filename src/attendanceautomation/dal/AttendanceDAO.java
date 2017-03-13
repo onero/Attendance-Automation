@@ -137,7 +137,7 @@ public class AttendanceDAO {
                 + "schoolSubject.Name "
                 + "AS "
                 + "'SchoolSubjectName', "
-                + "t.FirstName "
+                + "p.FirstName "
                 + "AS "
                 + "'TeacherFirstName'"
                 + "FROM SchoolClassSemesterSubject semesterSubject "
@@ -145,6 +145,7 @@ public class AttendanceDAO {
                 + "JOIN Semester sem ON semesterSubject.SemesterID = sem.ID "
                 + "JOIN SchoolSubject schoolSubject ON semesterSubject.SchoolSubjectID = schoolSubject.ID "
                 + "JOIN Teacher t ON semesterSubject.TeacherID = t.ID "
+                + "JOIN Person p ON p.ID = t.PersonID "
                 + "WHERE semesterSubject.ID = ?";
 
         try (Connection con = cm.getConnection()) {

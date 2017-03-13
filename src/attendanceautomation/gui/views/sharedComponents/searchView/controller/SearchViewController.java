@@ -47,6 +47,7 @@ public class SearchViewController implements Initializable {
     @FXML
     private void handleClear(ActionEvent event) {
         txtSearch.clear();
+        SCModel.sortStudentsOnAttendance();
     }
 
     private void updateListView(String value) {

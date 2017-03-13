@@ -14,6 +14,7 @@ import attendanceautomation.gui.views.sharedComponents.whiteComponentHolder.cont
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -196,17 +197,23 @@ public class RootViewController implements Initializable {
      * @param teacherId
      */
     public void handleTeacherLogin(String teacherId) {
-        try {
-            MAIN_VIEW = createMainView();
-            ALL_STUDENTS_VIEW = createAllStudents();
-            DETAILED_STUDENT_VIEW = createDetailedStudentView();
-            whiteComponentHolderController.setBorderPaneCenter(MAIN_VIEW);
-            whiteComponentHolderController.setBorderPaneTop(SEARCH_COMBO_HOLDER);
-            ShowBottomButtons(true);
-        } catch (IOException ex) {
-            System.out.println("Error whilst logging in as teacher");
-            System.out.println(ex);
-        }
+        Runnable task = () -> {
+            schoolClassModel.loadDataFromDB();
+            Platform.runLater(() -> {
+                try {
+                    MAIN_VIEW = createMainView();
+                    ALL_STUDENTS_VIEW = createAllStudents();
+                    DETAILED_STUDENT_VIEW = createDetailedStudentView();
+                    whiteComponentHolderController.setBorderPaneCenter(MAIN_VIEW);
+                    whiteComponentHolderController.setBorderPaneTop(SEARCH_COMBO_HOLDER);
+                    ShowBottomButtons(true);
+                } catch (IOException ex) {
+                    System.out.println("Error whilst logging in as teacher");
+                    System.out.println(ex);
+                }
+            });
+        };
+        new Thread(task).start();
     }
 
     /**

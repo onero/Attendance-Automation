@@ -17,8 +17,8 @@
                   <Label id="label1" layoutX="14.0" layoutY="67.0" text="Username" />
                   <TextField id="textField1" fx:id="userId" layoutY="86.0" prefWidth="415.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
                   <Label id="label1" layoutX="14.0" layoutY="139.0" text="Password" />
-                  <PasswordField id="passwordField1" fx:id="password" layoutY="157.0" prefWidth="415.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
-                  <Button id="button1" fx:id="login" defaultButton="true" layoutX="100.0" layoutY="246.0" onAction="#processLogin" prefHeight="107.0" prefWidth="570.0" styleClass="loginButton" stylesheets="@../../css/Style.css" text="Login" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="246.0">
+                  <PasswordField id="passwordField1" fx:id="userPassword" layoutY="157.0" prefWidth="415.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                  <Button id="button1" defaultButton="true" layoutX="100.0" layoutY="246.0" onAction="#processLogin" prefHeight="107.0" prefWidth="570.0" styleClass="loginButton" stylesheets="@../../css/Style.css" text="Login" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="246.0">
                      <font>
                         <Font size="36.0" />
                      </font></Button>

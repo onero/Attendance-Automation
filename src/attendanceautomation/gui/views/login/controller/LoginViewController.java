@@ -9,10 +9,8 @@ import attendanceautomation.gui.model.LoginModel;
 import attendanceautomation.gui.views.rootView.controller.RootViewController;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -27,9 +25,7 @@ public class LoginViewController implements Initializable {
     @FXML
     private TextField userId;
     @FXML
-    private PasswordField password;
-    @FXML
-    private Button login;
+    private PasswordField userPassword;
     @FXML
     private Label errorMessage;
 
@@ -46,7 +42,7 @@ public class LoginViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         errorMessage.setText("");
         userId.setPromptText("Brugernavn");
-        password.setPromptText("Password");
+        userPassword.setPromptText("Password");
     }
 
     /**
@@ -57,18 +53,32 @@ public class LoginViewController implements Initializable {
      * @param event
      */
     @FXML
-    private void processLogin(ActionEvent event) {
-        if (loginModel.verifyLogin(userId.getText(), password.getText())) {
+    private void processLogin() {
+        String username = userId.getText();
+        String password = userPassword.getText();
+        if (loginModel.verifyUserExists(username)) {
             RootViewController rootViewController = RootViewController.getInstance();
-            if (loginModel.isUserStudent(userId.getText())) {
-                rootViewController.handleStudentLogin();
+            if (loginModel.isUserTeacher(username)) {
+                verifyTeacher(password, rootViewController, username);
             } else {
-                rootViewController.handleTeacherLogin();
+                verifyStudent(password, rootViewController, username);
             }
         } else {
             errorMessage.setText("Hello " + userId.getText() + " the password is wrong. \nPlease try agian.");
             //Clears the PasswordField for better usability
-            password.clear();
+            userPassword.clear();
+        }
+    }
+
+    private void verifyStudent(String password, RootViewController rootViewController, String username) {
+        if (loginModel.verifyStudentLogin(password)) {
+            rootViewController.handleStudentLogin(username);
+        }
+    }
+
+    private void verifyTeacher(String password, RootViewController rootViewController, String username) {
+        if (loginModel.verifyTeacherLogin(password)) {
+            rootViewController.handleTeacherLogin(username);
         }
     }
 

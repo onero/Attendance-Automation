@@ -61,6 +61,7 @@ public class SchoolClassDAO {
      * @throws SQLException
      */
     public SchoolClass getSchoolClassByID(int id) throws SQLException {
+        SchoolClass schoolClass;
         String sql = "SELECT * FROM SchoolClass WHERE ID = ?";
         try (Connection con = cm.getConnection()) {
             PreparedStatement ps = con.prepareStatement(sql);
@@ -68,11 +69,12 @@ public class SchoolClassDAO {
 
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                return getOneSchoolClass(rs);
+                schoolClass = getOneSchoolClass(rs);
             } else {
-                return null;
+                schoolClass = null;
             }
         }
+        return schoolClass;
     }
 
     /**
@@ -197,7 +199,7 @@ public class SchoolClassDAO {
                 + "schoolSubject.Name "
                 + "AS "
                 + "'SchoolSubjectName', "
-                + "t.FirstName "
+                + "p.FirstName "
                 + "AS "
                 + "'TeacherFirstName'"
                 + "FROM SchoolClassSemesterSubject semesterSubject "
@@ -205,6 +207,7 @@ public class SchoolClassDAO {
                 + "JOIN Semester sem ON semesterSubject.SemesterID = sem.ID "
                 + "JOIN SchoolSubject schoolSubject ON semesterSubject.SchoolSubjectID = schoolSubject.ID "
                 + "JOIN Teacher t ON semesterSubject.TeacherID = t.ID "
+                + "JOIN Person p ON p.ID = t.PersonID "
                 + "WHERE c.ID = ?";
 
         try (Connection con = cm.getConnection()) {
@@ -242,6 +245,34 @@ public class SchoolClassDAO {
         SchoolSemesterSubject newSubject = new SchoolSemesterSubject(SemesterSubjectID, schoolClass, semester, subject, teacher);
 
         return newSubject;
+    }
+
+    /**
+     * Get a schoolclass id by student id
+     *
+     * @param studentEmail
+     * @return
+     * @throws SQLServerException
+     * @throws SQLException
+     */
+    public SchoolClass getSchoolClassIdByStudentEmail(String studentEmail) throws SQLServerException, SQLException {
+        String sql = "SELECT sc.ID "
+                + "AS 'SchoolClassID' "
+                + "FROM SchoolClassStudent scs "
+                + "JOIN Student s ON s.ID = scs.StudentID "
+                + "JOIN SchoolClass sc ON sc.ID = scs.SchoolClassID "
+                + "JOIN Person p ON p.ID = s.PersonID "
+                + "WHERE p.Email = ?";
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, studentEmail);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return getSchoolClassByID(rs.getInt("SchoolClassID"));
+            }
+            return null;
+        }
     }
 
 }

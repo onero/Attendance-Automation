@@ -11,7 +11,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -52,32 +51,13 @@ public class StudentDAO {
         String sql = "SELECT * "
                 + "FROM Student s "
                 + "JOIN SchoolClassStudent cs ON s.ID = cs.StudentID "
+                + "JOIN Person p ON p.ID = s.PersonID "
                 + "WHERE cs.SchoolClassID = ?";
         try (Connection con = cm.getConnection()) {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, schoolClassID);
 
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                students.add(getOneStudent(rs));
-            }
-            return students;
-        }
-    }
-
-    /**
-     * Get a list of all songs from the DB
-     *
-     * @return
-     * @throws SQLException
-     */
-    public List<Student> getAllSchoolClassStudents() throws SQLException {
-        List<Student> students = new ArrayList<>();
-
-        String sql = "SELECT * FROM Student";
-        try (Connection con = cm.getConnection()) {
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
                 students.add(getOneStudent(rs));
             }
@@ -101,6 +81,28 @@ public class StudentDAO {
         Student newStudent = new Student(ID, firstName, lastName, email);
 
         return newStudent;
+    }
+
+    /**
+     * Get student by email
+     *
+     * @param studentEmail
+     * @return
+     */
+    Student getStudentByEmail(String studentEmail) throws SQLException {
+        String sql = "SELECT * FROM STUDENT s "
+                + "JOIN Person p ON p.ID = s.PersonID "
+                + "WHERE Email = ?";
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, studentEmail);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return getOneStudent(rs);
+            }
+        }
+        return null;
     }
 
 }

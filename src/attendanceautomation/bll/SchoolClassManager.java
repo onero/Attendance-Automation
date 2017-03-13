@@ -31,10 +31,13 @@ public class SchoolClassManager {
     /**
      * Get the updated studentInfo from DB
      *
+     * @param schoolClassId
      * @return
      */
-    public List<Student> getUpdatedStudents() {
-        return AADAOFacade.getUpdatedStudentInfo();
+    public List<Student> getStudentsWithDataFromSchoolClass(int schoolClassId) {
+        List<Student> schoolClassStudents = AADAOFacade.getStudentsFromSchoolClass(schoolClassId);
+        getNonAttendanceForAllStudents(schoolClassStudents);
+        return schoolClassStudents;
     }
 
     /**
@@ -44,7 +47,46 @@ public class SchoolClassManager {
      * @return
      */
     public SchoolClass getAllSchoolClassDataForSpecificSchoolClass(int id) {
-        return AADAOFacade.getSchoolClassDataForSpecificSchoolClass(id);
+        SchoolClass schoolClass = getSchoolClassById(id);
+
+        addStudentsToSchoolClass(id, schoolClass);
+        return schoolClass;
+    }
+
+    /**
+     * Get SchoolClass with subjects and lessons by SchoolClassId
+     *
+     * @param id
+     * @return
+     */
+    private SchoolClass getSchoolClassById(int id) {
+        SchoolClass schoolClass = AADAOFacade.getSchoolClassByID(id);
+        schoolClass.addAllSemesterSubjects(AADAOFacade.getSchoolSemesterSubjectsInSchoolClass(id));
+        schoolClass.addAllSemesterLessonsToClass(AADAOFacade.getSchoolSemesterLessonsInSchoolClass(id));
+        return schoolClass;
+    }
+
+    /**
+     * Add students with their NonAttendance to the schoolClass
+     *
+     * @param id
+     * @param schoolClass
+     */
+    private void addStudentsToSchoolClass(int id, SchoolClass schoolClass) {
+        List<Student> schoolClassStudents = getStudentsWithDataFromSchoolClass(id);
+        schoolClass.addAllStudents(schoolClassStudents);
+    }
+
+    /**
+     * Get NonAttendance for all students in current SchoolClass
+     *
+     * @param schoolClassStudents
+     * @param id
+     */
+    private void getNonAttendanceForAllStudents(List<Student> schoolClassStudents) {
+        for (Student schoolClassStudent : schoolClassStudents) {
+            schoolClassStudent.addAllNonAttendance(AADAOFacade.getNonAttendanceForStudentByID(schoolClassStudent.getID()));
+        }
     }
 
     /**
@@ -63,6 +105,50 @@ public class SchoolClassManager {
      */
     public void removeNonAttendance(NonAttendance newNonAttendance) {
         AADAOFacade.removeNonAttendanceFromSpecificStudent(newNonAttendance);
+    }
+
+    /**
+     * Get a specific SchoolClass from student id
+     *
+     * @param studentEmail
+     * @return
+     */
+    public SchoolClass getSchoolClassFromStudentEmail(String studentEmail) {
+        SchoolClass schoolClass = AADAOFacade.getSchoolClassFromStudentEmail(studentEmail);
+        SchoolClass schoolClassWithAllDataExceptStudents = getSchoolClassById(schoolClass.getID());
+        return schoolClassWithAllDataExceptStudents;
+    }
+
+    /**
+     * Get a student by email
+     *
+     * @param studentEmail
+     * @return
+     */
+    public Student getStudentByEmail(String studentEmail) {
+        Student student = AADAOFacade.getStudentByEmail(studentEmail);
+        student.addAllNonAttendance(AADAOFacade.getNonAttendanceForStudentByID(student.getID()));
+        return student;
+    }
+
+    /**
+     * Check is user is a teacher
+     *
+     * @param userEmail
+     * @return
+     */
+    public boolean isTeacher(String userEmail) {
+        return AADAOFacade.isTeacher(userEmail);
+    }
+
+    /**
+     * Check if user is in DB
+     *
+     * @param userEmail
+     * @return
+     */
+    public boolean isUserInDB(String userEmail) {
+        return AADAOFacade.isUserInDB(userEmail);
     }
 
 }

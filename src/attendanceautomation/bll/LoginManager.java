@@ -5,7 +5,6 @@
  */
 package attendanceautomation.bll;
 
-import attendanceautomation.be.Student;
 import attendanceautomation.dal.LoginDAO;
 import attendanceautomation.gui.model.SchoolClassModel;
 
@@ -15,54 +14,59 @@ import attendanceautomation.gui.model.SchoolClassModel;
  */
 public class LoginManager {
 
+    private static LoginManager instance;
+
     private final LoginDAO loginDAO;
 
-    public LoginManager() {
-        loginDAO = new LoginDAO();
+    public static LoginManager getInstance() {
+        if (instance == null) {
+            instance = new LoginManager();
+        }
+        return instance;
+    }
+
+    private LoginManager() {
+        loginDAO = LoginDAO.getInstance();
     }
 
     /**
      * Gets a list of students from LoginDAO and checks if the parsed user
      * exist.
      *
-     * @param userName
+     * @param userEmail
      * @return
      */
-    public boolean checkIfUserExist(String userName) {
-        for (Student student : SchoolClassModel.getInstance().getStudents()) {
-            if (student.getEmail().equals(userName)) {
-                return true;
-            }
-        }
-        return false;
+    public boolean checkIfUserExist(String userEmail) {
+        return SchoolClassModel.getInstance().isUserInDB(userEmail);
     }
 
     /**
-     * Checks if the username matches the password.
+     * Check if the user is a teacher
      *
      * @param userName
+     * @return
+     */
+    public boolean checkIfUserIsTeacher(String userName) {
+        return SchoolClassManager.getInstance().isTeacher(userName);
+    }
+
+    /**
+     * Valiate student password
+     *
      * @param password
      * @return
      */
-    public boolean validateLoginAttempt(String userName, String password) {
-        boolean succesfullLogin = false;
-        Student user = null;
-        for (Student student : SchoolClassModel.getInstance().getStudents()) {
-            if (student.getEmail().equals(userName)) {
-                user = student;
-            }
-        }
+    public boolean validateStudentPassword(String password) {
+        return password.equals(loginDAO.getMockStudentPassword());
+    }
 
-        //Validation for the mockUsers. For a real database, this should be redone.
-        if (user.getFirstName().equals("Adam")) {
-            if (password.equals(loginDAO.getMockStudentPassword())) {
-                succesfullLogin = true;
-            }
-        } else if (user.getFirstName().equals("Rasmus")) {
-            if (password.equals(loginDAO.getMockTeacherPassword())) {
-                succesfullLogin = true;
-            }
-        }
-        return succesfullLogin;
+    /**
+     * Valiate teacher password
+     *
+     * @param password
+     * @return
+     */
+    public boolean validateTeacherPassword(String password) {
+        return password.equals(loginDAO.getMockTeacherPassword());
     }
 }

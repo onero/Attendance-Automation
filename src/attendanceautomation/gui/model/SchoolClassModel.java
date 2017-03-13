@@ -21,6 +21,8 @@ public class SchoolClassModel {
 
     private final SchoolClassManager schoolClassManager;
 
+    private Student currentStudent;
+
     private SchoolClass currentSchoolClass;
     private final List<Student> studentsFromDB;
     private final ObservableList<Student> students;
@@ -37,7 +39,6 @@ public class SchoolClassModel {
         schoolClassManager = SchoolClassManager.getInstance();
         searchString = "";
         students = FXCollections.observableArrayList();
-        loadDataFromDB();
         studentsFromDB = new ArrayList<>(students);
     }
 
@@ -45,14 +46,18 @@ public class SchoolClassModel {
      * Load newest data from DB
      */
     public void loadDataFromDB() {
+        //TODO ALH: Load standard class for teacher
+        students.clear();
+        studentsFromDB.clear();
         currentSchoolClass = schoolClassManager.getAllSchoolClassDataForSpecificSchoolClass(1);
-        students.addAll(currentSchoolClass.getStudents());
+        studentsFromDB.addAll(currentSchoolClass.getStudents());
+        students.addAll(studentsFromDB);
         sortStudentsOnAttendance();
     }
 
     public void updateStudentInfo() {
         students.clear();
-        students.addAll(schoolClassManager.getUpdatedStudents());
+        students.addAll(schoolClassManager.getStudentsWithDataFromSchoolClass(currentSchoolClass.getID()));
     }
 
     /**
@@ -124,6 +129,30 @@ public class SchoolClassModel {
 
     public void updateStudentsFromSearch(Student student) {
         students.add(student);
+    }
+
+    public void loadStudentData(String studentEmail) {
+        currentSchoolClass = schoolClassManager.getSchoolClassFromStudentEmail(studentEmail);
+        currentStudent = schoolClassManager.getStudentByEmail(studentEmail);
+    }
+
+    /**
+     * Check if user is in DB
+     *
+     * @param userEmail
+     * @return
+     */
+    public boolean isUserInDB(String userEmail) {
+        return schoolClassManager.isUserInDB(userEmail);
+    }
+
+    /**
+     * Get the current student
+     *
+     * @return
+     */
+    public Student getCurrentStudent() {
+        return currentStudent;
     }
 
 }

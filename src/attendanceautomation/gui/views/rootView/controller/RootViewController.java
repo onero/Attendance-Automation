@@ -5,16 +5,17 @@
  */
 package attendanceautomation.gui.views.rootView.controller;
 
-import attendanceautomation.be.Student;
 import attendanceautomation.be.enums.EFXMLNames;
 import attendanceautomation.gui.model.SchoolClassModel;
 import attendanceautomation.gui.views.detailedStudent.controller.DetailedStudentViewController;
+import attendanceautomation.gui.views.login.controller.LoginViewController;
 import attendanceautomation.gui.views.sharedComponents.componentsHolder.controller.ComponentsHolderViewController;
 import attendanceautomation.gui.views.sharedComponents.searchView.controller.SearchViewController;
 import attendanceautomation.gui.views.sharedComponents.whiteComponentHolder.controller.WhiteComponentHolderController;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -50,6 +51,8 @@ public class RootViewController implements Initializable {
     private SearchViewController searchViewController;
     private DetailedStudentViewController detailedStudentViewController;
 
+    private final SchoolClassModel schoolClassModel;
+
     public static RootViewController getInstance() {
         return instance;
     }
@@ -60,20 +63,16 @@ public class RootViewController implements Initializable {
 
     public RootViewController() {
         try {
-            MAIN_VIEW = createMainView();
-            ALL_STUDENTS_VIEW = createAllStudents();
-            DETAILED_STUDENT_VIEW = createDetailedStudentView();
             LOGIN_VIEW = createLoginView();
             LOGOUT_BUTTON = createLogoutView();
-
-            SEARCH_BAR = createSearchBarNode();
-//            ComboBox = createComboBox();
-            SEARCH_COMBO_HOLDER = createSearchComboHolder();
             EMPTY_TOP_BAR = createEmptyTopBar();
+            SEARCH_BAR = createSearchBarNode();
+            SEARCH_COMBO_HOLDER = createSearchComboHolder();
             WHITE_COMPONENT_HOLDER_VIEW = createWhiteComponentHolderView();
         } catch (IOException ex) {
             System.out.println("MainView not loaded! " + ex);
         }
+        schoolClassModel = SchoolClassModel.getInstance();
     }
 
     @Override
@@ -146,7 +145,7 @@ public class RootViewController implements Initializable {
     @FXML
     private void handleAllStudentsButton(ActionEvent event) {
         //Recreate allStudentsView to ensure updated view with NonAttendance
-        SchoolClassModel.getInstance().sortStudentsOnName();
+        schoolClassModel.sortStudentsOnName();
         try {
 //            SchoolClassModel.getInstance().updateStudentInfo();
             createAllStudents();
@@ -195,29 +194,53 @@ public class RootViewController implements Initializable {
      * Sends the user to the right screen depending on which user it is. If it's
      * a teacher he gets sent to the start view if it's a student he will be
      * sent to the detailed student view.
+     *
+     * @param teacherId
      */
-    public void handleTeacherLogin() {
-        whiteComponentHolderController.setBorderPaneCenter(MAIN_VIEW);
-        whiteComponentHolderController.setBorderPaneTop(SEARCH_COMBO_HOLDER);
-        ShowBottomButtons(true);
+    public void handleTeacherLogin(String teacherId) {
+        Runnable task = () -> {
+            schoolClassModel.loadDataFromDB();
+            Platform.runLater(() -> {
+                try {
+                    MAIN_VIEW = createMainView();
+                    ALL_STUDENTS_VIEW = createAllStudents();
+                    DETAILED_STUDENT_VIEW = createDetailedStudentView();
+                    whiteComponentHolderController.setBorderPaneCenter(MAIN_VIEW);
+                    whiteComponentHolderController.setBorderPaneTop(SEARCH_COMBO_HOLDER);
+                    ShowBottomButtons(true);
+                    LoginViewController.getInstance().hideSpinner();
+                    LoginViewController.getInstance().showLoginButton();
+                } catch (IOException ex) {
+                    System.out.println("Error whilst logging in as teacher");
+                    System.out.println(ex);
+                }
+            });
+        };
+        new Thread(task).start();
     }
 
     /**
+     * Login in as student
      *
+     * @param userId
      */
-    public void handleStudentLogin() {
-        whiteComponentHolderController.setBorderPaneCenter(DETAILED_STUDENT_VIEW);
-        whiteComponentHolderController.setBorderPaneTop(SEARCH_COMBO_HOLDER);
-        ShowBottomButtons(false);
-        searchViewController.showSearchBar(false);
-        Student adam = new Student(0, null, null, null);
-        for (Student student : SchoolClassModel.getInstance().getStudents()) {
-            if (student.getFirstName().equals("Adam")) {
-                adam = student;
-            }
+    public void handleStudentLogin(String userId) {
+        schoolClassModel.loadStudentData(userId);
+        try {
+            DETAILED_STUDENT_VIEW = createDetailedStudentView();
+            whiteComponentHolderController.setBorderPaneCenter(DETAILED_STUDENT_VIEW);
+            whiteComponentHolderController.setBorderPaneTop(SEARCH_COMBO_HOLDER);
+            ShowBottomButtons(false);
+            searchViewController.showSearchBar(false);
+        } catch (Exception e) {
+            System.out.println(e);
         }
+
         detailedStudentViewController.setIsStudentLogin();
-        detailedStudentViewController.setCurrentStudent(adam);
+        detailedStudentViewController.setCurrentStudent(schoolClassModel.getCurrentStudent());
+        LoginViewController.getInstance().hideSpinner();
+        LoginViewController.getInstance().showLoginButton();
+
     }
 
     /**

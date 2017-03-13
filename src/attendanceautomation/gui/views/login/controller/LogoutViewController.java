@@ -6,7 +6,6 @@
 package attendanceautomation.gui.views.login.controller;
 
 import attendanceautomation.gui.views.rootView.controller.RootViewController;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -16,7 +15,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Hyperlink;
 
 /**
  * FXML Controller class
@@ -61,12 +59,6 @@ public class LogoutViewController implements Initializable {
 
             }
         });
-
-               
-
-        
-        
-        
 
     }
 

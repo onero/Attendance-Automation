@@ -5,6 +5,7 @@
  */
 package attendanceautomation.gui.model;
 
+import attendanceautomation.be.Academy;
 import attendanceautomation.be.NonAttendance;
 import attendanceautomation.be.SchoolClass;
 import attendanceautomation.be.Student;
@@ -20,6 +21,8 @@ public class SchoolClassModel {
     private static SchoolClassModel instance;
 
     private final SchoolClassManager schoolClassManager;
+
+    private Academy currentAcademy;
 
     private Student currentStudent;
 
@@ -40,6 +43,7 @@ public class SchoolClassModel {
         searchString = "";
         students = FXCollections.observableArrayList();
         studentsFromDB = new ArrayList<>(students);
+        currentAcademy = new Academy(1, "EASV");
     }
 
     /**
@@ -153,6 +157,13 @@ public class SchoolClassModel {
      */
     public Student getCurrentStudent() {
         return currentStudent;
+    }
+
+    /**
+     * Get academy locations from DB
+     */
+    public void getAcademyLocations() {
+        currentAcademy.addAllLocation(schoolClassManager.getAcademyLocations(currentAcademy));
     }
 
 }

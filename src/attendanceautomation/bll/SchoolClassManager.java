@@ -5,10 +5,12 @@
  */
 package attendanceautomation.bll;
 
+import attendanceautomation.be.Academy;
 import attendanceautomation.be.NonAttendance;
 import attendanceautomation.be.SchoolClass;
 import attendanceautomation.be.Student;
 import attendanceautomation.dal.AttendanceAutomationDAOFacade;
+import java.util.HashMap;
 import java.util.List;
 
 public class SchoolClassManager {
@@ -149,6 +151,16 @@ public class SchoolClassManager {
      */
     public boolean isUserInDB(String userEmail) {
         return AADAOFacade.isUserInDB(userEmail);
+    }
+
+    /**
+     * Get all locations from given academy
+     *
+     * @param currentAcademy
+     * @return
+     */
+    public HashMap<Integer, String> getAcademyLocations(Academy currentAcademy) {
+        return AADAOFacade.getAcademyLocations(currentAcademy);
     }
 
 }

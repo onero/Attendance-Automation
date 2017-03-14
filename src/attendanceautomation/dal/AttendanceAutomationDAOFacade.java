@@ -5,12 +5,14 @@
  */
 package attendanceautomation.dal;
 
+import attendanceautomation.be.Academy;
 import attendanceautomation.be.NonAttendance;
 import attendanceautomation.be.SchoolClass;
 import attendanceautomation.be.SchoolClassSemesterLesson;
 import attendanceautomation.be.SchoolSemesterSubject;
 import attendanceautomation.be.Student;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -194,5 +196,20 @@ public class AttendanceAutomationDAOFacade {
             Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
+    }
+
+    /**
+     * Get All locations from given academy
+     *
+     * @param currentAcademy
+     * @return
+     */
+    public HashMap<Integer, String> getAcademyLocations(Academy currentAcademy) {
+        try {
+            return schoolClassDAO.getAcademyLocations(currentAcademy);
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 }

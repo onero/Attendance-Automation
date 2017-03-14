@@ -15,6 +15,8 @@ import attendanceautomation.gui.views.sharedComponents.whiteComponentHolder.cont
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -48,6 +50,8 @@ public class RootViewController implements Initializable {
     private Node EMPTY_TOP_BAR;
     private Node CURRENT_CLASS_VIEW;
 
+    private Node LOCATION_FILTER_VIEW;
+
     private WhiteComponentHolderController whiteComponentHolderController;
     private SearchViewController searchViewController;
     private DetailedStudentViewController detailedStudentViewController;
@@ -69,10 +73,7 @@ public class RootViewController implements Initializable {
             LOGIN_VIEW = createLoginView();
             LOGOUT_BUTTON = createLogoutView();
             EMPTY_TOP_BAR = createEmptyTopBar();
-            SEARCH_BAR = createSearchBarNode();
-            SEARCH_COMBO_HOLDER = createSearchComboHolder();
             WHITE_COMPONENT_HOLDER_VIEW = createWhiteComponentHolderView();
-            CURRENT_CLASS_VIEW = createCurrentClassView();
 
         } catch (IOException ex) {
             System.out.println("MainView not loaded! " + ex);
@@ -210,6 +211,9 @@ public class RootViewController implements Initializable {
                     MAIN_VIEW = createMainView();
                     ALL_STUDENTS_VIEW = createAllStudents();
                     DETAILED_STUDENT_VIEW = createDetailedStudentView();
+                    SEARCH_BAR = createSearchBarNode();
+                    LOCATION_FILTER_VIEW = createLocationFilterView();
+                    SEARCH_COMBO_HOLDER = createSearchComboHolder();
                     whiteComponentHolderController.setBorderPaneCenter(MAIN_VIEW);
                     whiteComponentHolderController.setBorderPaneTop(SEARCH_COMBO_HOLDER);
                     ShowBottomButtons(true);
@@ -290,6 +294,18 @@ public class RootViewController implements Initializable {
     }
 
     /**
+     * Creates the comboBox.
+     *
+     * @return
+     * @throws IOException
+     */
+    private Node createLocationFilterView() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.LOCATION_FILTER_VIEW.toString()));
+        Node node = loader.load();
+        return node;
+    }
+
+    /**
      * Creates the holder for the searchBar and the comboBox.
      *
      * @return
@@ -300,9 +316,8 @@ public class RootViewController implements Initializable {
         Node node = loader.load();
         ComponentsHolderViewController controller = loader.getController();
         controller.setBorderPaneLeft(SEARCH_BAR);
+        controller.setBorderPaneCenter(LOCATION_FILTER_VIEW);
         controller.setBorderPaneRight(LOGOUT_BUTTON);
-        //Removed until need be!
-//        controller.setBorderPaneRight(ComboBox);
         return node;
     }
 
@@ -321,6 +336,8 @@ public class RootViewController implements Initializable {
 
     /**
      * Makes it so that you can see and use the buttons in the bottom bar.
+     *
+     * @param visible
      */
     public void ShowBottomButtons(boolean visible) {
         startButton.setDisable(!visible);
@@ -329,16 +346,22 @@ public class RootViewController implements Initializable {
         allStudentsButton.setVisible(visible);
         currentClass.setDisable(!visible);
         currentClass.setVisible(visible);
-        
+
     }
 
     @FXML
     private void handleCurrentClassBtn(ActionEvent event) {
+        try {
+            CURRENT_CLASS_VIEW = createCurrentClassView();
+        } catch (IOException ex) {
+            Logger.getLogger(RootViewController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         whiteComponentHolderController.setBorderPaneCenter(CURRENT_CLASS_VIEW);
     }
 
     /**
      * Creates the node of the current class view.
+     *
      * @return @throws IOException
      */
     private Node createCurrentClassView() throws IOException {

@@ -101,6 +101,13 @@ public class PieChartModel {
         }
     }
 
+    public void resetPieChart() {
+        pieChartData.clear();
+        computedPieChartData.clear();
+        addNonAttendantStudentsToChartData();
+        MainViewController.getInstance().updatePieData();
+    }
+
     /**
      *
      * @return piechart data

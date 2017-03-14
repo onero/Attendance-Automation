@@ -53,27 +53,31 @@ public class CurrentClassViewController implements Initializable {
 
     /**
      * Creathes the list of the present students.
-     * @return @throws IOException
-     * TODO LATER REFACTOER TO ONE METHOD.
+     *
+     * @return @throws IOException TODO LATER REFACTOER TO ONE METHOD.
      */
     private Node createListViewPresent() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.CURRENT_CLASS_LIST_VIEW.toString()));
         Node node = loader.load();
-        CurrentClassListViewController controller = loader.getController();
-        controller.setItemsInList(model.getStudents());
+        setItemsInList(loader);
         return node;
     }
+
     /**
      * Creathes the list of the present students.
-     * @return @throws IOException
-     * TODO LATER REFACTOER TO ONE METHOD.
+     *
+     * @return @throws IOException TODO LATER REFACTOER TO ONE METHOD.
      */
     private Node createListViewAbsence() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.CURRENT_CLASS_LIST_VIEW.toString()));
         Node node = loader.load();
+        setItemsInList(loader);
+        return node;
+    }
+
+    private void setItemsInList(FXMLLoader loader) {
         CurrentClassListViewController controller = loader.getController();
         controller.setItemsInList(model.getStudents());
-        return node;
     }
 
 }

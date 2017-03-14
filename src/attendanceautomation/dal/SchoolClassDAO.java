@@ -5,6 +5,7 @@
  */
 package attendanceautomation.dal;
 
+import attendanceautomation.be.Academy;
 import attendanceautomation.be.SchoolClass;
 import attendanceautomation.be.SchoolClassSemesterLesson;
 import attendanceautomation.be.SchoolSemesterSubject;
@@ -20,6 +21,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -272,6 +274,80 @@ public class SchoolClassDAO {
                 return getSchoolClassByID(rs.getInt("SchoolClassID"));
             }
             return null;
+        }
+    }
+
+    /**
+     * Get all locations from given academy
+     *
+     * @param currentAcademy
+     * @return
+     * @throws SQLServerException
+     * @throws SQLException
+     */
+    public HashMap<Integer, String> getAcademyLocations(Academy currentAcademy) throws SQLServerException, SQLException {
+        HashMap<Integer, String> locations = new HashMap<>();
+        String sql = "SELECT location.ID AS 'LocationID', location.Name AS 'LocationName' "
+                + "FROM AcademyLocation academyLocation "
+                + "JOIN Academy academy ON academy.ID = academyLocation.AcademyID "
+                + "JOIN Location location ON location.ID = academyLocation.LocationID "
+                + "WHERE academy.ID = ? ";
+
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, currentAcademy.getID());
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                locations.putAll(getOneLocation(rs));
+            }
+            return locations;
+        }
+    }
+
+    /**
+     * Get one locations
+     *
+     * @param rs
+     * @return
+     * @throws SQLException
+     */
+    private HashMap<Integer, String> getOneLocation(ResultSet rs) throws SQLException {
+        int locationID = rs.getInt("LocationID");
+        String locationName = rs.getString("LocationName");
+
+        HashMap<Integer, String> location = new HashMap<>();
+        location.put(locationID, locationName);
+        return location;
+    }
+
+    /**
+     * Get all schoolclassIds by given locationID
+     *
+     * @param currentLocationID
+     * @return
+     * @throws com.microsoft.sqlserver.jdbc.SQLServerException
+     */
+    public List<Integer> getSchoolClassIdsByLocation(int currentLocationID) throws SQLServerException, SQLException {
+        schoolClasses = new ArrayList<>();
+        List<Integer> schoolClassIds = new ArrayList<>();
+        String sql = "SELECT aSchoolClass.SchoolClassID AS 'SchoolClassID' FROM Location location "
+                + "JOIN AcademyLocation aLocation ON aLocation.LocationID = location.ID "
+                + "JOIN AcademySchoolClass aSchoolClass ON aSchoolClass.AcademyLocationID = aLocation.ID "
+                + "WHERE location.ID = ? ";
+
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, currentLocationID);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                schoolClasses.add(getSchoolClassByID(rs.getInt("SchoolClassID")));
+            }
+            for (SchoolClass schoolClass : schoolClasses) {
+                schoolClassIds.add(schoolClass.getID());
+            }
+            return schoolClassIds;
         }
     }
 

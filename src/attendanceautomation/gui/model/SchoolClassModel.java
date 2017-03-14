@@ -5,6 +5,7 @@
  */
 package attendanceautomation.gui.model;
 
+import attendanceautomation.be.Academy;
 import attendanceautomation.be.NonAttendance;
 import attendanceautomation.be.SchoolClass;
 import attendanceautomation.be.Student;
@@ -20,6 +21,12 @@ public class SchoolClassModel {
     private static SchoolClassModel instance;
 
     private final SchoolClassManager schoolClassManager;
+
+    private final Academy currentAcademy;
+
+    private int currentLocationID;
+
+    private final ObservableList<String> locationNames;
 
     private Student currentStudent;
 
@@ -40,6 +47,9 @@ public class SchoolClassModel {
         searchString = "";
         students = FXCollections.observableArrayList();
         studentsFromDB = new ArrayList<>(students);
+        currentAcademy = new Academy(1, "EASV");
+        locationNames = FXCollections.observableArrayList();
+        currentLocationID = 1;
     }
 
     /**
@@ -49,10 +59,30 @@ public class SchoolClassModel {
         //TODO ALH: Load standard class for teacher
         students.clear();
         studentsFromDB.clear();
-        currentSchoolClass = schoolClassManager.getAllSchoolClassDataForSpecificSchoolClass(1);
+        loadAcademyLocations();
+        loadSchoolClassByLocation(currentLocationID);
+    }
+
+    /**
+     * Load schoolclass by location
+     *
+     * @param location
+     */
+    public void loadSchoolClassByLocation(int location) {
+        resetLocation();
+        currentLocationID = location;
+        List<Integer> schoolClassIDs = schoolClassManager.getSchoolClassIdsByLocation(currentLocationID);
+        //TODO ALH: Make this dynamic
+        int nextSchoolClassForTeacher = schoolClassIDs.get(0);
+        currentSchoolClass = schoolClassManager.getAllSchoolClassDataBySchoolClassId(nextSchoolClassForTeacher);
         studentsFromDB.addAll(currentSchoolClass.getStudents());
         students.addAll(studentsFromDB);
         sortStudentsOnAttendance();
+    }
+
+    public void resetLocation() {
+        studentsFromDB.clear();
+        students.clear();
     }
 
     public void updateStudentInfo() {
@@ -123,10 +153,19 @@ public class SchoolClassModel {
         this.searchString = searchString;
     }
 
+    /**
+     *
+     * @return searchString
+     */
     public String getSearchString() {
         return searchString;
     }
 
+    /**
+     * add student from search to observable list
+     *
+     * @param student
+     */
     public void updateStudentsFromSearch(Student student) {
         students.add(student);
     }
@@ -153,6 +192,51 @@ public class SchoolClassModel {
      */
     public Student getCurrentStudent() {
         return currentStudent;
+    }
+
+    /**
+     * Get academy locations from DB
+     */
+    public void loadAcademyLocations() {
+        currentAcademy.addAllLocation(schoolClassManager.getAcademyLocations(currentAcademy));
+        getAcademyLocationNames();
+    }
+
+    /**
+     * Add location names to observable list
+     */
+    private void getAcademyLocationNames() {
+        for (String location : currentAcademy.getLocations().values()) {
+            locationNames.add(location);
+        }
+    }
+
+    /**
+     *
+     * @return currentAcademy
+     */
+    public Academy getCurrentAcademy() {
+        return currentAcademy;
+    }
+
+    /**
+     *
+     * @return list of location names
+     */
+    public ObservableList<String> getLocationNames() {
+        return locationNames;
+    }
+
+    /**
+     * Get the location id of parsed location name
+     *
+     * @param location
+     * @return
+     */
+    public int getLocationID(String location) {
+        List<Integer> keys = new ArrayList<>(currentAcademy.getLocations().keySet());
+        int locationId = keys.get(locationNames.indexOf(location));
+        return locationId;
     }
 
 }

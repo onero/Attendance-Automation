@@ -10,7 +10,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 
 /**
  * FXML Controller class
@@ -19,25 +19,18 @@ import javafx.scene.layout.BorderPane;
  */
 public class FilterHolderViewController implements Initializable {
 
-    private static FilterHolderViewController instance;
-
     @FXML
-    private BorderPane borderPaneCenter;
+    private VBox vBox;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        instance = this;
     }
 
-    public static FilterHolderViewController getInstance() {
-        return instance;
-    }
-
-    public void setCenter(Node filter) {
-        borderPaneCenter.setCenter(filter);
+    public void addFilter(Node filter) {
+        vBox.getChildren().add(filter);
     }
 
 }

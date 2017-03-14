@@ -57,6 +57,7 @@ public class RootViewController implements Initializable {
 
     private Node FILTER_BUTTON;
     private Node LOCATION_FILTER_VIEW;
+    private Node SCHOOLCLASS_FILTER_VIEW;
 
     private WhiteComponentHolderController whiteComponentHolderController;
     private SearchViewController searchViewController;
@@ -207,10 +208,11 @@ public class RootViewController implements Initializable {
      * a teacher he gets sent to the start view if it's a student he will be
      * sent to the detailed student view.
      *
-     * @param teacherId
+     * @param teacherEmail
      */
-    public void handleTeacherLogin(String teacherId) {
+    public void handleTeacherLogin(String teacherEmail) {
         Runnable task = () -> {
+            schoolClassModel.setCurrentTeacher(schoolClassModel.getTeacherByEmail(teacherEmail));
             schoolClassModel.loadDataFromDB();
             Platform.runLater(() -> {
                 try {
@@ -333,6 +335,18 @@ public class RootViewController implements Initializable {
     }
 
     /**
+     * Creates the comboBox.
+     *
+     * @return
+     * @throws IOException
+     */
+    private Node createSchoolClassFilterView() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.SCHOOLCLASS_FILTER_VIEW.toString()));
+        Node node = loader.load();
+        return node;
+    }
+
+    /**
      * Creates the holder for the searchBar and the comboBox.
      *
      * @return
@@ -366,8 +380,10 @@ public class RootViewController implements Initializable {
             filterModal.initOwner(primStage);
 
             LOCATION_FILTER_VIEW = createLocationFilterView();
+            SCHOOLCLASS_FILTER_VIEW = createSchoolClassFilterView();
             FilterHolderViewController controller = loader.getController();
-            controller.setCenter(LOCATION_FILTER_VIEW);
+            controller.addFilter(LOCATION_FILTER_VIEW);
+            controller.addFilter(SCHOOLCLASS_FILTER_VIEW);
 
             filterModal.show();
         } catch (IOException ex) {

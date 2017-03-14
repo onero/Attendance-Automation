@@ -11,6 +11,7 @@ import attendanceautomation.be.SchoolClass;
 import attendanceautomation.be.SchoolClassSemesterLesson;
 import attendanceautomation.be.SchoolSemesterSubject;
 import attendanceautomation.be.Student;
+import attendanceautomation.be.Teacher;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -202,11 +203,12 @@ public class AttendanceAutomationDAOFacade {
      * Get All locations from given academy
      *
      * @param currentAcademy
+     * @param teacher
      * @return
      */
-    public HashMap<Integer, String> getAcademyLocations(Academy currentAcademy) {
+    public HashMap<Integer, String> loadAcademyLocationsTeacherIsTeaching(Academy currentAcademy, Teacher teacher) {
         try {
-            return schoolClassDAO.getAcademyLocations(currentAcademy);
+            return schoolClassDAO.loadAcademyLocationsTeacherIsTeaching(currentAcademy, teacher);
         } catch (SQLException ex) {
             Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -217,11 +219,27 @@ public class AttendanceAutomationDAOFacade {
      * Get all schoolClass ids by location
      *
      * @param currentLocationID
+     * @param teacherID
      * @return
      */
-    public List<Integer> getSchoolClassIdsByLocation(int currentLocationID) {
+    public HashMap<Integer, String> getSchoolClassHashMapByLocationAndTeacher(int currentLocationID, int teacherID) {
         try {
-            return schoolClassDAO.getSchoolClassIdsByLocation(currentLocationID);
+            return schoolClassDAO.getSchoolClassHashMapByLocationAndTeacher(currentLocationID, teacherID);
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    /**
+     * Get a teacher from DB by adamlars90@gmail.coms
+     *
+     * @param teacherEmail
+     * @return
+     */
+    public Teacher getTeacherByEmail(String teacherEmail) {
+        try {
+            return schoolClassDAO.getTeacherByEmail(teacherEmail);
         } catch (SQLException ex) {
             Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
         }

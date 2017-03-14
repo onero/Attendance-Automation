@@ -9,6 +9,7 @@ import attendanceautomation.be.Academy;
 import attendanceautomation.be.NonAttendance;
 import attendanceautomation.be.SchoolClass;
 import attendanceautomation.be.Student;
+import attendanceautomation.be.Teacher;
 import attendanceautomation.dal.AttendanceAutomationDAOFacade;
 import java.util.HashMap;
 import java.util.List;
@@ -157,20 +158,32 @@ public class SchoolClassManager {
      * Get all locations from given academy
      *
      * @param currentAcademy
+     * @param teacher
      * @return
      */
-    public HashMap<Integer, String> getAcademyLocations(Academy currentAcademy) {
-        return AADAOFacade.getAcademyLocations(currentAcademy);
+    public HashMap<Integer, String> loadAcademyLocationsTeacherIsTeaching(Academy currentAcademy, Teacher teacher) {
+        return AADAOFacade.loadAcademyLocationsTeacherIsTeaching(currentAcademy, teacher);
     }
 
     /**
      * Get schoolClassIds by location
      *
      * @param currentLocationID
+     * @param teacherID
      * @return
      */
-    public List<Integer> getSchoolClassIdsByLocation(int currentLocationID) {
-        return AADAOFacade.getSchoolClassIdsByLocation(currentLocationID);
+    public HashMap<Integer, String> getSchoolClassHashMapByLocationAndTeacher(int currentLocationID, int teacherID) {
+        return AADAOFacade.getSchoolClassHashMapByLocationAndTeacher(currentLocationID, teacherID);
+    }
+
+    /**
+     * Get teacher by email
+     *
+     * @param teacherEmail
+     * @return
+     */
+    public Teacher getTeacherByEmail(String teacherEmail) {
+        return AADAOFacade.getTeacherByEmail(teacherEmail);
     }
 
 }

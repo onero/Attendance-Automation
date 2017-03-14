@@ -22,7 +22,6 @@ import javafx.scene.control.ComboBox;
 public class LocationFilterViewController implements Initializable {
 
     private final SchoolClassModel schoolClassModel = SchoolClassModel.getInstance();
-
     @FXML
     private ComboBox<String> comboLocationFilter;
 

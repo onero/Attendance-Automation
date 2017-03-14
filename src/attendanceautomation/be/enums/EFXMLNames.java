@@ -31,6 +31,8 @@ public enum EFXMLNames {
     LOGIN_VIEW(FOLDER + "login/view/LoginView.fxml"),
     LOGOUT_BUTTON(FOLDER + "login/view/LogoutView.fxml"),
     WEEK_AND_DAYS_BAR(FOLDER + "sharedComponents/weeksAndDaysBar/view/WeeksAndDaysBarView.fxml"),
+    FILTER_BUTTON(FOLDER + "sharedComponents/filters/filterButton/view/FilterButton.fxml"),
+    FILTER_HOLER_VIEW(FOLDER + "sharedComponents/filters/filterHolder/view/FilterHolderView.fxml"),
     LOCATION_FILTER_VIEW(FOLDER + "sharedComponents/filters/locationFilter/view/LocationFilterView.fxml"),
     CURRENT_CLASS_VIEW(FOLDER + "currentClassView/view/currentClassView.fxml"),
     CURRENT_CLASS_LIST_VIEW(FOLDER + "currentClassView/view/CurrentClassListView.fxml"),

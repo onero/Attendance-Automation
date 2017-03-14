@@ -10,6 +10,7 @@ import attendanceautomation.gui.model.SchoolClassModel;
 import attendanceautomation.gui.views.detailedStudent.controller.DetailedStudentViewController;
 import attendanceautomation.gui.views.login.controller.LoginViewController;
 import attendanceautomation.gui.views.sharedComponents.componentsHolder.controller.ComponentsHolderViewController;
+import attendanceautomation.gui.views.sharedComponents.filters.filterHolder.controller.FilterHolderViewController;
 import attendanceautomation.gui.views.sharedComponents.searchView.controller.SearchViewController;
 import attendanceautomation.gui.views.sharedComponents.whiteComponentHolder.controller.WhiteComponentHolderController;
 import java.io.IOException;
@@ -23,8 +24,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 /**
  *
@@ -45,11 +50,12 @@ public class RootViewController implements Initializable {
 
     private Node SEARCH_BAR;
     private Node ComboBox;
-    private Node SEARCH_COMBO_HOLDER;
+    private Node ACTION_COMPONENT_HOLDER;
     private Node WHITE_COMPONENT_HOLDER_VIEW;
     private Node EMPTY_TOP_BAR;
     private Node CURRENT_CLASS_VIEW;
 
+    private Node FILTER_BUTTON;
     private Node LOCATION_FILTER_VIEW;
 
     private WhiteComponentHolderController whiteComponentHolderController;
@@ -208,14 +214,7 @@ public class RootViewController implements Initializable {
             schoolClassModel.loadDataFromDB();
             Platform.runLater(() -> {
                 try {
-                    MAIN_VIEW = createMainView();
-                    ALL_STUDENTS_VIEW = createAllStudents();
-                    DETAILED_STUDENT_VIEW = createDetailedStudentView();
-                    SEARCH_BAR = createSearchBarNode();
-                    LOCATION_FILTER_VIEW = createLocationFilterView();
-                    SEARCH_COMBO_HOLDER = createSearchComboHolder();
-                    whiteComponentHolderController.setBorderPaneCenter(MAIN_VIEW);
-                    whiteComponentHolderController.setBorderPaneTop(SEARCH_COMBO_HOLDER);
+                    createTeacherViews();
                     ShowBottomButtons(true);
                     LoginViewController.getInstance().hideSpinner();
                     LoginViewController.getInstance().showLoginButton();
@@ -229,6 +228,34 @@ public class RootViewController implements Initializable {
     }
 
     /**
+     * Create all views for the teacher
+     *
+     * @throws IOException
+     */
+    private void createTeacherViews() throws IOException {
+        MAIN_VIEW = createMainView();
+        ALL_STUDENTS_VIEW = createAllStudents();
+        DETAILED_STUDENT_VIEW = createDetailedStudentView();
+        SEARCH_BAR = createSearchBarNode();
+        FILTER_BUTTON = createFilterButton();
+        ACTION_COMPONENT_HOLDER = createActionComponentHolder();
+        whiteComponentHolderController.setBorderPaneCenter(MAIN_VIEW);
+        whiteComponentHolderController.setBorderPaneTop(ACTION_COMPONENT_HOLDER);
+    }
+
+    /**
+     * Creates the filter button
+     *
+     * @return
+     * @throws IOException
+     */
+    private Node createFilterButton() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.FILTER_BUTTON.toString()));
+        Node node = loader.load();
+        return node;
+    }
+
+    /**
      * Login in as student
      *
      * @param userId
@@ -238,7 +265,7 @@ public class RootViewController implements Initializable {
         try {
             DETAILED_STUDENT_VIEW = createDetailedStudentView();
             whiteComponentHolderController.setBorderPaneCenter(DETAILED_STUDENT_VIEW);
-            whiteComponentHolderController.setBorderPaneTop(SEARCH_COMBO_HOLDER);
+            whiteComponentHolderController.setBorderPaneTop(ACTION_COMPONENT_HOLDER);
             ShowBottomButtons(false);
             searchViewController.showSearchBar(false);
         } catch (Exception e) {
@@ -311,14 +338,42 @@ public class RootViewController implements Initializable {
      * @return
      * @throws IOException
      */
-    private Node createSearchComboHolder() throws IOException {
+    private Node createActionComponentHolder() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.COMPONENTS_HOLDER_VIEW.toString()));
         Node node = loader.load();
         ComponentsHolderViewController controller = loader.getController();
         controller.setBorderPaneLeft(SEARCH_BAR);
-        controller.setBorderPaneCenter(LOCATION_FILTER_VIEW);
+
+        controller.setBorderPaneCenter(FILTER_BUTTON);
+
+//        controller.setBorderPaneCenter(FILTER_HOLDER);
         controller.setBorderPaneRight(LOGOUT_BUTTON);
         return node;
+    }
+
+    /**
+     * Open filters modal
+     */
+    public void handleFilters() {
+        Stage primStage = (Stage) borderPane.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.FILTER_HOLER_VIEW.toString()));
+        try {
+            Parent root = loader.load();
+            Scene filterHolder = new Scene(root);
+            Stage filterModal = new Stage();
+            filterModal.setScene(filterHolder);
+
+            filterModal.initModality(Modality.WINDOW_MODAL);
+            filterModal.initOwner(primStage);
+
+            LOCATION_FILTER_VIEW = createLocationFilterView();
+            FilterHolderViewController controller = loader.getController();
+            controller.setCenter(LOCATION_FILTER_VIEW);
+
+            filterModal.show();
+        } catch (IOException ex) {
+            Logger.getLogger(RootViewController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

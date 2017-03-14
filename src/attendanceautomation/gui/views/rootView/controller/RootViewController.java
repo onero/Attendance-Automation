@@ -46,6 +46,7 @@ public class RootViewController implements Initializable {
     private Node SEARCH_COMBO_HOLDER;
     private Node WHITE_COMPONENT_HOLDER_VIEW;
     private Node EMPTY_TOP_BAR;
+    private Node CURRENT_CLASS_VIEW;
 
     private WhiteComponentHolderController whiteComponentHolderController;
     private SearchViewController searchViewController;
@@ -60,6 +61,8 @@ public class RootViewController implements Initializable {
     private Button startButton;
     @FXML
     private Button allStudentsButton;
+    @FXML
+    private Button currentClass;
 
     public RootViewController() {
         try {
@@ -69,6 +72,8 @@ public class RootViewController implements Initializable {
             SEARCH_BAR = createSearchBarNode();
             SEARCH_COMBO_HOLDER = createSearchComboHolder();
             WHITE_COMPONENT_HOLDER_VIEW = createWhiteComponentHolderView();
+            CURRENT_CLASS_VIEW = createCurrentClassView();
+
         } catch (IOException ex) {
             System.out.println("MainView not loaded! " + ex);
         }
@@ -322,5 +327,23 @@ public class RootViewController implements Initializable {
         startButton.setVisible(visible);
         allStudentsButton.setDisable(!visible);
         allStudentsButton.setVisible(visible);
+        currentClass.setDisable(!visible);
+        currentClass.setVisible(visible);
+        
+    }
+
+    @FXML
+    private void handleCurrentClassBtn(ActionEvent event) {
+        whiteComponentHolderController.setBorderPaneCenter(CURRENT_CLASS_VIEW);
+    }
+
+    /**
+     * Creates the node of the current class view.
+     * @return @throws IOException
+     */
+    private Node createCurrentClassView() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.CURRENT_CLASS_VIEW.toString()));
+        Node node = loader.load();
+        return node;
     }
 }

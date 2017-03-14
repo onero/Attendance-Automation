@@ -212,4 +212,19 @@ public class AttendanceAutomationDAOFacade {
         }
         return null;
     }
+
+    /**
+     * Get all schoolClass ids by location
+     *
+     * @param currentLocationID
+     * @return
+     */
+    public List<Integer> getSchoolClassIdsByLocation(int currentLocationID) {
+        try {
+            return schoolClassDAO.getSchoolClassIdsByLocation(currentLocationID);
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 }

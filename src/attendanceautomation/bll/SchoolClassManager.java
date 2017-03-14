@@ -48,7 +48,7 @@ public class SchoolClassManager {
      * @param id
      * @return
      */
-    public SchoolClass getAllSchoolClassDataForSpecificSchoolClass(int id) {
+    public SchoolClass getAllSchoolClassDataBySchoolClassId(int id) {
         SchoolClass schoolClass = getSchoolClassById(id);
 
         addStudentsToSchoolClass(id, schoolClass);
@@ -161,6 +161,16 @@ public class SchoolClassManager {
      */
     public HashMap<Integer, String> getAcademyLocations(Academy currentAcademy) {
         return AADAOFacade.getAcademyLocations(currentAcademy);
+    }
+
+    /**
+     * Get schoolClassIds by location
+     *
+     * @param currentLocationID
+     * @return
+     */
+    public List<Integer> getSchoolClassIdsByLocation(int currentLocationID) {
+        return AADAOFacade.getSchoolClassIdsByLocation(currentLocationID);
     }
 
 }

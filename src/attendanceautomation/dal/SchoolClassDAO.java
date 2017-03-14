@@ -321,4 +321,34 @@ public class SchoolClassDAO {
         return location;
     }
 
+    /**
+     * Get all schoolclassIds by given locationID
+     *
+     * @param currentLocationID
+     * @return
+     * @throws com.microsoft.sqlserver.jdbc.SQLServerException
+     */
+    public List<Integer> getSchoolClassIdsByLocation(int currentLocationID) throws SQLServerException, SQLException {
+        schoolClasses = new ArrayList<>();
+        List<Integer> schoolClassIds = new ArrayList<>();
+        String sql = "SELECT aSchoolClass.SchoolClassID AS 'SchoolClassID' FROM Location location "
+                + "JOIN AcademyLocation aLocation ON aLocation.LocationID = location.ID "
+                + "JOIN AcademySchoolClass aSchoolClass ON aSchoolClass.AcademyLocationID = aLocation.ID "
+                + "WHERE location.ID = ? ";
+
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, currentLocationID);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                schoolClasses.add(getSchoolClassByID(rs.getInt("SchoolClassID")));
+            }
+            for (SchoolClass schoolClass : schoolClasses) {
+                schoolClassIds.add(schoolClass.getID());
+            }
+            return schoolClassIds;
+        }
+    }
+
 }

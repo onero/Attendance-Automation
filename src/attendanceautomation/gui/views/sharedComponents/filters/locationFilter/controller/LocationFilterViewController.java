@@ -5,10 +5,11 @@
  */
 package attendanceautomation.gui.views.sharedComponents.filters.locationFilter.controller;
 
+import attendanceautomation.gui.model.PieChartModel;
 import attendanceautomation.gui.model.SchoolClassModel;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.Event;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
@@ -20,6 +21,8 @@ import javafx.scene.control.ComboBox;
  */
 public class LocationFilterViewController implements Initializable {
 
+    private final SchoolClassModel schoolClassModel = SchoolClassModel.getInstance();
+
     @FXML
     private ComboBox<String> comboLocationFilter;
 
@@ -28,13 +31,21 @@ public class LocationFilterViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        comboLocationFilter.setItems(SchoolClassModel.getInstance().getLocationNames());
+        comboLocationFilter.setItems(schoolClassModel.getLocationNames());
         comboLocationFilter.getSelectionModel().selectFirst();
     }
 
     @FXML
-    private void handleLocationFilter(Event event) {
-
+    private void handleLocationFilter() {
+        String location = comboLocationFilter.getSelectionModel().getSelectedItem();
+        int locationID = schoolClassModel.getLocationID(location);
+        Runnable task = () -> {
+            Platform.runLater(() -> {
+                schoolClassModel.loadSchoolClassByLocation(locationID);
+                PieChartModel.getInstance().resetPieChart();
+            });
+        };
+        new Thread(task).start();
     }
 
 }

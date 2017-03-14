@@ -22,7 +22,9 @@ public class SchoolClassModel {
 
     private final SchoolClassManager schoolClassManager;
 
-    private Academy currentAcademy;
+    private final Academy currentAcademy;
+
+    private int currentLocationID;
 
     private final ObservableList<String> locationNames;
 
@@ -57,10 +59,30 @@ public class SchoolClassModel {
         students.clear();
         studentsFromDB.clear();
         loadAcademyLocations();
-        currentSchoolClass = schoolClassManager.getAllSchoolClassDataForSpecificSchoolClass(1);
+        currentLocationID = 1;
+        loadSchoolClassByLocation(currentLocationID);
+    }
+
+    /**
+     * Load schoolclass by location
+     *
+     * @param location
+     */
+    public void loadSchoolClassByLocation(int location) {
+        resetLocation();
+        currentLocationID = location;
+        List<Integer> schoolClassIDs = schoolClassManager.getSchoolClassIdsByLocation(currentLocationID);
+        //TODO ALH: Make this dynamic
+        int nextSchoolClassForTeacher = schoolClassIDs.get(0);
+        currentSchoolClass = schoolClassManager.getAllSchoolClassDataBySchoolClassId(nextSchoolClassForTeacher);
         studentsFromDB.addAll(currentSchoolClass.getStudents());
         students.addAll(studentsFromDB);
         sortStudentsOnAttendance();
+    }
+
+    public void resetLocation() {
+        studentsFromDB.clear();
+        students.clear();
     }
 
     public void updateStudentInfo() {
@@ -131,10 +153,19 @@ public class SchoolClassModel {
         this.searchString = searchString;
     }
 
+    /**
+     *
+     * @return searchString
+     */
     public String getSearchString() {
         return searchString;
     }
 
+    /**
+     * add student from search to observable list
+     *
+     * @param student
+     */
     public void updateStudentsFromSearch(Student student) {
         students.add(student);
     }
@@ -171,18 +202,41 @@ public class SchoolClassModel {
         getAcademyLocationNames();
     }
 
+    /**
+     * Add location names to observable list
+     */
     private void getAcademyLocationNames() {
         for (String location : currentAcademy.getLocations().values()) {
             locationNames.add(location);
         }
     }
 
+    /**
+     *
+     * @return currentAcademy
+     */
     public Academy getCurrentAcademy() {
         return currentAcademy;
     }
 
+    /**
+     *
+     * @return list of location names
+     */
     public ObservableList<String> getLocationNames() {
         return locationNames;
+    }
+
+    /**
+     * Get the location id of parsed location name
+     *
+     * @param location
+     * @return
+     */
+    public int getLocationID(String location) {
+        List<Integer> keys = new ArrayList<>(currentAcademy.getLocations().keySet());
+        int locationId = keys.get(locationNames.indexOf(location));
+        return locationId;
     }
 
 }

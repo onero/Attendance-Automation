@@ -7,20 +7,23 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<BorderPane fx:id="borderPane" prefHeight="630" prefWidth="900" styleClass="borderPane" stylesheets="@../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="attendanceautomation.gui.views.rootView.controller.RootViewController">
+<BorderPane fx:id="borderPane" prefHeight="630" prefWidth="900" styleClass="borderPane" stylesheets="@../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="attendanceautomation.gui.views.rootView.controller.RootViewController">
    <bottom>
       <GridPane stylesheets="@../../css/Style.css" BorderPane.alignment="CENTER">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="180.0" minWidth="10.0" prefWidth="130.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="50.0" minWidth="10.0" prefWidth="27.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="180.0" minWidth="10.0" prefWidth="143.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="50.0" minWidth="10.0" prefWidth="27.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="278.0" minWidth="10.0" prefWidth="278.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="startButton" mnemonicParsing="false" onAction="#handleStartView" prefHeight="31.0" prefWidth="180.0" text="START" />
+            <Button fx:id="startButton" mnemonicParsing="false" onAction="#handleStartView" prefHeight="31.0" prefWidth="180.0" text="Start" />
             <Button fx:id="allStudentsButton" mnemonicParsing="false" onAction="#handleAllStudentsButton" prefHeight="31.0" prefWidth="180.0" text="Alle Studerende" GridPane.columnIndex="2" />
+            <Button fx:id="currentClass" mnemonicParsing="false" onAction="#handleCurrentClassBtn" prefHeight="31.0" prefWidth="180.0" text="Nuværende Time" GridPane.columnIndex="4" />
          </children>
          <styleClass>
             <String fx:value="padding" />

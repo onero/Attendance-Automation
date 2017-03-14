@@ -15,6 +15,8 @@ import attendanceautomation.gui.views.sharedComponents.whiteComponentHolder.cont
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -46,6 +48,7 @@ public class RootViewController implements Initializable {
     private Node SEARCH_COMBO_HOLDER;
     private Node WHITE_COMPONENT_HOLDER_VIEW;
     private Node EMPTY_TOP_BAR;
+    private Node CURRENT_CLASS_VIEW;
 
     private Node LOCATION_FILTER_VIEW;
 
@@ -62,6 +65,8 @@ public class RootViewController implements Initializable {
     private Button startButton;
     @FXML
     private Button allStudentsButton;
+    @FXML
+    private Button currentClass;
 
     public RootViewController() {
         try {
@@ -69,6 +74,7 @@ public class RootViewController implements Initializable {
             LOGOUT_BUTTON = createLogoutView();
             EMPTY_TOP_BAR = createEmptyTopBar();
             WHITE_COMPONENT_HOLDER_VIEW = createWhiteComponentHolderView();
+
         } catch (IOException ex) {
             System.out.println("MainView not loaded! " + ex);
         }
@@ -312,8 +318,6 @@ public class RootViewController implements Initializable {
         controller.setBorderPaneLeft(SEARCH_BAR);
         controller.setBorderPaneCenter(LOCATION_FILTER_VIEW);
         controller.setBorderPaneRight(LOGOUT_BUTTON);
-        //Removed until need be!
-//        controller.setBorderPaneRight(ComboBox);
         return node;
     }
 
@@ -332,11 +336,37 @@ public class RootViewController implements Initializable {
 
     /**
      * Makes it so that you can see and use the buttons in the bottom bar.
+     *
+     * @param visible
      */
     public void ShowBottomButtons(boolean visible) {
         startButton.setDisable(!visible);
         startButton.setVisible(visible);
         allStudentsButton.setDisable(!visible);
         allStudentsButton.setVisible(visible);
+        currentClass.setDisable(!visible);
+        currentClass.setVisible(visible);
+
+    }
+
+    @FXML
+    private void handleCurrentClassBtn(ActionEvent event) {
+        try {
+            CURRENT_CLASS_VIEW = createCurrentClassView();
+        } catch (IOException ex) {
+            Logger.getLogger(RootViewController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        whiteComponentHolderController.setBorderPaneCenter(CURRENT_CLASS_VIEW);
+    }
+
+    /**
+     * Creates the node of the current class view.
+     *
+     * @return @throws IOException
+     */
+    private Node createCurrentClassView() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.CURRENT_CLASS_VIEW.toString()));
+        Node node = loader.load();
+        return node;
     }
 }

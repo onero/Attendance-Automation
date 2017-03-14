@@ -49,6 +49,7 @@ public class SchoolClassModel {
         studentsFromDB = new ArrayList<>(students);
         currentAcademy = new Academy(1, "EASV");
         locationNames = FXCollections.observableArrayList();
+        currentLocationID = 1;
     }
 
     /**
@@ -59,7 +60,6 @@ public class SchoolClassModel {
         students.clear();
         studentsFromDB.clear();
         loadAcademyLocations();
-        currentLocationID = 1;
         loadSchoolClassByLocation(currentLocationID);
     }
 

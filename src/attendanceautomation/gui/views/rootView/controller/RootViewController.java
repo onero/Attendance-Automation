@@ -351,6 +351,9 @@ public class RootViewController implements Initializable {
         return node;
     }
 
+    /**
+     * Open filters modal
+     */
     public void handleFilters() {
         Stage primStage = (Stage) borderPane.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.FILTER_HOLER_VIEW.toString()));

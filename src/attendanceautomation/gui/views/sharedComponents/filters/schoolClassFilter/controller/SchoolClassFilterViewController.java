@@ -3,34 +3,36 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package attendanceautomation.gui.views.sharedComponents.filters.filterHolder.controller;
+package attendanceautomation.gui.views.sharedComponents.filters.schoolClassFilter.controller;
 
+import attendanceautomation.gui.model.SchoolClassModel;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.ComboBox;
 
 /**
  * FXML Controller class
  *
  * @author gta1
  */
-public class FilterHolderViewController implements Initializable {
+public class SchoolClassFilterViewController implements Initializable {
 
     @FXML
-    private VBox vBox;
+    private ComboBox<String> comboSchoolClass;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        comboSchoolClass.setItems(SchoolClassModel.getInstance().getSchoolClassNames());
     }
 
-    public void addFilter(Node filter) {
-        vBox.getChildren().add(filter);
+    @FXML
+    private void handleSelectSchoolClass(Event event) {
     }
 
 }

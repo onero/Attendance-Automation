@@ -9,6 +9,7 @@ import attendanceautomation.be.Academy;
 import attendanceautomation.be.SchoolClass;
 import attendanceautomation.be.SchoolClassSemesterLesson;
 import attendanceautomation.be.SchoolSemesterSubject;
+import attendanceautomation.be.Teacher;
 import attendanceautomation.be.enums.ESchoolSubject;
 import attendanceautomation.be.enums.ESemester;
 import attendanceautomation.be.enums.ETeacher;
@@ -325,30 +326,77 @@ public class SchoolClassDAO {
      * Get all schoolclassIds by given locationID
      *
      * @param currentLocationID
+     * @param teacherID
      * @return
      * @throws com.microsoft.sqlserver.jdbc.SQLServerException
      */
-    public List<Integer> getSchoolClassIdsByLocation(int currentLocationID) throws SQLServerException, SQLException {
-        schoolClasses = new ArrayList<>();
-        List<Integer> schoolClassIds = new ArrayList<>();
-        String sql = "SELECT aSchoolClass.SchoolClassID AS 'SchoolClassID' FROM Location location "
-                + "JOIN AcademyLocation aLocation ON aLocation.LocationID = location.ID "
+    public HashMap<Integer, String> getSchoolClassHashMapByLocationAndTeacher(int currentLocationID, int teacherID) throws SQLServerException, SQLException {
+        HashMap<Integer, String> classes = new HashMap<>();
+        String sql = "SELECT DISTINCT(sc.ID) AS 'SchoolClassID' "
+                + "FROM Location location "
+                + "JOIN AcademyLocation aLocation ON aLocation.LocationID = location.ID  "
                 + "JOIN AcademySchoolClass aSchoolClass ON aSchoolClass.AcademyLocationID = aLocation.ID "
-                + "WHERE location.ID = ? ";
+                + "JOIN SchoolClass sc ON sc.ID = aSchoolClass.SchoolClassID "
+                + "JOIN SchoolClassSemesterSubject semesterSubject ON semesterSubject.SchoolClassID = aSchoolClass.SchoolClassID "
+                + "WHERE location.ID = ? "
+                + "AND "
+                + "semesterSubject.TeacherID = ? ";
 
         try (Connection con = cm.getConnection()) {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, currentLocationID);
+            ps.setInt(2, teacherID);
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                schoolClasses.add(getSchoolClassByID(rs.getInt("SchoolClassID")));
+                SchoolClass schoolClass = getSchoolClassByID(rs.findColumn("SchoolClassID"));
+                classes.put(schoolClass.getID(), schoolClass.getSchoolClassName());
             }
-            for (SchoolClass schoolClass : schoolClasses) {
-                schoolClassIds.add(schoolClass.getID());
-            }
-            return schoolClassIds;
+            return classes;
         }
+    }
+
+    /**
+     * Get teacher from DB by adamlars90@gmail.coms
+     *
+     * @param teacherEmail
+     * @return
+     * @throws com.microsoft.sqlserver.jdbc.SQLServerException
+     */
+    public Teacher getTeacherByEmail(String teacherEmail) throws SQLServerException, SQLException {
+        String sql = "SELECT p.ID AS 'PersonID', t.ID AS 'TeacherID', p.FirstName AS 'TeacherFirstName', p.LastName AS 'TeacherLastName', p.Email AS 'TeacherEmail' "
+                + "FROM Teacher t "
+                + "JOIN Person p ON p.ID = t.PersonID "
+                + "WHERE p.Email = ? ";
+
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, teacherEmail);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return getOneTeacher(rs);
+            }
+            return null;
+        }
+    }
+
+    /**
+     * Get one teacher
+     *
+     * @param rs
+     * @return
+     * @throws SQLException
+     */
+    private Teacher getOneTeacher(ResultSet rs) throws SQLException {
+        int ID = rs.getInt("PersonID");
+        int TeacherID = rs.getInt("TeacherID");
+        String FirstName = rs.getString("TeacherFirstName");
+        String LastName = rs.getString("TeacherLastName");
+        String Email = rs.getString("TeacherEmail");
+
+        Teacher teacher = new Teacher(ID, TeacherID, FirstName, LastName, Email);
+        return teacher;
     }
 
 }

@@ -9,9 +9,11 @@ import attendanceautomation.be.Academy;
 import attendanceautomation.be.NonAttendance;
 import attendanceautomation.be.SchoolClass;
 import attendanceautomation.be.Student;
+import attendanceautomation.be.Teacher;
 import attendanceautomation.bll.SchoolClassManager;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -29,6 +31,10 @@ public class SchoolClassModel {
     private final ObservableList<String> locationNames;
 
     private Student currentStudent;
+
+    private Teacher currentTeacher;
+
+    private final ObservableList<String> teacherSchoolClassNames;
 
     private SchoolClass currentSchoolClass;
     private final List<Student> studentsFromDB;
@@ -49,6 +55,7 @@ public class SchoolClassModel {
         studentsFromDB = new ArrayList<>(students);
         currentAcademy = new Academy(1, "EASV");
         locationNames = FXCollections.observableArrayList();
+        teacherSchoolClassNames = FXCollections.observableArrayList();
         currentLocationID = 1;
     }
 
@@ -71,8 +78,9 @@ public class SchoolClassModel {
     public void loadSchoolClassByLocation(int location) {
         resetLocation();
         currentLocationID = location;
-        List<Integer> schoolClassIDs = schoolClassManager.getSchoolClassIdsByLocation(currentLocationID);
-        //TODO ALH: Make this dynamic
+        HashMap<Integer, String> schoolClassForTeacherAtCurrentLocation = schoolClassManager.getSchoolClassHashMapByLocationAndTeacher(currentLocationID, currentTeacher.getTeacherID());
+        teacherSchoolClassNames.addAll(schoolClassForTeacherAtCurrentLocation.values());
+        List<Integer> schoolClassIDs = new ArrayList<>(schoolClassForTeacherAtCurrentLocation.keySet());
         int nextSchoolClassForTeacher = schoolClassIDs.get(0);
         currentSchoolClass = schoolClassManager.getAllSchoolClassDataBySchoolClassId(nextSchoolClassForTeacher);
         studentsFromDB.addAll(currentSchoolClass.getStudents());
@@ -119,6 +127,10 @@ public class SchoolClassModel {
 
     public SchoolClass getCurrentSchoolClass() {
         return currentSchoolClass;
+    }
+
+    public void setCurrentTeacher(Teacher teacher) {
+        currentTeacher = teacher;
     }
 
     /**
@@ -237,6 +249,20 @@ public class SchoolClassModel {
         List<Integer> keys = new ArrayList<>(currentAcademy.getLocations().keySet());
         int locationId = keys.get(locationNames.indexOf(location));
         return locationId;
+    }
+
+    public ObservableList<String> getSchoolClassNames() {
+        return teacherSchoolClassNames;
+    }
+
+    /**
+     * Get a teacher by adamlars90@gmail.coms
+     *
+     * @param teacherEmail
+     * @return
+     */
+    public Teacher getTeacherByEmail(String teacherEmail) {
+        return schoolClassManager.getTeacherByEmail(teacherEmail);
     }
 
 }

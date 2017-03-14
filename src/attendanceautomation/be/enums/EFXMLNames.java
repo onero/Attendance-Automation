@@ -30,7 +30,8 @@ public enum EFXMLNames {
     MONTH_COMBO_BOX_VIEW(FOLDER + "allStudents/view/MonthComboboxView.fxml"),
     LOGIN_VIEW(FOLDER + "login/view/LoginView.fxml"),
     LOGOUT_BUTTON(FOLDER + "login/view/LogoutView.fxml"),
-    WEEK_AND_DAYS_BAR(FOLDER + "sharedComponents/weeksAndDaysBar/view/WeeksAndDaysBarView.fxml");
+    WEEK_AND_DAYS_BAR(FOLDER + "sharedComponents/weeksAndDaysBar/view/WeeksAndDaysBarView.fxml"),
+    LOCATION_FILTER_VIEW(FOLDER + "sharedComponents/filters/locationFilter/view/LocationFilterView.fxml");
 
     private final String text;
 

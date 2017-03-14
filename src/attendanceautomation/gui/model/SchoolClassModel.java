@@ -24,6 +24,8 @@ public class SchoolClassModel {
 
     private Academy currentAcademy;
 
+    private final ObservableList<String> locationNames;
+
     private Student currentStudent;
 
     private SchoolClass currentSchoolClass;
@@ -44,6 +46,7 @@ public class SchoolClassModel {
         students = FXCollections.observableArrayList();
         studentsFromDB = new ArrayList<>(students);
         currentAcademy = new Academy(1, "EASV");
+        locationNames = FXCollections.observableArrayList();
     }
 
     /**
@@ -53,6 +56,7 @@ public class SchoolClassModel {
         //TODO ALH: Load standard class for teacher
         students.clear();
         studentsFromDB.clear();
+        loadAcademyLocations();
         currentSchoolClass = schoolClassManager.getAllSchoolClassDataForSpecificSchoolClass(1);
         studentsFromDB.addAll(currentSchoolClass.getStudents());
         students.addAll(studentsFromDB);
@@ -162,8 +166,23 @@ public class SchoolClassModel {
     /**
      * Get academy locations from DB
      */
-    public void getAcademyLocations() {
+    public void loadAcademyLocations() {
         currentAcademy.addAllLocation(schoolClassManager.getAcademyLocations(currentAcademy));
+        getAcademyLocationNames();
+    }
+
+    private void getAcademyLocationNames() {
+        for (String location : currentAcademy.getLocations().values()) {
+            locationNames.add(location);
+        }
+    }
+
+    public Academy getCurrentAcademy() {
+        return currentAcademy;
+    }
+
+    public ObservableList<String> getLocationNames() {
+        return locationNames;
     }
 
 }

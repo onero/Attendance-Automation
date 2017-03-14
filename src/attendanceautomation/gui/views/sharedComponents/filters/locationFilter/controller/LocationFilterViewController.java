@@ -5,6 +5,7 @@
  */
 package attendanceautomation.gui.views.sharedComponents.filters.locationFilter.controller;
 
+import attendanceautomation.gui.model.SchoolClassModel;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.Event;
@@ -20,14 +21,15 @@ import javafx.scene.control.ComboBox;
 public class LocationFilterViewController implements Initializable {
 
     @FXML
-    private ComboBox<?> comboLocationFilter;
+    private ComboBox<String> comboLocationFilter;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        comboLocationFilter.setItems(SchoolClassModel.getInstance().getLocationNames());
+        comboLocationFilter.getSelectionModel().selectFirst();
     }
 
     @FXML

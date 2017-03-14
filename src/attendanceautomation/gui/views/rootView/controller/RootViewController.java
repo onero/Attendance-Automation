@@ -47,6 +47,8 @@ public class RootViewController implements Initializable {
     private Node WHITE_COMPONENT_HOLDER_VIEW;
     private Node EMPTY_TOP_BAR;
 
+    private Node LOCATION_FILTER_VIEW;
+
     private WhiteComponentHolderController whiteComponentHolderController;
     private SearchViewController searchViewController;
     private DetailedStudentViewController detailedStudentViewController;
@@ -66,8 +68,6 @@ public class RootViewController implements Initializable {
             LOGIN_VIEW = createLoginView();
             LOGOUT_BUTTON = createLogoutView();
             EMPTY_TOP_BAR = createEmptyTopBar();
-            SEARCH_BAR = createSearchBarNode();
-            SEARCH_COMBO_HOLDER = createSearchComboHolder();
             WHITE_COMPONENT_HOLDER_VIEW = createWhiteComponentHolderView();
         } catch (IOException ex) {
             System.out.println("MainView not loaded! " + ex);
@@ -205,6 +205,9 @@ public class RootViewController implements Initializable {
                     MAIN_VIEW = createMainView();
                     ALL_STUDENTS_VIEW = createAllStudents();
                     DETAILED_STUDENT_VIEW = createDetailedStudentView();
+                    SEARCH_BAR = createSearchBarNode();
+                    LOCATION_FILTER_VIEW = createLocationFilterView();
+                    SEARCH_COMBO_HOLDER = createSearchComboHolder();
                     whiteComponentHolderController.setBorderPaneCenter(MAIN_VIEW);
                     whiteComponentHolderController.setBorderPaneTop(SEARCH_COMBO_HOLDER);
                     ShowBottomButtons(true);
@@ -285,6 +288,18 @@ public class RootViewController implements Initializable {
     }
 
     /**
+     * Creates the comboBox.
+     *
+     * @return
+     * @throws IOException
+     */
+    private Node createLocationFilterView() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.LOCATION_FILTER_VIEW.toString()));
+        Node node = loader.load();
+        return node;
+    }
+
+    /**
      * Creates the holder for the searchBar and the comboBox.
      *
      * @return
@@ -295,6 +310,7 @@ public class RootViewController implements Initializable {
         Node node = loader.load();
         ComponentsHolderViewController controller = loader.getController();
         controller.setBorderPaneLeft(SEARCH_BAR);
+        controller.setBorderPaneCenter(LOCATION_FILTER_VIEW);
         controller.setBorderPaneRight(LOGOUT_BUTTON);
         //Removed until need be!
 //        controller.setBorderPaneRight(ComboBox);

@@ -346,7 +346,6 @@ public class RootViewController implements Initializable {
 
         controller.setBorderPaneCenter(FILTER_BUTTON);
 
-//        controller.setBorderPaneCenter(FILTER_HOLDER);
         controller.setBorderPaneRight(LOGOUT_BUTTON);
         return node;
     }

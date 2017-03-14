@@ -8,7 +8,6 @@ package attendanceautomation.gui.views.sharedComponents.filters.schoolClassFilte
 import attendanceautomation.gui.model.SchoolClassModel;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
@@ -29,10 +28,13 @@ public class SchoolClassFilterViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         comboSchoolClass.setItems(SchoolClassModel.getInstance().getSchoolClassNames());
+        comboSchoolClass.getSelectionModel().selectFirst();
     }
 
     @FXML
-    private void handleSelectSchoolClass(Event event) {
+    private void handleSelectSchoolClass() {
+        String schoolClassName = comboSchoolClass.getSelectionModel().getSelectedItem();
+        SchoolClassModel.getInstance().loadSchoolClassByName(schoolClassName);
     }
 
 }

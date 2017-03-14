@@ -34,6 +34,9 @@ public class SchoolClassModel {
 
     private Teacher currentTeacher;
 
+    private HashMap<Integer, String> schoolClassForTeacherAtCurrentLocation;
+    private List<Integer> schoolClassIDs;
+
     private final ObservableList<String> teacherSchoolClassNames;
 
     private SchoolClass currentSchoolClass;
@@ -56,18 +59,17 @@ public class SchoolClassModel {
         currentAcademy = new Academy(1, "EASV");
         locationNames = FXCollections.observableArrayList();
         teacherSchoolClassNames = FXCollections.observableArrayList();
-        currentLocationID = 1;
     }
 
     /**
      * Load newest data from DB
      */
     public void loadDataFromDB() {
-        //TODO ALH: Load standard class for teacher
         students.clear();
         studentsFromDB.clear();
-        loadAcademyLocations();
-        loadSchoolClassByLocation(currentLocationID);
+        loadAcademyLocationsTeacherIsTeaching();
+        //TODO ALH: Dynamic locations
+        loadSchoolClassByLocation(1);
     }
 
     /**
@@ -76,19 +78,46 @@ public class SchoolClassModel {
      * @param location
      */
     public void loadSchoolClassByLocation(int location) {
-        resetLocation();
-        currentLocationID = location;
-        HashMap<Integer, String> schoolClassForTeacherAtCurrentLocation = schoolClassManager.getSchoolClassHashMapByLocationAndTeacher(currentLocationID, currentTeacher.getTeacherID());
-        teacherSchoolClassNames.addAll(schoolClassForTeacherAtCurrentLocation.values());
-        List<Integer> schoolClassIDs = new ArrayList<>(schoolClassForTeacherAtCurrentLocation.keySet());
-        int nextSchoolClassForTeacher = schoolClassIDs.get(0);
-        currentSchoolClass = schoolClassManager.getAllSchoolClassDataBySchoolClassId(nextSchoolClassForTeacher);
+        if (currentLocationID != location) {
+            teacherSchoolClassNames.clear();
+            currentLocationID = location;
+            schoolClassForTeacherAtCurrentLocation = schoolClassManager.getSchoolClassHashMapByLocationAndTeacher(currentLocationID, currentTeacher.getTeacherID());
+            teacherSchoolClassNames.addAll(schoolClassForTeacherAtCurrentLocation.values());
+            schoolClassIDs = new ArrayList<>(schoolClassForTeacherAtCurrentLocation.keySet());
+            int nextSchoolClassForTeacher = schoolClassIDs.get(0);
+            loadSchoolClassData(nextSchoolClassForTeacher);
+        }
+    }
+
+    /**
+     * Load schoolclass with students
+     *
+     * @param schoolClassID
+     */
+    private void loadSchoolClassData(int schoolClassID) {
+        if (currentSchoolClass != null) {
+            if (schoolClassID != currentSchoolClass.getID()) {
+                setCurrentSchoolClass(schoolClassID);
+            }
+        } else {
+            setCurrentSchoolClass(schoolClassID);
+        }
+    }
+
+    /**
+     * Set current schoolClass based on schoolClassID
+     *
+     * @param schoolClassID
+     */
+    private void setCurrentSchoolClass(int schoolClassID) {
+        resetStudents();
+        currentSchoolClass = schoolClassManager.getAllSchoolClassDataBySchoolClassId(schoolClassID);
         studentsFromDB.addAll(currentSchoolClass.getStudents());
         students.addAll(studentsFromDB);
         sortStudentsOnAttendance();
     }
 
-    public void resetLocation() {
+    public void resetStudents() {
         studentsFromDB.clear();
         students.clear();
     }
@@ -209,8 +238,8 @@ public class SchoolClassModel {
     /**
      * Get academy locations from DB
      */
-    public void loadAcademyLocations() {
-        currentAcademy.addAllLocation(schoolClassManager.getAcademyLocations(currentAcademy));
+    public void loadAcademyLocationsTeacherIsTeaching() {
+        currentAcademy.addAllLocation(schoolClassManager.loadAcademyLocationsTeacherIsTeaching(currentAcademy, currentTeacher));
         getAcademyLocationNames();
     }
 
@@ -263,6 +292,15 @@ public class SchoolClassModel {
      */
     public Teacher getTeacherByEmail(String teacherEmail) {
         return schoolClassManager.getTeacherByEmail(teacherEmail);
+    }
+
+    /**
+     * Load a schoolClass by name
+     *
+     * @param schoolClassName
+     */
+    public void loadSchoolClassByName(String schoolClassName) {
+        loadSchoolClassData(schoolClassIDs.get(teacherSchoolClassNames.indexOf(schoolClassName)));
     }
 
 }

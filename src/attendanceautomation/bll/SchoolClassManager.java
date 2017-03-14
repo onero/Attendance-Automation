@@ -158,10 +158,11 @@ public class SchoolClassManager {
      * Get all locations from given academy
      *
      * @param currentAcademy
+     * @param teacher
      * @return
      */
-    public HashMap<Integer, String> getAcademyLocations(Academy currentAcademy) {
-        return AADAOFacade.getAcademyLocations(currentAcademy);
+    public HashMap<Integer, String> loadAcademyLocationsTeacherIsTeaching(Academy currentAcademy, Teacher teacher) {
+        return AADAOFacade.loadAcademyLocationsTeacherIsTeaching(currentAcademy, teacher);
     }
 
     /**

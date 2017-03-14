@@ -203,11 +203,12 @@ public class AttendanceAutomationDAOFacade {
      * Get All locations from given academy
      *
      * @param currentAcademy
+     * @param teacher
      * @return
      */
-    public HashMap<Integer, String> getAcademyLocations(Academy currentAcademy) {
+    public HashMap<Integer, String> loadAcademyLocationsTeacherIsTeaching(Academy currentAcademy, Teacher teacher) {
         try {
-            return schoolClassDAO.getAcademyLocations(currentAcademy);
+            return schoolClassDAO.loadAcademyLocationsTeacherIsTeaching(currentAcademy, teacher);
         } catch (SQLException ex) {
             Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
         }

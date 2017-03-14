@@ -282,21 +282,28 @@ public class SchoolClassDAO {
      * Get all locations from given academy
      *
      * @param currentAcademy
+     * @param teacher
      * @return
      * @throws SQLServerException
      * @throws SQLException
      */
-    public HashMap<Integer, String> getAcademyLocations(Academy currentAcademy) throws SQLServerException, SQLException {
+    public HashMap<Integer, String> loadAcademyLocationsTeacherIsTeaching(Academy currentAcademy, Teacher teacher) throws SQLServerException, SQLException {
         HashMap<Integer, String> locations = new HashMap<>();
         String sql = "SELECT location.ID AS 'LocationID', location.Name AS 'LocationName' "
                 + "FROM AcademyLocation academyLocation "
                 + "JOIN Academy academy ON academy.ID = academyLocation.AcademyID "
                 + "JOIN Location location ON location.ID = academyLocation.LocationID "
-                + "WHERE academy.ID = ? ";
+                + "JOIN AcademySchoolClass academySC ON academySC.AcademyLocationID = location.ID "
+                + "JOIN SchoolClassSemesterSubject semesterSubject ON semesterSubject.SchoolClassID = academySC.SchoolClassID "
+                + "JOIN Teacher t ON t.ID = semesterSubject.TeacherID "
+                + "WHERE academy.ID = ? "
+                + "AND "
+                + "t.ID = ? ";
 
         try (Connection con = cm.getConnection()) {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, currentAcademy.getID());
+            ps.setInt(2, teacher.getTeacherID());
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {

@@ -289,7 +289,7 @@ public class SchoolClassDAO {
      */
     public HashMap<Integer, String> loadAcademyLocationsTeacherIsTeaching(Academy currentAcademy, Teacher teacher) throws SQLServerException, SQLException {
         HashMap<Integer, String> locations = new HashMap<>();
-        String sql = "SELECT location.ID AS 'LocationID', location.Name AS 'LocationName' "
+        String sql = "SELECT DISTINCT(location.ID) AS 'LocationID', location.Name AS 'LocationName' "
                 + "FROM AcademyLocation academyLocation "
                 + "JOIN Academy academy ON academy.ID = academyLocation.AcademyID "
                 + "JOIN Location location ON location.ID = academyLocation.LocationID "
@@ -356,7 +356,7 @@ public class SchoolClassDAO {
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                SchoolClass schoolClass = getSchoolClassByID(rs.findColumn("SchoolClassID"));
+                SchoolClass schoolClass = getSchoolClassByID(rs.getInt("SchoolClassID"));
                 classes.put(schoolClass.getID(), schoolClass.getSchoolClassName());
             }
             return classes;

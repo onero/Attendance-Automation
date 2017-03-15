@@ -417,11 +417,10 @@ public class SchoolClassDAO {
      * @throws SQLException
      */
     public int getSchoolClassIDForSpecificTeacherAndDate(int teacherID, String dateAsString) throws SQLException {
-        System.out.println("Started getting ID!!!");
         String sql = "SELECT sc.ID FROM SchoolClass sc "
                 + "JOIN SchoolClassSemesterSubject scss ON sc.ID = scss.SchoolClassID "
                 + "JOIN Teacher t ON scss.TeacherID = t.ID "
-                + "JOIN SchoolClassSemesterLesson scsl ON scss.SemesterID = scsl.ID "
+                + "JOIN SchoolClassSemesterLesson scsl ON scss.ID = scsl.SchoolClassSemesterSubjectID "
                 + "WHERE t.ID = ? AND scsl.Date = ?";
 
         Date date = Date.valueOf(dateAsString);
@@ -433,7 +432,6 @@ public class SchoolClassDAO {
 
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                System.out.println("Returning ID!!!");
                 return rs.getInt("ID");
             }
         }

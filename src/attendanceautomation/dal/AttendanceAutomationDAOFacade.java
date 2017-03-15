@@ -256,12 +256,10 @@ public class AttendanceAutomationDAOFacade {
      */
     public List<Student> getStudentsFromCurrentClass(int teacherID, String date) {
         try {
-            System.out.println("Hello from Facade!!!");
             int schoolClassID = schoolClassDAO.getSchoolClassIDForSpecificTeacherAndDate(teacherID, date);
             return studentDAO.getAllSchoolClassStudentsFromSpecificSchoolClass(schoolClassID);
         } catch (SQLException ex) {
             Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("Facade failed!!!!");
         }
         return null;
     }

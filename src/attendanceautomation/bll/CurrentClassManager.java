@@ -34,7 +34,7 @@ public class CurrentClassManager {
 //        System.out.println(dateFormat.format(date)); //2016/11/16 12:08:43
 
         String date = "2017-02-06";
-        System.out.println("Going down from bll!!!");
+
         return daoFacade.getStudentsFromCurrentClass(teacherID, date);
     }
 }

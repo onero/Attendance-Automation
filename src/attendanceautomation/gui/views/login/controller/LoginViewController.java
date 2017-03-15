@@ -86,12 +86,16 @@ public class LoginViewController implements Initializable {
             RootViewController rootViewController = RootViewController.getInstance();
             checkForTeacherOrStudent(username, password, rootViewController);
         } else {
-            spinner.setVisible(false);
-            btnLogin.setDisable(false);
-            errorMessage.setText("Hello " + userId.getText() + " the password is wrong. \nPlease try agian.");
-            //Clears the PasswordField for better usability
-            userPassword.clear();
+            denyAcccess();
         }
+    }
+
+    private void denyAcccess() {
+        spinner.setVisible(false);
+        btnLogin.setDisable(false);
+        errorMessage.setText("Hello " + userId.getText() + " the password is wrong. \nPlease try agian.");
+        //Clears the PasswordField for better usability
+        userPassword.clear();
     }
 
     /**
@@ -120,12 +124,16 @@ public class LoginViewController implements Initializable {
     private void verifyStudent(String password, RootViewController rootViewController, String username) {
         if (loginModel.verifyStudentLogin(password)) {
             rootViewController.handleStudentLogin(username);
+        } else {
+            denyAcccess();
         }
     }
 
     private void verifyTeacher(String password, RootViewController rootViewController, String username) {
         if (loginModel.verifyTeacherLogin(password)) {
             rootViewController.handleTeacherLogin(username);
+        } else {
+            denyAcccess();
         }
     }
 

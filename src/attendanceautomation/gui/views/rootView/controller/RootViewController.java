@@ -5,6 +5,7 @@
  */
 package attendanceautomation.gui.views.rootView.controller;
 
+import attendanceautomation.be.Teacher;
 import attendanceautomation.be.enums.EFXMLNames;
 import attendanceautomation.gui.model.SchoolClassModel;
 import attendanceautomation.gui.views.detailedStudent.controller.DetailedStudentViewController;
@@ -212,21 +213,32 @@ public class RootViewController implements Initializable {
      */
     public void handleTeacherLogin(String teacherEmail) {
         Runnable task = () -> {
-            schoolClassModel.setCurrentTeacher(schoolClassModel.getTeacherByEmail(teacherEmail));
-            schoolClassModel.loadDataFromDB();
-            Platform.runLater(() -> {
-                try {
-                    createTeacherViews();
-                    ShowBottomButtons(true);
-                    LoginViewController.getInstance().hideSpinner();
-                    LoginViewController.getInstance().showLoginButton();
-                } catch (IOException ex) {
-                    System.out.println("Error whilst logging in as teacher");
-                    System.out.println(ex);
-                }
-            });
+            Teacher teacher = schoolClassModel.getTeacherByEmail(teacherEmail);
+            if (schoolClassModel.checkForNewTeacher(teacher)) {
+                schoolClassModel.setCurrentTeacher(teacher);
+                schoolClassModel.loadDataFromDB();
+                loadTeacherView();
+            } else {
+                schoolClassModel.updateStudentInfo();
+                schoolClassModel.sortStudentsOnAttendance();
+                loadTeacherView();
+            }
         };
         new Thread(task).start();
+    }
+
+    private void loadTeacherView() {
+        Platform.runLater(() -> {
+            try {
+                createTeacherViews();
+                ShowBottomButtons(true);
+                LoginViewController.getInstance().hideSpinner();
+                LoginViewController.getInstance().showLoginButton();
+            } catch (IOException ex) {
+                System.out.println("Error whilst logging in as teacher");
+                System.out.println(ex);
+            }
+        });
     }
 
     /**
@@ -416,6 +428,10 @@ public class RootViewController implements Initializable {
         allStudentsButton.setVisible(visible);
         currentClass.setDisable(!visible);
         currentClass.setVisible(visible);
+        if (FILTER_BUTTON != null) {
+            FILTER_BUTTON.setDisable(!visible);
+            FILTER_BUTTON.setVisible(visible);
+        }
 
     }
 

@@ -303,4 +303,21 @@ public class SchoolClassModel {
         loadSchoolClassData(schoolClassIDs.get(teacherSchoolClassNames.indexOf(schoolClassName)));
     }
 
+    public Teacher getCurrentTeacher() {
+        return currentTeacher;
+    }
+
+    /**
+     * Check for new teacher
+     *
+     * @param teacher
+     * @return
+     */
+    public boolean checkForNewTeacher(Teacher teacher) {
+        if (currentTeacher == null) {
+            return true;
+        }
+        return currentTeacher.getTeacherID() != teacher.getTeacherID();
+    }
+
 }

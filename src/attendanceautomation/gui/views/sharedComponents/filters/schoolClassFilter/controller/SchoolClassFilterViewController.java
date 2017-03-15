@@ -8,6 +8,7 @@ package attendanceautomation.gui.views.sharedComponents.filters.schoolClassFilte
 import attendanceautomation.gui.model.SchoolClassModel;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
@@ -19,8 +20,9 @@ import javafx.scene.control.ComboBox;
  */
 public class SchoolClassFilterViewController implements Initializable {
 
-    @FXML
     private ComboBox<String> comboSchoolClass;
+    @FXML
+    private ComboBox<?> comboSemester;
 
     /**
      * Initializes the controller class.
@@ -31,10 +33,12 @@ public class SchoolClassFilterViewController implements Initializable {
         comboSchoolClass.getSelectionModel().selectFirst();
     }
 
-    @FXML
     private void handleSelectSchoolClass() {
         String schoolClassName = comboSchoolClass.getSelectionModel().getSelectedItem();
         SchoolClassModel.getInstance().loadSchoolClassByName(schoolClassName);
     }
 
+    @FXML
+    private void handleSelectSemester(Event event) {
+    }
 }

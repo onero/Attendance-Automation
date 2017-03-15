@@ -77,7 +77,7 @@ public class CurrentClassViewController implements Initializable {
 
     private void setItemsInList(FXMLLoader loader) {
         CurrentClassListViewController controller = loader.getController();
-        controller.setItemsInList(model.getStudents());
+        controller.setItemsInList(model.getCurrentClassStudents());
     }
 
 }

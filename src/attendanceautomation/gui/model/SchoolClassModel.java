@@ -10,6 +10,7 @@ import attendanceautomation.be.NonAttendance;
 import attendanceautomation.be.SchoolClass;
 import attendanceautomation.be.Student;
 import attendanceautomation.be.Teacher;
+import attendanceautomation.bll.CurrentClassManager;
 import attendanceautomation.bll.SchoolClassManager;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,6 +27,8 @@ public class SchoolClassModel {
 
     private final Academy currentAcademy;
 
+    private final CurrentClassManager currentClassManager;
+
     private int currentLocationID;
 
     private final ObservableList<String> locationNames;
@@ -38,6 +41,8 @@ public class SchoolClassModel {
     private List<Integer> schoolClassIDs;
 
     private final ObservableList<String> teacherSchoolClassNames;
+
+    private final ObservableList<Student> currentClassStudents;
 
     private SchoolClass currentSchoolClass;
     private final List<Student> studentsFromDB;
@@ -59,6 +64,8 @@ public class SchoolClassModel {
         currentAcademy = new Academy(1, "EASV");
         locationNames = FXCollections.observableArrayList();
         teacherSchoolClassNames = FXCollections.observableArrayList();
+        currentClassManager = new CurrentClassManager();
+        currentClassStudents = FXCollections.observableArrayList();
     }
 
     /**
@@ -320,4 +327,24 @@ public class SchoolClassModel {
         return currentTeacher.getTeacherID() != teacher.getTeacherID();
     }
 
+    /**
+     * Clears currentClassStudents. Then gets a new list of students from the
+     * database.
+     */
+    public void updateCurrentClassStudents() {
+        currentClassStudents.clear();
+        List<Student> listOfCurrentClassStudents = currentClassManager.getStudentsFromCurrentSchoolClass(currentTeacher.getTeacherID());
+        for (Student student : listOfCurrentClassStudents) {
+            currentClassStudents.add(student);
+        }
+    }
+
+    /**
+     * Gets currentClassStudents.
+     *
+     * @return
+     */
+    public ObservableList<Student> getCurrentClassStudents() {
+        return currentClassStudents;
+    }
 }

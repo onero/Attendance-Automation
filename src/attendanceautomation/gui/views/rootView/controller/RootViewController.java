@@ -217,6 +217,7 @@ public class RootViewController implements Initializable {
             if (schoolClassModel.checkForNewTeacher(teacher)) {
                 schoolClassModel.setCurrentTeacher(teacher);
                 schoolClassModel.loadDataFromDB();
+                schoolClassModel.updateCurrentClassStudents();
                 loadTeacherView();
             } else {
                 schoolClassModel.updateStudentInfo();

@@ -406,4 +406,38 @@ public class SchoolClassDAO {
         return teacher;
     }
 
+    /**
+     * Gets the ID of the first schoolClass for the parsed teacher on the parsed
+     * day. Returns 0 if no class is found. TODO RKL: Make so it's not the first
+     * schoolClass.
+     *
+     * @param teacherID
+     * @param dateAsString
+     * @return
+     * @throws SQLException
+     */
+    public int getSchoolClassIDForSpecificTeacherAndDate(int teacherID, String dateAsString) throws SQLException {
+        System.out.println("Started getting ID!!!");
+        String sql = "SELECT sc.ID FROM SchoolClass sc "
+                + "JOIN SchoolClassSemesterSubject scss ON sc.ID = scss.SchoolClassID "
+                + "JOIN Teacher t ON scss.TeacherID = t.ID "
+                + "JOIN SchoolClassSemesterLesson scsl ON scss.SemesterID = scsl.ID "
+                + "WHERE t.ID = ? AND scsl.Date = ?";
+
+        Date date = Date.valueOf(dateAsString);
+
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, teacherID);
+            ps.setDate(2, date);
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                System.out.println("Returning ID!!!");
+                return rs.getInt("ID");
+            }
+        }
+        return 0;
+    }
+
 }

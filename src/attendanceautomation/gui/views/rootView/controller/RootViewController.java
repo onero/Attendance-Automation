@@ -227,6 +227,9 @@ public class RootViewController implements Initializable {
         new Thread(task).start();
     }
 
+    /**
+     * Load the teacher view
+     */
     private void loadTeacherView() {
         Platform.runLater(() -> {
             try {

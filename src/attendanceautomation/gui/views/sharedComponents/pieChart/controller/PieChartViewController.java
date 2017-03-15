@@ -22,12 +22,18 @@ import javafx.scene.chart.PieChart.Data;
  */
 public class PieChartViewController implements Initializable {
 
+    private static PieChartViewController instance;
+
     @FXML
     private PieChart PieChart;
 
     private final ObservableList<Data> pieChartData;
 
     private final PieChartModel pieChartModel;
+
+    public static PieChartViewController getInstance() {
+        return instance;
+    }
 
     public PieChartViewController() {
         pieChartModel = PieChartModel.getInstance();
@@ -39,6 +45,7 @@ public class PieChartViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        instance = this;
         PieChart.setData(pieChartData);
         PieChart.setLegendVisible(false);
     }
@@ -47,7 +54,7 @@ public class PieChartViewController implements Initializable {
      * Bind the data to the chart
      *
      */
-    public void setData() {
+    public void updateData() {
         pieChartData.clear();
         pieChartData.addAll(pieChartModel.getPieChartData());
 

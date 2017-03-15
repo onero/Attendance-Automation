@@ -105,7 +105,6 @@ public class PieChartModel {
         pieChartData.clear();
         computedPieChartData.clear();
         addNonAttendantStudentsToChartData();
-        MainViewController.getInstance().updatePieData();
     }
 
     /**

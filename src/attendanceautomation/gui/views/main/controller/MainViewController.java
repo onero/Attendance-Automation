@@ -80,7 +80,7 @@ public class MainViewController implements Initializable {
      */
     public void updatePieData() {
         PieChartViewController controller = mainPieChartLoader.getController();
-        controller.setData();
+        controller.updateData();
     }
 
     /**

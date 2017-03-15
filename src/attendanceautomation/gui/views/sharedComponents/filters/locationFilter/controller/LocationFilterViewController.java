@@ -21,17 +21,25 @@ import javafx.scene.control.ComboBox;
  */
 public class LocationFilterViewController implements Initializable {
 
-    private final SchoolClassModel schoolClassModel = SchoolClassModel.getInstance();
     @FXML
     private ComboBox<String> comboLocationFilter;
+
+    private static LocationFilterViewController instance;
+
+    private final SchoolClassModel schoolClassModel = SchoolClassModel.getInstance();
+
+    public static LocationFilterViewController getInstance() {
+        return instance;
+    }
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        instance = this;
         comboLocationFilter.setItems(schoolClassModel.getLocationNames());
-        comboLocationFilter.getSelectionModel().selectFirst();
+        selectFirst();
     }
 
     @FXML
@@ -45,6 +53,13 @@ public class LocationFilterViewController implements Initializable {
             });
         };
         new Thread(task).start();
+    }
+
+    /**
+     * Select the first element
+     */
+    public void selectFirst() {
+        comboLocationFilter.getSelectionModel().selectFirst();
     }
 
 }

@@ -8,9 +8,11 @@ package attendanceautomation.gui.model;
 import attendanceautomation.be.Academy;
 import attendanceautomation.be.NonAttendance;
 import attendanceautomation.be.SchoolClass;
+import attendanceautomation.be.SchoolSemesterSubject;
 import attendanceautomation.be.Student;
 import attendanceautomation.be.Teacher;
 import attendanceautomation.bll.SchoolClassManager;
+import attendanceautomation.gui.views.sharedComponents.filters.semesterFilter.controller.SemesterFilterViewController;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -29,6 +31,8 @@ public class SchoolClassModel {
     private int currentLocationID;
 
     private final ObservableList<String> locationNames;
+
+    private final ObservableList<String> semesters;
 
     private Student currentStudent;
 
@@ -59,6 +63,7 @@ public class SchoolClassModel {
         currentAcademy = new Academy(1, "EASV");
         locationNames = FXCollections.observableArrayList();
         teacherSchoolClassNames = FXCollections.observableArrayList();
+        semesters = FXCollections.observableArrayList();
     }
 
     /**
@@ -318,6 +323,23 @@ public class SchoolClassModel {
             return true;
         }
         return currentTeacher.getTeacherID() != teacher.getTeacherID();
+    }
+
+    /**
+     * Fill it up
+     */
+    public void updateSemesters() {
+        semesters.clear();
+        for (SchoolSemesterSubject semesterSubject : getCurrentSchoolClass().getSemesterSubjects()) {
+            if (!semesters.contains(semesterSubject.getSemester().toString())) {
+                semesters.add(semesterSubject.getSemester().toString());
+            }
+        }
+        SemesterFilterViewController.getInstance().selectLatest();
+    }
+
+    public ObservableList<String> getSemesters() {
+        return semesters;
     }
 
 }

@@ -5,12 +5,9 @@
  */
 package attendanceautomation.gui.views.sharedComponents.filters.semesterFilter.controller;
 
-import attendanceautomation.be.SchoolSemesterSubject;
 import attendanceautomation.gui.model.SchoolClassModel;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -23,11 +20,16 @@ import javafx.scene.control.ComboBox;
  */
 public class SemesterFilterViewController implements Initializable {
 
+    private static SemesterFilterViewController instance;
+
     @FXML
     private ComboBox<String> comboSemester;
 
     private final SchoolClassModel schoolClassModel;
-    private final ObservableList<String> semesters = FXCollections.observableArrayList();
+
+    public static SemesterFilterViewController getInstance() {
+        return instance;
+    }
 
     public SemesterFilterViewController() {
         schoolClassModel = SchoolClassModel.getInstance();
@@ -38,27 +40,22 @@ public class SemesterFilterViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        initializeCombo();
-
-        comboSemester.setItems(semesters);
-        comboSemester.getSelectionModel().selectFirst();
-    }
-
-    /**
-     * Fill it up
-     */
-    private void initializeCombo() {
-        semesters.clear();
-        for (SchoolSemesterSubject semesterSubject : schoolClassModel.getCurrentSchoolClass().getSemesterSubjects()) {
-            if (!semesters.contains(semesterSubject.getSemester().toString())) {
-                semesters.add(semesterSubject.getSemester().toString());
-            }
-        }
+        instance = this;
+        schoolClassModel.updateSemesters();
+        comboSemester.setItems(schoolClassModel.getSemesters());
+        selectLatest();
     }
 
     @FXML
     private void handleSelectSemester(Event event) {
 
+    }
+
+    /**
+     * Select the first element
+     */
+    public void selectLatest() {
+        comboSemester.getSelectionModel().selectLast();
     }
 
 }

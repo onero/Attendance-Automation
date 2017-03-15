@@ -35,6 +35,7 @@ public enum EFXMLNames {
     FILTER_HOLER_VIEW(FOLDER + "sharedComponents/filters/filterHolder/view/FilterHolderView.fxml"),
     LOCATION_FILTER_VIEW(FOLDER + "sharedComponents/filters/locationFilter/view/LocationFilterView.fxml"),
     SCHOOLCLASS_FILTER_VIEW(FOLDER + "sharedComponents/filters/schoolClassFilter/view/SchoolClassFilterView.fxml"),
+    SEMESTER_FILTER_VIEW(FOLDER + "sharedComponents/filters/semesterFilter/view/SemesterFilterView.fxml"),
     CURRENT_CLASS_VIEW(FOLDER + "currentClassView/view/currentClassView.fxml"),
     CURRENT_CLASS_LIST_VIEW(FOLDER + "currentClassView/view/CurrentClassListView.fxml"),
     NAME_CURRENT_CLASS_LIST_VIEW(FOLDER + "currentClassView/view/NameCurrentClassListView.fxml");

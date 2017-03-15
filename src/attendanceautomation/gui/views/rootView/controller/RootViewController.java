@@ -59,6 +59,7 @@ public class RootViewController implements Initializable {
     private Node FILTER_BUTTON;
     private Node LOCATION_FILTER_VIEW;
     private Node SCHOOLCLASS_FILTER_VIEW;
+    private Node SEMESTER_FILTER_VIEW;
 
     private WhiteComponentHolderController whiteComponentHolderController;
     private SearchViewController searchViewController;
@@ -335,7 +336,7 @@ public class RootViewController implements Initializable {
     }
 
     /**
-     * Creates the comboBox.
+     * Creates the location filter comboBox.
      *
      * @return
      * @throws IOException
@@ -347,13 +348,25 @@ public class RootViewController implements Initializable {
     }
 
     /**
-     * Creates the comboBox.
+     * Creates the school class filter comboBox.
      *
      * @return
      * @throws IOException
      */
     private Node createSchoolClassFilterView() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.SCHOOLCLASS_FILTER_VIEW.toString()));
+        Node node = loader.load();
+        return node;
+    }
+
+    /**
+     * Creates the semester filter comboBox.
+     *
+     * @return
+     * @throws IOException
+     */
+    private Node createSemesterFilterView() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.SEMESTER_FILTER_VIEW.toString()));
         Node node = loader.load();
         return node;
     }
@@ -393,9 +406,11 @@ public class RootViewController implements Initializable {
 
             LOCATION_FILTER_VIEW = createLocationFilterView();
             SCHOOLCLASS_FILTER_VIEW = createSchoolClassFilterView();
+            SEMESTER_FILTER_VIEW = createSemesterFilterView();
             FilterHolderViewController controller = loader.getController();
             controller.addFilter(LOCATION_FILTER_VIEW);
             controller.addFilter(SCHOOLCLASS_FILTER_VIEW);
+            controller.addFilter(SEMESTER_FILTER_VIEW);
 
             filterModal.show();
         } catch (IOException ex) {

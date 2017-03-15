@@ -5,7 +5,9 @@
  */
 package attendanceautomation.gui.views.sharedComponents.filters.schoolClassFilter.controller;
 
+import attendanceautomation.gui.model.PieChartModel;
 import attendanceautomation.gui.model.SchoolClassModel;
+import attendanceautomation.gui.views.sharedComponents.pieChart.controller.PieChartViewController;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -35,6 +37,9 @@ public class SchoolClassFilterViewController implements Initializable {
     private void handleSelectSchoolClass() {
         String schoolClassName = comboSchoolClass.getSelectionModel().getSelectedItem();
         SchoolClassModel.getInstance().loadSchoolClassByName(schoolClassName);
+        PieChartModel.getInstance().resetPieChart();
+
+        PieChartViewController.getInstance().updateData();
     }
 
 }

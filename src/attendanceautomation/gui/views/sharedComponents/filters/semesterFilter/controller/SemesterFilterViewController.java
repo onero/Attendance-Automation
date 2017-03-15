@@ -41,6 +41,7 @@ public class SemesterFilterViewController implements Initializable {
         initializeCombo();
 
         comboSemester.setItems(semesters);
+        comboSemester.getSelectionModel().selectFirst();
     }
 
     /**

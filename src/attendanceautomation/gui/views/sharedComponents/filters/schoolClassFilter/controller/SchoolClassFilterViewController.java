@@ -10,7 +10,6 @@ import attendanceautomation.gui.model.SchoolClassModel;
 import attendanceautomation.gui.views.sharedComponents.pieChart.controller.PieChartViewController;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
@@ -22,9 +21,8 @@ import javafx.scene.control.ComboBox;
  */
 public class SchoolClassFilterViewController implements Initializable {
 
-    private ComboBox<String> comboSchoolClass;
     @FXML
-    private ComboBox<?> comboSemester;
+    private ComboBox<String> comboSchoolClass;
 
     /**
      * Initializes the controller class.
@@ -35,15 +33,12 @@ public class SchoolClassFilterViewController implements Initializable {
         comboSchoolClass.getSelectionModel().selectFirst();
     }
 
+    @FXML
     private void handleSelectSchoolClass() {
         String schoolClassName = comboSchoolClass.getSelectionModel().getSelectedItem();
         SchoolClassModel.getInstance().loadSchoolClassByName(schoolClassName);
         PieChartModel.getInstance().resetPieChart();
 
         PieChartViewController.getInstance().updateData();
-    }
-
-    @FXML
-    private void handleSelectSemester(Event event) {
     }
 }

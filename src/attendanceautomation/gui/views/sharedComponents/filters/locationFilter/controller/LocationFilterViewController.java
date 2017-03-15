@@ -7,6 +7,7 @@ package attendanceautomation.gui.views.sharedComponents.filters.locationFilter.c
 
 import attendanceautomation.gui.model.PieChartModel;
 import attendanceautomation.gui.model.SchoolClassModel;
+import attendanceautomation.gui.views.sharedComponents.filters.schoolClassFilter.controller.SchoolClassFilterViewController;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -50,6 +51,8 @@ public class LocationFilterViewController implements Initializable {
             Platform.runLater(() -> {
                 schoolClassModel.loadSchoolClassByLocation(locationID);
                 PieChartModel.getInstance().resetPieChart();
+                SchoolClassFilterViewController.getInstance().openBox();
+                schoolClassModel.clearSemesters();
             });
         };
         new Thread(task).start();

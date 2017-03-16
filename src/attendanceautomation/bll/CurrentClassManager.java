@@ -16,9 +16,11 @@ import java.util.List;
 public class CurrentClassManager {
 
     private final AttendanceAutomationDAOFacade daoFacade;
+    private final SchoolClassManager schoolClassManager;
 
     public CurrentClassManager() {
         daoFacade = AttendanceAutomationDAOFacade.getInstance();
+        schoolClassManager = SchoolClassManager.getInstance();
     }
 
     /**
@@ -35,6 +37,7 @@ public class CurrentClassManager {
 
         String date = "2017-02-06";
 
-        return daoFacade.getStudentsFromCurrentClass(teacherID, date);
+        int schoolClassID = daoFacade.getSchoolClassID(teacherID, date);
+        return schoolClassManager.getStudentsWithDataFromSchoolClass(schoolClassID);
     }
 }

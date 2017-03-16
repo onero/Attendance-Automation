@@ -254,13 +254,11 @@ public class AttendanceAutomationDAOFacade {
      * @param date
      * @return
      */
-    public List<Student> getStudentsFromCurrentClass(int teacherID, String date) {
+    public int getSchoolClassID(int teacherID, String date) {
         try {
-            int schoolClassID = schoolClassDAO.getSchoolClassIDForSpecificTeacherAndDate(teacherID, date);
-            return studentDAO.getAllSchoolClassStudentsFromSpecificSchoolClass(schoolClassID);
+            return schoolClassDAO.getSchoolClassIDForSpecificTeacherAndDate(teacherID, date);
         } catch (SQLException ex) {
-            Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RuntimeException("Couldn't get the schoolClassID");
         }
-        return null;
     }
 }

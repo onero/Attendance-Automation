@@ -5,8 +5,10 @@
  */
 package attendanceautomation.bll;
 
+import attendanceautomation.be.NonAttendance;
 import attendanceautomation.be.Student;
 import attendanceautomation.dal.AttendanceAutomationDAOFacade;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,5 +41,20 @@ public class CurrentClassManager {
 
         int schoolClassID = daoFacade.getSchoolClassID(teacherID, date);
         return schoolClassManager.getStudentsWithDataFromSchoolClass(schoolClassID);
+    }
+
+    public List<Student> findStudentsAbsence(List<Student> listOfCurrentClassStudents) {
+        List<Student> listOfStudentsAbsence = new ArrayList<>();
+        for (int i = 0; i < listOfCurrentClassStudents.size(); i++) {
+            ArrayList<NonAttendance> listOfNonAttendence = listOfCurrentClassStudents.get(i).getNonAttendance();
+            
+            if(!listOfStudentsAbsence.isEmpty()){
+               listOfStudentsAbsence.add(listOfCurrentClassStudents.get(i));
+               listOfCurrentClassStudents.remove(listOfCurrentClassStudents.get(i));
+            }
+            
+        }
+        
+        return listOfStudentsAbsence;
     }
 }

@@ -42,7 +42,8 @@ public class SchoolClassModel {
 
     private final ObservableList<String> teacherSchoolClassNames;
 
-    private final ObservableList<Student> currentClassStudents;
+    private final ObservableList<Student> currentClassStudentsAbsence;
+    private final ObservableList<Student> currentClassStudentsPresent;
 
     private SchoolClass currentSchoolClass;
     private final List<Student> studentsFromDB;
@@ -65,7 +66,8 @@ public class SchoolClassModel {
         locationNames = FXCollections.observableArrayList();
         teacherSchoolClassNames = FXCollections.observableArrayList();
         currentClassManager = new CurrentClassManager();
-        currentClassStudents = FXCollections.observableArrayList();
+        currentClassStudentsAbsence = FXCollections.observableArrayList();
+        currentClassStudentsPresent = FXCollections.observableArrayList();
     }
 
     /**
@@ -328,23 +330,35 @@ public class SchoolClassModel {
     }
 
     /**
-     * Clears currentClassStudents. Then gets a new list of students from the
-     * database.
+     * Clears currentClassStudentsWithAbsence. Then gets a new list of students
+     * from the database.
      */
     public void updateCurrentClassStudents() {
-        currentClassStudents.clear();
+        currentClassStudentsAbsence.clear();
+        currentClassStudentsPresent.clear();
         List<Student> listOfCurrentClassStudents = currentClassManager.getStudentsFromCurrentSchoolClass(currentTeacher.getTeacherID());
+        List<Student> listOfCurrentClassStudentsAbsence = currentClassManager.findStudentsAbsence(listOfCurrentClassStudents);
         for (Student student : listOfCurrentClassStudents) {
-            currentClassStudents.add(student);
+            currentClassStudentsAbsence.add(student);
         }
     }
 
     /**
-     * Gets currentClassStudents.
+     * Gets currentClassStudentsAbsence.
      *
      * @return
      */
-    public ObservableList<Student> getCurrentClassStudents() {
-        return currentClassStudents;
+    public ObservableList<Student> getCurrentClassStudentsAbsence() {
+        return currentClassStudentsAbsence;
     }
+
+    /**
+     * Gets the currentClassStudentsPresent
+     *
+     * @return
+     */
+    public ObservableList<Student> getCurrentClassStudentsPresent() {
+        return currentClassStudentsPresent;
+    }
+
 }

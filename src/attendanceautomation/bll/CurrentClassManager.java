@@ -37,24 +37,47 @@ public class CurrentClassManager {
 //        Date date = new Date();
 //        System.out.println(dateFormat.format(date)); //2016/11/16 12:08:43
 
-        String date = "2017-02-06";
+        String date = "2017-02-06 09:00";
 
         int schoolClassID = daoFacade.getSchoolClassID(teacherID, date);
+        if (schoolClassID == 0) {
+            System.out.println("Failed to get schoolClassID");
+        }
         return schoolClassManager.getStudentsWithDataFromSchoolClass(schoolClassID);
     }
 
+    /**
+     * Search the parsed list of students to see if they were absence.
+     *
+     * @param listOfCurrentClassStudents
+     * @return
+     */
     public List<Student> findStudentsAbsence(List<Student> listOfCurrentClassStudents) {
         List<Student> listOfStudentsAbsence = new ArrayList<>();
         for (int i = 0; i < listOfCurrentClassStudents.size(); i++) {
             ArrayList<NonAttendance> listOfNonAttendence = listOfCurrentClassStudents.get(i).getNonAttendance();
-            
-            if(!listOfStudentsAbsence.isEmpty()){
-               listOfStudentsAbsence.add(listOfCurrentClassStudents.get(i));
-               listOfCurrentClassStudents.remove(listOfCurrentClassStudents.get(i));
+
+            if (!listOfNonAttendence.isEmpty()) {
+                listOfStudentsAbsence.add(listOfCurrentClassStudents.get(i));
             }
-            
         }
-        
         return listOfStudentsAbsence;
+    }
+
+    /**
+     * HUGE VIOLATION OF DRY!!!!!!! TODO RKL: Refactor to no longer violate DRY.
+     *
+     * @param listOfCurrentClassStudents
+     * @return
+     */
+    public List<Student> findStudentsPresent(List<Student> listOfCurrentClassStudents) {
+        List<Student> listOfStudentsPresent = new ArrayList<>();
+        for (int i = 0; i < listOfCurrentClassStudents.size(); i++) {
+            ArrayList<NonAttendance> listOfNonAttendence = listOfCurrentClassStudents.get(i).getNonAttendance();
+            if (listOfNonAttendence.isEmpty()) {
+                listOfStudentsPresent.add(listOfCurrentClassStudents.get(i));
+            }
+        }
+        return listOfStudentsPresent;
     }
 }

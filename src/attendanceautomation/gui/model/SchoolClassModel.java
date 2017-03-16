@@ -337,7 +337,10 @@ public class SchoolClassModel {
         currentClassStudentsAbsence.clear();
         currentClassStudentsPresent.clear();
         List<Student> listOfCurrentClassStudents = currentClassManager.getStudentsFromCurrentSchoolClass(currentTeacher.getTeacherID());
+
+        List<Student> listOfCurrentClassStudentsPresent = currentClassManager.findStudentsPresent(listOfCurrentClassStudents);
         List<Student> listOfCurrentClassStudentsAbsence = currentClassManager.findStudentsAbsence(listOfCurrentClassStudents);
+
         for (Student student : listOfCurrentClassStudents) {
             currentClassStudentsAbsence.add(student);
         }

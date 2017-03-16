@@ -423,12 +423,11 @@ public class SchoolClassDAO {
                 + "JOIN SchoolClassSemesterLesson scsl ON scss.ID = scsl.SchoolClassSemesterSubjectID "
                 + "WHERE t.ID = ? AND scsl.Date = ?";
 
-        Date date = Date.valueOf(dateAsString);
-
+//        Date date = Date.valueOf(dateAsString);
         try (Connection con = cm.getConnection()) {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, teacherID);
-            ps.setDate(2, date);
+            ps.setString(2, dateAsString);
 
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {

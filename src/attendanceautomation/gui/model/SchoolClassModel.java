@@ -333,7 +333,6 @@ public class SchoolClassModel {
      */
     public void updateCurrentClassStudents() {
         currentClassStudents.clear();
-        System.out.println(currentTeacher.getFullName());
         List<Student> listOfCurrentClassStudents = currentClassManager.getStudentsFromCurrentSchoolClass(currentTeacher.getTeacherID());
         for (Student student : listOfCurrentClassStudents) {
             currentClassStudents.add(student);

@@ -37,23 +37,12 @@ public class ListOfAllStudentsNonAttendanceViewController implements Initializab
     @FXML
     private BorderPane BorderPane;
 
-    private Node WEEKS_IN_MONTH_VIEW;
-
-    public ListOfAllStudentsNonAttendanceViewController() {
-//        try {
-//            WEEKS_IN_MONTH_VIEW = createWeeksInMonthView();
-//        } catch (IOException e) {
-//            System.out.println("Couldn't create weeksInMonth");
-//        }
-    }
-
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setCellFactory();
-//        BorderPane.setTop(WEEKS_IN_MONTH_VIEW);
     }
 
     /**
@@ -103,18 +92,6 @@ public class ListOfAllStudentsNonAttendanceViewController implements Initializab
                 return cell;
             }
         });
-    }
-
-    /**
-     * Creates the node of the daysInMonthView
-     *
-     * @return
-     * @throws IOException
-     */
-    private Node createWeeksInMonthView() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.DAYS_IN_MONTH_VIEW.toString()));
-        Node node = loader.load();
-        return node;
     }
 
 }

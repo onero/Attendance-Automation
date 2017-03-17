@@ -22,7 +22,6 @@ public enum EFXMLNames {
     SEARCH_VIEW(FOLDER + "sharedComponents/searchView/view/SearchView.fxml"),
     COMPONENTS_HOLDER_VIEW(FOLDER + "sharedComponents/componentsHolder/view/ComponentsHolderView.fxml"),
     WHITE_COMPONENT_HOLDER(FOLDER + "sharedComponents/whiteComponentHolder/view/WhiteComponentHolder.fxml"),
-    DAYS_IN_MONTH_VIEW(FOLDER + "sharedComponents/studentAttendanceInformation/view/DaysInMonthView.fxml"),
     WEEK_CHECK_BOX_VIEW(FOLDER + "sharedComponents/studentAttendanceInformation/view/WeekCheckBoxView.fxml"),
     STUDENTS_ATTENDANCE_INFORMATION(FOLDER + "sharedComponents/studentAttendanceInformation/view/StudentAttendanceInformationView.fxml"),
     ALL_STUDENTS_VIEW(FOLDER + "allStudents/view/AllStudentsView.fxml"),

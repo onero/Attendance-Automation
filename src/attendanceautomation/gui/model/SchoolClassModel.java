@@ -341,8 +341,12 @@ public class SchoolClassModel {
         List<Student> listOfCurrentClassStudentsPresent = currentClassManager.findStudentsPresent(listOfCurrentClassStudents);
         List<Student> listOfCurrentClassStudentsAbsence = currentClassManager.findStudentsAbsence(listOfCurrentClassStudents);
 
-        for (Student student : listOfCurrentClassStudents) {
+        for (Student student : listOfCurrentClassStudentsAbsence) {
             currentClassStudentsAbsence.add(student);
+        }
+        
+        for (Student student : listOfCurrentClassStudentsPresent) {
+            currentClassStudentsPresent.add(student);
         }
     }
 

@@ -74,7 +74,6 @@ public class AllStudentsViewController implements Initializable {
 
         WeeksAndDaysBarViewController controller = loader.getController();
         controller.setWidth(150, 190);
-        controller.setFebruary();
         return node;
     }
 }

@@ -164,8 +164,7 @@ public class RootViewController implements Initializable {
         //Recreate allStudentsView to ensure updated view with NonAttendance
         schoolClassModel.sortStudentsOnName();
         try {
-//            SchoolClassModel.getInstance().updateStudentInfo();
-            createAllStudents();
+            ALL_STUDENTS_VIEW = createAllStudents();
         } catch (IOException ex) {
             System.out.println("Couldn't recreate allStudentsView");
             System.out.println(ex);
@@ -192,6 +191,11 @@ public class RootViewController implements Initializable {
      * selectedStudent
      */
     public void handleDetailedStudentView() {
+        try {
+            DETAILED_STUDENT_VIEW = createDetailedStudentView();
+        } catch (IOException ex) {
+            Logger.getLogger(RootViewController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         whiteComponentHolderController.setBorderPaneCenter(DETAILED_STUDENT_VIEW);
         searchViewController.showSearchBar(false);
     }
@@ -254,8 +258,6 @@ public class RootViewController implements Initializable {
      */
     private void createTeacherViews() throws IOException {
         MAIN_VIEW = createMainView();
-        ALL_STUDENTS_VIEW = createAllStudents();
-        DETAILED_STUDENT_VIEW = createDetailedStudentView();
         SEARCH_BAR = createSearchBarNode();
         FILTER_BUTTON = createFilterButton();
         ACTION_COMPONENT_HOLDER = createActionComponentHolder();

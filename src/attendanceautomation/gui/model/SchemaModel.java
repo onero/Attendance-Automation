@@ -10,12 +10,41 @@ import java.util.List;
 
 public class SchemaModel {
 
-    private final List<Integer> firstWeekFebruary = new ArrayList<>();
-    private final List<Integer> secondWeekFebruary = new ArrayList<>();
-    private final List<Integer> thirdWeekFebruary = new ArrayList<>();
-    private final List<Integer> lastWeekFebruary = new ArrayList<>();
+    private static SchemaModel instance;
 
-    public SchemaModel() {
+    public static SchemaModel getInstance() {
+        if (instance == null) {
+            instance = new SchemaModel();
+        }
+        return instance;
+    }
+
+    private final List<List<Integer>> weeksInFebruary;
+
+    private final List<Integer> firstWeekFebruary;
+    private final List<Integer> secondWeekFebruary;
+    private final List<Integer> thirdWeekFebruary;
+    private final List<Integer> lastWeekFebruary;
+
+    private int currentWeekNumber;
+
+    private SchemaModel() {
+        firstWeekFebruary = new ArrayList<>();
+        secondWeekFebruary = new ArrayList<>();
+        thirdWeekFebruary = new ArrayList<>();
+        lastWeekFebruary = new ArrayList<>();
+        weeksInFebruary = new ArrayList<>();
+        createFebruaryWeeks();
+        weeksInFebruary.add(firstWeekFebruary);
+        weeksInFebruary.add(secondWeekFebruary);
+        weeksInFebruary.add(thirdWeekFebruary);
+        weeksInFebruary.add(lastWeekFebruary);
+
+        //Zero for all weeks in month
+        currentWeekNumber = 0;
+    }
+
+    private void createFebruaryWeeks() {
         firstWeekFebruary.add(30);
         firstWeekFebruary.add(31);
         firstWeekFebruary.add(1);
@@ -41,6 +70,14 @@ public class SchemaModel {
         lastWeekFebruary.add(24);
     }
 
+    public void setCurrentWeekNumber(int currentWeekNumber) {
+        this.currentWeekNumber = currentWeekNumber;
+    }
+
+    public int getCurrentWeekNumber() {
+        return currentWeekNumber;
+    }
+
     public List<Integer> getFirstWeekFebruary() {
         return firstWeekFebruary;
     }
@@ -55,6 +92,10 @@ public class SchemaModel {
 
     public List<Integer> getLastWeekFebruary() {
         return lastWeekFebruary;
+    }
+
+    public List<List<Integer>> getWeeksInFebruary() {
+        return weeksInFebruary;
     }
 
 }

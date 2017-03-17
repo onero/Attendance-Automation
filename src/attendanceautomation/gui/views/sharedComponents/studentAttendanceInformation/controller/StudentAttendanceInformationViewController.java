@@ -50,7 +50,7 @@ public class StudentAttendanceInformationViewController implements Initializable
     public StudentAttendanceInformationViewController() {
         schoolClassModel = SchoolClassModel.getInstance();
         schoolClass = schoolClassModel.getCurrentSchoolClass();
-        schemaModel = new SchemaModel();
+        schemaModel = SchemaModel.getInstance();
         isStudentLogin = false;
     }
 
@@ -134,18 +134,28 @@ public class StudentAttendanceInformationViewController implements Initializable
      * @throws IOException
      */
     private void fillSubjectHboxWithCheckBoxes(HBox subjectHBox, SchoolSemesterSubject semesterSubject) throws IOException {
-
-        subjectHBox.getChildren().add(createSubjectCheckBoxes(schemaModel.getFirstWeekFebruary(), semesterSubject));
-        subjectHBox.getChildren().add(createFillerLabel());
-
-        subjectHBox.getChildren().add(createSubjectCheckBoxes(schemaModel.getSecondWeekFebruary(), semesterSubject));
-        subjectHBox.getChildren().add(createFillerLabel());
-
-        subjectHBox.getChildren().add(createSubjectCheckBoxes(schemaModel.getThirdWeekFebruary(), semesterSubject));
-        subjectHBox.getChildren().add(createFillerLabel());
-
-        subjectHBox.getChildren().add(createSubjectCheckBoxes(schemaModel.getLastWeekFebruary(), semesterSubject));
-
+        switch (schemaModel.getCurrentWeekNumber()) {
+            case 5:
+                subjectHBox.getChildren().add(createSubjectCheckBoxes(schemaModel.getFirstWeekFebruary(), semesterSubject));
+                break;
+            case 6:
+                subjectHBox.getChildren().add(createSubjectCheckBoxes(schemaModel.getSecondWeekFebruary(), semesterSubject));
+                break;
+            case 7:
+                subjectHBox.getChildren().add(createSubjectCheckBoxes(schemaModel.getThirdWeekFebruary(), semesterSubject));
+                break;
+            case 8:
+                subjectHBox.getChildren().add(createSubjectCheckBoxes(schemaModel.getLastWeekFebruary(), semesterSubject));
+                break;
+            default:
+                //Create subject checkBoxes for each week in february
+                for (List<Integer> week : schemaModel.getWeeksInFebruary()) {
+                    subjectHBox.getChildren().add(createSubjectCheckBoxes(week, semesterSubject));
+                    if (!week.equals(schemaModel.getLastWeekFebruary())) {
+                        subjectHBox.getChildren().add(createFillerLabel());
+                    }
+                }
+        }
     }
 
     /**
@@ -156,19 +166,28 @@ public class StudentAttendanceInformationViewController implements Initializable
      * @throws IOException
      */
     private void fillWeekHboxWithCheckBoxes() throws IOException {
-        //TODO ALH: Make this dynamic
-        //add checkboxes to the HBox
-
-        HBox.getChildren().add(createWeekCheckBoxes(schemaModel.getFirstWeekFebruary()));
-        HBox.getChildren().add(createFillerLabel());
-
-        HBox.getChildren().add(createWeekCheckBoxes(schemaModel.getSecondWeekFebruary()));
-        HBox.getChildren().add(createFillerLabel());
-
-        HBox.getChildren().add(createWeekCheckBoxes(schemaModel.getThirdWeekFebruary()));
-        HBox.getChildren().add(createFillerLabel());
-
-        HBox.getChildren().add(createWeekCheckBoxes(schemaModel.getLastWeekFebruary()));
+        switch (schemaModel.getCurrentWeekNumber()) {
+            case 5:
+                HBox.getChildren().add(createWeekCheckBoxes(schemaModel.getFirstWeekFebruary()));
+                break;
+            case 6:
+                HBox.getChildren().add(createWeekCheckBoxes(schemaModel.getSecondWeekFebruary()));
+                break;
+            case 7:
+                HBox.getChildren().add(createWeekCheckBoxes(schemaModel.getThirdWeekFebruary()));
+                break;
+            case 8:
+                HBox.getChildren().add(createWeekCheckBoxes(schemaModel.getLastWeekFebruary()));
+                break;
+            default:
+                //Create day checkBoxes for each week in february
+                for (List<Integer> week : schemaModel.getWeeksInFebruary()) {
+                    HBox.getChildren().add(createWeekCheckBoxes(week));
+                    if (!week.equals(schemaModel.getLastWeekFebruary())) {
+                        HBox.getChildren().add(createFillerLabel());
+                    }
+                }
+        }
 
     }
 

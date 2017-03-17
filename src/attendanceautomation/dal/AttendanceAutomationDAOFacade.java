@@ -245,4 +245,20 @@ public class AttendanceAutomationDAOFacade {
         }
         return null;
     }
+
+    /**
+     * Get all teacher schoolClassNames for specific semester
+     *
+     * @param schoolClassIDs
+     * @param semester
+     * @return
+     */
+    public List<String> getAllTeacherSchoolClassesBySemester(List<Integer> schoolClassIDs, String semester) {
+        try {
+            return schoolClassDAO.getAllTeacherSchoolClassesBySemester(schoolClassIDs, semester);
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 }

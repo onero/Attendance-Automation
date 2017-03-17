@@ -8,9 +8,11 @@ package attendanceautomation.gui.model;
 import attendanceautomation.be.Academy;
 import attendanceautomation.be.NonAttendance;
 import attendanceautomation.be.SchoolClass;
+import attendanceautomation.be.SchoolSemesterSubject;
 import attendanceautomation.be.Student;
 import attendanceautomation.be.Teacher;
 import attendanceautomation.bll.SchoolClassManager;
+import attendanceautomation.gui.views.sharedComponents.filters.semesterFilter.controller.SemesterFilterViewController;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -29,6 +31,8 @@ public class SchoolClassModel {
     private int currentLocationID;
 
     private final ObservableList<String> locationNames;
+
+    private final ObservableList<String> semesters;
 
     private Student currentStudent;
 
@@ -59,6 +63,7 @@ public class SchoolClassModel {
         currentAcademy = new Academy(1, "EASV");
         locationNames = FXCollections.observableArrayList();
         teacherSchoolClassNames = FXCollections.observableArrayList();
+        semesters = FXCollections.observableArrayList();
     }
 
     /**
@@ -82,11 +87,16 @@ public class SchoolClassModel {
             teacherSchoolClassNames.clear();
             currentLocationID = location;
             schoolClassForTeacherAtCurrentLocation = schoolClassManager.getSchoolClassHashMapByLocationAndTeacher(currentLocationID, currentTeacher.getTeacherID());
-            teacherSchoolClassNames.addAll(schoolClassForTeacherAtCurrentLocation.values());
-            schoolClassIDs = new ArrayList<>(schoolClassForTeacherAtCurrentLocation.keySet());
+            resetSchoolNamesAndIDs();
             int nextSchoolClassForTeacher = schoolClassIDs.get(0);
             loadSchoolClassData(nextSchoolClassForTeacher);
         }
+    }
+
+    public void resetSchoolNamesAndIDs() {
+        teacherSchoolClassNames.clear();
+        teacherSchoolClassNames.addAll(schoolClassForTeacherAtCurrentLocation.values());
+        schoolClassIDs = new ArrayList<>(schoolClassForTeacherAtCurrentLocation.keySet());
     }
 
     /**
@@ -105,13 +115,24 @@ public class SchoolClassModel {
     }
 
     /**
+     * Update schoolClassNames on semester
+     *
+     * @param semester
+     */
+    public void updateSchoolClassesOnSemester(String semester) {
+        List<String> semesterSchoolClasses = schoolClassManager.getAllTeacherSchoolClassesBySemester(schoolClassIDs, semester);
+        teacherSchoolClassNames.clear();
+        teacherSchoolClassNames.addAll(semesterSchoolClasses);
+    }
+
+    /**
      * Set current schoolClass based on schoolClassID
      *
      * @param schoolClassID
      */
     private void setCurrentSchoolClass(int schoolClassID) {
-        resetStudents();
         currentSchoolClass = schoolClassManager.getAllSchoolClassDataBySchoolClassId(schoolClassID);
+        resetStudents();
         studentsFromDB.addAll(currentSchoolClass.getStudents());
         students.addAll(studentsFromDB);
         sortStudentsOnAttendance();
@@ -318,6 +339,30 @@ public class SchoolClassModel {
             return true;
         }
         return currentTeacher.getTeacherID() != teacher.getTeacherID();
+    }
+
+    /**
+     * Clear semesters
+     */
+    public void clearSemesters() {
+        semesters.clear();
+    }
+
+    /**
+     * Fill it up
+     */
+    public void updateSemesters() {
+        clearSemesters();
+        for (SchoolSemesterSubject semesterSubject : getCurrentSchoolClass().getSemesterSubjects()) {
+            if (!semesters.contains(semesterSubject.getSemester().toString())) {
+                semesters.add(semesterSubject.getSemester().toString());
+            }
+        }
+        SemesterFilterViewController.getInstance().selectLatest();
+    }
+
+    public ObservableList<String> getSemesters() {
+        return semesters;
     }
 
 }

@@ -406,4 +406,49 @@ public class SchoolClassDAO {
         return teacher;
     }
 
+    /**
+     * Get all teacher schoolClassNames for specific semester
+     *
+     * @param schoolClassIDs
+     * @param semester
+     * @return
+     */
+    public List<String> getAllTeacherSchoolClassesBySemester(List<Integer> schoolClassIDs, String semester) throws SQLServerException, SQLException {
+        List<String> schoolClassNames = new ArrayList<>();
+        String sql = "SELECT DISTINCT(sc.Name) AS 'SchoolClassName' FROM SchoolClass sc "
+                + "JOIN SchoolClassSemesterSubject semesterSubject ON semesterSubject.SchoolClassID = sc.ID "
+                + "JOIN Semester sem ON sem.ID = semesterSubject.SemesterID "
+                + "WHERE "
+                + "sc.ID = ? "
+                + "AND "
+                + "sem.Name = ? ";
+
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+            for (Integer schoolClassID : schoolClassIDs) {
+
+                ps.setInt(1, schoolClassID);
+                ps.setString(2, semester);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    schoolClassNames.add(getOneSchoolClassName(rs));
+                }
+            }
+            return schoolClassNames;
+        }
+    }
+
+    /**
+     * Get one schoolClassName
+     *
+     * @param rs
+     * @return
+     * @throws SQLException
+     */
+    private String getOneSchoolClassName(ResultSet rs) throws SQLException {
+        String SchoolClassName = rs.getString("SchoolClassName");
+
+        return SchoolClassName;
+    }
+
 }

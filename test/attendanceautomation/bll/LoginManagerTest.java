@@ -23,7 +23,7 @@ public class LoginManagerTest {
     @Test
     public void testCheckIfUserExistWithAValidUser() {
         String userName = "rasm035h@easv365.dk";
-        LoginManager instance = new LoginManager();
+        LoginManager instance = LoginManager.getInstance();
         boolean expResult = true;
         boolean result = instance.checkIfUserExist(userName);
         assertEquals(expResult, result);
@@ -35,7 +35,7 @@ public class LoginManagerTest {
     @Test
     public void testCheckIfUserExistWithAnotherValidUser() {
         String userName = "adam3964@easv365.dk";
-        LoginManager instance = new LoginManager();
+        LoginManager instance = LoginManager.getInstance();
         boolean expResult = true;
         boolean result = instance.checkIfUserExist(userName);
         assertEquals(expResult, result);
@@ -47,7 +47,7 @@ public class LoginManagerTest {
     @Test
     public void testCheckIfUserExistWithANonValidUser() {
         String userName = "rand6231@easv365.dk";
-        LoginManager instance = new LoginManager();
+        LoginManager instance = LoginManager.getInstance();
         boolean expresult = false;
         boolean result = instance.checkIfUserExist(userName);
         assertEquals(expresult, result);
@@ -57,12 +57,11 @@ public class LoginManagerTest {
      * Test if able to login with right username and password.
      */
     @Test
-    public void testValidateLoginAttemptTeacherRightPaasword() {
-        String userName = "rasm035h@easv365.dk";
-        String password = "teacher";
-        LoginManager instance = new LoginManager();
+    public void testValidateUserIsTeacher() {
+        String userName = "pgn@easv.dk";
+        LoginManager instance = LoginManager.getInstance();
         boolean expResult = true;
-        boolean result = instance.validateLoginAttempt(userName, password);
+        boolean result = instance.checkIfUserIsTeacher(userName);
         assertEquals(expResult, result);
     }
 
@@ -70,12 +69,11 @@ public class LoginManagerTest {
      * Test if able to login with right username and password.
      */
     @Test
-    public void testValidateLoginAttemptStudentWithValidPassword() {
-        String userName = "adam3964@easv365.dk";
-        String password = "student";
-        LoginManager instance = new LoginManager();
-        boolean expResult = true;
-        boolean result = instance.validateLoginAttempt(userName, password);
+    public void testValidateUserIsNotTeacher() {
+        String userName = "rasm035h@easv365.dk";
+        LoginManager instance = LoginManager.getInstance();
+        boolean expResult = false;
+        boolean result = instance.checkIfUserIsTeacher(userName);
         assertEquals(expResult, result);
     }
 
@@ -84,12 +82,11 @@ public class LoginManagerTest {
      * database.
      */
     @Test
-    public void testValidateLoginAttemptStudentWithTeacherPassword() {
-        String userName = "adam3964@easv365.dk";
+    public void testValidateTeacherLoginAttemptWithValidPassword() {
         String password = "teacher";
-        LoginManager instance = new LoginManager();
-        boolean expResult = false;
-        boolean result = instance.validateLoginAttempt(userName, password);
+        LoginManager instance = LoginManager.getInstance();
+        boolean expResult = true;
+        boolean result = instance.validateTeacherPassword(password);
         assertEquals(expResult, result);
     }
 
@@ -98,12 +95,37 @@ public class LoginManagerTest {
      * database.
      */
     @Test
-    public void testValidateLoginAttemptStudentWithUnValidPassword() {
-        String userName = "adam3964@easv365.dk";
+    public void testValidateTeacherLoginAttemptWithInValidPassword() {
         String password = "random";
-        LoginManager instance = new LoginManager();
+        LoginManager instance = LoginManager.getInstance();
         boolean expResult = false;
-        boolean result = instance.validateLoginAttempt(userName, password);
+        boolean result = instance.validateTeacherPassword(password);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test if able to login with wrong password, but password is in the
+     * database.
+     */
+    @Test
+    public void testValidateStudentLoginAttemptWithValidPassword() {
+        String password = "student";
+        LoginManager instance = LoginManager.getInstance();
+        boolean expResult = true;
+        boolean result = instance.validateStudentPassword(password);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test if able to login with a random passsword that doesn't exist in the
+     * database.
+     */
+    @Test
+    public void testValidateStudentLoginAttemptWithInValidPassword() {
+        String password = "random";
+        LoginManager instance = LoginManager.getInstance();
+        boolean expResult = false;
+        boolean result = instance.validateStudentPassword(password);
         assertEquals(expResult, result);
     }
 }

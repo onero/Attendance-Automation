@@ -29,6 +29,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -59,6 +60,8 @@ public class RootViewController implements Initializable {
     private Node FILTER_BUTTON;
     private Node LOCATION_FILTER_VIEW;
     private Node SCHOOLCLASS_FILTER_VIEW;
+    private Node ALL_SCHOOLCLASS_FILTER_VIEW;
+    private Node SEMESTER_FILTER_VIEW;
 
     private WhiteComponentHolderController whiteComponentHolderController;
     private SearchViewController searchViewController;
@@ -338,7 +341,7 @@ public class RootViewController implements Initializable {
     }
 
     /**
-     * Creates the comboBox.
+     * Creates the location filter comboBox.
      *
      * @return
      * @throws IOException
@@ -350,13 +353,37 @@ public class RootViewController implements Initializable {
     }
 
     /**
-     * Creates the comboBox.
+     * Creates the school class filter comboBox.
      *
      * @return
      * @throws IOException
      */
     private Node createSchoolClassFilterView() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.SCHOOLCLASS_FILTER_VIEW.toString()));
+        Node node = loader.load();
+        return node;
+    }
+
+    /**
+     * Creates the semester filter comboBox.
+     *
+     * @return
+     * @throws IOException
+     */
+    private Node createSemesterFilterView() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.SEMESTER_FILTER_VIEW.toString()));
+        Node node = loader.load();
+        return node;
+    }
+
+    /**
+     * Creates the semester filter comboBox.
+     *
+     * @return
+     * @throws IOException
+     */
+    private Node createAllSchoolClassesSemesterFilterView() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.ALL_SCHOOLCLASSES_SEMESTER_FILTER_VIEW.toString()));
         Node node = loader.load();
         return node;
     }
@@ -395,15 +422,33 @@ public class RootViewController implements Initializable {
             filterModal.initOwner(primStage);
 
             LOCATION_FILTER_VIEW = createLocationFilterView();
-            SCHOOLCLASS_FILTER_VIEW = createSchoolClassFilterView();
+            HBox schoolClassFilters = createAllSchoolClassesFilter();
+            SEMESTER_FILTER_VIEW = createSemesterFilterView();
+
             FilterHolderViewController controller = loader.getController();
             controller.addFilter(LOCATION_FILTER_VIEW);
-            controller.addFilter(SCHOOLCLASS_FILTER_VIEW);
+            controller.addFilter(schoolClassFilters);
+            controller.addFilter(SEMESTER_FILTER_VIEW);
 
             filterModal.show();
         } catch (IOException ex) {
             Logger.getLogger(RootViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    /**
+     * Create a HBox Node containing filters for allSchoolClasses
+     *
+     * @return
+     * @throws IOException
+     */
+    private HBox createAllSchoolClassesFilter() throws IOException {
+        SCHOOLCLASS_FILTER_VIEW = createSchoolClassFilterView();
+        ALL_SCHOOLCLASS_FILTER_VIEW = createAllSchoolClassesSemesterFilterView();
+        HBox schoolClassHbox = new HBox();
+        schoolClassHbox.getChildren().add(SCHOOLCLASS_FILTER_VIEW);
+        schoolClassHbox.getChildren().add(ALL_SCHOOLCLASS_FILTER_VIEW);
+        return schoolClassHbox;
     }
 
     /**

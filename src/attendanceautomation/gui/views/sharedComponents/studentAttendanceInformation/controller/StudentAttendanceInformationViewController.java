@@ -8,7 +8,7 @@ package attendanceautomation.gui.views.sharedComponents.studentAttendanceInforma
 import attendanceautomation.be.SchoolClass;
 import attendanceautomation.be.SchoolSemesterSubject;
 import attendanceautomation.be.Student;
-import attendanceautomation.be.enums.EFXMLNames;
+import attendanceautomation.be.enums.EFXMLName;
 import attendanceautomation.gui.model.SchemaModel;
 import attendanceautomation.gui.model.SchoolClassModel;
 import java.io.IOException;
@@ -195,7 +195,7 @@ public class StudentAttendanceInformationViewController implements Initializable
      * Creates a ParentCheckBoxView
      */
     private Node createWeekCheckBoxes(List<Integer> week) throws IOException {
-        FXMLLoader weekCheckBoxLoader = new FXMLLoader(getClass().getResource(EFXMLNames.WEEK_CHECK_BOX_VIEW.toString()));
+        FXMLLoader weekCheckBoxLoader = new FXMLLoader(getClass().getResource(EFXMLName.WEEK_CHECK_BOX_VIEW.toString()));
         Node node = weekCheckBoxLoader.load();
         WeekCheckBoxViewController controller = weekCheckBoxLoader.getController();
         controller.setWeekData(student, week);
@@ -212,7 +212,7 @@ public class StudentAttendanceInformationViewController implements Initializable
      * Creates a ParentCheckBoxView
      */
     private Node createSubjectCheckBoxes(List<Integer> week, SchoolSemesterSubject semesterSubject) throws IOException {
-        FXMLLoader weekCheckBoxLoader = new FXMLLoader(getClass().getResource(EFXMLNames.WEEK_CHECK_BOX_VIEW.toString()));
+        FXMLLoader weekCheckBoxLoader = new FXMLLoader(getClass().getResource(EFXMLName.WEEK_CHECK_BOX_VIEW.toString()));
         Node node = weekCheckBoxLoader.load();
         WeekCheckBoxViewController controller = weekCheckBoxLoader.getController();
         checkIsStudentLogin(controller);
@@ -227,7 +227,7 @@ public class StudentAttendanceInformationViewController implements Initializable
      * @throws IOException
      */
     private Node createFillerLabel() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.FILLER_LABEL.toString()));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLName.FILLER_LABEL.toString()));
         Node node = loader.load();
         return node;
     }

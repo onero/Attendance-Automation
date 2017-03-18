@@ -5,7 +5,7 @@
  */
 package attendanceautomation.gui.views.allStudents.controller;
 
-import attendanceautomation.be.enums.EFXMLNames;
+import attendanceautomation.be.enums.EFXMLName;
 import attendanceautomation.gui.views.sharedComponents.weeksAndDaysBar.controller.WeeksAndDaysBarViewController;
 import java.io.IOException;
 import java.net.URL;
@@ -61,7 +61,7 @@ public class AllStudentsViewController implements Initializable {
      * @throws IOException
      */
     private Node createListView() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.LIST_OF_ALL_STUDENTS_NON_ATTENDANCE_VIEW.toString()));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLName.LIST_OF_ALL_STUDENTS_NON_ATTENDANCE_VIEW.toString()));
         Node node = loader.load();
         ListOfAllStudentsNonAttendanceViewController controller = loader.getController();
         controller.setItemsInList();
@@ -69,7 +69,7 @@ public class AllStudentsViewController implements Initializable {
     }
 
     private Node createWeeksAndDaysBar() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.WEEK_AND_DAYS_BAR.toString()));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLName.WEEK_AND_DAYS_BAR.toString()));
         Node node = loader.load();
 
         WeeksAndDaysBarViewController controller = loader.getController();

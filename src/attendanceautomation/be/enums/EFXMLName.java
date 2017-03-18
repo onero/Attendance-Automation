@@ -11,7 +11,7 @@ import static attendanceautomation.AttendanceAutomationMain.FOLDER;
  *
  * @author Rasmus
  */
-public enum EFXMLNames {
+public enum EFXMLName {
     MAIN_VIEW(FOLDER + "main/view/MainView.fxml"),
     NAME_STATISTICS_VIEW(FOLDER + "main/view/NameStatisticsView.fxml"),
     LIST_OF_NAMES_STATISTICS_VIEW(FOLDER + "main/view/ListOfNameStatisticsView.fxml"),
@@ -42,7 +42,7 @@ public enum EFXMLNames {
 
     private final String text;
 
-    private EFXMLNames(final String text) {
+    private EFXMLName(final String text) {
         this.text = text;
     }
 

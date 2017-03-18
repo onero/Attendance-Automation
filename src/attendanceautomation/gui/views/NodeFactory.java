@@ -1,0 +1,40 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package attendanceautomation.gui.views;
+
+import attendanceautomation.be.enums.EFXMLName;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+
+public class NodeFactory {
+
+    private static NodeFactory instance;
+
+    public static NodeFactory getInstance() {
+        if (instance == null) {
+            instance = new NodeFactory();
+        }
+        return instance;
+    }
+
+    public Node createNewView(EFXMLName viewName) {
+        Node node = null;
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(viewName.toString()));
+        try {
+            node = loader.load();
+        } catch (IOException ex) {
+            System.out.println("Couldn't create " + viewName);
+            Logger
+                    .getLogger(NodeFactory.class
+                            .getName()).log(Level.SEVERE, null, ex);
+        }
+        return node;
+    }
+
+}

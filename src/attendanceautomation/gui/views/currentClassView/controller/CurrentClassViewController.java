@@ -5,7 +5,7 @@
  */
 package attendanceautomation.gui.views.currentClassView.controller;
 
-import attendanceautomation.be.enums.EFXMLNames;
+import attendanceautomation.be.enums.EFXMLName;
 import attendanceautomation.gui.model.SchoolClassModel;
 import java.io.IOException;
 import java.net.URL;
@@ -57,7 +57,7 @@ public class CurrentClassViewController implements Initializable {
      * @return @throws IOException TODO LATER REFACTOER TO ONE METHOD.
      */
     private Node createListViewPresent() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.CURRENT_CLASS_LIST_VIEW.toString()));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLName.CURRENT_CLASS_LIST_VIEW.toString()));
         Node node = loader.load();
         setItemsInList(loader);
         return node;
@@ -69,7 +69,7 @@ public class CurrentClassViewController implements Initializable {
      * @return @throws IOException TODO LATER REFACTOER TO ONE METHOD.
      */
     private Node createListViewAbsence() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.CURRENT_CLASS_LIST_VIEW.toString()));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLName.CURRENT_CLASS_LIST_VIEW.toString()));
         Node node = loader.load();
         setItemsInList(loader);
         return node;

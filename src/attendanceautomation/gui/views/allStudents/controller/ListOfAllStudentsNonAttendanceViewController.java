@@ -6,7 +6,7 @@
 package attendanceautomation.gui.views.allStudents.controller;
 
 import attendanceautomation.be.Student;
-import attendanceautomation.be.enums.EFXMLNames;
+import attendanceautomation.be.enums.EFXMLName;
 import attendanceautomation.gui.controls.AllStudentsNonAttendanceCell;
 import attendanceautomation.gui.model.SchoolClassModel;
 import attendanceautomation.gui.views.detailedStudent.controller.DetailedStudentViewController;
@@ -79,7 +79,7 @@ public class ListOfAllStudentsNonAttendanceViewController implements Initializab
             public ListCell<Student> call(ListView<Student> param) {
                 AllStudentsNonAttendanceCell cell = new AllStudentsNonAttendanceCell();
                 try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.STUDENTS_ATTENDANCE_INFORMATION.toString()));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLName.STUDENTS_ATTENDANCE_INFORMATION.toString()));
                     Node node = loader.load();
                     StudentAttendanceInformationViewController controller = loader.getController();
                     cell.setController(controller);

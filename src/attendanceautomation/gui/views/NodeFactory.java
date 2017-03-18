@@ -23,6 +23,12 @@ public class NodeFactory {
         return instance;
     }
 
+    /**
+     * Create the parsed view and return the Node
+     *
+     * @param viewName
+     * @return
+     */
     public Node createNewView(EFXMLName viewName) {
         Node node = null;
         FXMLLoader loader = new FXMLLoader(getClass().getResource(viewName.toString()));

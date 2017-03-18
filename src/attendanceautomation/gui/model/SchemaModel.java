@@ -7,10 +7,17 @@ package attendanceautomation.gui.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class SchemaModel {
 
     private static SchemaModel instance;
+
+    public static final String WEEK5 = "Uge 5";
+    public static final String WEEK6 = "Uge 6";
+    public static final String WEEK7 = "Uge 7";
+    public static final String WEEK8 = "Uge 8";
 
     public static SchemaModel getInstance() {
         if (instance == null) {
@@ -20,6 +27,8 @@ public class SchemaModel {
     }
 
     private final List<List<Integer>> weeksInFebruary;
+
+    private final ObservableList<String> weekNamesInFebruary;
 
     private final List<Integer> firstWeekFebruary;
     private final List<Integer> secondWeekFebruary;
@@ -35,13 +44,22 @@ public class SchemaModel {
         lastWeekFebruary = new ArrayList<>();
         weeksInFebruary = new ArrayList<>();
         createFebruaryWeeks();
+        addAllWeeksToLargeArray();
+        weekNamesInFebruary = FXCollections.observableArrayList();
+        weekNamesInFebruary.add(WEEK5);
+        weekNamesInFebruary.add(WEEK6);
+        weekNamesInFebruary.add(WEEK7);
+        weekNamesInFebruary.add(WEEK8);
+
+        //Zero for all weeks in month
+        currentWeekNumber = 0;
+    }
+
+    private void addAllWeeksToLargeArray() {
         weeksInFebruary.add(firstWeekFebruary);
         weeksInFebruary.add(secondWeekFebruary);
         weeksInFebruary.add(thirdWeekFebruary);
         weeksInFebruary.add(lastWeekFebruary);
-
-        //Zero for all weeks in month
-        currentWeekNumber = 0;
     }
 
     private void createFebruaryWeeks() {
@@ -96,6 +114,10 @@ public class SchemaModel {
 
     public List<List<Integer>> getWeeksInFebruary() {
         return weeksInFebruary;
+    }
+
+    public ObservableList<String> getWeekNamesInFebruary() {
+        return weekNamesInFebruary;
     }
 
 }

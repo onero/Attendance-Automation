@@ -5,6 +5,9 @@
 
 <BorderPane minWidth="200" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="attendanceautomation.gui.views.sharedComponents.monthComboBox.controller.MonthComboboxViewController">
    <center>
-      <ComboBox fx:id="viewSelect" onAction="#handleViewSelection" prefHeight="25.0" prefWidth="166.0" promptText="Vælg overblik" BorderPane.alignment="CENTER" />
+      <ComboBox fx:id="viewSelect" onAction="#handleViewSelection" promptText="Vælg overblik" BorderPane.alignment="CENTER" />
    </center>
+   <right>
+      <ComboBox fx:id="weekPicker" onAction="#handleWeekSelection" promptText="Vælg ugenummer" BorderPane.alignment="CENTER" />
+   </right>
 </BorderPane>

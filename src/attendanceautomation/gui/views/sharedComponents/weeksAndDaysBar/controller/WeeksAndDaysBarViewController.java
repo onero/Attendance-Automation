@@ -5,7 +5,10 @@
  */
 package attendanceautomation.gui.views.sharedComponents.weeksAndDaysBar.controller;
 
+import attendanceautomation.gui.model.SchemaModel;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -20,31 +23,112 @@ import javafx.scene.layout.HBox;
 public class WeeksAndDaysBarViewController implements Initializable {
 
     @FXML
+    private HBox hBoxWeekNumber;
+    @FXML
+    private HBox hBoxDays;
+    @FXML
     private Label lblMonth;
     @FXML
-    private Label lblWeek1;
-    @FXML
-    private Label lblWeek2;
-    @FXML
-    private Label lblWeek3;
-    @FXML
-    private Label lblWeek4;
-    @FXML
     private Label fillerLabel;
-    @FXML
-    private HBox daysWeek1;
-    @FXML
-    private HBox daysWeek2;
-    @FXML
-    private HBox daysWeek3;
-    @FXML
-    private HBox daysWeek4;
+
+    private Label weekNumber;
+
+    private final List<Label> weekNumbers;
+
+    private final List<Label> dayLabels;
+
+    private final List<Label> fillerLabels;
+
+    private final List<HBox> weekDays;
+
+    private final SchemaModel schemaModel;
+
+    public WeeksAndDaysBarViewController() {
+        schemaModel = SchemaModel.getInstance();
+        weekNumbers = new ArrayList<>();
+        weekDays = new ArrayList<>();
+        dayLabels = new ArrayList<>();
+        fillerLabels = new ArrayList<>();
+    }
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        lblMonth.setText("Februar");
+        createWeekLabels();
+    }
+
+    private void createWeekLabels() {
+        int currentWeekNumber = schemaModel.getCurrentWeekNumber();
+        switch (currentWeekNumber) {
+            case 5:
+                createWeekNumberLabel(currentWeekNumber);
+                createDayLabels();
+                break;
+            case 6:
+                createWeekNumberLabel(currentWeekNumber);
+                createDayLabels();
+                break;
+            case 7:
+                createWeekNumberLabel(currentWeekNumber);
+                createDayLabels();
+                break;
+            case 8:
+                createWeekNumberLabel(currentWeekNumber);
+                createDayLabels();
+                break;
+            default:
+                //Create all weeks
+                for (int i = 1; i <= schemaModel.getWeeksInFebruary().size(); i++) {
+                    createWeekNumberLabel(i);
+                    createDayLabels();
+                    //If it is not the last week, put in a filler!
+                    if (i != schemaModel.getWeeksInFebruary().size()) {
+                        Label filler = new Label();
+                        hBoxDays.getChildren().add(filler);
+                        fillerLabels.add(filler);
+                    }
+                }
+        }
+
+    }
+
+    /**
+     * Create a label with the name and number of the week
+     *
+     * @param currentWeekNumber
+     */
+    private void createWeekNumberLabel(int currentWeekNumber) {
+        weekNumber = new Label("Uge " + currentWeekNumber);
+        hBoxWeekNumber.getChildren().add(weekNumber);
+        weekNumbers.add(weekNumber);
+    }
+
+    /**
+     * Create a label for each schoolday
+     */
+    private void createDayLabels() {
+        Label monday = new Label("M");
+        hBoxDays.getChildren().add(monday);
+        dayLabels.add(monday);
+
+        Label tuesday = new Label("T");
+        hBoxDays.getChildren().add(tuesday);
+        dayLabels.add(tuesday);
+
+        Label wednesday = new Label("O");
+        hBoxDays.getChildren().add(wednesday);
+        dayLabels.add(wednesday);
+
+        Label thursday = new Label("T");
+        hBoxDays.getChildren().add(thursday);
+        dayLabels.add(thursday);
+
+        Label friday = new Label("F");
+        hBoxDays.getChildren().add(friday);
+        dayLabels.add(friday);
     }
 
     /**
@@ -58,50 +142,43 @@ public class WeeksAndDaysBarViewController implements Initializable {
         lblMonth.setMinWidth(widthMonth);
         lblMonth.setMaxWidth(widthMonth);
 
-        lblWeek1.setPrefWidth(widthWeek);
-        lblWeek2.setPrefWidth(widthWeek);
-        lblWeek3.setPrefWidth(widthWeek);
-        lblWeek4.setPrefWidth(widthWeek);
-
-        lblWeek1.setMinWidth(widthWeek);
-        lblWeek2.setMinWidth(widthWeek);
-        lblWeek3.setMinWidth(widthWeek);
-        lblWeek4.setMinWidth(widthWeek);
-
-        lblWeek1.setMaxWidth(widthWeek);
-        lblWeek2.setMaxWidth(widthWeek);
-        lblWeek3.setMaxWidth(widthWeek);
-        lblWeek4.setMaxWidth(widthWeek);
-
         fillerLabel.setPrefWidth(widthMonth);
         fillerLabel.setMinWidth(widthMonth);
         fillerLabel.setMaxWidth(widthMonth);
 
-        daysWeek1.setPrefWidth(widthWeek);
-        daysWeek2.setPrefWidth(widthWeek);
-        daysWeek3.setPrefWidth(widthWeek);
-        daysWeek4.setPrefWidth(widthWeek);
+        for (Label currentFillerLabel : fillerLabels) {
+            currentFillerLabel.setPrefWidth(40);
+            currentFillerLabel.setMinWidth(40);
+            currentFillerLabel.setMaxWidth(40);
+        }
 
-        daysWeek1.setMinWidth(widthWeek);
-        daysWeek2.setMinWidth(widthWeek);
-        daysWeek3.setMinWidth(widthWeek);
-        daysWeek4.setMinWidth(widthWeek);
+        /**
+         * Set prefered width for all weekNumbers
+         */
+        for (Label currentWeekNumber : weekNumbers) {
+            currentWeekNumber.setPrefWidth(widthWeek);
+            currentWeekNumber.setMinWidth(widthWeek);
+            currentWeekNumber.setMaxWidth(widthWeek);
+        }
 
-        daysWeek1.setMaxWidth(widthWeek);
-        daysWeek2.setMaxWidth(widthWeek);
-        daysWeek3.setMaxWidth(widthWeek);
-        daysWeek4.setMaxWidth(widthWeek);
-    }
+        /**
+         * Set prefered width for daysBox
+         */
+        for (HBox weekDay : weekDays) {
+            weekDay.setPrefWidth(widthWeek);
+            weekDay.setMinWidth(widthWeek);
+            weekDay.setMaxWidth(widthWeek);
+        }
+        int width = 30;
+        for (Label dayLabel : dayLabels) {
+            //If it's not the last label set a width
+            if (dayLabels.indexOf(dayLabel) != dayLabels.size() - 1) {
+                dayLabel.setPrefWidth(width);
+                dayLabel.setMinWidth(width);
+                dayLabel.setMaxWidth(width);
+            }
+        }
 
-    /**
-     * Sets the information of the labels to contain the ones of February.
-     */
-    public void setFebruary() {
-        lblMonth.setText("Februar");
-        lblWeek1.setText("Uge 5");
-        lblWeek2.setText("Uge 6");
-        lblWeek3.setText("Uge 7");
-        lblWeek4.setText("Uge 8");
     }
 
 }

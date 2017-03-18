@@ -6,7 +6,7 @@
 package attendanceautomation.gui.views.detailedStudent.controller;
 
 import attendanceautomation.be.Student;
-import attendanceautomation.be.enums.EFXMLNames;
+import attendanceautomation.be.enums.EFXMLName;
 import attendanceautomation.gui.views.sharedComponents.studentAttendanceInformation.controller.StudentAttendanceInformationViewController;
 import attendanceautomation.gui.views.sharedComponents.weeksAndDaysBar.controller.WeeksAndDaysBarViewController;
 import java.io.IOException;
@@ -95,7 +95,7 @@ public class DetailedStudentViewController implements Initializable {
      * @throws IOException
      */
     private Node createTopView() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.STUDENT_INFORMATION_TOP_VIEW.toString()));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLName.STUDENT_INFORMATION_TOP_VIEW.toString()));
         Node node = loader.load();
         return node;
     }
@@ -107,18 +107,17 @@ public class DetailedStudentViewController implements Initializable {
      * @throws IOException
      */
     private Node createCenterView() throws IOException {
-        attendanceLoader = new FXMLLoader(getClass().getResource(EFXMLNames.STUDENTS_ATTENDANCE_INFORMATION.toString()));
+        attendanceLoader = new FXMLLoader(getClass().getResource(EFXMLName.STUDENTS_ATTENDANCE_INFORMATION.toString()));
         Node node = attendanceLoader.load();
         studentAttendanceInfoController = attendanceLoader.getController();
         return node;
     }
 
     private Node createWeeksAndDaysBar() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.WEEK_AND_DAYS_BAR.toString()));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLName.WEEK_AND_DAYS_BAR.toString()));
         Node node = loader.load();
         WeeksAndDaysBarViewController controller = loader.getController();
         controller.setWidth(140, 190);
-        controller.setFebruary();
         return node;
     }
 

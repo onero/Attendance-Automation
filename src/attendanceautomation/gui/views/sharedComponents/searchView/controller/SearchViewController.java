@@ -64,16 +64,4 @@ public class SearchViewController implements Initializable {
         }
     }
 
-    /**
-     * Display the showbar or hide it
-     *
-     * @param visible
-     */
-    public void showSearchBar(boolean visible) {
-        txtSearch.setDisable(!visible);
-        txtSearch.setVisible(visible);
-        btnClear.setDisable(!visible);
-        btnClear.setVisible(visible);
-    }
-
 }

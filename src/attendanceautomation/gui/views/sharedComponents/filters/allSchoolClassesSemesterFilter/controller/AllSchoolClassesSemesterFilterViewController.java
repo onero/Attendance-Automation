@@ -46,6 +46,7 @@ public class AllSchoolClassesSemesterFilterViewController implements Initializab
         semesters.add(ESemester.FIFTH_SEMESTER.toString());
 
         comboSemester.setItems(semesters);
+        comboSemester.getSelectionModel().selectFirst();
     }
 
     @FXML

@@ -6,7 +6,7 @@
 package attendanceautomation.gui.views.main.controller;
 
 import attendanceautomation.be.Student;
-import attendanceautomation.be.enums.EFXMLNames;
+import attendanceautomation.be.enums.EFXMLName;
 import attendanceautomation.gui.controls.StudentListViewCell;
 import attendanceautomation.gui.model.SchoolClassModel;
 import attendanceautomation.gui.views.detailedStudent.controller.DetailedStudentViewController;
@@ -62,7 +62,7 @@ public class ListOfNameStatisticsViewController implements Initializable {
             public ListCell<Student> call(ListView<Student> param) {
                 StudentListViewCell cell = new StudentListViewCell();
                 try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.NAME_STATISTICS_VIEW.toString()));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLName.NAME_STATISTICS_VIEW.toString()));
                     Node node = loader.load();
                     NameStatisticsViewController controller = loader.getController();
                     cell.setController(controller);

@@ -54,8 +54,8 @@ public class LoginViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         instance = this;
         errorMessage.setText("");
-        userId.setPromptText("Brugernavn");
-        userPassword.setPromptText("Password");
+        userId.setPromptText("mrAwesome1234@easv365.dk");
+        userPassword.setPromptText("your1337Password");
         spinner.setVisible(false);
     }
 
@@ -113,11 +113,10 @@ public class LoginViewController implements Initializable {
         }
     }
 
-    public void hideSpinner() {
+    public void resetLogin() {
+        userId.setText("");
+        userPassword.setText("");
         spinner.setVisible(false);
-    }
-
-    public void showLoginButton() {
         btnLogin.setDisable(false);
     }
 

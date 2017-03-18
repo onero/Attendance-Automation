@@ -11,7 +11,7 @@ import static attendanceautomation.AttendanceAutomationMain.FOLDER;
  *
  * @author Rasmus
  */
-public enum EFXMLNames {
+public enum EFXMLName {
     MAIN_VIEW(FOLDER + "main/view/MainView.fxml"),
     NAME_STATISTICS_VIEW(FOLDER + "main/view/NameStatisticsView.fxml"),
     LIST_OF_NAMES_STATISTICS_VIEW(FOLDER + "main/view/ListOfNameStatisticsView.fxml"),
@@ -22,12 +22,11 @@ public enum EFXMLNames {
     SEARCH_VIEW(FOLDER + "sharedComponents/searchView/view/SearchView.fxml"),
     COMPONENTS_HOLDER_VIEW(FOLDER + "sharedComponents/componentsHolder/view/ComponentsHolderView.fxml"),
     WHITE_COMPONENT_HOLDER(FOLDER + "sharedComponents/whiteComponentHolder/view/WhiteComponentHolder.fxml"),
-    DAYS_IN_MONTH_VIEW(FOLDER + "sharedComponents/studentAttendanceInformation/view/DaysInMonthView.fxml"),
     WEEK_CHECK_BOX_VIEW(FOLDER + "sharedComponents/studentAttendanceInformation/view/WeekCheckBoxView.fxml"),
     STUDENTS_ATTENDANCE_INFORMATION(FOLDER + "sharedComponents/studentAttendanceInformation/view/StudentAttendanceInformationView.fxml"),
     ALL_STUDENTS_VIEW(FOLDER + "allStudents/view/AllStudentsView.fxml"),
     LIST_OF_ALL_STUDENTS_NON_ATTENDANCE_VIEW(FOLDER + "allStudents/view/ListOfAllStudentsNonAttendanceView.fxml"),
-    MONTH_COMBO_BOX_VIEW(FOLDER + "allStudents/view/MonthComboboxView.fxml"),
+    MONTH_COMBO_BOX_VIEW(FOLDER + "sharedComponents/monthComboBox/view/MonthComboboxView.fxml"),
     LOGIN_VIEW(FOLDER + "login/view/LoginView.fxml"),
     LOGOUT_BUTTON(FOLDER + "login/view/LogoutView.fxml"),
     WEEK_AND_DAYS_BAR(FOLDER + "sharedComponents/weeksAndDaysBar/view/WeeksAndDaysBarView.fxml"),
@@ -43,7 +42,7 @@ public enum EFXMLNames {
 
     private final String text;
 
-    private EFXMLNames(final String text) {
+    private EFXMLName(final String text) {
         this.text = text;
     }
 

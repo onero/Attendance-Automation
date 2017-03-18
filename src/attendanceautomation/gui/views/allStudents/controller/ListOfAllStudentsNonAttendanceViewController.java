@@ -65,6 +65,7 @@ public class ListOfAllStudentsNonAttendanceViewController implements Initializab
             RootViewController.getInstance().handleDetailedStudentView();
             Student selectedStudent = listView.getSelectionModel().getSelectedItem();
             DetailedStudentViewController.getInstance().setCurrentStudent(selectedStudent);
+            SchoolClassModel.getInstance().setCurrentStudent(selectedStudent);
         }
     }
 

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane minWidth="200" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="attendanceautomation.gui.views.sharedComponents.monthComboBox.controller.MonthComboboxViewController">
+   <center>
+      <ComboBox fx:id="viewSelect" onAction="#handleViewSelection" prefHeight="25.0" prefWidth="166.0" promptText="Vælg overblik" BorderPane.alignment="CENTER" />
+   </center>
+</BorderPane>

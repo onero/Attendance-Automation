@@ -365,4 +365,8 @@ public class SchoolClassModel {
         return semesters;
     }
 
+    public void setCurrentStudent(Student currentStudent) {
+        this.currentStudent = currentStudent;
+    }
+
 }

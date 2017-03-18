@@ -51,7 +51,7 @@ public class RootViewController implements Initializable {
     private Node LOGOUT_BUTTON;
 
     private Node SEARCH_BAR;
-    private Node ComboBox;
+    private Node MONTH_COMBOBOX;
     private Node ACTION_COMPONENT_HOLDER;
     private Node WHITE_COMPONENT_HOLDER_VIEW;
     private Node EMPTY_TOP_BAR;
@@ -62,6 +62,10 @@ public class RootViewController implements Initializable {
     private Node SCHOOLCLASS_FILTER_VIEW;
     private Node ALL_SCHOOLCLASS_FILTER_VIEW;
     private Node SEMESTER_FILTER_VIEW;
+
+    private BorderPane FILTER_PANE;
+
+    private Node currentView;
 
     private WhiteComponentHolderController whiteComponentHolderController;
     private SearchViewController searchViewController;
@@ -96,62 +100,7 @@ public class RootViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         instance = this;
         borderPane.setCenter(WHITE_COMPONENT_HOLDER_VIEW);
-        ShowBottomButtons(false);
-    }
-
-    /**
-     * Creates the node containing MainView.
-     *
-     * @return
-     * @throws IOException
-     */
-    private Node createMainView() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.MAIN_VIEW.toString()));
-        Node node = loader.load();
-        return node;
-    }
-
-    /**
-     * Creates the node containing AllStudentsView.
-     *
-     * @return
-     * @throws IOException
-     */
-    private Node createAllStudents() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.ALL_STUDENTS_VIEW.toString()));
-        Node node = loader.load();
-        return node;
-    }
-
-    /**
-     * Create the StudentInformationTopView
-     *
-     * @return
-     * @throws IOException
-     */
-    private Node createDetailedStudentView() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.DETAILED_STUDENT_VIEW.toString()));
-        Node node = loader.load();
-        detailedStudentViewController = loader.getController();
-        return node;
-    }
-
-    /**
-     * Creates the LoginView and sets it's RootViewController.
-     *
-     * @return
-     * @throws IOException
-     */
-    private Node createLoginView() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.LOGIN_VIEW.toString()));
-        Node node = loader.load();
-        return node;
-    }
-
-    private Node createLogoutView() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.LOGOUT_BUTTON.toString()));
-        Node node = loader.load();
-        return node;
+        ShowHideAdminButtons(false);
     }
 
     /**
@@ -169,8 +118,9 @@ public class RootViewController implements Initializable {
             System.out.println("Couldn't recreate allStudentsView");
             System.out.println(ex);
         }
-        whiteComponentHolderController.setBorderPaneCenter(ALL_STUDENTS_VIEW);
-        searchViewController.showSearchBar(true);
+        switchCenterView(ALL_STUDENTS_VIEW);
+        showNode(SEARCH_BAR);
+        showNode(MONTH_COMBOBOX);
     }
 
     /**
@@ -180,8 +130,9 @@ public class RootViewController implements Initializable {
      */
     @FXML
     public void handleStartView(ActionEvent event) {
-        whiteComponentHolderController.setBorderPaneCenter(MAIN_VIEW);
-        searchViewController.showSearchBar(true);
+        switchCenterView(MAIN_VIEW);
+        showNode(SEARCH_BAR);
+        hideNode(MONTH_COMBOBOX);
         SchoolClassModel.getInstance().sortStudentsOnAttendance();
     }
 
@@ -196,18 +147,19 @@ public class RootViewController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(RootViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        whiteComponentHolderController.setBorderPaneCenter(DETAILED_STUDENT_VIEW);
-        searchViewController.showSearchBar(false);
+        switchCenterView(DETAILED_STUDENT_VIEW);
+        hideNode(SEARCH_BAR);
+        showNode(MONTH_COMBOBOX);
     }
 
     /**
      * Returns the user to the login page.
      */
     public void handleLogout() {
-        whiteComponentHolderController.setBorderPaneCenter(LOGIN_VIEW);
+        switchCenterView(LOGIN_VIEW);
+        LoginViewController.getInstance().resetLogin();
         whiteComponentHolderController.setBorderPaneTop(EMPTY_TOP_BAR);
-        ShowBottomButtons(false);
-        searchViewController.showSearchBar(true);
+        ShowHideAdminButtons(false);
 
     }
 
@@ -241,9 +193,8 @@ public class RootViewController implements Initializable {
         Platform.runLater(() -> {
             try {
                 createTeacherViews();
-                ShowBottomButtons(true);
-                LoginViewController.getInstance().hideSpinner();
-                LoginViewController.getInstance().showLoginButton();
+                ShowHideAdminButtons(true);
+                LoginViewController.getInstance().resetLogin();
             } catch (IOException ex) {
                 System.out.println("Error whilst logging in as teacher");
                 System.out.println(ex);
@@ -259,22 +210,19 @@ public class RootViewController implements Initializable {
     private void createTeacherViews() throws IOException {
         MAIN_VIEW = createMainView();
         SEARCH_BAR = createSearchBarNode();
-        FILTER_BUTTON = createFilterButton();
         ACTION_COMPONENT_HOLDER = createActionComponentHolder();
-        whiteComponentHolderController.setBorderPaneCenter(MAIN_VIEW);
+        switchCenterView(MAIN_VIEW);
         whiteComponentHolderController.setBorderPaneTop(ACTION_COMPONENT_HOLDER);
     }
 
     /**
-     * Creates the filter button
+     * Puts in a new Node in the center of the application
      *
-     * @return
-     * @throws IOException
+     * @param node
      */
-    private Node createFilterButton() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.FILTER_BUTTON.toString()));
-        Node node = loader.load();
-        return node;
+    private void switchCenterView(Node node) {
+        whiteComponentHolderController.setBorderPaneCenter(node);
+        currentView = node;
     }
 
     /**
@@ -286,19 +234,149 @@ public class RootViewController implements Initializable {
         schoolClassModel.loadStudentData(userId);
         try {
             DETAILED_STUDENT_VIEW = createDetailedStudentView();
-            whiteComponentHolderController.setBorderPaneCenter(DETAILED_STUDENT_VIEW);
+            switchCenterView(DETAILED_STUDENT_VIEW);
             whiteComponentHolderController.setBorderPaneTop(ACTION_COMPONENT_HOLDER);
-            ShowBottomButtons(false);
-            searchViewController.showSearchBar(false);
+            ShowHideAdminButtons(false);
         } catch (Exception e) {
             System.out.println(e);
         }
 
         detailedStudentViewController.setIsStudentLogin();
         detailedStudentViewController.setCurrentStudent(schoolClassModel.getCurrentStudent());
-        LoginViewController.getInstance().hideSpinner();
-        LoginViewController.getInstance().showLoginButton();
+        LoginViewController.getInstance().resetLogin();
 
+    }
+
+    /**
+     * Reloads the current Node
+     */
+    public void reloadView() {
+        if (currentView == ALL_STUDENTS_VIEW) {
+            try {
+                ALL_STUDENTS_VIEW = createAllStudents();
+                switchCenterView(ALL_STUDENTS_VIEW);
+            } catch (IOException ex) {
+                Logger.getLogger(RootViewController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        if (currentView == DETAILED_STUDENT_VIEW) {
+            try {
+                DETAILED_STUDENT_VIEW = createDetailedStudentView();
+                DetailedStudentViewController.getInstance().setCurrentStudent(SchoolClassModel.getInstance().getCurrentStudent());
+                switchCenterView(DETAILED_STUDENT_VIEW);
+            } catch (IOException ex) {
+                Logger.getLogger(RootViewController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    /**
+     * Creates the holder for the searchBar and the comboBox.
+     *
+     * @return
+     * @throws IOException
+     */
+    private Node createActionComponentHolder() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.COMPONENTS_HOLDER_VIEW.toString()));
+        Node node = loader.load();
+        ComponentsHolderViewController controller = loader.getController();
+        controller.setBorderPaneLeft(SEARCH_BAR);
+
+        FILTER_PANE = new BorderPane();
+
+        FILTER_BUTTON = createFilterButton();
+        MONTH_COMBOBOX = createComboBox();
+
+        FILTER_PANE.setCenter(FILTER_BUTTON);
+        FILTER_PANE.setRight(MONTH_COMBOBOX);
+        hideNode(MONTH_COMBOBOX);
+
+        controller.setBorderPaneCenter(FILTER_PANE);
+
+        controller.setBorderPaneRight(LOGOUT_BUTTON);
+        return node;
+    }
+
+    /**
+     * Open filters modal
+     */
+    public void handleFilters() {
+        Stage primStage = (Stage) borderPane.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.FILTER_HOLER_VIEW.toString()));
+        try {
+            Parent root = loader.load();
+            Scene filterHolder = new Scene(root);
+            Stage filterModal = new Stage();
+            filterModal.setScene(filterHolder);
+
+            filterModal.initModality(Modality.WINDOW_MODAL);
+            filterModal.initOwner(primStage);
+
+            LOCATION_FILTER_VIEW = createLocationFilterView();
+            HBox schoolClassFilters = createAllSchoolClassesFilter();
+            SEMESTER_FILTER_VIEW = createSemesterFilterView();
+
+            FilterHolderViewController controller = loader.getController();
+            controller.addFilter(LOCATION_FILTER_VIEW);
+            controller.addFilter(schoolClassFilters);
+            controller.addFilter(SEMESTER_FILTER_VIEW);
+
+            filterModal.show();
+        } catch (IOException ex) {
+            Logger.getLogger(RootViewController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * Display Node
+     *
+     * @param node
+     */
+    public void showNode(Node node) {
+        node.setDisable(false);
+        node.setVisible(true);
+    }
+
+    /**
+     * Hide Node
+     *
+     * @param node
+     */
+    public void hideNode(Node node) {
+        node.setDisable(true);
+        node.setVisible(false);
+    }
+
+    /**
+     * Makes it so that you can see and use the buttons in the bottom bar.
+     *
+     * @param visible
+     */
+    public void ShowHideAdminButtons(boolean visible) {
+        startButton.setDisable(!visible);
+        startButton.setVisible(visible);
+        allStudentsButton.setDisable(!visible);
+        allStudentsButton.setVisible(visible);
+        currentClass.setDisable(!visible);
+        currentClass.setVisible(visible);
+        if (SEARCH_BAR != null) {
+            FILTER_PANE.setDisable(!visible);
+            FILTER_PANE.setVisible(visible);
+            SEARCH_BAR.setDisable(!visible);
+            SEARCH_BAR.setVisible(visible);
+        }
+
+    }
+
+    @FXML
+    private void handleCurrentClassBtn(ActionEvent event) {
+        try {
+            CURRENT_CLASS_VIEW = createCurrentClassView();
+        } catch (IOException ex) {
+            Logger.getLogger(RootViewController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        switchCenterView(CURRENT_CLASS_VIEW);
+        hideNode(MONTH_COMBOBOX);
     }
 
     /**
@@ -313,8 +391,23 @@ public class RootViewController implements Initializable {
         Node node = loader.load();
         whiteComponentHolderController = loader.getController();
         whiteComponentHolderController.setBorderPaneTop(EMPTY_TOP_BAR);
-        whiteComponentHolderController.setBorderPaneCenter(LOGIN_VIEW);
+        switchCenterView(LOGIN_VIEW);
         return node;
+    }
+
+    /**
+     * Create a HBox Node containing filters for allSchoolClasses
+     *
+     * @return
+     * @throws IOException
+     */
+    private HBox createAllSchoolClassesFilter() throws IOException {
+        SCHOOLCLASS_FILTER_VIEW = createSchoolClassFilterView();
+        ALL_SCHOOLCLASS_FILTER_VIEW = createAllSchoolClassesSemesterFilterView();
+        HBox schoolClassHbox = new HBox();
+        schoolClassHbox.getChildren().add(SCHOOLCLASS_FILTER_VIEW);
+        schoolClassHbox.getChildren().add(ALL_SCHOOLCLASS_FILTER_VIEW);
+        return schoolClassHbox;
     }
 
     /**
@@ -391,69 +484,6 @@ public class RootViewController implements Initializable {
     }
 
     /**
-     * Creates the holder for the searchBar and the comboBox.
-     *
-     * @return
-     * @throws IOException
-     */
-    private Node createActionComponentHolder() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.COMPONENTS_HOLDER_VIEW.toString()));
-        Node node = loader.load();
-        ComponentsHolderViewController controller = loader.getController();
-        controller.setBorderPaneLeft(SEARCH_BAR);
-
-        controller.setBorderPaneCenter(FILTER_BUTTON);
-
-        controller.setBorderPaneRight(LOGOUT_BUTTON);
-        return node;
-    }
-
-    /**
-     * Open filters modal
-     */
-    public void handleFilters() {
-        Stage primStage = (Stage) borderPane.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.FILTER_HOLER_VIEW.toString()));
-        try {
-            Parent root = loader.load();
-            Scene filterHolder = new Scene(root);
-            Stage filterModal = new Stage();
-            filterModal.setScene(filterHolder);
-
-            filterModal.initModality(Modality.WINDOW_MODAL);
-            filterModal.initOwner(primStage);
-
-            LOCATION_FILTER_VIEW = createLocationFilterView();
-            HBox schoolClassFilters = createAllSchoolClassesFilter();
-            SEMESTER_FILTER_VIEW = createSemesterFilterView();
-
-            FilterHolderViewController controller = loader.getController();
-            controller.addFilter(LOCATION_FILTER_VIEW);
-            controller.addFilter(schoolClassFilters);
-            controller.addFilter(SEMESTER_FILTER_VIEW);
-
-            filterModal.show();
-        } catch (IOException ex) {
-            Logger.getLogger(RootViewController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    /**
-     * Create a HBox Node containing filters for allSchoolClasses
-     *
-     * @return
-     * @throws IOException
-     */
-    private HBox createAllSchoolClassesFilter() throws IOException {
-        SCHOOLCLASS_FILTER_VIEW = createSchoolClassFilterView();
-        ALL_SCHOOLCLASS_FILTER_VIEW = createAllSchoolClassesSemesterFilterView();
-        HBox schoolClassHbox = new HBox();
-        schoolClassHbox.getChildren().add(SCHOOLCLASS_FILTER_VIEW);
-        schoolClassHbox.getChildren().add(ALL_SCHOOLCLASS_FILTER_VIEW);
-        return schoolClassHbox;
-    }
-
-    /**
      * Creates the emptyTopBar.
      *
      * @return
@@ -467,32 +497,58 @@ public class RootViewController implements Initializable {
     }
 
     /**
-     * Makes it so that you can see and use the buttons in the bottom bar.
+     * Creates the node containing MainView.
      *
-     * @param visible
+     * @return
+     * @throws IOException
      */
-    public void ShowBottomButtons(boolean visible) {
-        startButton.setDisable(!visible);
-        startButton.setVisible(visible);
-        allStudentsButton.setDisable(!visible);
-        allStudentsButton.setVisible(visible);
-        currentClass.setDisable(!visible);
-        currentClass.setVisible(visible);
-        if (FILTER_BUTTON != null) {
-            FILTER_BUTTON.setDisable(!visible);
-            FILTER_BUTTON.setVisible(visible);
-        }
-
+    private Node createMainView() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.MAIN_VIEW.toString()));
+        Node node = loader.load();
+        return node;
     }
 
-    @FXML
-    private void handleCurrentClassBtn(ActionEvent event) {
-        try {
-            CURRENT_CLASS_VIEW = createCurrentClassView();
-        } catch (IOException ex) {
-            Logger.getLogger(RootViewController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        whiteComponentHolderController.setBorderPaneCenter(CURRENT_CLASS_VIEW);
+    /**
+     * Creates the node containing AllStudentsView.
+     *
+     * @return
+     * @throws IOException
+     */
+    private Node createAllStudents() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.ALL_STUDENTS_VIEW.toString()));
+        Node node = loader.load();
+        return node;
+    }
+
+    /**
+     * Create the StudentInformationTopView
+     *
+     * @return
+     * @throws IOException
+     */
+    private Node createDetailedStudentView() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.DETAILED_STUDENT_VIEW.toString()));
+        Node node = loader.load();
+        detailedStudentViewController = loader.getController();
+        return node;
+    }
+
+    /**
+     * Creates the LoginView and sets it's RootViewController.
+     *
+     * @return
+     * @throws IOException
+     */
+    private Node createLoginView() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.LOGIN_VIEW.toString()));
+        Node node = loader.load();
+        return node;
+    }
+
+    private Node createLogoutView() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.LOGOUT_BUTTON.toString()));
+        Node node = loader.load();
+        return node;
     }
 
     /**
@@ -502,6 +558,18 @@ public class RootViewController implements Initializable {
      */
     private Node createCurrentClassView() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.CURRENT_CLASS_VIEW.toString()));
+        Node node = loader.load();
+        return node;
+    }
+
+    /**
+     * Creates the filter button
+     *
+     * @return
+     * @throws IOException
+     */
+    private Node createFilterButton() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.FILTER_BUTTON.toString()));
         Node node = loader.load();
         return node;
     }

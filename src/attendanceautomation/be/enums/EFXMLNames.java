@@ -26,7 +26,7 @@ public enum EFXMLNames {
     STUDENTS_ATTENDANCE_INFORMATION(FOLDER + "sharedComponents/studentAttendanceInformation/view/StudentAttendanceInformationView.fxml"),
     ALL_STUDENTS_VIEW(FOLDER + "allStudents/view/AllStudentsView.fxml"),
     LIST_OF_ALL_STUDENTS_NON_ATTENDANCE_VIEW(FOLDER + "allStudents/view/ListOfAllStudentsNonAttendanceView.fxml"),
-    MONTH_COMBO_BOX_VIEW(FOLDER + "allStudents/view/MonthComboboxView.fxml"),
+    MONTH_COMBO_BOX_VIEW(FOLDER + "sharedComponents/monthComboBox/view/MonthComboboxView.fxml"),
     LOGIN_VIEW(FOLDER + "login/view/LoginView.fxml"),
     LOGOUT_BUTTON(FOLDER + "login/view/LogoutView.fxml"),
     WEEK_AND_DAYS_BAR(FOLDER + "sharedComponents/weeksAndDaysBar/view/WeeksAndDaysBarView.fxml"),

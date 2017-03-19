@@ -412,22 +412,24 @@ public class SchoolClassDAO {
      * schoolClass.
      *
      * @param teacherID
-     * @param dateAsString
+     * @param dateHalfHourBefore
+     * @param dateHalfHourAfter
      * @return
      * @throws SQLException
      */
-    public int getSchoolClassIDForSpecificTeacherAndDate(int teacherID, String dateAsString) throws SQLException {
+    public int getSchoolClassIDForSpecificTeacherAndDate(int teacherID, String dateHalfHourBefore, String dateHalfHourAfter) throws SQLException {
         String sql = "SELECT sc.ID FROM SchoolClass sc "
                 + "JOIN SchoolClassSemesterSubject scss ON sc.ID = scss.SchoolClassID "
                 + "JOIN Teacher t ON scss.TeacherID = t.ID "
                 + "JOIN SchoolClassSemesterLesson scsl ON scss.ID = scsl.SchoolClassSemesterSubjectID "
-                + "WHERE t.ID = ? AND scsl.Date = ?";
+                + "WHERE t.ID = ? AND scsl.Date BETWEEN ? AND ?";
 
 //        Date date = Date.valueOf(dateAsString);
         try (Connection con = cm.getConnection()) {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, teacherID);
-            ps.setString(2, dateAsString);
+            ps.setString(2, dateHalfHourBefore);
+            ps.setString(3, dateHalfHourAfter);
 
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {

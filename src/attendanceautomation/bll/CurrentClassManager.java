@@ -54,7 +54,7 @@ public class CurrentClassManager {
 //        //These lines are for when the actual date is needed.
 //        DateFormat dateFormatYear = new SimpleDateFormat("yyyy-MM-dd");
 //        String yearAsString = dateFormatYear.format(date);
-        int schoolClassID = daoFacade.getSchoolClassID(teacherID, dateAsString);
+        int schoolClassID = daoFacade.getSchoolClassID(teacherID, halfHourBefore, halfHourAfter);
         if (schoolClassID == 0) {
             System.out.println("Failed to get schoolClassID");
         }

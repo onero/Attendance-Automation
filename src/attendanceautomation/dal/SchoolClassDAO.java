@@ -417,14 +417,14 @@ public class SchoolClassDAO {
      * @return
      * @throws SQLException
      */
-    public int getSchoolClassIDForSpecificTeacherAndDate(int teacherID, String dateHalfHourBefore, String dateHalfHourAfter) throws SQLException {
+    public List<Integer> getSchoolClassIDForSpecificTeacherAndDate(int teacherID, String dateHalfHourBefore, String dateHalfHourAfter) throws SQLException {
+        List<Integer> schoolClassIDs = new ArrayList<>();
         String sql = "SELECT sc.ID FROM SchoolClass sc "
                 + "JOIN SchoolClassSemesterSubject scss ON sc.ID = scss.SchoolClassID "
                 + "JOIN Teacher t ON scss.TeacherID = t.ID "
                 + "JOIN SchoolClassSemesterLesson scsl ON scss.ID = scsl.SchoolClassSemesterSubjectID "
                 + "WHERE t.ID = ? AND scsl.Date BETWEEN ? AND ?";
 
-//        Date date = Date.valueOf(dateAsString);
         try (Connection con = cm.getConnection()) {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, teacherID);
@@ -432,11 +432,11 @@ public class SchoolClassDAO {
             ps.setString(3, dateHalfHourAfter);
 
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return rs.getInt("ID");
+            while (rs.next()) {
+                schoolClassIDs.add(rs.getInt("ID"));
             }
         }
-        return 0;
+        return schoolClassIDs;
     }
 
 }

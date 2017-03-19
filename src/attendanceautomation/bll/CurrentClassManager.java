@@ -44,21 +44,22 @@ public class CurrentClassManager {
         hours = hoursAndMinutes[0];
         minutes = hoursAndMinutes[1];
 
-        String mockDate = "2017-02-06";
+        String mockDate = "2017-02-24";
+//        //These lines are for when the actual date is needed.
+//        DateFormat dateFormatYear = new SimpleDateFormat("yyyy-MM-dd");
+//        String yearAsString = dateFormatYear.format(date);
 
         String halfHourBefore = mockDate + " " + findHalfHourBefore(Integer.parseInt(hours), Integer.parseInt(minutes));
         System.out.println("Before: " + halfHourBefore);
         String halfHourAfter = mockDate + " " + findHalfHourAfter(Integer.parseInt(hours), Integer.parseInt(minutes));
         System.out.println("After: " + halfHourAfter);
 
-//        //These lines are for when the actual date is needed.
-//        DateFormat dateFormatYear = new SimpleDateFormat("yyyy-MM-dd");
-//        String yearAsString = dateFormatYear.format(date);
-        int schoolClassID = daoFacade.getSchoolClassID(teacherID, halfHourBefore, halfHourAfter);
-        if (schoolClassID == 0) {
+        List<Integer> schoolClassID = daoFacade.getSchoolClassID(teacherID, halfHourBefore, halfHourAfter);
+        if (schoolClassID.isEmpty()) {
             System.out.println("Failed to get schoolClassID");
+            return new ArrayList<Student>();
         }
-        return schoolClassManager.getStudentsWithDataFromSchoolClass(schoolClassID);
+        return schoolClassManager.getStudentsWithDataFromSchoolClassForSpecificDate(schoolClassID.get(schoolClassID.size() - 1), mockDate);
     }
 
     /**
@@ -106,11 +107,12 @@ public class CurrentClassManager {
      */
     private String findHalfHourBefore(int hours, int minutes) {
         String halfHourBefore = "";
-        minutes -= 30;
-        if (minutes <= 0) {
-            hours--;
-            minutes = 60 + minutes;
-        }
+//        minutes -= 30;
+//        if (minutes <= 0) {
+//            hours--;
+//            minutes = 60 + minutes;
+//        }
+        hours -= 8;
         halfHourBefore = formatTime(halfHourBefore, hours, minutes);
         return halfHourBefore += minutes;
     }

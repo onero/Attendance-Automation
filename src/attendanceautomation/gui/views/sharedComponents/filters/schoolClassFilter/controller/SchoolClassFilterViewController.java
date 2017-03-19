@@ -50,7 +50,7 @@ public class SchoolClassFilterViewController implements Initializable {
                     SchoolClassModel.getInstance().loadSchoolClassByName(schoolClassName);
                     SchoolClassModel.getInstance().updateSemesters();
                     PieChartModel.getInstance().resetPieChart();
-                    PieChartViewController.getInstance().updateData();
+                    PieChartViewController.getInstance().updateChart();
                 });
             };
             new Thread(task).start();

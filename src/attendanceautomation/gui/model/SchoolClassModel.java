@@ -12,11 +12,14 @@ import attendanceautomation.be.SchoolSemesterSubject;
 import attendanceautomation.be.Student;
 import attendanceautomation.be.Teacher;
 import attendanceautomation.bll.SchoolClassManager;
+import attendanceautomation.gui.views.rootView.controller.RootViewController;
 import attendanceautomation.gui.views.sharedComponents.filters.semesterFilter.controller.SemesterFilterViewController;
+import attendanceautomation.gui.views.sharedComponents.pieChart.controller.PieChartViewController;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -75,6 +78,7 @@ public class SchoolClassModel {
         loadAcademyLocationsTeacherIsTeaching();
         //TODO ALH: Dynamic locations
         loadSchoolClassByLocation(1);
+        PieChartModel.getInstance().resetPieChart();
     }
 
     /**
@@ -143,9 +147,18 @@ public class SchoolClassModel {
         students.clear();
     }
 
-    public void updateStudentInfo() {
-        students.clear();
-        students.addAll(schoolClassManager.getStudentsWithDataFromSchoolClass(currentSchoolClass.getID()));
+    public void updateStudentData() {
+        Runnable task = () -> {
+            List<Student> updatedStudents = schoolClassManager.getStudentsWithDataFromSchoolClass(currentSchoolClass.getID());
+            Platform.runLater(() -> {
+                students.clear();
+                students.addAll(updatedStudents);
+                sortStudentsOnAttendance();
+                PieChartViewController.getInstance().updateChart();
+                RootViewController.getInstance().setRefreshBoxVisibility(false);
+            });
+        };
+        new Thread(task).start();
     }
 
     /**

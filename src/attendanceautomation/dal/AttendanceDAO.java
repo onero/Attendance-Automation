@@ -67,6 +67,32 @@ public class AttendanceDAO {
     }
 
     /**
+     * Gets a list of all NonAttendance for a specific student for a specific
+     * date.
+     *
+     * Viloation of DRY!
+     *
+     * @param studentID
+     * @param date
+     * @return
+     */
+    public List<NonAttendance> getAllNonAttendanceForASpecificStudentForASpecificDate(int studentID, String date) {
+        try {
+            List<SchoolClassSemesterLesson> schoolClassSemesterLessonsForStudent = getAllSchoolClassSemesterLessonsASpecificStudentDidNotAttendOnASpecificDate(studentID, date);
+            List<NonAttendance> nonAttendanceForSpecificStudent;
+            nonAttendanceForSpecificStudent = new ArrayList<>();
+            for (SchoolClassSemesterLesson schoolClassSemesterLesson : schoolClassSemesterLessonsForStudent) {
+                NonAttendance newNonAttendance = new NonAttendance(schoolClassSemesterLesson, studentID);
+                nonAttendanceForSpecificStudent.add(newNonAttendance);
+            }
+            return nonAttendanceForSpecificStudent;
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    /**
      * Get a list of all semesterLessons the student did not attend from the DB
      *
      * @param studentID
@@ -84,6 +110,40 @@ public class AttendanceDAO {
         try (Connection con = cm.getConnection()) {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, studentID);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                schoolClassSemesterLessons.add(getOneSchoolClassSemesterLesson(rs));
+            }
+            return schoolClassSemesterLessons;
+        }
+    }
+
+    /**
+     * Gets a list of all the semesterLessons the student did not attend on the
+     * parsed data from DB.
+     *
+     * Some violation of DRY?
+     *
+     * @param studentID
+     * @param date
+     * @return
+     * @throws SQLException
+     */
+    private List<SchoolClassSemesterLesson> getAllSchoolClassSemesterLessonsASpecificStudentDidNotAttendOnASpecificDate(int studentID, String date) throws SQLException {
+        List<SchoolClassSemesterLesson> schoolClassSemesterLessons = new ArrayList<>();
+        String sql = "SELECT semesterLesson.ID AS 'SemesterLessonID', "
+                + "semesterLesson.SchoolClassSemesterSubjectID 'SemesterSubjectID', "
+                + "semesterLesson.Date AS 'SemesterLessonDate' "
+                + "FROM StudentLessonNonAttendance nonAttendance "
+                + "JOIN SchoolClassSemesterLesson semesterLesson ON nonAttendance.SchoolClassSemesterLessonID = semesterLesson.ID "
+                + "WHERE nonAttendance.StudentID = ? "
+                + "AND semesterLesson.Date BETWEEN ? AND ?";
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, studentID);
+            ps.setString(2, date);
+            ps.setString(3, date + " 16:00");
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {

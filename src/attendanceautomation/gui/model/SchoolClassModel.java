@@ -11,6 +11,7 @@ import attendanceautomation.be.SchoolClass;
 import attendanceautomation.be.SchoolSemesterSubject;
 import attendanceautomation.be.Student;
 import attendanceautomation.be.Teacher;
+import attendanceautomation.bll.CurrentClassManager;
 import attendanceautomation.bll.SchoolClassManager;
 import attendanceautomation.gui.views.rootView.controller.RootViewController;
 import attendanceautomation.gui.views.sharedComponents.filters.semesterFilter.controller.SemesterFilterViewController;
@@ -31,6 +32,8 @@ public class SchoolClassModel {
 
     private final Academy currentAcademy;
 
+    private final CurrentClassManager currentClassManager;
+
     private int currentLocationID;
 
     private final ObservableList<String> locationNames;
@@ -45,6 +48,9 @@ public class SchoolClassModel {
     private List<Integer> schoolClassIDs;
 
     private final ObservableList<String> teacherSchoolClassNames;
+
+    private final ObservableList<Student> currentClassStudentsAbsence;
+    private final ObservableList<Student> currentClassStudentsPresent;
 
     private SchoolClass currentSchoolClass;
     private final List<Student> studentsFromDB;
@@ -66,6 +72,9 @@ public class SchoolClassModel {
         currentAcademy = new Academy(1, "EASV");
         locationNames = FXCollections.observableArrayList();
         teacherSchoolClassNames = FXCollections.observableArrayList();
+        currentClassManager = new CurrentClassManager();
+        currentClassStudentsAbsence = FXCollections.observableArrayList();
+        currentClassStudentsPresent = FXCollections.observableArrayList();
         semesters = FXCollections.observableArrayList();
     }
 
@@ -362,6 +371,46 @@ public class SchoolClassModel {
             return true;
         }
         return currentTeacher.getTeacherID() != teacher.getTeacherID();
+    }
+
+    /**
+     * <<<<<<< HEAD
+     * Clears currentClassStudentsWithAbsence. Then gets a new list of students
+     * from the database.
+     */
+    public void updateCurrentClassStudents() {
+        currentClassStudentsAbsence.clear();
+        currentClassStudentsPresent.clear();
+        List<Student> listOfCurrentClassStudents = currentClassManager.getStudentsFromCurrentSchoolClass(currentTeacher.getTeacherID());
+
+        List<Student> listOfCurrentClassStudentsPresent = currentClassManager.findStudentsPresent(listOfCurrentClassStudents);
+        List<Student> listOfCurrentClassStudentsAbsence = currentClassManager.findStudentsAbsence(listOfCurrentClassStudents);
+
+        for (Student student : listOfCurrentClassStudentsAbsence) {
+            currentClassStudentsAbsence.add(student);
+        }
+
+        for (Student student : listOfCurrentClassStudentsPresent) {
+            currentClassStudentsPresent.add(student);
+        }
+    }
+
+    /**
+     * Gets currentClassStudentsAbsence.
+     *
+     * @return
+     */
+    public ObservableList<Student> getCurrentClassStudentsAbsence() {
+        return currentClassStudentsAbsence;
+    }
+
+    /**
+     * Gets the currentClassStudentsPresent
+     *
+     * @return
+     */
+    public ObservableList<Student> getCurrentClassStudentsPresent() {
+        return currentClassStudentsPresent;
     }
 
     /**

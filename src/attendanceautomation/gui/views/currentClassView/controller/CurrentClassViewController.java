@@ -5,6 +5,7 @@
  */
 package attendanceautomation.gui.views.currentClassView.controller;
 
+import attendanceautomation.be.Student;
 import attendanceautomation.be.enums.EFXMLName;
 import attendanceautomation.gui.model.SchoolClassModel;
 import java.io.IOException;
@@ -12,6 +13,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -59,7 +61,7 @@ public class CurrentClassViewController implements Initializable {
     private Node createListViewPresent() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLName.CURRENT_CLASS_LIST_VIEW.toString()));
         Node node = loader.load();
-        setItemsInList(loader);
+        setItemsInList(loader, model.getCurrentClassStudentsPresent());
         return node;
     }
 
@@ -71,13 +73,13 @@ public class CurrentClassViewController implements Initializable {
     private Node createListViewAbsence() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLName.CURRENT_CLASS_LIST_VIEW.toString()));
         Node node = loader.load();
-        setItemsInList(loader);
+        setItemsInList(loader, model.getCurrentClassStudentsAbsence());
         return node;
     }
 
-    private void setItemsInList(FXMLLoader loader) {
+    private void setItemsInList(FXMLLoader loader, ObservableList<Student> listOfStudents) {
         CurrentClassListViewController controller = loader.getController();
-        controller.setItemsInList(model.getStudents());
+        controller.setItemsInList(listOfStudents);
     }
 
 }

@@ -11,6 +11,7 @@ import attendanceautomation.be.SchoolClass;
 import attendanceautomation.be.SchoolSemesterSubject;
 import attendanceautomation.be.Student;
 import attendanceautomation.be.Teacher;
+import attendanceautomation.be.enums.ESemester;
 import attendanceautomation.bll.CurrentClassManager;
 import attendanceautomation.bll.SchoolClassManager;
 import attendanceautomation.gui.views.rootView.controller.RootViewController;
@@ -41,7 +42,8 @@ public class SchoolClassModel {
     private final ObservableList<String> semesters;
 
     private Student currentStudent;
-
+    private SchoolClass currentSchoolClass;
+    private ESemester currentSemester;
     private Teacher currentTeacher;
 
     private HashMap<Integer, String> schoolClassForTeacherAtCurrentLocation;
@@ -52,7 +54,6 @@ public class SchoolClassModel {
     private final ObservableList<Student> currentClassStudentsAbsence;
     private final ObservableList<Student> currentClassStudentsPresent;
 
-    private SchoolClass currentSchoolClass;
     private final List<Student> studentsFromDB;
     private final ObservableList<Student> students;
     private String searchString;
@@ -439,6 +440,10 @@ public class SchoolClassModel {
 
     public void setCurrentStudent(Student currentStudent) {
         this.currentStudent = currentStudent;
+    }
+
+    public ESemester getCurrentSemester() {
+        return currentSemester;
     }
 
 }

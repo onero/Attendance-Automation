@@ -260,7 +260,6 @@ public class AttendanceAutomationDAOFacade {
     }
 
     /**
-     * <<<<<<< HEAD
      * Finds the schoolClass for the parsed teacher on the parsed Date. Then
      * retrieves a list of students from that schoolClass.
      *
@@ -273,6 +272,7 @@ public class AttendanceAutomationDAOFacade {
         try {
             return schoolClassDAO.getSchoolClassIDForSpecificTeacherAndDate(teacherID, dateHalfHourBefore, dateHalfHourAfter);
         } catch (SQLException ex) {
+            System.out.println(ex);
             throw new RuntimeException("Couldn't get the schoolClassID");
         }
     }

@@ -137,13 +137,11 @@ public class SchoolClassDAO {
                 + "FROM SchoolClassSemesterLesson semesterLesson "
                 + "JOIN SchoolClassSemesterSubject semesterSubject ON semesterLesson.SchoolClassSemesterSubjectID = semesterSubject.ID "
                 + "JOIN Semester sem ON sem.ID = semesterSubject.SemesterID "
-                + "WHERE semesterSubject.SchoolClassID = ? "
-                + "AND sem.ID = ? ";
+                + "WHERE semesterSubject.SchoolClassID = ? ";
 
         try (Connection con = cm.getConnection()) {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, schoolClassID);
-            ps.setInt(2, 2);
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -214,13 +212,11 @@ public class SchoolClassDAO {
                 + "JOIN SchoolSubject schoolSubject ON semesterSubject.SchoolSubjectID = schoolSubject.ID "
                 + "JOIN Teacher t ON semesterSubject.TeacherID = t.ID "
                 + "JOIN Person p ON p.ID = t.PersonID "
-                + "WHERE c.ID = ? "
-                + "AND sem.ID = ? ";
+                + "WHERE c.ID = ? ";
 
         try (Connection con = cm.getConnection()) {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, schoolClassID);
-            ps.setInt(2, 2);
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {

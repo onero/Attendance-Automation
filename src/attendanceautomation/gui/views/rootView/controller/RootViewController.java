@@ -262,9 +262,6 @@ public class RootViewController implements Initializable {
         } catch (Exception e) {
             System.out.println(e);
         }
-
-        detailedStudentViewController.setIsStudentLogin();
-        detailedStudentViewController.setCurrentStudent(schoolClassModel.getCurrentStudent());
         LoginViewController.getInstance().resetLogin();
 
     }
@@ -280,7 +277,6 @@ public class RootViewController implements Initializable {
         if (currentView == DETAILED_STUDENT_VIEW) {
             try {
                 DETAILED_STUDENT_VIEW = createDetailedStudentView();
-                DetailedStudentViewController.getInstance().setCurrentStudent(SchoolClassModel.getInstance().getCurrentStudent());
                 switchCenterView(DETAILED_STUDENT_VIEW);
             } catch (IOException ex) {
                 Logger.getLogger(RootViewController.class.getName()).log(Level.SEVERE, null, ex);

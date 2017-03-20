@@ -38,7 +38,8 @@ public enum EFXMLName {
     ALL_SCHOOLCLASSES_SEMESTER_FILTER_VIEW(FOLDER + "sharedComponents/filters/allSchoolClassesSemesterFilter/view/AllSchoolClassesSemesterFilterView.fxml"),
     CURRENT_CLASS_VIEW(FOLDER + "currentClassView/view/currentClassView.fxml"),
     CURRENT_CLASS_LIST_VIEW(FOLDER + "currentClassView/view/CurrentClassListView.fxml"),
-    NAME_CURRENT_CLASS_LIST_VIEW(FOLDER + "currentClassView/view/NameCurrentClassListView.fxml");
+    NAME_CURRENT_CLASS_LIST_VIEW(FOLDER + "currentClassView/view/NameCurrentClassListView.fxml"),
+    LOADING_DATA_VIEW(FOLDER + "sharedComponents/loadingData/view/LoadingDataView.fxml");
 
     private final String text;
 

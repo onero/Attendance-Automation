@@ -12,11 +12,14 @@ import attendanceautomation.be.SchoolSemesterSubject;
 import attendanceautomation.be.Student;
 import attendanceautomation.be.Teacher;
 import attendanceautomation.bll.SchoolClassManager;
+import attendanceautomation.gui.views.rootView.controller.RootViewController;
 import attendanceautomation.gui.views.sharedComponents.filters.semesterFilter.controller.SemesterFilterViewController;
+import attendanceautomation.gui.views.sharedComponents.pieChart.controller.PieChartViewController;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -75,6 +78,7 @@ public class SchoolClassModel {
         loadAcademyLocationsTeacherIsTeaching();
         //TODO ALH: Dynamic locations
         loadSchoolClassByLocation(1);
+        PieChartModel.getInstance().resetPieChart();
     }
 
     /**
@@ -93,6 +97,9 @@ public class SchoolClassModel {
         }
     }
 
+    /**
+     * Reset List of schoolClassNames & schoolClassIDs
+     */
     public void resetSchoolNamesAndIDs() {
         teacherSchoolClassNames.clear();
         teacherSchoolClassNames.addAll(schoolClassForTeacherAtCurrentLocation.values());
@@ -138,14 +145,30 @@ public class SchoolClassModel {
         sortStudentsOnAttendance();
     }
 
+    /**
+     * Clear Lists of students
+     */
     public void resetStudents() {
         studentsFromDB.clear();
         students.clear();
     }
 
-    public void updateStudentInfo() {
-        students.clear();
-        students.addAll(schoolClassManager.getStudentsWithDataFromSchoolClass(currentSchoolClass.getID()));
+    /**
+     * Gets a fresh list of all students in currentClass with nonAttendance
+     */
+    public void updateStudentData() {
+        Runnable task = () -> {
+            List<Student> updatedStudents = schoolClassManager.getStudentsWithDataFromSchoolClass(currentSchoolClass.getID());
+            Platform.runLater(() -> {
+                resetStudents();
+                studentsFromDB.addAll(updatedStudents);
+                students.addAll(studentsFromDB);
+                sortStudentsOnAttendance();
+                PieChartViewController.getInstance().updateChart();
+                RootViewController.getInstance().setRefreshBoxVisibility(false);
+            });
+        };
+        new Thread(task).start();
     }
 
     /**

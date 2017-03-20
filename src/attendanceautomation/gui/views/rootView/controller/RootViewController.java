@@ -42,6 +42,8 @@ public class RootViewController implements Initializable {
 
     @FXML
     private BorderPane borderPane;
+    @FXML
+    private HBox refreshBox;
 
     private static RootViewController instance;
 
@@ -53,11 +55,13 @@ public class RootViewController implements Initializable {
     private Node LOGIN_VIEW;
     private Node LOGOUT_BUTTON;
 
+    private Node LOADING_DATA_VIEW;
+
     private Node SEARCH_BAR;
     private Node MONTH_COMBOBOX;
     private Node ACTION_COMPONENT_HOLDER;
     private Node WHITE_COMPONENT_HOLDER_VIEW;
-    private Node COMPONENT_HOLDER_VIEW;
+    private Node EMPTY_COMPONENT_HOLDER_VIEW;
     private Node CURRENT_CLASS_VIEW;
 
     private Node FILTER_BUTTON;
@@ -93,7 +97,7 @@ public class RootViewController implements Initializable {
         try {
             LOGIN_VIEW = nodeFactory.createNewView(EFXMLName.LOGIN_VIEW);
             LOGOUT_BUTTON = nodeFactory.createNewView(EFXMLName.LOGOUT_BUTTON);
-            COMPONENT_HOLDER_VIEW = nodeFactory.createNewView(EFXMLName.COMPONENTS_HOLDER_VIEW);
+            EMPTY_COMPONENT_HOLDER_VIEW = nodeFactory.createNewView(EFXMLName.COMPONENTS_HOLDER_VIEW);
             WHITE_COMPONENT_HOLDER_VIEW = createWhiteComponentHolderView();
 
         } catch (IOException ex) {
@@ -107,6 +111,7 @@ public class RootViewController implements Initializable {
         instance = this;
         borderPane.setCenter(WHITE_COMPONENT_HOLDER_VIEW);
         ShowHideAdminButtons(false);
+        refreshBox.setVisible(false);
     }
 
     /**
@@ -155,13 +160,17 @@ public class RootViewController implements Initializable {
         showNode(MONTH_COMBOBOX);
     }
 
+    public void setRefreshBoxVisibility(boolean value) {
+        refreshBox.setVisible(value);
+    }
+
     /**
      * Returns the user to the login page.
      */
     public void handleLogout() {
         switchCenterView(LOGIN_VIEW);
         LoginViewController.getInstance().resetLogin();
-        whiteComponentHolderController.setBorderPaneTop(COMPONENT_HOLDER_VIEW);
+        whiteComponentHolderController.setBorderPaneTop(EMPTY_COMPONENT_HOLDER_VIEW);
         ShowHideAdminButtons(false);
 
     }
@@ -177,13 +186,21 @@ public class RootViewController implements Initializable {
         Runnable task = () -> {
             Teacher teacher = schoolClassModel.getTeacherByEmail(teacherEmail);
             if (schoolClassModel.checkForNewTeacher(teacher)) {
+                LOADING_DATA_VIEW = nodeFactory.createNewView(EFXMLName.LOADING_DATA_VIEW);
                 schoolClassModel.setCurrentTeacher(teacher);
+                loadTeacherView();
                 schoolClassModel.loadDataFromDB();
-                loadTeacherView();
+                Platform.runLater(() -> {
+                    switchCenterView(MAIN_VIEW);
+                });
             } else {
-                schoolClassModel.updateStudentInfo();
-                schoolClassModel.sortStudentsOnAttendance();
-                loadTeacherView();
+                Platform.runLater(() -> {
+                    switchCenterView(MAIN_VIEW);
+                    setRefreshBoxVisibility(true);
+                    whiteComponentHolderController.setBorderPaneTop(ACTION_COMPONENT_HOLDER);
+                    ShowHideAdminButtons(true);
+                    SchoolClassModel.getInstance().updateStudentData();
+                });
             }
         };
         new Thread(task).start();
@@ -202,6 +219,8 @@ public class RootViewController implements Initializable {
                 System.out.println("Error whilst logging in as teacher");
                 System.out.println(ex);
             }
+
+            switchCenterView(LOADING_DATA_VIEW);
         });
     }
 
@@ -211,10 +230,9 @@ public class RootViewController implements Initializable {
      * @throws IOException
      */
     private void createTeacherViews() throws IOException {
-        MAIN_VIEW = nodeFactory.createNewView(EFXMLName.MAIN_VIEW);
         SEARCH_BAR = createSearchBarNode();
+        MAIN_VIEW = nodeFactory.createNewView(EFXMLName.MAIN_VIEW);
         ACTION_COMPONENT_HOLDER = createActionComponentHolder();
-        switchCenterView(MAIN_VIEW);
         whiteComponentHolderController.setBorderPaneTop(ACTION_COMPONENT_HOLDER);
     }
 
@@ -386,7 +404,7 @@ public class RootViewController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLName.WHITE_COMPONENT_HOLDER.toString()));
         Node node = loader.load();
         whiteComponentHolderController = loader.getController();
-        whiteComponentHolderController.setBorderPaneTop(COMPONENT_HOLDER_VIEW);
+        whiteComponentHolderController.setBorderPaneTop(EMPTY_COMPONENT_HOLDER_VIEW);
         switchCenterView(LOGIN_VIEW);
         return node;
     }

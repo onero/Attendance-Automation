@@ -7,7 +7,6 @@ package attendanceautomation.gui.views.main.controller;
 
 import attendanceautomation.be.enums.EFXMLName;
 import attendanceautomation.gui.model.SchoolClassModel;
-import attendanceautomation.gui.views.sharedComponents.pieChart.controller.PieChartViewController;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -71,16 +70,7 @@ public class MainViewController implements Initializable {
     private Node createPieChartNode() throws IOException {
         mainPieChartLoader = new FXMLLoader(getClass().getResource(EFXMLName.PIE_CHART_VIEW.toString()));
         Node node = mainPieChartLoader.load();
-        updatePieData();
         return node;
-    }
-
-    /**
-     * Updated the data in the pieChart
-     */
-    public void updatePieData() {
-        PieChartViewController controller = mainPieChartLoader.getController();
-        controller.updateData();
     }
 
     /**

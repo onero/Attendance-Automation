@@ -97,6 +97,9 @@ public class SchoolClassModel {
         }
     }
 
+    /**
+     * Reset List of schoolClassNames & schoolClassIDs
+     */
     public void resetSchoolNamesAndIDs() {
         teacherSchoolClassNames.clear();
         teacherSchoolClassNames.addAll(schoolClassForTeacherAtCurrentLocation.values());
@@ -142,17 +145,24 @@ public class SchoolClassModel {
         sortStudentsOnAttendance();
     }
 
+    /**
+     * Clear Lists of students
+     */
     public void resetStudents() {
         studentsFromDB.clear();
         students.clear();
     }
 
+    /**
+     * Gets a fresh list of all students in currentClass with nonAttendance
+     */
     public void updateStudentData() {
         Runnable task = () -> {
             List<Student> updatedStudents = schoolClassManager.getStudentsWithDataFromSchoolClass(currentSchoolClass.getID());
             Platform.runLater(() -> {
-                students.clear();
-                students.addAll(updatedStudents);
+                resetStudents();
+                studentsFromDB.addAll(updatedStudents);
+                students.addAll(studentsFromDB);
                 sortStudentsOnAttendance();
                 PieChartViewController.getInstance().updateChart();
                 RootViewController.getInstance().setRefreshBoxVisibility(false);

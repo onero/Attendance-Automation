@@ -453,5 +453,4 @@ public class RootViewController implements Initializable {
         detailedStudentViewController = loader.getController();
         return node;
     }
-
 }

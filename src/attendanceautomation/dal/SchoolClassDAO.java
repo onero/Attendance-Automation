@@ -289,7 +289,7 @@ public class SchoolClassDAO {
      */
     public HashMap<Integer, String> loadAcademyLocationsTeacherIsTeaching(Academy currentAcademy, Teacher teacher) throws SQLServerException, SQLException {
         HashMap<Integer, String> locations = new HashMap<>();
-        String sql = "SELECT location.ID AS 'LocationID', location.Name AS 'LocationName' "
+        String sql = "SELECT DISTINCT(location.ID) AS 'LocationID', location.Name AS 'LocationName' "
                 + "FROM AcademyLocation academyLocation "
                 + "JOIN Academy academy ON academy.ID = academyLocation.AcademyID "
                 + "JOIN Location location ON location.ID = academyLocation.LocationID "
@@ -356,7 +356,7 @@ public class SchoolClassDAO {
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                SchoolClass schoolClass = getSchoolClassByID(rs.findColumn("SchoolClassID"));
+                SchoolClass schoolClass = getSchoolClassByID(rs.getInt("SchoolClassID"));
                 classes.put(schoolClass.getID(), schoolClass.getSchoolClassName());
             }
             return classes;
@@ -407,6 +407,7 @@ public class SchoolClassDAO {
     }
 
     /**
+     * <<<<<<< HEAD
      * Gets the ID of the first schoolClass for the parsed teacher on the parsed
      * day. Returns 0 if no class is found. TODO RKL: Make so it's not the first
      * schoolClass.
@@ -437,6 +438,51 @@ public class SchoolClassDAO {
             }
         }
         return schoolClassIDs;
+    }
+
+    /*
+     * Get all teacher schoolClassNames for specific semester
+     *
+     * @param schoolClassIDs
+     * @param semester
+     * @return
+     */
+    public List<String> getAllTeacherSchoolClassesBySemester(List<Integer> schoolClassIDs, String semester) throws SQLServerException, SQLException {
+        List<String> schoolClassNames = new ArrayList<>();
+        String sql = "SELECT DISTINCT(sc.Name) AS 'SchoolClassName' FROM SchoolClass sc "
+                + "JOIN SchoolClassSemesterSubject semesterSubject ON semesterSubject.SchoolClassID = sc.ID "
+                + "JOIN Semester sem ON sem.ID = semesterSubject.SemesterID "
+                + "WHERE "
+                + "sc.ID = ? "
+                + "AND "
+                + "sem.Name = ? ";
+
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+            for (Integer schoolClassID : schoolClassIDs) {
+
+                ps.setInt(1, schoolClassID);
+                ps.setString(2, semester);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    schoolClassNames.add(getOneSchoolClassName(rs));
+                }
+            }
+            return schoolClassNames;
+        }
+    }
+
+    /**
+     * Get one schoolClassName
+     *
+     * @param rs
+     * @return
+     * @throws SQLException
+     */
+    private String getOneSchoolClassName(ResultSet rs) throws SQLException {
+        String SchoolClassName = rs.getString("SchoolClassName");
+
+        return SchoolClassName;
     }
 
 }

@@ -214,4 +214,15 @@ public class SchoolClassManager {
         return AADAOFacade.getTeacherByEmail(teacherEmail);
     }
 
+    /**
+     * Get all teacher schoolClassNames for specific semester
+     *
+     * @param schoolClassIDs
+     * @param semester
+     * @return
+     */
+    public List<String> getAllTeacherSchoolClassesBySemester(List<Integer> schoolClassIDs, String semester) {
+        return AADAOFacade.getAllTeacherSchoolClassesBySemester(schoolClassIDs, semester);
+    }
+
 }

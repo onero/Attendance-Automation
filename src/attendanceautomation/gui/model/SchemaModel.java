@@ -7,15 +7,62 @@ package attendanceautomation.gui.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class SchemaModel {
 
-    private final List<Integer> firstWeekFebruary = new ArrayList<>();
-    private final List<Integer> secondWeekFebruary = new ArrayList<>();
-    private final List<Integer> thirdWeekFebruary = new ArrayList<>();
-    private final List<Integer> lastWeekFebruary = new ArrayList<>();
+    private static SchemaModel instance;
 
-    public SchemaModel() {
+    public static final String WEEK5 = "Uge 5";
+    public static final String WEEK6 = "Uge 6";
+    public static final String WEEK7 = "Uge 7";
+    public static final String WEEK8 = "Uge 8";
+
+    public static SchemaModel getInstance() {
+        if (instance == null) {
+            instance = new SchemaModel();
+        }
+        return instance;
+    }
+
+    private final List<List<Integer>> weeksInFebruary;
+
+    private final ObservableList<String> weekNamesInFebruary;
+
+    private final List<Integer> firstWeekFebruary;
+    private final List<Integer> secondWeekFebruary;
+    private final List<Integer> thirdWeekFebruary;
+    private final List<Integer> lastWeekFebruary;
+
+    private int currentWeekNumber;
+
+    private SchemaModel() {
+        firstWeekFebruary = new ArrayList<>();
+        secondWeekFebruary = new ArrayList<>();
+        thirdWeekFebruary = new ArrayList<>();
+        lastWeekFebruary = new ArrayList<>();
+        weeksInFebruary = new ArrayList<>();
+        createFebruaryWeeks();
+        addAllWeeksToLargeArray();
+        weekNamesInFebruary = FXCollections.observableArrayList();
+        weekNamesInFebruary.add(WEEK5);
+        weekNamesInFebruary.add(WEEK6);
+        weekNamesInFebruary.add(WEEK7);
+        weekNamesInFebruary.add(WEEK8);
+
+        //Zero for all weeks in month
+        currentWeekNumber = 0;
+    }
+
+    private void addAllWeeksToLargeArray() {
+        weeksInFebruary.add(firstWeekFebruary);
+        weeksInFebruary.add(secondWeekFebruary);
+        weeksInFebruary.add(thirdWeekFebruary);
+        weeksInFebruary.add(lastWeekFebruary);
+    }
+
+    private void createFebruaryWeeks() {
         firstWeekFebruary.add(30);
         firstWeekFebruary.add(31);
         firstWeekFebruary.add(1);
@@ -41,6 +88,14 @@ public class SchemaModel {
         lastWeekFebruary.add(24);
     }
 
+    public void setCurrentWeekNumber(int currentWeekNumber) {
+        this.currentWeekNumber = currentWeekNumber;
+    }
+
+    public int getCurrentWeekNumber() {
+        return currentWeekNumber;
+    }
+
     public List<Integer> getFirstWeekFebruary() {
         return firstWeekFebruary;
     }
@@ -55,6 +110,14 @@ public class SchemaModel {
 
     public List<Integer> getLastWeekFebruary() {
         return lastWeekFebruary;
+    }
+
+    public List<List<Integer>> getWeeksInFebruary() {
+        return weeksInFebruary;
+    }
+
+    public ObservableList<String> getWeekNamesInFebruary() {
+        return weekNamesInFebruary;
     }
 
 }

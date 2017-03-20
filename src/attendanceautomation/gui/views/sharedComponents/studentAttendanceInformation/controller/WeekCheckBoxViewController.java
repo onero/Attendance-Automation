@@ -116,16 +116,18 @@ public class WeekCheckBoxViewController implements Initializable {
             CheckBox newCheckBox = new CheckBox();
             //Start with disabling the checkbox
             newCheckBox.setDisable(true);
-            //Set the checkbox visible again if the day contains the subject
-            checkIfLessonIsOnThisDay(subject, newCheckBox, day);
+            if (!lessonsThisDay.isEmpty()) {
+                //Set the checkbox visible again if the day contains the subject
+                checkIfLessonIsOnThisDay(subject, newCheckBox, day);
+                //Checks if the user is a student, if true disables the checkbox again.
+                checkIsStudent(newCheckBox);
+            }
             //Add the checkbox to the view
             horizontalCheckBoxPane.getChildren().add(newCheckBox);
             //Add the checkbox to our array, so we can keep track of it
             listOfCheckBoxes.add(newCheckBox);
             //Increase the date we are putting in
 
-            //Checks if the user is a student, if true disables the checkbox again.
-            checkIsStudent(newCheckBox);
         }
         isStudentLogin = false;
     }
@@ -189,13 +191,17 @@ public class WeekCheckBoxViewController implements Initializable {
             getAllLessonOnThisDay(day);
             //Create a nice new checkbox (SO WE CAN KEEP TRACK OF STUDENTS!)
             CheckBox newCheckBox = new CheckBox();
-            //Check if the student has nonAttendance this day
-            checkDayForStudentNonAttendance(newCheckBox, day);
             //Add the checkbox to the view
             horizontalCheckBoxPane.getChildren().add(newCheckBox);
-            //Add the checkbox to our array, so we can keep track of it
-            listOfCheckBoxes.add(newCheckBox);
-            addWeekChangeListenerToCheckBox(newCheckBox, lessonsThisDay);
+            if (!lessonsThisDay.isEmpty()) {
+                //Check if the student has nonAttendance this day
+                checkDayForStudentNonAttendance(newCheckBox, day);
+                //Add the checkbox to our array, so we can keep track of it
+                listOfCheckBoxes.add(newCheckBox);
+                addWeekChangeListenerToCheckBox(newCheckBox, lessonsThisDay);
+            } else {
+                newCheckBox.setDisable(true);
+            }
         }
     }
 

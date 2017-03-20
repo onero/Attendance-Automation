@@ -6,7 +6,7 @@
 package attendanceautomation.gui.views.allStudents.controller;
 
 import attendanceautomation.be.Student;
-import attendanceautomation.be.enums.EFXMLNames;
+import attendanceautomation.be.enums.EFXMLName;
 import attendanceautomation.gui.controls.AllStudentsNonAttendanceCell;
 import attendanceautomation.gui.model.SchoolClassModel;
 import attendanceautomation.gui.views.detailedStudent.controller.DetailedStudentViewController;
@@ -37,23 +37,12 @@ public class ListOfAllStudentsNonAttendanceViewController implements Initializab
     @FXML
     private BorderPane BorderPane;
 
-    private Node WEEKS_IN_MONTH_VIEW;
-
-    public ListOfAllStudentsNonAttendanceViewController() {
-//        try {
-//            WEEKS_IN_MONTH_VIEW = createWeeksInMonthView();
-//        } catch (IOException e) {
-//            System.out.println("Couldn't create weeksInMonth");
-//        }
-    }
-
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setCellFactory();
-//        BorderPane.setTop(WEEKS_IN_MONTH_VIEW);
     }
 
     /**
@@ -76,6 +65,7 @@ public class ListOfAllStudentsNonAttendanceViewController implements Initializab
             RootViewController.getInstance().handleDetailedStudentView();
             Student selectedStudent = listView.getSelectionModel().getSelectedItem();
             DetailedStudentViewController.getInstance().setCurrentStudent(selectedStudent);
+            SchoolClassModel.getInstance().setCurrentStudent(selectedStudent);
         }
     }
 
@@ -89,7 +79,7 @@ public class ListOfAllStudentsNonAttendanceViewController implements Initializab
             public ListCell<Student> call(ListView<Student> param) {
                 AllStudentsNonAttendanceCell cell = new AllStudentsNonAttendanceCell();
                 try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.STUDENTS_ATTENDANCE_INFORMATION.toString()));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLName.STUDENTS_ATTENDANCE_INFORMATION.toString()));
                     Node node = loader.load();
                     StudentAttendanceInformationViewController controller = loader.getController();
                     cell.setController(controller);
@@ -103,18 +93,6 @@ public class ListOfAllStudentsNonAttendanceViewController implements Initializab
                 return cell;
             }
         });
-    }
-
-    /**
-     * Creates the node of the daysInMonthView
-     *
-     * @return
-     * @throws IOException
-     */
-    private Node createWeeksInMonthView() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.DAYS_IN_MONTH_VIEW.toString()));
-        Node node = loader.load();
-        return node;
     }
 
 }

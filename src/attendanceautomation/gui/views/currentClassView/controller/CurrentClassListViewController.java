@@ -6,7 +6,7 @@
 package attendanceautomation.gui.views.currentClassView.controller;
 
 import attendanceautomation.be.Student;
-import attendanceautomation.be.enums.EFXMLNames;
+import attendanceautomation.be.enums.EFXMLName;
 import attendanceautomation.gui.controls.CurrentClassListViewCell;
 import java.io.IOException;
 import java.net.URL;
@@ -55,7 +55,7 @@ public class CurrentClassListViewController implements Initializable {
             public ListCell<Student> call(ListView<Student> param) {
                 CurrentClassListViewCell cell = new CurrentClassListViewCell();
                 try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.NAME_CURRENT_CLASS_LIST_VIEW.toString()));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLName.NAME_CURRENT_CLASS_LIST_VIEW.toString()));
                     Node node = loader.load();
                     NameCurrentClassListViewController controller = loader.getController();
                     cell.setController(controller);

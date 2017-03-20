@@ -260,6 +260,7 @@ public class AttendanceAutomationDAOFacade {
     }
 
     /**
+     * <<<<<<< HEAD
      * Finds the schoolClass for the parsed teacher on the parsed Date. Then
      * retrieves a list of students from that schoolClass.
      *
@@ -274,5 +275,21 @@ public class AttendanceAutomationDAOFacade {
         } catch (SQLException ex) {
             throw new RuntimeException("Couldn't get the schoolClassID");
         }
+    }
+
+    /*
+     * Get all teacher schoolClassNames for specific semester
+     *
+     * @param schoolClassIDs
+     * @param semester
+     * @return
+     */
+    public List<String> getAllTeacherSchoolClassesBySemester(List<Integer> schoolClassIDs, String semester) {
+        try {
+            return schoolClassDAO.getAllTeacherSchoolClassesBySemester(schoolClassIDs, semester);
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 }

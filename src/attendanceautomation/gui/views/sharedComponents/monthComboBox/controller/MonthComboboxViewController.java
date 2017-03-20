@@ -44,7 +44,7 @@ public class MonthComboboxViewController implements Initializable {
         viewSelect.setItems(viewSelection);
         changeVisibilityOfWeekPicker();
 
-        weekPicker.setItems(SchemaModel.getInstance().getWeekNamesInFebruary());
+//        weekPicker.setItems(SchemaModel.getInstance().getWeekNamesInFebruary());
         weekPicker.setPromptText("Vælg uge");
     }
 
@@ -85,26 +85,26 @@ public class MonthComboboxViewController implements Initializable {
     private void handleWeekSelection() {
         String week = weekPicker.getSelectionModel().getSelectedItem();
 
-        switch (week) {
-            case SchemaModel.WEEK5:
-                schemaModel.setCurrentWeekNumber(5);
-                RootViewController.getInstance().reloadView();
-                break;
-            case SchemaModel.WEEK6:
-                schemaModel.setCurrentWeekNumber(6);
-                RootViewController.getInstance().reloadView();
-                break;
-            case SchemaModel.WEEK7:
-                schemaModel.setCurrentWeekNumber(7);
-                RootViewController.getInstance().reloadView();
-                break;
-            case SchemaModel.WEEK8:
-                schemaModel.setCurrentWeekNumber(8);
-                RootViewController.getInstance().reloadView();
-                break;
-            default:
-                break;
-        }
+//        switch (week) {
+//            case SchemaModel.WEEK5:
+//                schemaModel.setCurrentWeekNumber(5);
+//                RootViewController.getInstance().reloadView();
+//                break;
+//            case SchemaModel.WEEK6:
+//                schemaModel.setCurrentWeekNumber(6);
+//                RootViewController.getInstance().reloadView();
+//                break;
+//            case SchemaModel.WEEK7:
+//                schemaModel.setCurrentWeekNumber(7);
+//                RootViewController.getInstance().reloadView();
+//                break;
+//            case SchemaModel.WEEK8:
+//                schemaModel.setCurrentWeekNumber(8);
+//                RootViewController.getInstance().reloadView();
+//                break;
+//            default:
+//                break;
+//        }
     }
 
 }

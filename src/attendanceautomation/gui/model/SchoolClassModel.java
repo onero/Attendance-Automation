@@ -88,7 +88,6 @@ public class SchoolClassModel {
         loadAcademyLocationsTeacherIsTeaching();
         //TODO ALH: Dynamic locations
         loadSchoolClassByLocation(1);
-        PieChartModel.getInstance().resetPieChart();
     }
 
     /**
@@ -152,7 +151,6 @@ public class SchoolClassModel {
         resetStudents();
         studentsFromDB.addAll(currentSchoolClass.getStudents());
         students.addAll(studentsFromDB);
-        sortStudentsOnAttendance();
     }
 
     /**

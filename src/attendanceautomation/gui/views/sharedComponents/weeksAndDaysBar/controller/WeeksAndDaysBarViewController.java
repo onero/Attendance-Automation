@@ -81,11 +81,10 @@ public class WeeksAndDaysBarViewController implements Initializable {
                 break;
             default:
                 //Create all weeks
-                for (int i = 1; i <= schemaModel.getWeeksInFebruary().size(); i++) {
-                    createWeekNumberLabel(i);
+                for (Integer currentWeek : schemaModel.getWeekNumbers()) {
+                    createWeekNumberLabel(currentWeek);
                     createDayLabels();
-                    //If it is not the last week, put in a filler!
-                    if (i != schemaModel.getWeeksInFebruary().size()) {
+                    if (schemaModel.getWeekNumbers().indexOf(currentWeek) != schemaModel.getWeekNumbers().size()) {
                         Label filler = new Label();
                         hBoxDays.getChildren().add(filler);
                         fillerLabels.add(filler);

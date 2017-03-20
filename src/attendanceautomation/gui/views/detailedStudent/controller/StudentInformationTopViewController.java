@@ -6,6 +6,7 @@
 package attendanceautomation.gui.views.detailedStudent.controller;
 
 import attendanceautomation.be.Student;
+import attendanceautomation.be.Teacher;
 import attendanceautomation.be.enums.EFXMLName;
 import attendanceautomation.gui.model.SchoolClassModel;
 import java.io.IOException;
@@ -39,7 +40,7 @@ public class StudentInformationTopViewController implements Initializable {
     @FXML
     private Label lblStudentClass;
     @FXML
-    private ListView<?> listTeachers;
+    private ListView<Teacher> listTeachers;
     @FXML
     private BorderPane studentBorderPane;
     @FXML
@@ -54,6 +55,8 @@ public class StudentInformationTopViewController implements Initializable {
     public static StudentInformationTopViewController getInstance() {
         return instance;
     }
+    @FXML
+    private Label lblTotalAbsence;
 
     public StudentInformationTopViewController() {
     }
@@ -81,6 +84,8 @@ public class StudentInformationTopViewController implements Initializable {
         lblStudentClass.setText(SchoolClassModel.getInstance().getCurrentSchoolClass().getSchoolClassName());
         //TODO ALH: Make dynamic
         lblStudentSemester.setText("2.");
+        
+        lblTotalAbsence.setText(selectedStudent.getNonAttendancePercentage().get() + " %");
 
     }
 

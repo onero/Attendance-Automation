@@ -18,6 +18,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 
 /**
@@ -40,7 +41,7 @@ public class StudentInformationTopViewController implements Initializable {
     @FXML
     private Label lblStudentClass;
     @FXML
-    private ListView<Teacher> listTeachers;
+    private TableView<Teacher> listTeachers;
     @FXML
     private BorderPane studentBorderPane;
     @FXML

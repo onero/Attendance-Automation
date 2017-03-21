@@ -56,6 +56,7 @@ public class SchemaModel {
         weeksOfMonth.add(thirdWeekOfMonth);
         weeksOfMonth.add(lastWeekOfMonth);
 
+        startDate = "2017-01-30";
         endDate = "2017-02-28";
         setCurrentMonth(startDate, endDate);
 

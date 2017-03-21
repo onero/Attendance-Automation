@@ -37,7 +37,7 @@ public class CurrentClassListViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        setCellFactory();
+        setCellFactory("white");
     }
 
     /**
@@ -49,7 +49,12 @@ public class CurrentClassListViewController implements Initializable {
         listViewOfAttendance.setItems(list);
     }
 
-    public void setCellFactory() {
+    /**
+     * Sets the cellFactory for the list.
+     *
+     * @param color
+     */
+    public void setCellFactory(String color) {
         listViewOfAttendance.setCellFactory(new Callback<ListView<Student>, ListCell<Student>>() {
             @Override
             public ListCell<Student> call(ListView<Student> param) {
@@ -61,7 +66,7 @@ public class CurrentClassListViewController implements Initializable {
                     cell.setController(controller);
                     cell.setView(node);
                     cell.setGraphic(node);
-
+                    cell.setStyle(getColorOfCell(color));
                     return cell;
                 } catch (IOException ex) {
                     Logger.getLogger(CurrentClassListViewController.class.getName()).log(Level.SEVERE, null, ex);
@@ -71,50 +76,27 @@ public class CurrentClassListViewController implements Initializable {
         });
     }
 
-    public void setCellFactoryRed() {
-        listViewOfAttendance.setCellFactory(new Callback<ListView<Student>, ListCell<Student>>() {
-            @Override
-            public ListCell<Student> call(ListView<Student> param) {
-                CurrentClassListViewCell cell = new CurrentClassListViewCell();
-                try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLName.NAME_CURRENT_CLASS_LIST_VIEW.toString()));
-                    Node node = loader.load();
-                    NameCurrentClassListViewController controller = loader.getController();
-                    cell.setController(controller);
-                    cell.setView(node);
-                    cell.setGraphic(node);
-                    cell.setStyle("-fx-control-inner-background: red");
-
-                    return cell;
-                } catch (IOException ex) {
-                    Logger.getLogger(CurrentClassListViewController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                return cell;
+    /**
+     * Returns a CSS string with the given color for the cell.
+     *
+     * @param color
+     * @return
+     */
+    private String getColorOfCell(String color) {
+        switch (color) {
+            case "white": {
+                return "-fx-control-inner-background: white";
             }
-        });
-    }
-
-    public void setCellFactoryGreen() {
-        listViewOfAttendance.setCellFactory(new Callback<ListView<Student>, ListCell<Student>>() {
-            @Override
-            public ListCell<Student> call(ListView<Student> param) {
-                CurrentClassListViewCell cell = new CurrentClassListViewCell();
-                try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLName.NAME_CURRENT_CLASS_LIST_VIEW.toString()));
-                    Node node = loader.load();
-                    NameCurrentClassListViewController controller = loader.getController();
-                    cell.setController(controller);
-                    cell.setView(node);
-                    cell.setGraphic(node);
-                    cell.setStyle("-fx-control-inner-background: green");
-
-                    return cell;
-                } catch (IOException ex) {
-                    Logger.getLogger(CurrentClassListViewController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                return cell;
+            case "red": {
+                return "-fx-control-inner-background: red";
             }
-        });
+            case "green": {
+                return "-fx-control-inner-background: green";
+            }
+            default: {
+                return "-fx-control-inner-background: white";
+            }
+        }
     }
 
 }

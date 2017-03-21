@@ -44,32 +44,32 @@ public class MockModalController implements Initializable {
     @FXML
     private void handleBefore(ActionEvent event) {
         model.updateCurrentClassStudents(1);
-        controllerPresent.setCellFactory();
-        controllerAbsence.setCellFactory();
+        controllerPresent.setCellFactory("white");
+        controllerAbsence.setCellFactory("white");
         stage.close();
     }
 
     @FXML
     private void handleAt(ActionEvent event) {
         model.updateCurrentClassStudents(2);
-        controllerPresent.setCellFactoryGreen();
-        controllerAbsence.setCellFactory();
+        controllerPresent.setCellFactory("green");
+        controllerAbsence.setCellFactory("white");
         stage.close();
     }
 
     @FXML
     private void handleAfter(ActionEvent event) {
         model.updateCurrentClassStudents(3);
-        controllerPresent.setCellFactoryGreen();
-        controllerAbsence.setCellFactoryRed();
+        controllerPresent.setCellFactory("green");
+        controllerAbsence.setCellFactory("red");
         stage.close();
     }
 
     @FXML
     private void handleNormal(ActionEvent event) {
         model.updateCurrentClassStudents(0);
-        controllerPresent.setCellFactory();
-        controllerAbsence.setCellFactory();
+        controllerPresent.setCellFactory("green");
+        controllerAbsence.setCellFactory("red");
         stage.close();
     }
 

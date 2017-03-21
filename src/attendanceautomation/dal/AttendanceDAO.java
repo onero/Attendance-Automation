@@ -281,10 +281,6 @@ public class AttendanceDAO {
                 NonAttendance newNonAttendance = new NonAttendance(schoolClassSemesterLesson, studentID);
                 nonAttendanceForSpecificStudent.add(newNonAttendance);
             }
-            for (NonAttendance nonAttendance : nonAttendanceForSpecificStudent) {
-                System.out.println(nonAttendance.getStudentID());
-                System.out.println(nonAttendance.getSchoolClassSemesterLesson().getSemesterSubject().getSubject().toString());
-            }
             return nonAttendanceForSpecificStudent;
         } catch (SQLException ex) {
             Logger.getLogger(AttendanceDAO.class.getName()).log(Level.SEVERE, null, ex);

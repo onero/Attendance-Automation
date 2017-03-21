@@ -250,7 +250,7 @@ public class WeekCheckBoxViewController implements Initializable {
             for (NonAttendance nonAttendance : student.getNonAttendance()) {
                 //Check if the student was nonAttendant this schoolDay
                 if (nonAttendance.getSchoolClassSemesterLesson().getDate().compareTo(day) == 0
-                        && nonAttendance.getSchoolClassSemesterLesson().getSemesterSubject().getID() == subject.getID()) {
+                        && nonAttendance.getSchoolClassSemesterLesson().getSemesterSubject().getSubject().toString().equals(subject.getSubject().toString())) {
                     newCheckBox.setSelected(true);
                     break;
                 }

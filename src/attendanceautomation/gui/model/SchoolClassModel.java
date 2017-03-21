@@ -390,13 +390,38 @@ public class SchoolClassModel {
      * Clears currentClassStudentsWithAbsence. Then gets a new list of students
      * from the database.
      */
-    public void updateCurrentClassStudents() {
+    public void updateCurrentClassStudents(int mockSwitch) {
         currentClassStudentsAbsence.clear();
         currentClassStudentsPresent.clear();
         List<Student> listOfCurrentClassStudents = currentClassManager.getStudentsFromCurrentSchoolClass(currentTeacher.getTeacherID());
+        List<Student> listOfCurrentClassStudentsPresent = new ArrayList<>();
+        List<Student> listOfCurrentClassStudentsAbsence = new ArrayList<>();
 
-        List<Student> listOfCurrentClassStudentsPresent = currentClassManager.findStudentsPresent(listOfCurrentClassStudents);
-        List<Student> listOfCurrentClassStudentsAbsence = currentClassManager.findStudentsAbsence(listOfCurrentClassStudents);
+        switch (mockSwitch) {
+            case 0: {
+                listOfCurrentClassStudentsPresent = currentClassManager.findStudentsPresent(listOfCurrentClassStudents);
+                listOfCurrentClassStudentsAbsence = currentClassManager.findStudentsAbsence(listOfCurrentClassStudents);
+                break;
+            }
+            case 1: {
+                listOfCurrentClassStudentsPresent = currentClassManager.findMockStudents(1);
+                listOfCurrentClassStudentsAbsence = new ArrayList<>();
+                break;
+            }
+            case 2: {
+                listOfCurrentClassStudentsPresent = currentClassManager.findMockStudents(2);
+                listOfCurrentClassStudentsAbsence = new ArrayList<>();
+                break;
+            }
+            case 3: {
+                listOfCurrentClassStudentsPresent = currentClassManager.findMockStudents(2);
+                listOfCurrentClassStudentsAbsence = currentClassManager.findMockStudents(3);
+                break;
+            }
+            default: {
+                break;
+            }
+        }
 
         for (Student student : listOfCurrentClassStudentsAbsence) {
             currentClassStudentsAbsence.add(student);

@@ -14,11 +14,16 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -80,6 +85,33 @@ public class CurrentClassViewController implements Initializable {
     private void setItemsInList(FXMLLoader loader, ObservableList<Student> listOfStudents) {
         CurrentClassListViewController controller = loader.getController();
         controller.setItemsInList(listOfStudents);
+    }
+
+    /**
+     * Creates the modal controlling to set the mockCurrentView.
+     *
+     * @param event
+     */
+    @FXML
+    private void handleSetMock(ActionEvent event) {
+        Stage primStage = (Stage) borderPane.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/attendanceautomation/gui/views/currentClassView/view/MockModal.fxml"));
+        try {
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage newStage = new Stage();
+            newStage.setScene(scene);
+
+            newStage.initModality(Modality.WINDOW_MODAL);
+            newStage.initOwner(primStage);
+
+            MockModalController controller = loader.getController();
+            controller.setStage(newStage);
+
+            newStage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(CurrentClassViewController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }

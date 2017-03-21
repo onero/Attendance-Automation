@@ -11,12 +11,12 @@
       <VBox prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <Label text="Start dato" />
-            <DatePicker fx:id="dpStart" />
+            <DatePicker fx:id="dpStart" onAction="#handleStartDate" />
             <Label text="Slut dato">
                <padding>
                   <Insets top="5.0" />
                </padding></Label>
-            <DatePicker fx:id="dpEnd" />
+            <DatePicker fx:id="dpEnd" onAction="#handleEndDate" />
          </children>
          <padding>
             <Insets top="10.0" />

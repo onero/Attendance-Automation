@@ -169,6 +169,18 @@ public class AttendanceAutomationDAOFacade {
     }
 
     /**
+     * Get all nonAttendance for specific students for specific period.
+     *
+     * @param studentID
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    public List<NonAttendance> getNonAttendanceForStudentsByIDForSpecificPeriod(int studentID, String startDate, String endDate) {
+        return attendanceDAO.getAllNonAttendanceForASpecificStudentForASpecificDate(studentID, startDate, endDate);
+    }
+
+    /**
      * Get all nonAttendance for specific student on specific date.
      *
      * Viloation of DRY!
@@ -177,8 +189,8 @@ public class AttendanceAutomationDAOFacade {
      * @param date
      * @return
      */
-    public List<NonAttendance> getNonAttendanceForStudentByIDFOrSepcificDate(int StudentID, String date) {
-        return attendanceDAO.getAllNonAttendanceForASpecificStudentForASpecificDate(StudentID, date);
+    public List<NonAttendance> getNonAttendanceForStudentByIDForSepcificDate(int StudentID, String date) {
+        return attendanceDAO.getAllNonAttendanceForASpecificStudentForASpecificDate(StudentID, date, date + " 16:00");
     }
 
     /**
@@ -260,9 +272,8 @@ public class AttendanceAutomationDAOFacade {
     }
 
     /**
-     * <<<<<<< HEAD
-     * Finds the schoolClass for the parsed teacher on the parsed Date. Then
-     * retrieves a list of students from that schoolClass.
+     * <<<<<<< HEAD Finds the schoolClass for the parsed teacher on the parsed
+     * Date. Then retrieves a list of students from that schoolClass.
      *
      * @param teacherID
      * @param dateHalfHourBefore

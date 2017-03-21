@@ -57,6 +57,9 @@ public class SchoolClassModel {
     private final ObservableList<Student> students;
     private String searchString;
 
+    private String startDate;
+    private String endDate;
+
     public static SchoolClassModel getInstance() {
         if (instance == null) {
             instance = new SchoolClassModel();
@@ -76,6 +79,8 @@ public class SchoolClassModel {
         currentClassStudentsAbsence = FXCollections.observableArrayList();
         currentClassStudentsPresent = FXCollections.observableArrayList();
         semesters = FXCollections.observableArrayList();
+        startDate = "2017-02-01";
+        endDate = "2017-02-28";
     }
 
     /**
@@ -147,7 +152,12 @@ public class SchoolClassModel {
      * @param schoolClassID
      */
     private void setCurrentSchoolClass(int schoolClassID) {
-        currentSchoolClass = schoolClassManager.getAllSchoolClassDataBySchoolClassId(schoolClassID);
+        if (startDate != null && endDate != null) {
+            currentSchoolClass = schoolClassManager.getAllSchoolClassDataBySchoolClassIdForSpecificPeriod(schoolClassID, startDate, endDate);
+        } else {
+            currentSchoolClass = schoolClassManager.getAllSchoolClassDataBySchoolClassId(schoolClassID);
+        }
+
         resetStudents();
         studentsFromDB.addAll(currentSchoolClass.getStudents());
         students.addAll(studentsFromDB);
@@ -374,9 +384,8 @@ public class SchoolClassModel {
     }
 
     /**
-     * <<<<<<< HEAD
-     * Clears currentClassStudentsWithAbsence. Then gets a new list of students
-     * from the database.
+     * <<<<<<< HEAD Clears currentClassStudentsWithAbsence. Then gets a new list
+     * of students from the database.
      */
     public void updateCurrentClassStudents() {
         currentClassStudentsAbsence.clear();
@@ -441,4 +450,39 @@ public class SchoolClassModel {
         this.currentStudent = currentStudent;
     }
 
+    /**
+     * Sets the startDate to be searched on.
+     *
+     * @param date
+     */
+    public void setStartDate(String date) {
+        startDate = date;
+    }
+
+    /**
+     * Sets the endDate to be searched on.
+     *
+     * @param date
+     */
+    public void setEndDate(String date) {
+        endDate = date;
+    }
+
+    /**
+     * Gets the startDate.
+     *
+     * @return
+     */
+    public String getStartDate() {
+        return startDate;
+    }
+
+    /**
+     * Gets the endDate.
+     *
+     * @return
+     */
+    public String getEndDate() {
+        return endDate;
+    }
 }

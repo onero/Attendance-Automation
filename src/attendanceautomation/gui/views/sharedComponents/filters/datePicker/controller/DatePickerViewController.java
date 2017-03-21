@@ -5,9 +5,11 @@
  */
 package attendanceautomation.gui.views.sharedComponents.filters.datePicker.controller;
 
+import attendanceautomation.gui.model.SchoolClassModel;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.DateCell;
@@ -26,9 +28,10 @@ public class DatePickerViewController implements Initializable {
     @FXML
     private DatePicker dpStart;
 
-//    private final LocalDate mockDate;
+    private final SchoolClassModel model;
+
     public DatePickerViewController() {
-//        mockDate = "2017-02-24";
+        model = SchoolClassModel.getInstance();
     }
 
     /**
@@ -36,10 +39,12 @@ public class DatePickerViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        dpStart.setValue(LocalDate.of(2017, 2, 1));
-        dpEnd.setValue(LocalDate.now());
+        dpStart.setValue(createLocalDate(model.getStartDate()));
+        dpEnd.setValue(createLocalDate(model.getEndDate()));
         setDayCellFactoryStart();
         setDayCellFactoryEnd();
+        model.setStartDate(dpStart.getValue().toString());
+        model.setEndDate(dpEnd.getValue().toString());
     }
 
     /**
@@ -88,4 +93,23 @@ public class DatePickerViewController implements Initializable {
         dpEnd.setDayCellFactory(dayCellFactory);
     }
 
+    @FXML
+    private void handleStartDate(ActionEvent event) {
+        model.setStartDate(dpStart.getValue().toString());
+    }
+
+    @FXML
+    private void handleEndDate(ActionEvent event) {
+        model.setEndDate(dpEnd.getValue().toString());
+    }
+
+    private LocalDate createLocalDate(String date) {
+        String[] stringArr = date.split("-");
+        int[] intArr = new int[stringArr.length];
+        for (int i = 0; i < intArr.length; i++) {
+            intArr[i] = Integer.parseInt(stringArr[i]);
+        }
+        LocalDate localDate = LocalDate.of(intArr[0], intArr[1], intArr[2]);
+        return localDate;
+    }
 }

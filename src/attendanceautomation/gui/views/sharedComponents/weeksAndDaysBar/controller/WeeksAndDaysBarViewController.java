@@ -61,31 +61,30 @@ public class WeeksAndDaysBarViewController implements Initializable {
     }
 
     private void createWeekLabels() {
-        int currentWeekNumber = schemaModel.getCurrentWeekNumber();
-        switch (currentWeekNumber) {
-            case 5:
-                createWeekNumberLabel(currentWeekNumber);
+        int currentWeekOfMonthNumber = schemaModel.getCurrentWeekOfMonthNumber();
+        switch (currentWeekOfMonthNumber) {
+            case 1:
+                createWeekNumberLabel(schemaModel.getWeekNumbers().get(0));
                 createDayLabels();
                 break;
-            case 6:
-                createWeekNumberLabel(currentWeekNumber);
+            case 2:
+                createWeekNumberLabel(schemaModel.getWeekNumbers().get(1));
                 createDayLabels();
                 break;
-            case 7:
-                createWeekNumberLabel(currentWeekNumber);
+            case 3:
+                createWeekNumberLabel(schemaModel.getWeekNumbers().get(2));
                 createDayLabels();
                 break;
-            case 8:
-                createWeekNumberLabel(currentWeekNumber);
+            case 4:
+                createWeekNumberLabel(schemaModel.getWeekNumbers().get(3));
                 createDayLabels();
                 break;
             default:
                 //Create all weeks
-                for (int i = 1; i <= schemaModel.getWeeksInFebruary().size(); i++) {
-                    createWeekNumberLabel(i);
+                for (Integer currentWeek : schemaModel.getWeekNumbers()) {
+                    createWeekNumberLabel(currentWeek);
                     createDayLabels();
-                    //If it is not the last week, put in a filler!
-                    if (i != schemaModel.getWeeksInFebruary().size()) {
+                    if (schemaModel.getWeekNumbers().indexOf(currentWeek) != schemaModel.getWeekNumbers().size()) {
                         Label filler = new Label();
                         hBoxDays.getChildren().add(filler);
                         fillerLabels.add(filler);

@@ -120,6 +120,7 @@ public class LoginViewController implements Initializable {
 
     private void verifyStudent(String password, RootViewController rootViewController, String username) {
         if (loginModel.verifyStudentLogin(password)) {
+            loginModel.setIsStudent(true);
             rootViewController.handleStudentLogin(username);
         } else {
             denyAcccess();
@@ -128,6 +129,7 @@ public class LoginViewController implements Initializable {
 
     private void verifyTeacher(String password, RootViewController rootViewController, String username) {
         if (loginModel.verifyTeacherLogin(password)) {
+            loginModel.setIsStudent(false);
             rootViewController.handleTeacherLogin(username);
         } else {
             denyAcccess();

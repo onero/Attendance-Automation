@@ -11,11 +11,11 @@ import attendanceautomation.be.SchoolClass;
 import attendanceautomation.be.SchoolSemesterSubject;
 import attendanceautomation.be.Student;
 import attendanceautomation.be.Teacher;
+import attendanceautomation.be.enums.ESemester;
 import attendanceautomation.bll.CurrentClassManager;
 import attendanceautomation.bll.SchoolClassManager;
 import attendanceautomation.gui.views.rootView.controller.RootViewController;
 import attendanceautomation.gui.views.sharedComponents.filters.semesterFilter.controller.SemesterFilterViewController;
-import attendanceautomation.gui.views.sharedComponents.pieChart.controller.PieChartViewController;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -41,7 +41,8 @@ public class SchoolClassModel {
     private final ObservableList<String> semesters;
 
     private Student currentStudent;
-
+    private SchoolClass currentSchoolClass;
+    private ESemester currentSemester;
     private Teacher currentTeacher;
 
     private HashMap<Integer, String> schoolClassForTeacherAtCurrentLocation;
@@ -52,7 +53,6 @@ public class SchoolClassModel {
     private final ObservableList<Student> currentClassStudentsAbsence;
     private final ObservableList<Student> currentClassStudentsPresent;
 
-    private SchoolClass currentSchoolClass;
     private final List<Student> studentsFromDB;
     private final ObservableList<Student> students;
     private String searchString;
@@ -92,7 +92,6 @@ public class SchoolClassModel {
         loadAcademyLocationsTeacherIsTeaching();
         //TODO ALH: Dynamic locations
         loadSchoolClassByLocation(1);
-        PieChartModel.getInstance().resetPieChart();
     }
 
     /**
@@ -102,6 +101,10 @@ public class SchoolClassModel {
      */
     public void loadSchoolClassByLocation(int location) {
         if (currentLocationID != location) {
+
+            /**
+             * Load newest data from DB
+             */
             teacherSchoolClassNames.clear();
             currentLocationID = location;
             schoolClassForTeacherAtCurrentLocation = schoolClassManager.getSchoolClassHashMapByLocationAndTeacher(currentLocationID, currentTeacher.getTeacherID());
@@ -161,7 +164,7 @@ public class SchoolClassModel {
         resetStudents();
         studentsFromDB.addAll(currentSchoolClass.getStudents());
         students.addAll(studentsFromDB);
-        sortStudentsOnAttendance();
+        PieChartModel.getInstance().resetPieChart();
     }
 
     /**
@@ -183,7 +186,7 @@ public class SchoolClassModel {
                 studentsFromDB.addAll(updatedStudents);
                 students.addAll(studentsFromDB);
                 sortStudentsOnAttendance();
-                PieChartViewController.getInstance().updateChart();
+                PieChartModel.getInstance().resetPieChart();
                 RootViewController.getInstance().setRefreshBoxVisibility(false);
             });
         };
@@ -384,8 +387,8 @@ public class SchoolClassModel {
     }
 
     /**
-     * <<<<<<< HEAD Clears currentClassStudentsWithAbsence. Then gets a new list
-     * of students from the database.
+     * Clears currentClassStudentsWithAbsence. Then gets a new list of students
+     * from the database.
      */
     public void updateCurrentClassStudents() {
         currentClassStudentsAbsence.clear();
@@ -484,5 +487,22 @@ public class SchoolClassModel {
      */
     public String getEndDate() {
         return endDate;
+    }
+
+    public void updateSchoolClassSemester(int semester) {
+        resetStudents();
+        schoolClassManager.getSchoolClassSemesterDataBySchoolClassAndSemesterID(currentSchoolClass, semester);
+        studentsFromDB.addAll(schoolClassManager.getAllStudentDataBySemester(currentSchoolClass.getID(), semester));
+        students.addAll(studentsFromDB);
+        PieChartModel.getInstance().resetPieChart();
+        sortStudentsOnAttendance();
+    }
+
+    public int getSemesterIDByName(String semesterName) {
+        return schoolClassManager.getSemesterIDByName(semesterName);
+    }
+
+    public ESemester getCurrentSemester() {
+        return currentSemester;
     }
 }

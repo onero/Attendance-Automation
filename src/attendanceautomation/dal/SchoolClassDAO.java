@@ -408,10 +408,9 @@ public class SchoolClassDAO {
     }
 
     /**
-     * <<<<<<< HEAD
-     * Gets the ID of the first schoolClass for the parsed teacher on the parsed
-     * day. Returns 0 if no class is found. TODO RKL: Make so it's not the first
-     * schoolClass.
+     * <<<<<<< HEAD Gets the ID of the first schoolClass for the parsed teacher
+     * on the parsed day. Returns 0 if no class is found. TODO RKL: Make so it's
+     * not the first schoolClass.
      *
      * @param teacherID
      * @param dateHalfHourBefore
@@ -448,7 +447,7 @@ public class SchoolClassDAO {
      * @param semester
      * @return
      */
-    public List<String> getAllTeacherSchoolClassesBySemester(List<Integer> schoolClassIDs, String semester) throws SQLServerException, SQLException {
+    public List<String> getAllTeacherSchoolClassesBySemester(List<Integer> schoolClassIDs, String semesterName) throws SQLServerException, SQLException {
         List<String> schoolClassNames = new ArrayList<>();
         String sql = "SELECT DISTINCT(sc.Name) AS 'SchoolClassName' FROM SchoolClass sc "
                 + "JOIN SchoolClassSemesterSubject semesterSubject ON semesterSubject.SchoolClassID = sc.ID "
@@ -463,7 +462,7 @@ public class SchoolClassDAO {
             for (Integer schoolClassID : schoolClassIDs) {
 
                 ps.setInt(1, schoolClassID);
-                ps.setString(2, semester);
+                ps.setString(2, semesterName);
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
                     schoolClassNames.add(getOneSchoolClassName(rs));
@@ -486,6 +485,14 @@ public class SchoolClassDAO {
         return SchoolClassName;
     }
 
+    /**
+     * Gets lessons with the params from the DB.
+     *
+     * @param schoolClassID
+     * @param semesterID
+     * @return
+     * @throws SQLException
+     */
     public List<SchoolClassSemesterLesson> getAllSchoolClassSemesterLessonsBySchoolClassIDAndSemesterID(int schoolClassID, int semesterID) throws SQLException {
         schoolClassSemesterSubjects = new ArrayList<>();
         //Get a hold of all the subjects the SchoolClass has
@@ -514,6 +521,14 @@ public class SchoolClassDAO {
         }
     }
 
+    /**
+     * Gets subjects with the params from the DB.
+     *
+     * @param schoolClassID
+     * @param semesterID
+     * @return
+     * @throws SQLException
+     */
     public List<SchoolSemesterSubject> getAllSchoolClassSemesterSubjectsBySchoolClassIDAndSemesterID(int schoolClassID, int semesterID) throws SQLException {
         schoolClassSemesterSubjects = new ArrayList<>();
         //Get a hold of all the subjects the SchoolClass has
@@ -559,6 +574,13 @@ public class SchoolClassDAO {
         }
     }
 
+    /**
+     * Converts a semester name to an ID.
+     *
+     * @param semesterName
+     * @return
+     * @throws SQLException
+     */
     public int getSemesterIDByName(String semesterName) throws SQLException {
         String sql = "SELECT "
                 + "Sem.ID AS 'SemesterID' "
@@ -579,6 +601,13 @@ public class SchoolClassDAO {
         }
     }
 
+    /**
+     * Fetches the semesterID from the given resultset.
+     *
+     * @param rs
+     * @return
+     * @throws SQLException
+     */
     private int getOneSemester(ResultSet rs) throws SQLException {
         int semesterID = rs.getInt("SemesterID");
         return semesterID;

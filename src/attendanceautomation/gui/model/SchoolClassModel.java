@@ -436,23 +436,42 @@ public class SchoolClassModel {
         SemesterFilterViewController.getInstance().selectLatest();
     }
 
+    /**
+     *
+     * @return semesters.
+     */
     public ObservableList<String> getSemesters() {
         return semesters;
     }
 
+    /**
+     *
+     * @param currentStudent
+     */
     public void setCurrentStudent(Student currentStudent) {
         this.currentStudent = currentStudent;
     }
 
-    public void updateSchoolClassSemester(int semester) {
+    /**
+     * Fetches the data from the DB and updates the view.
+     *
+     * @param semesterID
+     */
+    public void updateSchoolClassSemester(int semesterID) {
         resetStudents();
-        schoolClassManager.getSchoolClassSemesterDataBySchoolClassAndSemesterID(currentSchoolClass, semester);
-        studentsFromDB.addAll(schoolClassManager.getAllStudentDataBySemester(currentSchoolClass.getID(), semester));
+        schoolClassManager.getSchoolClassSemesterDataBySchoolClassAndSemesterID(currentSchoolClass, semesterID);
+        studentsFromDB.addAll(schoolClassManager.getAllStudentDataBySemester(currentSchoolClass.getID(), semesterID));
         students.addAll(studentsFromDB);
         PieChartModel.getInstance().resetPieChart();
         sortStudentsOnAttendance();
     }
 
+    /**
+     * Converts a semester name to an ID.
+     *
+     * @param semesterName
+     * @return
+     */
     public int getSemesterIDByName(String semesterName) {
         return schoolClassManager.getSemesterIDByName(semesterName);
     }

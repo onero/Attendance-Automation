@@ -284,15 +284,22 @@ public class AttendanceAutomationDAOFacade {
      * @param semester
      * @return
      */
-    public List<String> getAllTeacherSchoolClassesBySemester(List<Integer> schoolClassIDs, String semester) {
+    public List<String> getAllTeacherSchoolClassesBySemester(List<Integer> schoolClassIDs, String semesterName) {
         try {
-            return schoolClassDAO.getAllTeacherSchoolClassesBySemester(schoolClassIDs, semester);
+            return schoolClassDAO.getAllTeacherSchoolClassesBySemester(schoolClassIDs, semesterName);
         } catch (SQLException ex) {
             Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
 
+    /**
+     * Gets lessons with the params from the DB.
+     *
+     * @param schoolClassID
+     * @param semesterID
+     * @return
+     */
     public List<SchoolClassSemesterLesson> getSchoolClassSemesterLessonsBySchoolClassIDAndSemesterID(int schoolClassID, int semesterID) {
         try {
             return schoolClassDAO.getAllSchoolClassSemesterLessonsBySchoolClassIDAndSemesterID(schoolClassID, semesterID);
@@ -302,6 +309,13 @@ public class AttendanceAutomationDAOFacade {
         return null;
     }
 
+    /**
+     * Gets subjects with the params from the DB.
+     *
+     * @param schoolClassID
+     * @param semesterID
+     * @return
+     */
     public List<SchoolSemesterSubject> getSchoolClassSemesterSubjectsBySchoolCLassIDAndSemesterID(int schoolClassID, int semesterID) {
         try {
             return schoolClassDAO.getAllSchoolClassSemesterSubjectsBySchoolClassIDAndSemesterID(schoolClassID, semesterID);
@@ -311,6 +325,12 @@ public class AttendanceAutomationDAOFacade {
         return null;
     }
 
+    /**
+     * Converts a semester name to an ID.
+     *
+     * @param semesterName
+     * @return
+     */
     public int getSemesterIDByName(String semesterName) {
         try {
             return schoolClassDAO.getSemesterIDByName(semesterName);
@@ -320,7 +340,14 @@ public class AttendanceAutomationDAOFacade {
         return 0;
     }
 
-    public List<NonAttendance> getAllNonAttendanceForStudentBySemester(int id, int semester) {
-        return attendanceDAO.getAllNonAttendanceForASpecificStudentBySemester(id, semester);
+    /**
+     * Gets the Nonattendance for a specific student.
+     *
+     * @param StudentID
+     * @param semesterID
+     * @return
+     */
+    public List<NonAttendance> getAllNonAttendanceForStudentBySemester(int StudentID, int semesterID) {
+        return attendanceDAO.getAllNonAttendanceForASpecificStudentBySemester(StudentID, semesterID);
     }
 }

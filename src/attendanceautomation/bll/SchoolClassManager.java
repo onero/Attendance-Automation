@@ -218,28 +218,47 @@ public class SchoolClassManager {
      * Get all teacher schoolClassNames for specific semester
      *
      * @param schoolClassIDs
-     * @param semester
+     * @param semesterName
      * @return
      */
-    public List<String> getAllTeacherSchoolClassesBySemester(List<Integer> schoolClassIDs, String semester) {
-        return AADAOFacade.getAllTeacherSchoolClassesBySemester(schoolClassIDs, semester);
+    public List<String> getAllTeacherSchoolClassesBySemester(List<Integer> schoolClassIDs, String semesterName) {
+        return AADAOFacade.getAllTeacherSchoolClassesBySemester(schoolClassIDs, semesterName);
     }
 
-    public void getSchoolClassSemesterDataBySchoolClassAndSemesterID(SchoolClass currentSchoolClass, int semester) {
+    /**
+     *
+     * @param currentSchoolClass
+     * @param semesterID
+     */
+    public void getSchoolClassSemesterDataBySchoolClassAndSemesterID(SchoolClass currentSchoolClass, int semesterID) {
         currentSchoolClass.getSemesterLessons().clear();
         currentSchoolClass.getSemesterSubjects().clear();
-        currentSchoolClass.addAllSemesterLessonsToClass(AADAOFacade.getSchoolClassSemesterLessonsBySchoolClassIDAndSemesterID(currentSchoolClass.getID(), semester));
-        currentSchoolClass.addAllSemesterSubjects(AADAOFacade.getSchoolClassSemesterSubjectsBySchoolCLassIDAndSemesterID(currentSchoolClass.getID(), semester));
+        currentSchoolClass.addAllSemesterLessonsToClass(AADAOFacade.getSchoolClassSemesterLessonsBySchoolClassIDAndSemesterID(currentSchoolClass.getID(), semesterID));
+        currentSchoolClass.addAllSemesterSubjects(AADAOFacade.getSchoolClassSemesterSubjectsBySchoolCLassIDAndSemesterID(currentSchoolClass.getID(), semesterID));
     }
 
+    /**
+     * Converts a semester name ti an ID.
+     *
+     * @param semesterName
+     * @return
+     */
     public int getSemesterIDByName(String semesterName) {
         return AADAOFacade.getSemesterIDByName(semesterName);
     }
 
-    public List<Student> getAllStudentDataBySemester(int schoolClassID, int semester) {
+    /**
+     * Filters the students Nonattendance by semester and returns a List of the
+     * students.
+     *
+     * @param schoolClassID
+     * @param semesterID
+     * @return
+     */
+    public List<Student> getAllStudentDataBySemester(int schoolClassID, int semesterID) {
         List<Student> students = AADAOFacade.getStudentsFromSchoolClass(schoolClassID);
         for (Student student : students) {
-            student.addAllNonAttendance(AADAOFacade.getAllNonAttendanceForStudentBySemester(student.getID(), semester));
+            student.addAllNonAttendance(AADAOFacade.getAllNonAttendanceForStudentBySemester(student.getID(), semesterID));
         }
         return students;
     }

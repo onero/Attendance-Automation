@@ -264,13 +264,20 @@ public class AttendanceDAO {
         }
     }
 
-    public List<NonAttendance> getAllNonAttendanceForASpecificStudentBySemester(int id, int semester) {
+    /**
+     * Gets all nonattendance with the params from the DB.
+     *
+     * @param studentID
+     * @param semesterID
+     * @return
+     */
+    public List<NonAttendance> getAllNonAttendanceForASpecificStudentBySemester(int studentID, int semesterID) {
         try {
-            List<SchoolClassSemesterLesson> schoolClassSemesterLessonsForStudent = getAllSchoolClassSemesterLessonsASpecificStudentDidNotAttendBySemester(id, semester);
+            List<SchoolClassSemesterLesson> schoolClassSemesterLessonsForStudent = getAllSchoolClassSemesterLessonsASpecificStudentDidNotAttendBySemester(studentID, semesterID);
             List<NonAttendance> nonAttendanceForSpecificStudent;
             nonAttendanceForSpecificStudent = new ArrayList<>();
             for (SchoolClassSemesterLesson schoolClassSemesterLesson : schoolClassSemesterLessonsForStudent) {
-                NonAttendance newNonAttendance = new NonAttendance(schoolClassSemesterLesson, id);
+                NonAttendance newNonAttendance = new NonAttendance(schoolClassSemesterLesson, studentID);
                 nonAttendanceForSpecificStudent.add(newNonAttendance);
             }
             for (NonAttendance nonAttendance : nonAttendanceForSpecificStudent) {
@@ -284,7 +291,15 @@ public class AttendanceDAO {
         return null;
     }
 
-    private List<SchoolClassSemesterLesson> getAllSchoolClassSemesterLessonsASpecificStudentDidNotAttendBySemester(int id, int semester) throws SQLException {
+    /**
+     * Gets all lessons with the params from the DB
+     *
+     * @param studentID
+     * @param semesterID
+     * @return
+     * @throws SQLException
+     */
+    private List<SchoolClassSemesterLesson> getAllSchoolClassSemesterLessonsASpecificStudentDidNotAttendBySemester(int studentID, int semesterID) throws SQLException {
         List<SchoolClassSemesterLesson> schoolClassSemesterLessons = new ArrayList<>();
         String sql = "SELECT semesterLesson.ID AS 'SemesterLessonID', "
                 + "semesterLesson.SchoolClassSemesterSubjectID 'SemesterSubjectID', "
@@ -296,8 +311,8 @@ public class AttendanceDAO {
                 + "AND semesterSubject.SemesterID = ?";
         try (Connection con = cm.getConnection()) {
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, id);
-            ps.setInt(2, semester);
+            ps.setInt(1, studentID);
+            ps.setInt(2, semesterID);
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {

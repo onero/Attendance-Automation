@@ -11,11 +11,11 @@ import attendanceautomation.be.SchoolClass;
 import attendanceautomation.be.SchoolSemesterSubject;
 import attendanceautomation.be.Student;
 import attendanceautomation.be.Teacher;
+import attendanceautomation.be.enums.ESemester;
 import attendanceautomation.bll.CurrentClassManager;
 import attendanceautomation.bll.SchoolClassManager;
 import attendanceautomation.gui.views.rootView.controller.RootViewController;
 import attendanceautomation.gui.views.sharedComponents.filters.semesterFilter.controller.SemesterFilterViewController;
-import attendanceautomation.gui.views.sharedComponents.pieChart.controller.PieChartViewController;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -41,7 +41,8 @@ public class SchoolClassModel {
     private final ObservableList<String> semesters;
 
     private Student currentStudent;
-
+    private SchoolClass currentSchoolClass;
+    private ESemester currentSemester;
     private Teacher currentTeacher;
 
     private HashMap<Integer, String> schoolClassForTeacherAtCurrentLocation;
@@ -52,10 +53,12 @@ public class SchoolClassModel {
     private final ObservableList<Student> currentClassStudentsAbsence;
     private final ObservableList<Student> currentClassStudentsPresent;
 
-    private SchoolClass currentSchoolClass;
     private final List<Student> studentsFromDB;
     private final ObservableList<Student> students;
     private String searchString;
+
+    private String startDate;
+    private String endDate;
 
     public static SchoolClassModel getInstance() {
         if (instance == null) {
@@ -76,6 +79,8 @@ public class SchoolClassModel {
         currentClassStudentsAbsence = FXCollections.observableArrayList();
         currentClassStudentsPresent = FXCollections.observableArrayList();
         semesters = FXCollections.observableArrayList();
+        startDate = "2017-02-01";
+        endDate = "2017-02-28";
     }
 
     /**
@@ -87,7 +92,6 @@ public class SchoolClassModel {
         loadAcademyLocationsTeacherIsTeaching();
         //TODO ALH: Dynamic locations
         loadSchoolClassByLocation(1);
-        PieChartModel.getInstance().resetPieChart();
     }
 
     /**
@@ -97,6 +101,10 @@ public class SchoolClassModel {
      */
     public void loadSchoolClassByLocation(int location) {
         if (currentLocationID != location) {
+
+            /**
+             * Load newest data from DB
+             */
             teacherSchoolClassNames.clear();
             currentLocationID = location;
             schoolClassForTeacherAtCurrentLocation = schoolClassManager.getSchoolClassHashMapByLocationAndTeacher(currentLocationID, currentTeacher.getTeacherID());
@@ -147,11 +155,16 @@ public class SchoolClassModel {
      * @param schoolClassID
      */
     private void setCurrentSchoolClass(int schoolClassID) {
-        currentSchoolClass = schoolClassManager.getAllSchoolClassDataBySchoolClassId(schoolClassID);
+        if (startDate != null && endDate != null) {
+            currentSchoolClass = schoolClassManager.getAllSchoolClassDataBySchoolClassIdForSpecificPeriod(schoolClassID, startDate, endDate);
+        } else {
+            currentSchoolClass = schoolClassManager.getAllSchoolClassDataBySchoolClassId(schoolClassID);
+        }
+
         resetStudents();
         studentsFromDB.addAll(currentSchoolClass.getStudents());
         students.addAll(studentsFromDB);
-        sortStudentsOnAttendance();
+        PieChartModel.getInstance().resetPieChart();
     }
 
     /**
@@ -173,7 +186,7 @@ public class SchoolClassModel {
                 studentsFromDB.addAll(updatedStudents);
                 students.addAll(studentsFromDB);
                 sortStudentsOnAttendance();
-                PieChartViewController.getInstance().updateChart();
+                PieChartModel.getInstance().resetPieChart();
                 RootViewController.getInstance().setRefreshBoxVisibility(false);
             });
         };
@@ -374,7 +387,6 @@ public class SchoolClassModel {
     }
 
     /**
-     * <<<<<<< HEAD
      * Clears currentClassStudentsWithAbsence. Then gets a new list of students
      * from the database.
      */
@@ -433,12 +445,83 @@ public class SchoolClassModel {
         SemesterFilterViewController.getInstance().selectLatest();
     }
 
+    /**
+     *
+     * @return semesters.
+     */
     public ObservableList<String> getSemesters() {
         return semesters;
     }
 
+    /**
+     *
+     * @param currentStudent
+     */
     public void setCurrentStudent(Student currentStudent) {
         this.currentStudent = currentStudent;
     }
 
+    /**
+     * Sets the startDate to be searched on.
+     *
+     * @param date
+     */
+    public void setStartDate(String date) {
+        startDate = date;
+    }
+
+    /**
+     * Sets the endDate to be searched on.
+     *
+     * @param date
+     */
+    public void setEndDate(String date) {
+        endDate = date;
+    }
+
+    /**
+     * Gets the startDate.
+     *
+     * @return
+     */
+    public String getStartDate() {
+        return startDate;
+    }
+
+    /**
+     * Gets the endDate.
+     *
+     * @return
+     */
+    public String getEndDate() {
+        return endDate;
+    }
+
+    /**
+     * Fetches the data from the DB and updates the view.
+     *
+     * @param semesterID
+     */
+    public void updateSchoolClassSemester(int semesterID) {
+        resetStudents();
+        schoolClassManager.getSchoolClassSemesterDataBySchoolClassAndSemesterID(currentSchoolClass, semesterID);
+        studentsFromDB.addAll(schoolClassManager.getAllStudentDataBySemester(currentSchoolClass.getID(), semesterID));
+        students.addAll(studentsFromDB);
+        PieChartModel.getInstance().resetPieChart();
+        sortStudentsOnAttendance();
+    }
+
+    /**
+     * Converts a semester name to an ID.
+     *
+     * @param semesterName
+     * @return
+     */
+    public int getSemesterIDByName(String semesterName) {
+        return schoolClassManager.getSemesterIDByName(semesterName);
+    }
+
+    public ESemester getCurrentSemester() {
+        return currentSemester;
+    }
 }

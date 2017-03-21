@@ -46,6 +46,20 @@ public class SchoolClassManager {
     }
 
     /**
+     * Get the updated studentInfo form DB for a specific period.
+     *
+     * @param schollClassId
+     * @param startdate
+     * @param endDate
+     * @return
+     */
+    public List<Student> getStudentsWithDataFromSchoolClassForSpecificPeriod(int schollClassId, String startdate, String endDate) {
+        List<Student> schoolClassStudents = AADAOFacade.getStudentsFromSchoolClass(schollClassId);
+        getNonAttendanceForALlStudentsForSpecificPeriod(schoolClassStudents, startdate, endDate);
+        return schoolClassStudents;
+    }
+
+    /**
      * Get the updated studentOnfo for specific date from DB.
      *
      * @param schoolClassId
@@ -68,6 +82,21 @@ public class SchoolClassManager {
         SchoolClass schoolClass = getSchoolClassById(id);
 
         addStudentsToSchoolClass(id, schoolClass);
+        return schoolClass;
+    }
+
+    /**
+     * Gets all schoolClass data for a specific time period.
+     *
+     * @param id
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    public SchoolClass getAllSchoolClassDataBySchoolClassIdForSpecificPeriod(int id, String startDate, String endDate) {
+        SchoolClass schoolClass = getSchoolClassById(id);
+
+        addStudentsToSchoolClassForSpecificPeriod(id, schoolClass, startDate, endDate);
         return schoolClass;
     }
 
@@ -96,6 +125,20 @@ public class SchoolClassManager {
     }
 
     /**
+     * Add students with their NonAttendance to the schoolClass for a specifi
+     * period.
+     *
+     * @param id
+     * @param schoolClass
+     * @param startDate
+     * @param endDate
+     */
+    private void addStudentsToSchoolClassForSpecificPeriod(int id, SchoolClass schoolClass, String startDate, String endDate) {
+        List<Student> schoolClassStudnets = getStudentsWithDataFromSchoolClassForSpecificPeriod(id, startDate, endDate);
+        schoolClass.addAllStudents(schoolClassStudnets);
+    }
+
+    /**
      * Get NonAttendance for all students in current SchoolClass
      *
      * @param schoolClassStudents
@@ -104,6 +147,20 @@ public class SchoolClassManager {
     private void getNonAttendanceForAllStudents(List<Student> schoolClassStudents) {
         for (Student schoolClassStudent : schoolClassStudents) {
             schoolClassStudent.addAllNonAttendance(AADAOFacade.getNonAttendanceForStudentByID(schoolClassStudent.getID()));
+        }
+    }
+
+    /**
+     * Get NonAttendance for all students in current schoolClasss for specific
+     * period.
+     *
+     * @param schoolClassStudents
+     * @param startDate
+     * @param endDate
+     */
+    private void getNonAttendanceForALlStudentsForSpecificPeriod(List<Student> schoolClassStudents, String startDate, String endDate) {
+        for (Student schoolClassStudent : schoolClassStudents) {
+            schoolClassStudent.addAllNonAttendance(AADAOFacade.getNonAttendanceForStudentsByIDForSpecificPeriod(schoolClassStudent.getID(), startDate, endDate));
         }
     }
 
@@ -118,7 +175,7 @@ public class SchoolClassManager {
      */
     private void getNonAttendanceForAllStudentsForSpecificDate(List<Student> schoolClassStudents, String date) {
         for (Student schoolClassStudent : schoolClassStudents) {
-            schoolClassStudent.addAllNonAttendance(AADAOFacade.getNonAttendanceForStudentByIDFOrSepcificDate(schoolClassStudent.getID(), date));
+            schoolClassStudent.addAllNonAttendance(AADAOFacade.getNonAttendanceForStudentByIDForSepcificDate(schoolClassStudent.getID(), date));
         }
     }
 
@@ -220,11 +277,48 @@ public class SchoolClassManager {
      * Get all teacher schoolClassNames for specific semester
      *
      * @param schoolClassIDs
-     * @param semester
+     * @param semesterName
      * @return
      */
-    public List<String> getAllTeacherSchoolClassesBySemester(List<Integer> schoolClassIDs, String semester) {
-        return AADAOFacade.getAllTeacherSchoolClassesBySemester(schoolClassIDs, semester);
+    public List<String> getAllTeacherSchoolClassesBySemester(List<Integer> schoolClassIDs, String semesterName) {
+        return AADAOFacade.getAllTeacherSchoolClassesBySemester(schoolClassIDs, semesterName);
     }
 
+    /**
+     *
+     * @param currentSchoolClass
+     * @param semesterID
+     */
+    public void getSchoolClassSemesterDataBySchoolClassAndSemesterID(SchoolClass currentSchoolClass, int semesterID) {
+        currentSchoolClass.getSemesterLessons().clear();
+        currentSchoolClass.getSemesterSubjects().clear();
+        currentSchoolClass.addAllSemesterLessonsToClass(AADAOFacade.getSchoolClassSemesterLessonsBySchoolClassIDAndSemesterID(currentSchoolClass.getID(), semesterID));
+        currentSchoolClass.addAllSemesterSubjects(AADAOFacade.getSchoolClassSemesterSubjectsBySchoolCLassIDAndSemesterID(currentSchoolClass.getID(), semesterID));
+    }
+
+    /**
+     * Converts a semester name ti an ID.
+     *
+     * @param semesterName
+     * @return
+     */
+    public int getSemesterIDByName(String semesterName) {
+        return AADAOFacade.getSemesterIDByName(semesterName);
+    }
+
+    /**
+     * Filters the students Nonattendance by semester and returns a List of the
+     * students.
+     *
+     * @param schoolClassID
+     * @param semesterID
+     * @return
+     */
+    public List<Student> getAllStudentDataBySemester(int schoolClassID, int semesterID) {
+        List<Student> students = AADAOFacade.getStudentsFromSchoolClass(schoolClassID);
+        for (Student student : students) {
+            student.addAllNonAttendance(AADAOFacade.getAllNonAttendanceForStudentBySemester(student.getID(), semesterID));
+        }
+        return students;
+    }
 }

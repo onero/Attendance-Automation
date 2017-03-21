@@ -9,7 +9,6 @@ import attendanceautomation.be.Student;
 import attendanceautomation.be.enums.EFXMLName;
 import attendanceautomation.gui.controls.StudentListViewCell;
 import attendanceautomation.gui.model.SchoolClassModel;
-import attendanceautomation.gui.views.detailedStudent.controller.DetailedStudentViewController;
 import attendanceautomation.gui.views.rootView.controller.RootViewController;
 import java.io.IOException;
 import java.net.URL;
@@ -85,9 +84,9 @@ public class ListOfNameStatisticsViewController implements Initializable {
     private void handleOpenStudentDetails(MouseEvent event) {
         //If user double clicks. Switch view
         if (event.getClickCount() == 2) {
-            RootViewController.getInstance().handleDetailedStudentView();
             Student selectedStudent = listView.getSelectionModel().getSelectedItem();
-            DetailedStudentViewController.getInstance().setCurrentStudent(selectedStudent);
+            SchoolClassModel.getInstance().setCurrentStudent(selectedStudent);
+            RootViewController.getInstance().handleDetailedStudentView();
         }
     }
 

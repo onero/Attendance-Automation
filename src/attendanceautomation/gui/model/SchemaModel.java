@@ -5,19 +5,22 @@
  */
 package attendanceautomation.gui.model;
 
+import attendanceautomation.bll.SchemaManager;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SchemaModel {
 
     private static SchemaModel instance;
 
-    public static final String WEEK5 = "Uge 5";
-    public static final String WEEK6 = "Uge 6";
-    public static final String WEEK7 = "Uge 7";
-    public static final String WEEK8 = "Uge 8";
+    private final SchemaManager schemaManager;
 
     public static SchemaModel getInstance() {
         if (instance == null) {
@@ -26,98 +29,179 @@ public class SchemaModel {
         return instance;
     }
 
-    private final List<List<Integer>> weeksInFebruary;
+    private final List<Date> firstWeekOfMonth;
+    private final List<Date> secondWeekOfMonth;
+    private final List<Date> thirdWeekOfMonth;
+    private final List<Date> lastWeekOfMonth;
+    private final List<List<Date>> weeksOfMonth;
 
-    private final ObservableList<String> weekNamesInFebruary;
+    private final List<Integer> weekNumbers;
 
-    private final List<Integer> firstWeekFebruary;
-    private final List<Integer> secondWeekFebruary;
-    private final List<Integer> thirdWeekFebruary;
-    private final List<Integer> lastWeekFebruary;
-
-    private int currentWeekNumber;
+    private int currentWeekOfMonth;
 
     private SchemaModel() {
-        firstWeekFebruary = new ArrayList<>();
-        secondWeekFebruary = new ArrayList<>();
-        thirdWeekFebruary = new ArrayList<>();
-        lastWeekFebruary = new ArrayList<>();
-        weeksInFebruary = new ArrayList<>();
-        createFebruaryWeeks();
-        addAllWeeksToLargeArray();
-        weekNamesInFebruary = FXCollections.observableArrayList();
-        weekNamesInFebruary.add(WEEK5);
-        weekNamesInFebruary.add(WEEK6);
-        weekNamesInFebruary.add(WEEK7);
-        weekNamesInFebruary.add(WEEK8);
+        schemaManager = SchemaManager.getInstance();
+
+        firstWeekOfMonth = new ArrayList<>();
+        secondWeekOfMonth = new ArrayList<>();
+        thirdWeekOfMonth = new ArrayList<>();
+        lastWeekOfMonth = new ArrayList<>();
+        weekNumbers = new ArrayList<>();
+        weeksOfMonth = new ArrayList<>();
+        weeksOfMonth.add(firstWeekOfMonth);
+        weeksOfMonth.add(secondWeekOfMonth);
+        weeksOfMonth.add(thirdWeekOfMonth);
+        weeksOfMonth.add(lastWeekOfMonth);
+
+        String startDate = "2016/11/01";
+        String endDate = "2016/11/30";
+        setCurrentMonth(startDate, endDate);
 
         //Zero for all weeks in month
-        currentWeekNumber = 0;
+        currentWeekOfMonth = 0;
     }
 
-    private void addAllWeeksToLargeArray() {
-        weeksInFebruary.add(firstWeekFebruary);
-        weeksInFebruary.add(secondWeekFebruary);
-        weeksInFebruary.add(thirdWeekFebruary);
-        weeksInFebruary.add(lastWeekFebruary);
+    public int getCurrentWeekOfMonthNumber() {
+        return currentWeekOfMonth;
     }
 
-    private void createFebruaryWeeks() {
-        firstWeekFebruary.add(30);
-        firstWeekFebruary.add(31);
-        firstWeekFebruary.add(1);
-        firstWeekFebruary.add(2);
-        firstWeekFebruary.add(3);
-
-        secondWeekFebruary.add(6);
-        secondWeekFebruary.add(7);
-        secondWeekFebruary.add(8);
-        secondWeekFebruary.add(9);
-        secondWeekFebruary.add(10);
-
-        thirdWeekFebruary.add(13);
-        thirdWeekFebruary.add(14);
-        thirdWeekFebruary.add(15);
-        thirdWeekFebruary.add(16);
-        thirdWeekFebruary.add(17);
-
-        lastWeekFebruary.add(20);
-        lastWeekFebruary.add(21);
-        lastWeekFebruary.add(22);
-        lastWeekFebruary.add(23);
-        lastWeekFebruary.add(24);
+    public void currentWeekOfMonthNumber(int currentWeekNumber) {
+        this.currentWeekOfMonth = currentWeekNumber;
     }
 
-    public void setCurrentWeekNumber(int currentWeekNumber) {
-        this.currentWeekNumber = currentWeekNumber;
+    /**
+     * Set the current
+     *
+     * @param startDate
+     * @param endDate
+     */
+    public void setCurrentMonth(String startDate, String endDate) {
+        SimpleDateFormat monthDayYear = new SimpleDateFormat("yyyy/MM/dd", Locale.GERMANY);
+        try {
+            Date start = monthDayYear.parse(startDate);
+            Date end = monthDayYear.parse(endDate);
+            int numberOfDays = 0;
+
+            while (!start.after(end)) {
+                numberOfDays++;
+                start.setDate(start.getDate() + 1);
+            }
+            start = monthDayYear.parse(startDate);
+
+            if (numberOfDays <= 5) {
+                setFirstWeekOfMonth(start);
+                currentWeekOfMonth = 1;
+            } else if (numberOfDays <= 10) {
+                setFirstWeekOfMonth(start);
+                setSecondWeekOfMonth(start);
+                currentWeekOfMonth = 2;
+            } else if (numberOfDays <= 15) {
+                setFirstWeekOfMonth(start);
+                setSecondWeekOfMonth(start);
+                setThirdWeekOfMonth(start);
+                currentWeekOfMonth = 3;
+            } else {
+                setFirstWeekOfMonth(start);
+                setSecondWeekOfMonth(start);
+                setThirdWeekOfMonth(start);
+                setLastWeekOfMonth(start);
+                currentWeekOfMonth = 0;
+            }
+
+        } catch (ParseException ex) {
+            Logger.getLogger(SchemaModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
-    public int getCurrentWeekNumber() {
-        return currentWeekNumber;
+    private void setLastWeekOfMonth(Date date) {
+        Calendar last = Calendar.getInstance();
+        last.setTime(date);
+        last.add(Calendar.WEEK_OF_MONTH, 3);
+        last.setWeekDate(last.get(Calendar.YEAR), last.get(Calendar.WEEK_OF_YEAR), Calendar.MONDAY);
+        weekNumbers.add(last.get(Calendar.WEEK_OF_YEAR));
+
+        Calendar lastOfLast = Calendar.getInstance();
+        lastOfLast.setTime(last.getTime());
+        lastOfLast.setWeekDate(lastOfLast.get(Calendar.YEAR), lastOfLast.get(Calendar.WEEK_OF_YEAR), Calendar.FRIDAY);
+
+        while (!last.after(lastOfLast)) {
+            lastWeekOfMonth.add(last.getTime());
+            last.add(Calendar.DATE, 1);
+        }
     }
 
-    public List<Integer> getFirstWeekFebruary() {
-        return firstWeekFebruary;
+    private void setThirdWeekOfMonth(Date date) {
+        Calendar third = Calendar.getInstance();
+        third.setTime(date);
+        third.add(Calendar.WEEK_OF_MONTH, 2);
+        third.setWeekDate(third.get(Calendar.YEAR), third.get(Calendar.WEEK_OF_YEAR), Calendar.MONDAY);
+        weekNumbers.add(third.get(Calendar.WEEK_OF_YEAR));
+
+        Calendar lastOfThird = Calendar.getInstance();
+        lastOfThird.setTime(third.getTime());
+        lastOfThird.setWeekDate(lastOfThird.get(Calendar.YEAR), lastOfThird.get(Calendar.WEEK_OF_YEAR), Calendar.FRIDAY);
+
+        while (!third.after(lastOfThird)) {
+            thirdWeekOfMonth.add(third.getTime());
+            third.add(Calendar.DATE, 1);
+        }
     }
 
-    public List<Integer> getSecondWeekFebruary() {
-        return secondWeekFebruary;
+    private void setSecondWeekOfMonth(Date date) {
+        Calendar second = Calendar.getInstance();
+        second.setTime(date);
+        second.add(Calendar.WEEK_OF_MONTH, 1);
+        second.setWeekDate(second.get(Calendar.YEAR), second.get(Calendar.WEEK_OF_YEAR), Calendar.MONDAY);
+        weekNumbers.add(second.get(Calendar.WEEK_OF_YEAR));
+
+        Calendar lastOfSecond = Calendar.getInstance();
+        lastOfSecond.setTime(second.getTime());
+        lastOfSecond.setWeekDate(lastOfSecond.get(Calendar.YEAR), lastOfSecond.get(Calendar.WEEK_OF_YEAR), Calendar.FRIDAY);
+
+        while (!second.after(lastOfSecond)) {
+            secondWeekOfMonth.add(second.getTime());
+            second.add(Calendar.DATE, 1);
+        }
     }
 
-    public List<Integer> getThirdWeekFebruary() {
-        return thirdWeekFebruary;
+    private void setFirstWeekOfMonth(Date date) {
+        Calendar first = Calendar.getInstance();
+        first.setTime(date);
+        first.setWeekDate(first.get(Calendar.YEAR), first.get(Calendar.WEEK_OF_YEAR), Calendar.MONDAY);
+        weekNumbers.add(first.get(Calendar.WEEK_OF_YEAR));
+
+        Calendar lastOfFirst = Calendar.getInstance();
+        lastOfFirst.setTime(first.getTime());
+        lastOfFirst.setWeekDate(lastOfFirst.get(Calendar.YEAR), lastOfFirst.get(Calendar.WEEK_OF_YEAR), Calendar.FRIDAY);
+
+        while (!first.after(lastOfFirst)) {
+            firstWeekOfMonth.add(first.getTime());
+            first.add(Calendar.DATE, 1);
+        }
     }
 
-    public List<Integer> getLastWeekFebruary() {
-        return lastWeekFebruary;
+    public List<Date> getFirstWeekOfMonth() {
+        return firstWeekOfMonth;
     }
 
-    public List<List<Integer>> getWeeksInFebruary() {
-        return weeksInFebruary;
+    public List<Date> getSecondWeekOfMonth() {
+        return secondWeekOfMonth;
     }
 
-    public ObservableList<String> getWeekNamesInFebruary() {
-        return weekNamesInFebruary;
+    public List<Date> getThirdWeekOfMonth() {
+        return thirdWeekOfMonth;
+    }
+
+    public List<Date> getLastWeekOfMonth() {
+        return lastWeekOfMonth;
+    }
+
+    public List<List<Date>> getWeeksOfMonth() {
+        return weeksOfMonth;
+    }
+
+    public List<Integer> getWeekNumbers() {
+        return weekNumbers;
     }
 
 }

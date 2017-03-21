@@ -169,6 +169,18 @@ public class AttendanceAutomationDAOFacade {
     }
 
     /**
+     * Get all nonAttendance for specific students for specific period.
+     *
+     * @param studentID
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    public List<NonAttendance> getNonAttendanceForStudentsByIDForSpecificPeriod(int studentID, String startDate, String endDate) {
+        return attendanceDAO.getAllNonAttendanceForASpecificStudentForASpecificDate(studentID, startDate, endDate);
+    }
+
+    /**
      * Get all nonAttendance for specific student on specific date.
      *
      * Viloation of DRY!
@@ -177,8 +189,8 @@ public class AttendanceAutomationDAOFacade {
      * @param date
      * @return
      */
-    public List<NonAttendance> getNonAttendanceForStudentByIDFOrSepcificDate(int StudentID, String date) {
-        return attendanceDAO.getAllNonAttendanceForASpecificStudentForASpecificDate(StudentID, date);
+    public List<NonAttendance> getNonAttendanceForStudentByIDForSepcificDate(int StudentID, String date) {
+        return attendanceDAO.getAllNonAttendanceForASpecificStudentForASpecificDate(StudentID, date, date + " 16:00");
     }
 
     /**
@@ -260,7 +272,6 @@ public class AttendanceAutomationDAOFacade {
     }
 
     /**
-     * <<<<<<< HEAD
      * Finds the schoolClass for the parsed teacher on the parsed Date. Then
      * retrieves a list of students from that schoolClass.
      *
@@ -273,6 +284,7 @@ public class AttendanceAutomationDAOFacade {
         try {
             return schoolClassDAO.getSchoolClassIDForSpecificTeacherAndDate(teacherID, dateHalfHourBefore, dateHalfHourAfter);
         } catch (SQLException ex) {
+            System.out.println(ex);
             throw new RuntimeException("Couldn't get the schoolClassID");
         }
     }
@@ -284,12 +296,70 @@ public class AttendanceAutomationDAOFacade {
      * @param semester
      * @return
      */
-    public List<String> getAllTeacherSchoolClassesBySemester(List<Integer> schoolClassIDs, String semester) {
+    public List<String> getAllTeacherSchoolClassesBySemester(List<Integer> schoolClassIDs, String semesterName) {
         try {
-            return schoolClassDAO.getAllTeacherSchoolClassesBySemester(schoolClassIDs, semester);
+            return schoolClassDAO.getAllTeacherSchoolClassesBySemester(schoolClassIDs, semesterName);
         } catch (SQLException ex) {
             Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+
+    /**
+     * Gets lessons with the params from the DB.
+     *
+     * @param schoolClassID
+     * @param semesterID
+     * @return
+     */
+    public List<SchoolClassSemesterLesson> getSchoolClassSemesterLessonsBySchoolClassIDAndSemesterID(int schoolClassID, int semesterID) {
+        try {
+            return schoolClassDAO.getAllSchoolClassSemesterLessonsBySchoolClassIDAndSemesterID(schoolClassID, semesterID);
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    /**
+     * Gets subjects with the params from the DB.
+     *
+     * @param schoolClassID
+     * @param semesterID
+     * @return
+     */
+    public List<SchoolSemesterSubject> getSchoolClassSemesterSubjectsBySchoolCLassIDAndSemesterID(int schoolClassID, int semesterID) {
+        try {
+            return schoolClassDAO.getAllSchoolClassSemesterSubjectsBySchoolClassIDAndSemesterID(schoolClassID, semesterID);
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    /**
+     * Converts a semester name to an ID.
+     *
+     * @param semesterName
+     * @return
+     */
+    public int getSemesterIDByName(String semesterName) {
+        try {
+            return schoolClassDAO.getSemesterIDByName(semesterName);
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+
+    /**
+     * Gets the Nonattendance for a specific student.
+     *
+     * @param StudentID
+     * @param semesterID
+     * @return
+     */
+    public List<NonAttendance> getAllNonAttendanceForStudentBySemester(int StudentID, int semesterID) {
+        return attendanceDAO.getAllNonAttendanceForASpecificStudentBySemester(StudentID, semesterID);
     }
 }

@@ -30,6 +30,7 @@ public class MonthComboboxViewController implements Initializable {
     private final SchemaModel schemaModel;
 
     private ObservableList<String> viewSelection;
+    private ObservableList<String> weeks;
 
     public MonthComboboxViewController() {
         schemaModel = SchemaModel.getInstance();
@@ -41,23 +42,23 @@ public class MonthComboboxViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         viewSelection = FXCollections.observableArrayList("Uge", "Måned");
+        weeks = FXCollections.observableArrayList();
         viewSelect.setItems(viewSelection);
-        changeVisibilityOfWeekPicker();
-
-        weekPicker.setItems(SchemaModel.getInstance().getWeekNamesInFebruary());
+        setVisibilityOfWeekPicker(false);
+        for (Integer weekNumber : schemaModel.getWeekNumbers()) {
+            weeks.add("Uge " + weekNumber);
+        }
+        weekPicker.setItems(weeks);
         weekPicker.setPromptText("Vælg uge");
     }
 
     /**
      * Change visibility of weekPicker
      */
-    private void changeVisibilityOfWeekPicker() {
-        if (weekPicker.isVisible()) {
-            weekPicker.setDisable(true);
-            weekPicker.setVisible(false);
-        } else {
-            weekPicker.setDisable(false);
-            weekPicker.setVisible(true);
+    private void setVisibilityOfWeekPicker(boolean value) {
+        weekPicker.setDisable(!value);
+        weekPicker.setVisible(value);
+        if (value == true) {
             weekPicker.getSelectionModel().clearSelection();
         }
     }
@@ -69,12 +70,12 @@ public class MonthComboboxViewController implements Initializable {
         switch (selection) {
             case "Uge":
                 RootViewController.getInstance().reloadView();
-                changeVisibilityOfWeekPicker();
+                setVisibilityOfWeekPicker(true);
                 break;
             case "Måned":
-                schemaModel.setCurrentWeekNumber(0);
+                schemaModel.currentWeekOfMonthNumber(0);
                 RootViewController.getInstance().reloadView();
-                changeVisibilityOfWeekPicker();
+                setVisibilityOfWeekPicker(false);
                 break;
             default:
 
@@ -83,23 +84,23 @@ public class MonthComboboxViewController implements Initializable {
 
     @FXML
     private void handleWeekSelection() {
-        String week = weekPicker.getSelectionModel().getSelectedItem();
+        int week = weekPicker.getSelectionModel().getSelectedIndex();
 
         switch (week) {
-            case SchemaModel.WEEK5:
-                schemaModel.setCurrentWeekNumber(5);
+            case 0:
+                schemaModel.currentWeekOfMonthNumber(1);
                 RootViewController.getInstance().reloadView();
                 break;
-            case SchemaModel.WEEK6:
-                schemaModel.setCurrentWeekNumber(6);
+            case 1:
+                schemaModel.currentWeekOfMonthNumber(2);
                 RootViewController.getInstance().reloadView();
                 break;
-            case SchemaModel.WEEK7:
-                schemaModel.setCurrentWeekNumber(7);
+            case 2:
+                schemaModel.currentWeekOfMonthNumber(3);
                 RootViewController.getInstance().reloadView();
                 break;
-            case SchemaModel.WEEK8:
-                schemaModel.setCurrentWeekNumber(8);
+            case 3:
+                schemaModel.currentWeekOfMonthNumber(4);
                 RootViewController.getInstance().reloadView();
                 break;
             default:

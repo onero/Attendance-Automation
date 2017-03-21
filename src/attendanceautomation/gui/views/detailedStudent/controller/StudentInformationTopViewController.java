@@ -9,13 +9,10 @@ import attendanceautomation.be.Student;
 import attendanceautomation.be.Teacher;
 import attendanceautomation.be.enums.EFXMLName;
 import attendanceautomation.gui.model.SchoolClassModel;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableView;
@@ -51,8 +48,6 @@ public class StudentInformationTopViewController implements Initializable {
 
     private static StudentInformationTopViewController instance;
 
-    private Student currentStudent;
-
     public static StudentInformationTopViewController getInstance() {
         return instance;
     }
@@ -76,15 +71,15 @@ public class StudentInformationTopViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         instance = this;
+        setStudentInfo();
     }
 
     /**
      * Sets the selected student
      *
-     * @param selectedStudent
      */
-    public void setStudentInfo(Student selectedStudent) {
-        currentStudent = selectedStudent;
+    private void setStudentInfo() {
+        Student currentStudent = SchoolClassModel.getInstance().getCurrentStudent();
         lblStudentName.setText(currentStudent.getFullName());
         lblStudentEmail.setText(currentStudent.getEmail());
         //TODO ALH: Make dynamic
@@ -94,24 +89,8 @@ public class StudentInformationTopViewController implements Initializable {
         //TODO ALH: Make dynamic
         lblStudentSemester.setText("2.");
         
-        lblTotalAbsence.setText(selectedStudent.getNonAttendancePercentage().get() + " %");
+        lblTotalAbsence.setText(currentStudent.getNonAttendancePercentage().get() + " %");
 
     }
-
-    
-    
-    /**
-     * Creates the node for the PieChartView.
-     *
-     * @return
-     * @throws IOException
-     */
-    private Node createPieChartNode() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLName.PIE_CHART_VIEW.toString()));
-        Node node = loader.load();
-        return node;
-    }
-    
-    
 
 }

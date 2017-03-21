@@ -393,24 +393,25 @@ public class SchoolClassModel {
     public void updateCurrentClassStudents(int mockSwitch) {
         currentClassStudentsAbsence.clear();
         currentClassStudentsPresent.clear();
-        List<Student> listOfCurrentClassStudents = currentClassManager.getStudentsFromCurrentSchoolClass(currentTeacher.getTeacherID());
+
         List<Student> listOfCurrentClassStudentsPresent = new ArrayList<>();
         List<Student> listOfCurrentClassStudentsAbsence = new ArrayList<>();
 
         switch (mockSwitch) {
             case 0: {
+                List<Student> listOfCurrentClassStudents = currentClassManager.getStudentsFromCurrentSchoolClass(currentTeacher.getTeacherID());
                 listOfCurrentClassStudentsPresent = currentClassManager.findStudentsPresent(listOfCurrentClassStudents);
                 listOfCurrentClassStudentsAbsence = currentClassManager.findStudentsAbsence(listOfCurrentClassStudents);
                 break;
             }
             case 1: {
                 listOfCurrentClassStudentsPresent = currentClassManager.findMockStudents(1);
-                listOfCurrentClassStudentsAbsence = new ArrayList<>();
+                listOfCurrentClassStudentsAbsence = currentClassManager.findMockStudents(4);
                 break;
             }
             case 2: {
                 listOfCurrentClassStudentsPresent = currentClassManager.findMockStudents(2);
-                listOfCurrentClassStudentsAbsence = new ArrayList<>();
+                listOfCurrentClassStudentsAbsence = currentClassManager.findMockStudents(3);
                 break;
             }
             case 3: {

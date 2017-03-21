@@ -73,12 +73,13 @@ public class AttendanceDAO {
      * Viloation of DRY!
      *
      * @param studentID
-     * @param date
+     * @param startDate
+     * @param endDate
      * @return
      */
-    public List<NonAttendance> getAllNonAttendanceForASpecificStudentForASpecificDate(int studentID, String date) {
+    public List<NonAttendance> getAllNonAttendanceForASpecificStudentForASpecificDate(int studentID, String startDate, String endDate) {
         try {
-            List<SchoolClassSemesterLesson> schoolClassSemesterLessonsForStudent = getAllSchoolClassSemesterLessonsASpecificStudentDidNotAttendOnASpecificDate(studentID, date);
+            List<SchoolClassSemesterLesson> schoolClassSemesterLessonsForStudent = getAllSchoolClassSemesterLessonsASpecificStudentDidNotAttendOnASpecificDate(studentID, startDate, endDate);
             List<NonAttendance> nonAttendanceForSpecificStudent;
             nonAttendanceForSpecificStudent = new ArrayList<>();
             for (SchoolClassSemesterLesson schoolClassSemesterLesson : schoolClassSemesterLessonsForStudent) {
@@ -126,11 +127,11 @@ public class AttendanceDAO {
      * Some violation of DRY?
      *
      * @param studentID
-     * @param date
+     * @param startDate
      * @return
      * @throws SQLException
      */
-    private List<SchoolClassSemesterLesson> getAllSchoolClassSemesterLessonsASpecificStudentDidNotAttendOnASpecificDate(int studentID, String date) throws SQLException {
+    private List<SchoolClassSemesterLesson> getAllSchoolClassSemesterLessonsASpecificStudentDidNotAttendOnASpecificDate(int studentID, String startDate, String endDate) throws SQLException {
         List<SchoolClassSemesterLesson> schoolClassSemesterLessons = new ArrayList<>();
         String sql = "SELECT semesterLesson.ID AS 'SemesterLessonID', "
                 + "semesterLesson.SchoolClassSemesterSubjectID 'SemesterSubjectID', "
@@ -142,8 +143,8 @@ public class AttendanceDAO {
         try (Connection con = cm.getConnection()) {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, studentID);
-            ps.setString(2, date);
-            ps.setString(3, date + " 16:00");
+            ps.setString(2, startDate);
+            ps.setString(3, endDate);
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {

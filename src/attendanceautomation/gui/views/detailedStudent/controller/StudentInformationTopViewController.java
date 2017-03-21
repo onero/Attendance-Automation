@@ -5,16 +5,18 @@
  */
 package attendanceautomation.gui.views.detailedStudent.controller;
 
+import attendanceautomation.be.NonAttendance;
 import attendanceautomation.be.Student;
 import attendanceautomation.be.Teacher;
-import attendanceautomation.be.enums.EFXMLName;
+import attendanceautomation.be.enums.ESchoolSubject;
+import attendanceautomation.bll.SubjectManager;
 import attendanceautomation.gui.model.SchoolClassModel;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 
@@ -88,9 +90,25 @@ public class StudentInformationTopViewController implements Initializable {
         lblStudentClass.setText(SchoolClassModel.getInstance().getCurrentSchoolClass().getSchoolClassName());
         //TODO ALH: Make dynamic
         lblStudentSemester.setText("2.");
-        
+
         lblTotalAbsence.setText(currentStudent.getNonAttendancePercentage().get() + " %");
 
+        absenceOfSCO(currentStudent);
+        
+    }
+
+    private void absenceOfSCO(Student currentStudent) {
+        ArrayList SCO = new ArrayList<>();
+
+        for (NonAttendance lessons : currentStudent.getNonAttendance()) {
+
+            if (lessons.getSchoolClassSemesterLesson().getSemesterSubject().getSubject().toString().equals(ESchoolSubject.SCO.toString())) {
+                SCO.add(lessons.getSchoolClassSemesterLesson().getSemesterSubject());
+
+                //System.out.println(lessons.getSchoolClassSemesterLesson().getSemesterSubject().getSubject().toString());
+                System.out.println(SCO.size());
+            }
+        }
     }
 
 }

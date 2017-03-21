@@ -29,6 +29,7 @@ public class SubjectManager {
 
             }
         }
+
     }
     public void absenceInSCO(Student student){
         

@@ -184,7 +184,7 @@ public class RootViewController implements Initializable {
                 loadTeacherView();
                 schoolClassModel.loadDataFromDB();
                 Platform.runLater(() -> {
-//                    schoolClassModel.updateCurrentClassStudents();
+                    schoolClassModel.updateCurrentClassStudents();
                     MAIN_VIEW = nodeFactory.createNewView(EFXMLName.MAIN_VIEW);
                     switchCenterView(MAIN_VIEW);
                     PieChartModel.getInstance().resetPieChart();

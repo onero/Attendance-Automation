@@ -27,6 +27,7 @@ public class MockModalController implements Initializable {
     private Stage stage;
 
     private final SchoolClassModel model;
+    private CurrentClassListViewController controllerPresent, controllerAbsence;
 
     public MockModalController() {
         model = SchoolClassModel.getInstance();
@@ -43,24 +44,32 @@ public class MockModalController implements Initializable {
     @FXML
     private void handleBefore(ActionEvent event) {
         model.updateCurrentClassStudents(1);
+        controllerPresent.setCellFactory();
+        controllerAbsence.setCellFactory();
         stage.close();
     }
 
     @FXML
     private void handleAt(ActionEvent event) {
         model.updateCurrentClassStudents(2);
+        controllerPresent.setCellFactoryGreen();
+        controllerAbsence.setCellFactory();
         stage.close();
     }
 
     @FXML
     private void handleAfter(ActionEvent event) {
         model.updateCurrentClassStudents(3);
+        controllerPresent.setCellFactoryGreen();
+        controllerAbsence.setCellFactoryRed();
         stage.close();
     }
 
     @FXML
     private void handleNormal(ActionEvent event) {
         model.updateCurrentClassStudents(0);
+        controllerPresent.setCellFactory();
+        controllerAbsence.setCellFactory();
         stage.close();
     }
 
@@ -71,6 +80,17 @@ public class MockModalController implements Initializable {
      */
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    /**
+     * Sets the controllers for the two listViews.
+     *
+     * @param controllerPresent
+     * @param controllerAbsence
+     */
+    public void setControllers(CurrentClassListViewController controllerPresent, CurrentClassListViewController controllerAbsence) {
+        this.controllerPresent = controllerPresent;
+        this.controllerAbsence = controllerAbsence;
     }
 
 }

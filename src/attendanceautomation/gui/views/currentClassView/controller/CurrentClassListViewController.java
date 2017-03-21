@@ -49,7 +49,7 @@ public class CurrentClassListViewController implements Initializable {
         listViewOfAttendance.setItems(list);
     }
 
-    private void setCellFactory() {
+    public void setCellFactory() {
         listViewOfAttendance.setCellFactory(new Callback<ListView<Student>, ListCell<Student>>() {
             @Override
             public ListCell<Student> call(ListView<Student> param) {
@@ -61,6 +61,53 @@ public class CurrentClassListViewController implements Initializable {
                     cell.setController(controller);
                     cell.setView(node);
                     cell.setGraphic(node);
+
+                    return cell;
+                } catch (IOException ex) {
+                    Logger.getLogger(CurrentClassListViewController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                return cell;
+            }
+        });
+    }
+
+    public void setCellFactoryRed() {
+        listViewOfAttendance.setCellFactory(new Callback<ListView<Student>, ListCell<Student>>() {
+            @Override
+            public ListCell<Student> call(ListView<Student> param) {
+                CurrentClassListViewCell cell = new CurrentClassListViewCell();
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLName.NAME_CURRENT_CLASS_LIST_VIEW.toString()));
+                    Node node = loader.load();
+                    NameCurrentClassListViewController controller = loader.getController();
+                    cell.setController(controller);
+                    cell.setView(node);
+                    cell.setGraphic(node);
+                    cell.setStyle("-fx-control-inner-background: red");
+
+                    return cell;
+                } catch (IOException ex) {
+                    Logger.getLogger(CurrentClassListViewController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                return cell;
+            }
+        });
+    }
+
+    public void setCellFactoryGreen() {
+        listViewOfAttendance.setCellFactory(new Callback<ListView<Student>, ListCell<Student>>() {
+            @Override
+            public ListCell<Student> call(ListView<Student> param) {
+                CurrentClassListViewCell cell = new CurrentClassListViewCell();
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLName.NAME_CURRENT_CLASS_LIST_VIEW.toString()));
+                    Node node = loader.load();
+                    NameCurrentClassListViewController controller = loader.getController();
+                    cell.setController(controller);
+                    cell.setView(node);
+                    cell.setGraphic(node);
+                    cell.setStyle("-fx-control-inner-background: green");
+
                     return cell;
                 } catch (IOException ex) {
                     Logger.getLogger(CurrentClassListViewController.class.getName()).log(Level.SEVERE, null, ex);

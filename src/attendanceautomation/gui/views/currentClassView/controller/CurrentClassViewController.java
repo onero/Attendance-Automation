@@ -38,6 +38,8 @@ public class CurrentClassViewController implements Initializable {
     private Node LIST_VIEW_PRESENT;
     private Node LIST_VIEW_ABSENCE;
 
+    private CurrentClassListViewController controllerPresent, controllerAbsence;
+
     private SchoolClassModel model = SchoolClassModel.getInstance();
 
     public CurrentClassViewController() {
@@ -66,7 +68,7 @@ public class CurrentClassViewController implements Initializable {
     private Node createListViewPresent() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLName.CURRENT_CLASS_LIST_VIEW.toString()));
         Node node = loader.load();
-        setItemsInList(loader, model.getCurrentClassStudentsPresent());
+        controllerPresent = setItemsInList(loader, model.getCurrentClassStudentsPresent());
         return node;
     }
 
@@ -78,13 +80,14 @@ public class CurrentClassViewController implements Initializable {
     private Node createListViewAbsence() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLName.CURRENT_CLASS_LIST_VIEW.toString()));
         Node node = loader.load();
-        setItemsInList(loader, model.getCurrentClassStudentsAbsence());
+        controllerAbsence = setItemsInList(loader, model.getCurrentClassStudentsAbsence());
         return node;
     }
 
-    private void setItemsInList(FXMLLoader loader, ObservableList<Student> listOfStudents) {
+    private CurrentClassListViewController setItemsInList(FXMLLoader loader, ObservableList<Student> listOfStudents) {
         CurrentClassListViewController controller = loader.getController();
         controller.setItemsInList(listOfStudents);
+        return controller;
     }
 
     /**
@@ -107,6 +110,7 @@ public class CurrentClassViewController implements Initializable {
 
             MockModalController controller = loader.getController();
             controller.setStage(newStage);
+            controller.setControllers(controllerPresent, controllerAbsence);
 
             newStage.show();
         } catch (IOException ex) {

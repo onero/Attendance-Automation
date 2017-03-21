@@ -117,7 +117,7 @@ public class CurrentClassManager {
 //            hours--;
 //            minutes = 60 + minutes;
 //        }
-        hours -= 8;
+        hours -= 14;
         halfHourBefore = formatTime(halfHourBefore, hours, minutes);
         return halfHourBefore += minutes;
     }

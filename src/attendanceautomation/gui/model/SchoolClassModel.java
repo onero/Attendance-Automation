@@ -96,6 +96,10 @@ public class SchoolClassModel {
      */
     public void loadSchoolClassByLocation(int location) {
         if (currentLocationID != location) {
+
+            /**
+             * Load newest data from DB
+             */
             teacherSchoolClassNames.clear();
             currentLocationID = location;
             schoolClassForTeacherAtCurrentLocation = schoolClassManager.getSchoolClassHashMapByLocationAndTeacher(currentLocationID, currentTeacher.getTeacherID());
@@ -373,9 +377,8 @@ public class SchoolClassModel {
     }
 
     /**
-     * <<<<<<< HEAD
-     * Clears currentClassStudentsWithAbsence. Then gets a new list of students
-     * from the database.
+     * <<<<<<< HEAD Clears currentClassStudentsWithAbsence. Then gets a new list
+     * of students from the database.
      */
     public void updateCurrentClassStudents() {
         currentClassStudentsAbsence.clear();
@@ -438,6 +441,19 @@ public class SchoolClassModel {
 
     public void setCurrentStudent(Student currentStudent) {
         this.currentStudent = currentStudent;
+    }
+
+    public void updateSchoolClassSemester(int semester) {
+        resetStudents();
+        schoolClassManager.getSchoolClassSemesterDataBySchoolClassAndSemesterID(currentSchoolClass, semester);
+        studentsFromDB.addAll(schoolClassManager.getAllStudentDataBySemester(currentSchoolClass.getID(), semester));
+        students.addAll(studentsFromDB);
+        PieChartModel.getInstance().resetPieChart();
+        sortStudentsOnAttendance();
+    }
+
+    public int getSemesterIDByName(String semesterName) {
+        return schoolClassManager.getSemesterIDByName(semesterName);
     }
 
     public ESemester getCurrentSemester() {

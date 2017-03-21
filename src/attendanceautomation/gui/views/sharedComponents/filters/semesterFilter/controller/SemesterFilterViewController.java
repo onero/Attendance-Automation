@@ -48,14 +48,16 @@ public class SemesterFilterViewController implements Initializable {
 
     @FXML
     private void handleSelectSemester(Event event) {
-
+        String semesterName = comboSemester.getSelectionModel().getSelectedItem();
+        int semesterID = schoolClassModel.getSemesterIDByName(semesterName);
+        schoolClassModel.updateSchoolClassSemester(semesterID);
     }
 
     /**
      * Select the first element
      */
     public void selectLatest() {
-        comboSemester.getSelectionModel().selectLast();
+        comboSemester.getSelectionModel().selectFirst();
     }
 
 }

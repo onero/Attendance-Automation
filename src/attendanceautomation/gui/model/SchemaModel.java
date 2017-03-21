@@ -54,7 +54,7 @@ public class SchemaModel {
         weeksOfMonth.add(lastWeekOfMonth);
 
         String startDate = "2016/11/01";
-        String endDate = "2016/11/04";
+        String endDate = "2016/11/30";
         setCurrentMonth(startDate, endDate);
 
         //Zero for all weeks in month

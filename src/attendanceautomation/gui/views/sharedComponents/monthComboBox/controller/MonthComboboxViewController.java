@@ -44,11 +44,10 @@ public class MonthComboboxViewController implements Initializable {
         viewSelection = FXCollections.observableArrayList("Uge", "Måned");
         weeks = FXCollections.observableArrayList();
         viewSelect.setItems(viewSelection);
-        changeVisibilityOfWeekPicker();
+        setVisibilityOfWeekPicker(false);
         for (Integer weekNumber : schemaModel.getWeekNumbers()) {
             weeks.add("Uge " + weekNumber);
         }
-
         weekPicker.setItems(weeks);
         weekPicker.setPromptText("Vælg uge");
     }
@@ -56,13 +55,10 @@ public class MonthComboboxViewController implements Initializable {
     /**
      * Change visibility of weekPicker
      */
-    private void changeVisibilityOfWeekPicker() {
-        if (weekPicker.isVisible()) {
-            weekPicker.setDisable(true);
-            weekPicker.setVisible(false);
-        } else {
-            weekPicker.setDisable(false);
-            weekPicker.setVisible(true);
+    private void setVisibilityOfWeekPicker(boolean value) {
+        weekPicker.setDisable(!value);
+        weekPicker.setVisible(value);
+        if (value == true) {
             weekPicker.getSelectionModel().clearSelection();
         }
     }
@@ -74,12 +70,12 @@ public class MonthComboboxViewController implements Initializable {
         switch (selection) {
             case "Uge":
                 RootViewController.getInstance().reloadView();
-                changeVisibilityOfWeekPicker();
+                setVisibilityOfWeekPicker(true);
                 break;
             case "Måned":
                 schemaModel.currentWeekOfMonthNumber(0);
                 RootViewController.getInstance().reloadView();
-                changeVisibilityOfWeekPicker();
+                setVisibilityOfWeekPicker(false);
                 break;
             default:
 

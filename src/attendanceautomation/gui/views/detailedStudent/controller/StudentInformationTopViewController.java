@@ -64,7 +64,11 @@ public class StudentInformationTopViewController implements Initializable {
     @FXML
     private Label lblDbosAbsence;
 
+    private SubjectManager subMgr;
+
     public StudentInformationTopViewController() {
+        subMgr = new SubjectManager();
+
     }
 
     /**
@@ -93,22 +97,8 @@ public class StudentInformationTopViewController implements Initializable {
 
         lblTotalAbsence.setText(currentStudent.getNonAttendancePercentage().get() + " %");
 
-        absenceOfSCO(currentStudent);
-        
-    }
+        subMgr.totalSubjectsOfSCO(currentStudent, ESchoolSubject.SCO);
 
-    private void absenceOfSCO(Student currentStudent) {
-        ArrayList SCO = new ArrayList<>();
-
-        for (NonAttendance lessons : currentStudent.getNonAttendance()) {
-
-            if (lessons.getSchoolClassSemesterLesson().getSemesterSubject().getSubject().toString().equals(ESchoolSubject.SCO.toString())) {
-                SCO.add(lessons.getSchoolClassSemesterLesson().getSemesterSubject());
-
-                //System.out.println(lessons.getSchoolClassSemesterLesson().getSemesterSubject().getSubject().toString());
-                System.out.println(SCO.size());
-            }
-        }
     }
 
 }

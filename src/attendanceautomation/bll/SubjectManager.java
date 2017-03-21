@@ -16,23 +16,25 @@ import java.util.ArrayList;
  */
 public class SubjectManager {
 
-    public void totalSubjectsOfSCO(Student student) {
+    public double totalSubjectsOfSCO(Student student, ESchoolSubject subject) {
 
-        ArrayList SCO = new ArrayList<>();
-
+        ArrayList allSubjectLessonsList = new ArrayList();
+        ArrayList subjectListToBeSorted = new ArrayList();
+        
+        
         for (NonAttendance lessons : student.getNonAttendance()) {
-
-            if (lessons.getSchoolClassSemesterLesson().getSemesterSubject().getSubject().equals(ESchoolSubject.SCO)) {
-                SCO.add(lessons.getSchoolClassSemesterLesson().getSemesterSubject());
-
-                System.out.println(lessons.getSchoolClassSemesterLesson().getSemesterSubject().getSubject().toString());
-
+            
+            
+            
+            if (lessons.getSchoolClassSemesterLesson().getSemesterSubject().getSubject().toString().equals(subject.toString())) {
+                subjectListToBeSorted.add(lessons.getSchoolClassSemesterLesson().getSemesterSubject());
+                System.out.println(subject.toString());
+                System.out.println("Number of absence in SCO: " +subjectListToBeSorted.size());
             }
         }
-
-    }
-    public void absenceInSCO(Student student){
         
+        return subjectListToBeSorted.size() / 1 * 100;
     }
+    
 
 }

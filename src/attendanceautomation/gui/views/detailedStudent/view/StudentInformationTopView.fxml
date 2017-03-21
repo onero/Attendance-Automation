@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXListView?>
 <?import java.lang.String?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
@@ -10,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="rootBorderPane" styleClass="padding" stylesheets="@../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="attendanceautomation.gui.views.detailedStudent.controller.StudentInformationTopViewController">
+<BorderPane fx:id="rootBorderPane" prefHeight="205.0" prefWidth="723.0" styleClass="padding" stylesheets="@../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="attendanceautomation.gui.views.detailedStudent.controller.StudentInformationTopViewController">
    <left>
       <BorderPane fx:id="studentBorderPane" prefHeight="225.0" prefWidth="250.0" stylesheets="@../../css/Style.css" BorderPane.alignment="CENTER">
          <top>
@@ -34,7 +33,6 @@
                         <Label styleClass="labels" text="Studie:" />
                         <Label styleClass="labels" text="Semester:" />
                         <Label styleClass="labels" text="Klasse:" />
-                        <Label prefHeight="15.0" prefWidth="128.0" text="Total fravær:" />
                      </children>
                   </VBox>
                   <VBox layoutX="74.0" prefHeight="178.0" prefWidth="146.0" spacing="15.0">
@@ -44,7 +42,6 @@
                         <Label fx:id="lblFieldOfStudy" styleClass="labels" text="Datamatiker" />
                         <Label fx:id="lblStudentSemester" styleClass="labels" text="2." />
                         <Label fx:id="lblStudentClass" styleClass="labels" text="CS2016A" />
-                        <Label fx:id="lblTotalAbsence" text="TotalAbsence" />
                      </children>
                   </VBox>
                </children>
@@ -74,12 +71,31 @@
    </right>
    <center>
       <BorderPane styleClass="studentInfo" stylesheets="@../../css/Style.css" BorderPane.alignment="CENTER">
-         <center>
-            <JFXListView styleClass="studentInfo" stylesheets="@../../css/Style.css" />
-         </center>
          <top>
             <Label prefHeight="39.0" prefWidth="218.0" styleClass="detailLabels" stylesheets="@../../css/Style.css" text="Studerendes fravær" BorderPane.alignment="CENTER" />
          </top>
+         <right>
+            <VBox prefHeight="143.0" prefWidth="100.0" spacing="15.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label fx:id="lblScoAbsence" text="ScoAbsence" />
+                  <Label fx:id="lblSdeAbsence" text="SdeAbsence" />
+                  <Label fx:id="lblItoAbsence" text="ItoAbsence" />
+                  <Label fx:id="lblDbosAbsence" text="DbosAbsence" />
+                  <Label fx:id="lblTotalAbsence" text="TotalAbsence" />
+               </children>
+            </VBox>
+         </right>
+         <left>
+            <VBox prefHeight="144.0" prefWidth="100.0" spacing="15.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label prefHeight="15.0" prefWidth="39.0" text="SCO:" />
+                  <Label prefHeight="15.0" prefWidth="39.0" text="SDE:" />
+                  <Label prefHeight="15.0" prefWidth="39.0" text="ITO:" />
+                  <Label prefHeight="15.0" prefWidth="39.0" text="DBOS:" />
+                  <Label prefHeight="15.0" prefWidth="128.0" text="Total fravær:" />
+               </children>
+            </VBox>
+         </left>
       </BorderPane>
    </center>
 </BorderPane>

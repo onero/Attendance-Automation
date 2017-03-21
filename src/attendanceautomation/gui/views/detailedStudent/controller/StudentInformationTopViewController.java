@@ -58,6 +58,14 @@ public class StudentInformationTopViewController implements Initializable {
     }
     @FXML
     private Label lblTotalAbsence;
+    @FXML
+    private Label lblScoAbsence;
+    @FXML
+    private Label lblSdeAbsence;
+    @FXML
+    private Label lblItoAbsence;
+    @FXML
+    private Label lblDbosAbsence;
 
     public StudentInformationTopViewController() {
     }
@@ -90,6 +98,8 @@ public class StudentInformationTopViewController implements Initializable {
 
     }
 
+    
+    
     /**
      * Creates the node for the PieChartView.
      *
@@ -101,5 +111,7 @@ public class StudentInformationTopViewController implements Initializable {
         Node node = loader.load();
         return node;
     }
+    
+    
 
 }

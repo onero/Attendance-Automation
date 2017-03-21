@@ -6,7 +6,10 @@
  */
 package attendanceautomation.bll;
 
+import attendanceautomation.be.NonAttendance;
+import attendanceautomation.be.SchoolClassSemesterLesson;
 import attendanceautomation.be.Student;
+import attendanceautomation.be.enums.ESchoolSubject;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.ArrayList;

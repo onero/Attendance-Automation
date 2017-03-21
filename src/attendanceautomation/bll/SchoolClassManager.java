@@ -10,7 +10,9 @@ import attendanceautomation.be.NonAttendance;
 import attendanceautomation.be.SchoolClass;
 import attendanceautomation.be.Student;
 import attendanceautomation.be.Teacher;
+import attendanceautomation.be.enums.ESchoolSubject;
 import attendanceautomation.dal.AttendanceAutomationDAOFacade;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 

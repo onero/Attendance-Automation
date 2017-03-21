@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package attendanceautomation.gui.views.sharedComponents.whiteComponentHolder.controller;
+package attendanceautomation.gui.views.sharedComponents.allComponentHolder.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -17,7 +17,7 @@ import javafx.scene.layout.BorderPane;
  *
  * @author Rasmus
  */
-public class WhiteComponentHolderController implements Initializable {
+public class AllComponentHolderController implements Initializable {
 
     @FXML
     private BorderPane borderPane;

@@ -5,8 +5,11 @@
  */
 package attendanceautomation.gui.views.sharedComponents.filters.datePicker.controller;
 
+import attendanceautomation.gui.model.PieChartModel;
 import attendanceautomation.gui.model.SchemaModel;
 import attendanceautomation.gui.model.SchoolClassModel;
+import attendanceautomation.gui.views.rootView.controller.RootViewController;
+import attendanceautomation.gui.views.sharedComponents.pieChart.controller.PieChartViewController;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
@@ -105,7 +108,12 @@ public class DatePickerViewController implements Initializable {
     @FXML
     private void handleEndDate(ActionEvent event) {
         schemaModel.setEndDate(dpEnd.getValue().toString());
+
+        schemaModel.setCurrentMonth(schemaModel.getStartDate(), schemaModel.getEndDate());
         schoolClassModel.setCurrentSchoolClass(schoolClassModel.getCurrentSchoolClass().getID());
+        RootViewController.getInstance().reloadView();
+        PieChartModel.getInstance().resetPieChart();
+        PieChartViewController.getInstance().updateChart();
     }
 
     private LocalDate createLocalDate(String date) {

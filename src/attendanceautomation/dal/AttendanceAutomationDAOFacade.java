@@ -41,6 +41,15 @@ public class AttendanceAutomationDAOFacade {
         loginDAO = LoginDAO.getInstance();
     }
 
+    public List<String> getAllSchoolClassSemesters(int schoolClassID) {
+        try {
+            return schoolClassDAO.getAllSchoolClassSemesters(schoolClassID);
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
     public List<SchoolClassSemesterLesson> getSchoolSemesterLessonsInSchoolClassForSpecificPeriod(int schoolClassId, String startDate, String endDate) {
         try {
             return schoolClassDAO.getAllSchoolSemesterLessonsFromSpecificSchoolClassForSpecificPeriod(schoolClassId, startDate, endDate);

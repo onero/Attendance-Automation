@@ -271,6 +271,9 @@ public class RootViewController implements Initializable {
             DETAILED_STUDENT_VIEW = nodeFactory.createNewView(EFXMLName.DETAILED_STUDENT_VIEW);
             switchCenterView(DETAILED_STUDENT_VIEW);
         }
+        if (currentView == MAIN_VIEW) {
+            schoolClassModel.sortStudentsOnAttendance();
+        }
     }
 
     /**

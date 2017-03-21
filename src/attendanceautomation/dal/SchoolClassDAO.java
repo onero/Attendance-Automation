@@ -56,6 +56,26 @@ public class SchoolClassDAO {
         }
     }
 
+    public List<String> getAllSchoolClassSemesters(int schoolClassID) throws SQLServerException, SQLException {
+        List<String> semesters = new ArrayList<>();
+        String sql = "SELECT DISTINCT semester.Name "
+                + "AS 'SemesterName' "
+                + "FROM Semester semester "
+                + "JOIN SchoolClassSemesterSubject semesterSubject ON semesterSubject.SemesterID = semester.ID "
+                + "WHERE semesterSubject.SchoolClassID = ?";
+
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, schoolClassID);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                semesters.add(getOneSchoolSemester(rs));
+            }
+            return semesters;
+        }
+    }
+
     public List<SchoolClassSemesterLesson> getAllSchoolSemesterLessonsFromSpecificSchoolClassForSpecificPeriod(int schoolClassId, String startDate, String endDate) throws SQLException {
         schoolClassSemesterSubjects = new ArrayList<>();
         //Get a hold of all the subjects the SchoolClass has
@@ -154,17 +174,16 @@ public class SchoolClassDAO {
                 + "'SchoolSubjectName', "
                 + "p.FirstName "
                 + "AS "
-                + "'TeacherFirstName'"
+                + "'TeacherFirstName' "
                 + "FROM SchoolClassSemesterSubject semesterSubject "
                 + "JOIN SchoolClass c ON semesterSubject.SchoolClassID = c.ID "
                 + "JOIN Semester sem ON semesterSubject.SemesterID = sem.ID "
                 + "JOIN SchoolSubject schoolSubject ON semesterSubject.SchoolSubjectID = schoolSubject.ID "
-                + "JOIN Semester sem ON sem.ID = schoolSubject.SemesterID "
                 + "JOIN SchoolClassSemesterLesson semesterLesson ON semesterLesson.SchoolClassSemesterSubjectID = semesterSubject.ID "
                 + "JOIN Teacher t ON semesterSubject.TeacherID = t.ID "
                 + "JOIN Person p ON p.ID = t.PersonID "
                 + "WHERE c.ID = ? "
-                + "AND ";
+                + "AND sem.ID = ? ";
 
         try (Connection con = cm.getConnection()) {
             PreparedStatement ps = con.prepareStatement(sql);
@@ -177,6 +196,12 @@ public class SchoolClassDAO {
             }
             return schoolSemesterSubjects;
         }
+    }
+
+    private String getOneSchoolSemester(ResultSet rs) throws SQLException {
+        String name = rs.getString("SemesterName");
+
+        return name;
     }
 
     /**

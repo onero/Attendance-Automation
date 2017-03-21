@@ -12,6 +12,9 @@ import attendanceautomation.be.Student;
 import attendanceautomation.be.Teacher;
 import attendanceautomation.dal.AttendanceAutomationDAOFacade;
 import attendanceautomation.gui.model.SchemaModel;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -262,6 +265,17 @@ public class SchoolClassManager {
         currentSchoolClass.getSemesterSubjects().clear();
         currentSchoolClass.addAllSemesterLessonsToClass(AADAOFacade.getSchoolClassSemesterLessonsBySchoolClassIDAndSemesterID(currentSchoolClass.getID(), semesterID));
         currentSchoolClass.addAllSemesterSubjects(AADAOFacade.getSchoolClassSemesterSubjectsBySchoolCLassIDAndSemesterID(currentSchoolClass.getID(), semesterID));
+
+        Date start = currentSchoolClass.getSemesterLessons().get(0).getDate();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String startDate = df.format(start);
+        SchemaModel.getInstance().setStartDate(startDate);
+
+        Date end = currentSchoolClass.getSemesterLessons().get(currentSchoolClass.getSemesterLessons().size() - 1).getDate();
+        String endDate = df.format(end);
+        SchemaModel.getInstance().setEndDate(endDate);
+
+        SchemaModel.getInstance().setCurrentMonth(startDate, endDate);
     }
 
     /**
@@ -288,5 +302,9 @@ public class SchoolClassManager {
             student.addAllNonAttendance(AADAOFacade.getAllNonAttendanceForStudentBySemester(student.getID(), semesterID));
         }
         return students;
+    }
+
+    public List<String> getAllSchoolClassSemesters(int schoolClassID) {
+        return AADAOFacade.getAllSchoolClassSemesters(schoolClassID);
     }
 }

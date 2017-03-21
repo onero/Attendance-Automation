@@ -9,15 +9,16 @@ import attendanceautomation.be.SchoolClass;
 import attendanceautomation.be.SchoolSemesterSubject;
 import attendanceautomation.be.Student;
 import attendanceautomation.be.enums.EFXMLName;
-import attendanceautomation.be.enums.ESemester;
 import attendanceautomation.gui.model.SchemaModel;
 import attendanceautomation.gui.model.SchoolClassModel;
 import attendanceautomation.gui.views.NodeFactory;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXML;
@@ -87,7 +88,7 @@ public class StudentAttendanceInformationViewController implements Initializable
         student = schoolClassModel.getCurrentStudent();
         //Clear the VBox list
         VBox.getChildren().clear();
-        createHBoxesForEachSubject(schoolClass);
+        createHBoxesForEachSubject(schoolClassModel.getCurrentSchoolClass());
     }
 
     /**
@@ -96,20 +97,11 @@ public class StudentAttendanceInformationViewController implements Initializable
      * @param schoolClass
      */
     private void createHBoxesForEachSubject(SchoolClass schoolClass) {
+        Set<String> subjectNames = new HashSet<>();
         for (SchoolSemesterSubject semesterSubject : schoolClass.getSemesterSubjects()) {
-            //Check if currentSemester is set
-            if (schoolClassModel.getCurrentSemester() != null) {
-                //Check if semester semesterSubject is from currentSemester
-                if (schoolClassModel.getCurrentSemester().equals(semesterSubject.getSemester())) {
-                    createSubjectHBox(semesterSubject);
-                }
-            } else {
-                //Just take from latest semester
-                //TODO ALH: Make this dynamic to latest semester
-                schoolClassModel.updateStudentData();
-                if (semesterSubject.getSemester().equals(ESemester.SECOND_SEMESTER)) {
-                    createSubjectHBox(semesterSubject);
-                }
+            if (!subjectNames.contains(semesterSubject.getSubject().toString())) {
+                subjectNames.add(semesterSubject.getSubject().toString());
+                createSubjectHBox(semesterSubject);
             }
         }
     }

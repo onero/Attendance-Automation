@@ -8,14 +8,12 @@ package attendanceautomation.gui.model;
 import attendanceautomation.be.Academy;
 import attendanceautomation.be.NonAttendance;
 import attendanceautomation.be.SchoolClass;
-import attendanceautomation.be.SchoolSemesterSubject;
 import attendanceautomation.be.Student;
 import attendanceautomation.be.Teacher;
 import attendanceautomation.be.enums.ESemester;
 import attendanceautomation.bll.CurrentClassManager;
 import attendanceautomation.bll.SchoolClassManager;
 import attendanceautomation.gui.views.rootView.controller.RootViewController;
-import attendanceautomation.gui.views.sharedComponents.filters.semesterFilter.controller.SemesterFilterViewController;
 import attendanceautomation.gui.views.sharedComponents.pieChart.controller.PieChartViewController;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -89,7 +87,8 @@ public class SchoolClassModel {
         resetStudents();
         loadAcademyLocationsTeacherIsTeaching();
         //TODO ALH: Dynamic locations
-        loadSchoolClassByLocation(1);
+        loadSchoolClassNamesByLocation(1);
+        loadNextSchoolClassForTeacher();
     }
 
     /**
@@ -97,15 +96,19 @@ public class SchoolClassModel {
      *
      * @param location
      */
-    public void loadSchoolClassByLocation(int location) {
+    public void loadSchoolClassNamesByLocation(int location) {
         if (currentLocationID != location) {
             teacherSchoolClassNames.clear();
             currentLocationID = location;
             schoolClassForTeacherAtCurrentLocation = schoolClassManager.getSchoolClassHashMapByLocationAndTeacher(currentLocationID, currentTeacher.getTeacherID());
             resetSchoolNamesAndIDs();
-            int nextSchoolClassForTeacher = schoolClassIDs.get(0);
-            loadSchoolClassData(nextSchoolClassForTeacher);
+            resetStudents();
         }
+    }
+
+    private void loadNextSchoolClassForTeacher() {
+        int nextSchoolClassForTeacher = schoolClassIDs.get(0);
+        loadSchoolClassData(nextSchoolClassForTeacher);
     }
 
     /**
@@ -173,7 +176,6 @@ public class SchoolClassModel {
                 resetStudents();
                 studentsFromDB.addAll(updatedStudents);
                 students.addAll(studentsFromDB);
-                sortStudentsOnAttendance();
                 PieChartModel.getInstance().resetPieChart();
                 PieChartViewController.getInstance().updateChart();
                 RootViewController.getInstance().setRefreshBoxVisibility(false);
@@ -417,12 +419,7 @@ public class SchoolClassModel {
      */
     public void updateSemesters() {
         clearSemesters();
-        for (SchoolSemesterSubject semesterSubject : getCurrentSchoolClass().getSemesterSubjects()) {
-            if (!semesters.contains(semesterSubject.getSemester().toString())) {
-                semesters.add(semesterSubject.getSemester().toString());
-            }
-        }
-        SemesterFilterViewController.getInstance().selectLatest();
+        semesters.addAll(schoolClassManager.getAllSchoolClassSemesters(currentSchoolClass.getID()));
     }
 
     /**
@@ -452,7 +449,8 @@ public class SchoolClassModel {
         studentsFromDB.addAll(schoolClassManager.getAllStudentDataBySemester(currentSchoolClass.getID(), semesterID));
         students.addAll(studentsFromDB);
         PieChartModel.getInstance().resetPieChart();
-        sortStudentsOnAttendance();
+        PieChartViewController.getInstance().updateChart();
+        RootViewController.getInstance().reloadView();
     }
 
     /**

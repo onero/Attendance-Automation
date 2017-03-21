@@ -29,18 +29,18 @@ public class SchemaModel {
         return instance;
     }
 
-    private final List<Date> firstWeekOfMonth;
-    private final List<Date> secondWeekOfMonth;
-    private final List<Date> thirdWeekOfMonth;
-    private final List<Date> lastWeekOfMonth;
-    private final List<List<Date>> weeksOfMonth;
+    private List<Date> firstWeekOfMonth;
+    private List<Date> secondWeekOfMonth;
+    private List<Date> thirdWeekOfMonth;
+    private List<Date> lastWeekOfMonth;
+    private List<List<Date>> weeksOfMonth;
 
-    private final List<Integer> weekNumbers;
+    private List<Integer> weekNumbers;
 
     private int currentWeekOfMonth;
 
     private String startDate;
-    String endDate;
+    private String endDate;
 
     private SchemaModel() {
         schemaManager = SchemaManager.getInstance();
@@ -56,7 +56,7 @@ public class SchemaModel {
         weeksOfMonth.add(thirdWeekOfMonth);
         weeksOfMonth.add(lastWeekOfMonth);
 
-        startDate = "2017-01-30";
+        startDate = "2016-10-31";
         endDate = "2017-02-28";
         setCurrentMonth(startDate, endDate);
 
@@ -79,6 +79,11 @@ public class SchemaModel {
      * @param endDate
      */
     public void setCurrentMonth(String startDate, String endDate) {
+        firstWeekOfMonth.clear();
+        secondWeekOfMonth.clear();
+        thirdWeekOfMonth.clear();
+        lastWeekOfMonth.clear();
+        weekNumbers.clear();
         SimpleDateFormat monthDayYear = new SimpleDateFormat("yyyy-MM-dd", Locale.GERMANY);
         try {
             Date start = monthDayYear.parse(startDate);
@@ -91,6 +96,11 @@ public class SchemaModel {
                 start.setDate(start.getDate() + 1);
             }
             start = monthDayYear.parse(startDate);
+
+            Calendar firstDate = Calendar.getInstance();
+            firstDate.setTime(end);
+            firstDate.set(firstDate.get(Calendar.YEAR), firstDate.get(Calendar.MONTH), 1);
+            start = firstDate.getTime();
 
             if (numberOfDays <= 5) {
                 setFirstWeekOfMonth(start);

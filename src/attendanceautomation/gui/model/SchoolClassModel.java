@@ -16,6 +16,7 @@ import attendanceautomation.bll.CurrentClassManager;
 import attendanceautomation.bll.SchoolClassManager;
 import attendanceautomation.gui.views.rootView.controller.RootViewController;
 import attendanceautomation.gui.views.sharedComponents.filters.semesterFilter.controller.SemesterFilterViewController;
+import attendanceautomation.gui.views.sharedComponents.pieChart.controller.PieChartViewController;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -59,9 +60,6 @@ public class SchoolClassModel {
     private final ObservableList<Student> students;
     private String searchString;
 
-    private String startDate;
-    private String endDate;
-
     public static SchoolClassModel getInstance() {
         if (instance == null) {
             instance = new SchoolClassModel();
@@ -88,8 +86,7 @@ public class SchoolClassModel {
      * Load newest data from DB
      */
     public void loadDataFromDB() {
-        students.clear();
-        studentsFromDB.clear();
+        resetStudents();
         loadAcademyLocationsTeacherIsTeaching();
         //TODO ALH: Dynamic locations
         loadSchoolClassByLocation(1);
@@ -102,10 +99,6 @@ public class SchoolClassModel {
      */
     public void loadSchoolClassByLocation(int location) {
         if (currentLocationID != location) {
-
-            /**
-             * Load newest data from DB
-             */
             teacherSchoolClassNames.clear();
             currentLocationID = location;
             schoolClassForTeacherAtCurrentLocation = schoolClassManager.getSchoolClassHashMapByLocationAndTeacher(currentLocationID, currentTeacher.getTeacherID());
@@ -155,17 +148,11 @@ public class SchoolClassModel {
      *
      * @param schoolClassID
      */
-    private void setCurrentSchoolClass(int schoolClassID) {
-        if (schemaModel.getStartDate() != null && schemaModel.getEndDate() != null) {
-            currentSchoolClass = schoolClassManager.getAllSchoolClassDataBySchoolClassIdForSpecificPeriod(schoolClassID, schemaModel.getStartDate(), schemaModel.getEndDate());
-        } else {
-            currentSchoolClass = schoolClassManager.getAllSchoolClassDataBySchoolClassId(schoolClassID);
-        }
-
+    public void setCurrentSchoolClass(int schoolClassID) {
+        currentSchoolClass = schoolClassManager.getAllSchoolClassDataBySchoolClassIdForSpecificPeriod(schoolClassID, schemaModel.getStartDate(), schemaModel.getEndDate());
         resetStudents();
         studentsFromDB.addAll(currentSchoolClass.getStudents());
         students.addAll(studentsFromDB);
-        PieChartModel.getInstance().resetPieChart();
     }
 
     /**
@@ -181,13 +168,14 @@ public class SchoolClassModel {
      */
     public void updateStudentData() {
         Runnable task = () -> {
-            List<Student> updatedStudents = schoolClassManager.getStudentsWithDataFromSchoolClass(currentSchoolClass.getID());
+            List<Student> updatedStudents = schoolClassManager.getStudentsFromSchoolClassForSpecificPeriod(currentSchoolClass.getID(), schemaModel.getStartDate(), schemaModel.getEndDate());
             Platform.runLater(() -> {
                 resetStudents();
                 studentsFromDB.addAll(updatedStudents);
                 students.addAll(studentsFromDB);
                 sortStudentsOnAttendance();
                 PieChartModel.getInstance().resetPieChart();
+                PieChartViewController.getInstance().updateChart();
                 RootViewController.getInstance().setRefreshBoxVisibility(false);
             });
         };
@@ -210,15 +198,6 @@ public class SchoolClassModel {
      */
     public void removeNonAttendance(NonAttendance attendanceToRemove) {
         schoolClassManager.removeNonAttendance(attendanceToRemove);
-    }
-
-    /**
-     * Add parsed SchoolClass to the observable array
-     *
-     * @param newSchoolClass
-     */
-    public void setCurrentSchoolClass(SchoolClass newSchoolClass) {
-        currentSchoolClass = newSchoolClass;
     }
 
     public SchoolClass getCurrentSchoolClass() {
@@ -460,42 +439,6 @@ public class SchoolClassModel {
      */
     public void setCurrentStudent(Student currentStudent) {
         this.currentStudent = currentStudent;
-    }
-
-    /**
-     * Sets the startDate to be searched on.
-     *
-     * @param date
-     */
-    public void setStartDate(String date) {
-        startDate = date;
-    }
-
-    /**
-     * Sets the endDate to be searched on.
-     *
-     * @param date
-     */
-    public void setEndDate(String date) {
-        endDate = date;
-    }
-
-    /**
-     * Gets the startDate.
-     *
-     * @return
-     */
-    public String getStartDate() {
-        return startDate;
-    }
-
-    /**
-     * Gets the endDate.
-     *
-     * @return
-     */
-    public String getEndDate() {
-        return endDate;
     }
 
     /**

@@ -56,8 +56,7 @@ public class SchemaModel {
         weeksOfMonth.add(thirdWeekOfMonth);
         weeksOfMonth.add(lastWeekOfMonth);
 
-        startDate = "2017/02/01";
-        endDate = "2017/02/28";
+        endDate = "2017-02-28";
         setCurrentMonth(startDate, endDate);
 
         //Zero for all weeks in month
@@ -79,10 +78,11 @@ public class SchemaModel {
      * @param endDate
      */
     public void setCurrentMonth(String startDate, String endDate) {
-        SimpleDateFormat monthDayYear = new SimpleDateFormat("yyyy/MM/dd", Locale.GERMANY);
+        SimpleDateFormat monthDayYear = new SimpleDateFormat("yyyy-MM-dd", Locale.GERMANY);
         try {
             Date start = monthDayYear.parse(startDate);
             Date end = monthDayYear.parse(endDate);
+
             int numberOfDays = 0;
 
             while (!start.after(end)) {

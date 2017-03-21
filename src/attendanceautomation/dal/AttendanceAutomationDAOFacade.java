@@ -41,6 +41,24 @@ public class AttendanceAutomationDAOFacade {
         loginDAO = LoginDAO.getInstance();
     }
 
+    public List<SchoolClassSemesterLesson> getSchoolSemesterLessonsInSchoolClassForSpecificPeriod(int schoolClassId, String startDate, String endDate) {
+        try {
+            return schoolClassDAO.getAllSchoolSemesterLessonsFromSpecificSchoolClassForSpecificPeriod(schoolClassId, startDate, endDate);
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public List<SchoolSemesterSubject> getSchoolSemesterSubjectsInSchoolClassForSpecificPeriod(int schoolClassId, String startDate, String endDate) {
+        try {
+            return schoolClassDAO.getAllSchoolSemesterSubjectsFromSpecificSchoolClassForSpecificPeriod(schoolClassId, startDate, endDate);
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
     /**
      * Update information for schoolclass students
      *
@@ -77,36 +95,6 @@ public class AttendanceAutomationDAOFacade {
     private List<Student> getStudentsInSchoolClass(int schoolClassID) {
         try {
             return studentDAO.getAllSchoolClassStudentsFromSpecificSchoolClass(schoolClassID);
-        } catch (SQLException ex) {
-            Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
-    /**
-     * Add data for all the SchoolSemesterSubject
-     *
-     * @param schoolClassID
-     * @return
-     */
-    public List<SchoolSemesterSubject> getSchoolSemesterSubjectsInSchoolClass(int schoolClassID) {
-        try {
-            return schoolClassDAO.getAllSchoolSemesterSubjectsFromSpecificSchoolClass(schoolClassID);
-        } catch (SQLException ex) {
-            Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
-    /**
-     * Add data for all the SchoolSemesterSubject
-     *
-     * @param schoolClassID
-     * @return
-     */
-    public List<SchoolClassSemesterLesson> getSchoolSemesterLessonsInSchoolClass(int schoolClassID) {
-        try {
-            return schoolClassDAO.getAllSchoolSemesterLessonsFromSpecificSchoolClass(schoolClassID);
         } catch (SQLException ex) {
             Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
         }

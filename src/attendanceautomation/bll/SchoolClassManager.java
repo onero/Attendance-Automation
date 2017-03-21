@@ -11,6 +11,7 @@ import attendanceautomation.be.SchoolClass;
 import attendanceautomation.be.Student;
 import attendanceautomation.be.Teacher;
 import attendanceautomation.dal.AttendanceAutomationDAOFacade;
+import attendanceautomation.gui.model.SchemaModel;
 import java.util.HashMap;
 import java.util.List;
 
@@ -71,69 +72,38 @@ public class SchoolClassManager {
     }
 
     /**
-     * Get all SchoolClass data
-     *
-     * @param id
-     * @return
-     */
-    public SchoolClass getAllSchoolClassDataBySchoolClassId(int id) {
-        SchoolClass schoolClass = getSchoolClassById(id);
-
-        addStudentsToSchoolClass(id, schoolClass);
-        return schoolClass;
-    }
-
-    /**
      * Gets all schoolClass data for a specific time period.
      *
-     * @param id
+     * @param schoolClassID
      * @param startDate
      * @param endDate
      * @return
      */
-    public SchoolClass getAllSchoolClassDataBySchoolClassIdForSpecificPeriod(int id, String startDate, String endDate) {
-        SchoolClass schoolClass = getSchoolClassById(id);
+    public SchoolClass getAllSchoolClassDataBySchoolClassIdForSpecificPeriod(int schoolClassID, String startDate, String endDate) {
+        SchoolClass schoolClass = getSchoolClassByIdForSpecificPeriod(schoolClassID, startDate, endDate);
 
-        addStudentsToSchoolClassForSpecificPeriod(id, schoolClass, startDate, endDate);
+        schoolClass.addAllStudents(getStudentsFromSchoolClassForSpecificPeriod(schoolClassID, startDate, endDate));
         return schoolClass;
     }
 
-    /**
-     * Get SchoolClass with subjects and lessons by SchoolClassId
-     *
-     * @param id
-     * @return
-     */
-    private SchoolClass getSchoolClassById(int id) {
-        SchoolClass schoolClass = AADAOFacade.getSchoolClassByID(id);
-        schoolClass.addAllSemesterSubjects(AADAOFacade.getSchoolSemesterSubjectsInSchoolClass(id));
-        schoolClass.addAllSemesterLessonsToClass(AADAOFacade.getSchoolSemesterLessonsInSchoolClass(id));
+    private SchoolClass getSchoolClassByIdForSpecificPeriod(int schoolClassId, String startDate, String endDate) {
+        SchoolClass schoolClass = AADAOFacade.getSchoolClassByID(schoolClassId);
+        schoolClass.addAllSemesterSubjects(AADAOFacade.getSchoolSemesterSubjectsInSchoolClassForSpecificPeriod(schoolClassId, startDate, endDate));
+        schoolClass.addAllSemesterLessonsToClass(AADAOFacade.getSchoolSemesterLessonsInSchoolClassForSpecificPeriod(schoolClassId, startDate, endDate));
         return schoolClass;
-    }
-
-    /**
-     * Add students with their NonAttendance to the schoolClass
-     *
-     * @param id
-     * @param schoolClass
-     */
-    private void addStudentsToSchoolClass(int id, SchoolClass schoolClass) {
-        List<Student> schoolClassStudents = getStudentsWithDataFromSchoolClass(id);
-        schoolClass.addAllStudents(schoolClassStudents);
     }
 
     /**
      * Add students with their NonAttendance to the schoolClass for a specifi
      * period.
      *
-     * @param id
-     * @param schoolClass
+     * @param schoolClassID
      * @param startDate
      * @param endDate
+     * @return
      */
-    private void addStudentsToSchoolClassForSpecificPeriod(int id, SchoolClass schoolClass, String startDate, String endDate) {
-        List<Student> schoolClassStudnets = getStudentsWithDataFromSchoolClassForSpecificPeriod(id, startDate, endDate);
-        schoolClass.addAllStudents(schoolClassStudnets);
+    public List<Student> getStudentsFromSchoolClassForSpecificPeriod(int schoolClassID, String startDate, String endDate) {
+        return getStudentsWithDataFromSchoolClassForSpecificPeriod(schoolClassID, startDate, endDate);
     }
 
     /**
@@ -203,7 +173,7 @@ public class SchoolClassManager {
      */
     public SchoolClass getSchoolClassFromStudentEmail(String studentEmail) {
         SchoolClass schoolClass = AADAOFacade.getSchoolClassFromStudentEmail(studentEmail);
-        SchoolClass schoolClassWithAllDataExceptStudents = getSchoolClassById(schoolClass.getID());
+        SchoolClass schoolClassWithAllDataExceptStudents = getSchoolClassByIdForSpecificPeriod(schoolClass.getID(), SchemaModel.getInstance().getStartDate(), SchemaModel.getInstance().getEndDate());
         return schoolClassWithAllDataExceptStudents;
     }
 

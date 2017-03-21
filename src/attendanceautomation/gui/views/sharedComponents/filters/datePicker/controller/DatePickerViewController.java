@@ -5,6 +5,7 @@
  */
 package attendanceautomation.gui.views.sharedComponents.filters.datePicker.controller;
 
+import attendanceautomation.gui.model.SchemaModel;
 import attendanceautomation.gui.model.SchoolClassModel;
 import java.net.URL;
 import java.time.LocalDate;
@@ -28,10 +29,13 @@ public class DatePickerViewController implements Initializable {
     @FXML
     private DatePicker dpStart;
 
-    private final SchoolClassModel model;
+    private final SchemaModel schemaModel;
+
+    private final SchoolClassModel schoolClassModel;
 
     public DatePickerViewController() {
-        model = SchoolClassModel.getInstance();
+        schemaModel = SchemaModel.getInstance();
+        schoolClassModel = SchoolClassModel.getInstance();
     }
 
     /**
@@ -39,12 +43,12 @@ public class DatePickerViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        dpStart.setValue(createLocalDate(model.getStartDate()));
-        dpEnd.setValue(createLocalDate(model.getEndDate()));
+        dpStart.setValue(createLocalDate(schemaModel.getStartDate()));
+        dpEnd.setValue(createLocalDate(schemaModel.getEndDate()));
         setDayCellFactoryStart();
         setDayCellFactoryEnd();
-        model.setStartDate(dpStart.getValue().toString());
-        model.setEndDate(dpEnd.getValue().toString());
+        schemaModel.setStartDate(dpStart.getValue().toString());
+        schemaModel.setEndDate(dpEnd.getValue().toString());
     }
 
     /**
@@ -95,12 +99,13 @@ public class DatePickerViewController implements Initializable {
 
     @FXML
     private void handleStartDate(ActionEvent event) {
-        model.setStartDate(dpStart.getValue().toString());
+        schemaModel.setStartDate(dpStart.getValue().toString());
     }
 
     @FXML
     private void handleEndDate(ActionEvent event) {
-        model.setEndDate(dpEnd.getValue().toString());
+        schemaModel.setEndDate(dpEnd.getValue().toString());
+        schoolClassModel.setCurrentSchoolClass(schoolClassModel.getCurrentSchoolClass().getID());
     }
 
     private LocalDate createLocalDate(String date) {

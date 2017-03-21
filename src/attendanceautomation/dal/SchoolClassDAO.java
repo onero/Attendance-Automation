@@ -272,7 +272,7 @@ public class SchoolClassDAO {
             ps.setString(1, studentEmail);
 
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
+            if (rs.next()) {
                 return getSchoolClassByID(rs.getInt("SchoolClassID"));
             }
             return null;
@@ -382,7 +382,7 @@ public class SchoolClassDAO {
             ps.setString(1, teacherEmail);
 
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
+            if (rs.next()) {
                 return getOneTeacher(rs);
             }
             return null;
@@ -433,7 +433,7 @@ public class SchoolClassDAO {
             ps.setString(3, dateHalfHourAfter);
 
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
+            if (rs.next()) {
                 schoolClassIDs.add(rs.getInt("ID"));
             }
         }
@@ -594,7 +594,7 @@ public class SchoolClassDAO {
             ps.setString(1, semesterName);
 
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
+            if (rs.next()) {
                 return getOneSemester(rs);
             }
             return 0;

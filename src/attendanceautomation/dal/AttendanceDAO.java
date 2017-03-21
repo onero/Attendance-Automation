@@ -214,7 +214,7 @@ public class AttendanceDAO {
             ps.setInt(1, semesterSubjectID);
 
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
+            if (rs.next()) {
                 return SchoolClassDAO.getInstance().getOneSchoolSemesterSubject(rs);
             }
             return null;

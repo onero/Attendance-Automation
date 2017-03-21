@@ -68,6 +68,7 @@ public class RootViewController implements Initializable {
     private Node SCHOOLCLASS_FILTER_VIEW;
     private Node ALL_SCHOOLCLASS_FILTER_VIEW;
     private Node SEMESTER_FILTER_VIEW;
+    private Node DATEPICKER_VIEW;
 
     private BorderPane FILTER_PANE;
 
@@ -316,11 +317,13 @@ public class RootViewController implements Initializable {
             LOCATION_FILTER_VIEW = nodeFactory.createNewView(EFXMLName.LOCATION_FILTER_VIEW);
             HBox schoolClassFilters = createAllSchoolClassesFilter();
             SEMESTER_FILTER_VIEW = nodeFactory.createNewView(EFXMLName.SEMESTER_FILTER_VIEW);
+            DATEPICKER_VIEW = nodeFactory.createNewView(EFXMLName.DATEPICKER_VIEW);
 
             FilterHolderViewController controller = loader.getController();
             controller.addFilter(LOCATION_FILTER_VIEW);
             controller.addFilter(schoolClassFilters);
             controller.addFilter(SEMESTER_FILTER_VIEW);
+            controller.addFilter(DATEPICKER_VIEW);
 
             filterModal.show();
         } catch (IOException ex) {

@@ -225,4 +225,22 @@ public class SchoolClassManager {
         return AADAOFacade.getAllTeacherSchoolClassesBySemester(schoolClassIDs, semester);
     }
 
+    public void getSchoolClassSemesterDataBySchoolClassAndSemesterID(SchoolClass currentSchoolClass, int semester) {
+        currentSchoolClass.getSemesterLessons().clear();
+        currentSchoolClass.getSemesterSubjects().clear();
+        currentSchoolClass.addAllSemesterLessonsToClass(AADAOFacade.getSchoolClassSemesterLessonsBySchoolClassIDAndSemesterID(currentSchoolClass.getID(), semester));
+        currentSchoolClass.addAllSemesterSubjects(AADAOFacade.getSchoolClassSemesterSubjectsBySchoolCLassIDAndSemesterID(currentSchoolClass.getID(), semester));
+    }
+
+    public int getSemesterIDByName(String semesterName) {
+        return AADAOFacade.getSemesterIDByName(semesterName);
+    }
+
+    public List<Student> getAllStudentDataBySemester(int schoolClassID, int semester) {
+        List<Student> students = AADAOFacade.getStudentsFromSchoolClass(schoolClassID);
+        for (Student student : students) {
+            student.addAllNonAttendance(AADAOFacade.getAllNonAttendanceForStudentBySemester(student.getID(), semester));
+        }
+        return students;
+    }
 }

@@ -16,7 +16,6 @@ import attendanceautomation.bll.CurrentClassManager;
 import attendanceautomation.bll.SchoolClassManager;
 import attendanceautomation.gui.views.rootView.controller.RootViewController;
 import attendanceautomation.gui.views.sharedComponents.filters.semesterFilter.controller.SemesterFilterViewController;
-import attendanceautomation.gui.views.sharedComponents.pieChart.controller.PieChartViewController;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -98,6 +97,10 @@ public class SchoolClassModel {
      */
     public void loadSchoolClassByLocation(int location) {
         if (currentLocationID != location) {
+
+            /**
+             * Load newest data from DB
+             */
             teacherSchoolClassNames.clear();
             currentLocationID = location;
             schoolClassForTeacherAtCurrentLocation = schoolClassManager.getSchoolClassHashMapByLocationAndTeacher(currentLocationID, currentTeacher.getTeacherID());
@@ -174,7 +177,7 @@ public class SchoolClassModel {
                 studentsFromDB.addAll(updatedStudents);
                 students.addAll(studentsFromDB);
                 sortStudentsOnAttendance();
-                PieChartViewController.getInstance().updateChart();
+                PieChartModel.getInstance().resetPieChart();
                 RootViewController.getInstance().setRefreshBoxVisibility(false);
             });
         };
@@ -375,9 +378,8 @@ public class SchoolClassModel {
     }
 
     /**
-     * <<<<<<< HEAD
-     * Clears currentClassStudentsWithAbsence. Then gets a new list of students
-     * from the database.
+     * <<<<<<< HEAD Clears currentClassStudentsWithAbsence. Then gets a new list
+     * of students from the database.
      */
     public void updateCurrentClassStudents() {
         currentClassStudentsAbsence.clear();
@@ -440,6 +442,19 @@ public class SchoolClassModel {
 
     public void setCurrentStudent(Student currentStudent) {
         this.currentStudent = currentStudent;
+    }
+
+    public void updateSchoolClassSemester(int semester) {
+        resetStudents();
+        schoolClassManager.getSchoolClassSemesterDataBySchoolClassAndSemesterID(currentSchoolClass, semester);
+        studentsFromDB.addAll(schoolClassManager.getAllStudentDataBySemester(currentSchoolClass.getID(), semester));
+        students.addAll(studentsFromDB);
+        PieChartModel.getInstance().resetPieChart();
+        sortStudentsOnAttendance();
+    }
+
+    public int getSemesterIDByName(String semesterName) {
+        return schoolClassManager.getSemesterIDByName(semesterName);
     }
 
     public ESemester getCurrentSemester() {

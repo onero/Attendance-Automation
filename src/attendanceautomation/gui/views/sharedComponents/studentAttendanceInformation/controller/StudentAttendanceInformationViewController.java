@@ -144,17 +144,17 @@ public class StudentAttendanceInformationViewController implements Initializable
      */
     private void fillSubjectHboxWithCheckBoxes(HBox subjectHBox, SchoolSemesterSubject semesterSubject) throws IOException {
 
-        switch (schemaModel.getCurrentWeekNumber()) {
-            case 5:
+        switch (schemaModel.getCurrentWeekOfMonthNumber()) {
+            case 1:
                 subjectHBox.getChildren().add(createSubjectCheckBoxes(schemaModel.getFirstWeekOfMonth(), semesterSubject));
                 break;
-            case 6:
+            case 2:
                 subjectHBox.getChildren().add(createSubjectCheckBoxes(schemaModel.getSecondWeekOfMonth(), semesterSubject));
                 break;
-            case 7:
+            case 3:
                 subjectHBox.getChildren().add(createSubjectCheckBoxes(schemaModel.getThirdWeekOfMonth(), semesterSubject));
                 break;
-            case 8:
+            case 4:
                 subjectHBox.getChildren().add(createSubjectCheckBoxes(schemaModel.getLastWeekOfMonth(), semesterSubject));
                 break;
             default:
@@ -176,17 +176,17 @@ public class StudentAttendanceInformationViewController implements Initializable
      * @throws IOException
      */
     private void fillWeekHboxWithCheckBoxes() throws IOException {
-        switch (schemaModel.getCurrentWeekNumber()) {
-            case 5:
+        switch (schemaModel.getCurrentWeekOfMonthNumber()) {
+            case 1:
                 HBox.getChildren().add(createWeekCheckBoxes(schemaModel.getFirstWeekOfMonth()));
                 break;
-            case 6:
+            case 2:
                 HBox.getChildren().add(createWeekCheckBoxes(schemaModel.getSecondWeekOfMonth()));
                 break;
-            case 7:
+            case 3:
                 HBox.getChildren().add(createWeekCheckBoxes(schemaModel.getThirdWeekOfMonth()));
                 break;
-            case 8:
+            case 4:
                 HBox.getChildren().add(createWeekCheckBoxes(schemaModel.getLastWeekOfMonth()));
                 break;
             default:

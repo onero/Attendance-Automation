@@ -37,8 +37,9 @@ public class SchemaModel {
     private final List<Date> lastWeekOfMonth;
     private final List<List<Date>> weeksOfMonth;
 
-    private int currentWeekOfMonth;
     private final List<Integer> weekNumbers;
+
+    private int currentWeekOfMonth;
 
     private SchemaModel() {
         schemaManager = SchemaManager.getInstance();
@@ -53,6 +54,7 @@ public class SchemaModel {
         weeksOfMonth.add(secondWeekOfMonth);
         weeksOfMonth.add(thirdWeekOfMonth);
         weeksOfMonth.add(lastWeekOfMonth);
+
         String month = "2016/11/01";
         setCurrentMonth(month);
 
@@ -60,11 +62,11 @@ public class SchemaModel {
         currentWeekOfMonth = 0;
     }
 
-    public int getCurrentWeekNumber() {
+    public int getCurrentWeekOfMonthNumber() {
         return currentWeekOfMonth;
     }
 
-    public void setCurrentWeekNumber(int currentWeekNumber) {
+    public void currentWeekOfMonthNumber(int currentWeekNumber) {
         this.currentWeekOfMonth = currentWeekNumber;
     }
 

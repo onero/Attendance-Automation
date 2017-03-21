@@ -30,6 +30,7 @@ public class MonthComboboxViewController implements Initializable {
     private final SchemaModel schemaModel;
 
     private ObservableList<String> viewSelection;
+    private ObservableList<String> weeks;
 
     public MonthComboboxViewController() {
         schemaModel = SchemaModel.getInstance();
@@ -41,10 +42,14 @@ public class MonthComboboxViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         viewSelection = FXCollections.observableArrayList("Uge", "Måned");
+        weeks = FXCollections.observableArrayList();
         viewSelect.setItems(viewSelection);
         changeVisibilityOfWeekPicker();
+        for (Integer weekNumber : schemaModel.getWeekNumbers()) {
+            weeks.add("Uge " + weekNumber);
+        }
 
-//        weekPicker.setItems(SchemaModel.getInstance().getWeekNamesInFebruary());
+        weekPicker.setItems(weeks);
         weekPicker.setPromptText("Vælg uge");
     }
 
@@ -72,7 +77,7 @@ public class MonthComboboxViewController implements Initializable {
                 changeVisibilityOfWeekPicker();
                 break;
             case "Måned":
-                schemaModel.setCurrentWeekNumber(0);
+                schemaModel.currentWeekOfMonthNumber(0);
                 RootViewController.getInstance().reloadView();
                 changeVisibilityOfWeekPicker();
                 break;
@@ -83,28 +88,28 @@ public class MonthComboboxViewController implements Initializable {
 
     @FXML
     private void handleWeekSelection() {
-        String week = weekPicker.getSelectionModel().getSelectedItem();
+        int week = weekPicker.getSelectionModel().getSelectedIndex();
 
-//        switch (week) {
-//            case SchemaModel.WEEK5:
-//                schemaModel.setCurrentWeekNumber(5);
-//                RootViewController.getInstance().reloadView();
-//                break;
-//            case SchemaModel.WEEK6:
-//                schemaModel.setCurrentWeekNumber(6);
-//                RootViewController.getInstance().reloadView();
-//                break;
-//            case SchemaModel.WEEK7:
-//                schemaModel.setCurrentWeekNumber(7);
-//                RootViewController.getInstance().reloadView();
-//                break;
-//            case SchemaModel.WEEK8:
-//                schemaModel.setCurrentWeekNumber(8);
-//                RootViewController.getInstance().reloadView();
-//                break;
-//            default:
-//                break;
-//        }
+        switch (week) {
+            case 0:
+                schemaModel.currentWeekOfMonthNumber(1);
+                RootViewController.getInstance().reloadView();
+                break;
+            case 1:
+                schemaModel.currentWeekOfMonthNumber(2);
+                RootViewController.getInstance().reloadView();
+                break;
+            case 2:
+                schemaModel.currentWeekOfMonthNumber(3);
+                RootViewController.getInstance().reloadView();
+                break;
+            case 3:
+                schemaModel.currentWeekOfMonthNumber(4);
+                RootViewController.getInstance().reloadView();
+                break;
+            default:
+                break;
+        }
     }
 
 }

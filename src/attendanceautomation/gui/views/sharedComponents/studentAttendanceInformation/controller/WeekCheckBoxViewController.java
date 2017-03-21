@@ -15,6 +15,7 @@ import attendanceautomation.gui.model.SchoolClassModel;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -66,7 +67,7 @@ public class WeekCheckBoxViewController implements Initializable {
      * @param newStudent
      * @param week
      */
-    public void setWeekData(Student newStudent, List<Integer> week) {
+    public void setWeekData(Student newStudent, List<Date> week) {
         student = newStudent;
         try {
             populateWeekHBoxWithCheckBoxes(week);
@@ -82,7 +83,7 @@ public class WeekCheckBoxViewController implements Initializable {
      * @param week
      * @param semesterSubject
      */
-    public void setSubjectWeekData(Student newStudent, List<Integer> week, SchoolSemesterSubject semesterSubject) {
+    public void setSubjectWeekData(Student newStudent, List<Date> week, SchoolSemesterSubject semesterSubject) {
         student = newStudent;
         pouplateLessonHBoxWithCheckBoxes(week, semesterSubject);
     }
@@ -98,7 +99,7 @@ public class WeekCheckBoxViewController implements Initializable {
      * CreatescheckBoxes for each subject and puts them in the
      * horizontalCheckBoxPane and listOfCheckBoxes.
      */
-    private void pouplateLessonHBoxWithCheckBoxes(List<Integer> week, SchoolSemesterSubject subject) {
+    private void pouplateLessonHBoxWithCheckBoxes(List<Date> week, SchoolSemesterSubject subject) {
         createCheckBoxesForTheSubjectForEachDayInCurrentWeek(week, subject);
     }
 
@@ -109,9 +110,9 @@ public class WeekCheckBoxViewController implements Initializable {
      * @param endDate
      * @param subject
      */
-    private void createCheckBoxesForTheSubjectForEachDayInCurrentWeek(List<Integer> week, SchoolSemesterSubject subject) {
+    private void createCheckBoxesForTheSubjectForEachDayInCurrentWeek(List<Date> week, SchoolSemesterSubject subject) {
         //For each schoolday in the schoolweek
-        for (int day : week) {
+        for (Date day : week) {
             getAllLessonOnThisDay(day);
             //Create a nice new checkbox (SO WE CAN KEEP TRACK OF STUDENTS!)
             CheckBox newCheckBox = new CheckBox();
@@ -140,10 +141,10 @@ public class WeekCheckBoxViewController implements Initializable {
      * @param newCheckBox
      * @param startDate
      */
-    private void checkIfLessonIsOnThisDay(SchoolSemesterSubject subject, CheckBox newCheckBox, int startDate) {
+    private void checkIfLessonIsOnThisDay(SchoolSemesterSubject subject, CheckBox newCheckBox, Date startDate) {
         for (SchoolClassSemesterLesson lesson : lessonsThisDay) {
             //If the lesson is in this subject
-            if (lesson.getSemesterSubject().getID() == subject.getID()) {
+            if (lesson.getSemesterSubject().getSubject().toString().equalsIgnoreCase(subject.getSubject().toString())) {
                 //Subject is in this day, so the checkbox should be visible
                 newCheckBox.setDisable(false);
                 //Check if the student has nonAttendance this day
@@ -159,11 +160,12 @@ public class WeekCheckBoxViewController implements Initializable {
      *
      * @param startDate
      */
-    private void getAllLessonOnThisDay(int startDate) {
+    private void getAllLessonOnThisDay(Date startDate) {
         lessonsThisDay = new ArrayList<>();
         //Find all the lessons on this day
         for (SchoolClassSemesterLesson allSemesterLesson : allSemesterLessons) {
-            if (allSemesterLesson.getDate().getDate() == startDate) {
+            //Check if it's same date (without time)
+            if (allSemesterLesson.getDate().compareTo(startDate) == 0) {
                 lessonsThisDay.add(allSemesterLesson);
             }
         }
@@ -172,7 +174,7 @@ public class WeekCheckBoxViewController implements Initializable {
     /**
      * Creates checkboxes for each day in the week
      */
-    private void populateWeekHBoxWithCheckBoxes(List<Integer> week) throws ParseException {
+    private void populateWeekHBoxWithCheckBoxes(List<Date> week) throws ParseException {
         addACheckBoxForEachDayInCurrentWeek(week);
     }
 
@@ -186,9 +188,9 @@ public class WeekCheckBoxViewController implements Initializable {
      * @param week
      * @param endDate
      */
-    private void addACheckBoxForEachDayInCurrentWeek(List<Integer> week) {
+    private void addACheckBoxForEachDayInCurrentWeek(List<Date> week) {
         //For each schoolday in the schoolweek
-        for (int day : week) {
+        for (Date day : week) {
             getAllLessonOnThisDay(day);
             //Create a nice new checkbox (SO WE CAN KEEP TRACK OF STUDENTS!)
             CheckBox newCheckBox = new CheckBox();
@@ -219,13 +221,14 @@ public class WeekCheckBoxViewController implements Initializable {
      * @param schoolDay
      * @param newCheckBox
      */
-    private void checkDayForStudentNonAttendance(CheckBox newCheckBox, int day) {
+    private void checkDayForStudentNonAttendance(CheckBox newCheckBox, Date day) {
         //Check if student has nonAttendance
         if (student.getNonAttendance().size() > 0) {
             //For each HashMap
             for (NonAttendance nonAttendance : student.getNonAttendance()) {
                 //Check if the student was nonAttendant this schoolDay
-                if (nonAttendance.getSchoolClassSemesterLesson().getDate().getDate() == day) {
+                //Check if it's same date (without time)
+                if (nonAttendance.getSchoolClassSemesterLesson().getDate().compareTo(day) == 0) {
                     newCheckBox.setSelected(true);
                     break;
                 }
@@ -240,14 +243,14 @@ public class WeekCheckBoxViewController implements Initializable {
      * @param schoolDay
      * @param newCheckBox
      */
-    private void checkSubjectInDayForStudentNonAttendance(CheckBox newCheckBox, int day, SchoolSemesterSubject subject) {
+    private void checkSubjectInDayForStudentNonAttendance(CheckBox newCheckBox, Date day, SchoolSemesterSubject subject) {
         //Check if student has nonAttendance
         if (student.getNonAttendance().size() > 0) {
             //For each HashMap
             for (NonAttendance nonAttendance : student.getNonAttendance()) {
                 //Check if the student was nonAttendant this schoolDay
-                if (nonAttendance.getSchoolClassSemesterLesson().getDate().getDate() == day
-                        && nonAttendance.getSchoolClassSemesterLesson().getSemesterSubject().getID() == subject.getID()) {
+                if (nonAttendance.getSchoolClassSemesterLesson().getDate().compareTo(day) == 0
+                        && nonAttendance.getSchoolClassSemesterLesson().getSemesterSubject().getSubject().toString().equals(subject.getSubject().toString())) {
                     newCheckBox.setSelected(true);
                     break;
                 }

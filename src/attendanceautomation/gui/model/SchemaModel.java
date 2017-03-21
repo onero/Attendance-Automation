@@ -29,8 +29,6 @@ public class SchemaModel {
         return instance;
     }
 
-    private Calendar currentMonth;
-
     private final List<Date> firstWeekOfMonth;
     private final List<Date> secondWeekOfMonth;
     private final List<Date> thirdWeekOfMonth;
@@ -55,8 +53,9 @@ public class SchemaModel {
         weeksOfMonth.add(thirdWeekOfMonth);
         weeksOfMonth.add(lastWeekOfMonth);
 
-        String month = "2016/11/01";
-        setCurrentMonth(month);
+        String startDate = "2016/11/01";
+        String endDate = "2016/11/04";
+        setCurrentMonth(startDate, endDate);
 
         //Zero for all weeks in month
         currentWeekOfMonth = 0;
@@ -73,20 +72,42 @@ public class SchemaModel {
     /**
      * Set the current
      *
-     * @param month
+     * @param startDate
+     * @param endDate
      */
-    public void setCurrentMonth(String month) {
+    public void setCurrentMonth(String startDate, String endDate) {
         SimpleDateFormat monthDayYear = new SimpleDateFormat("yyyy/MM/dd", Locale.GERMANY);
         try {
-            Date date = monthDayYear.parse(month);
+            Date start = monthDayYear.parse(startDate);
+            Date end = monthDayYear.parse(endDate);
+            int numberOfDays = 0;
 
-            setFirstWeekOfMonth(date);
+            while (!start.after(end)) {
+                numberOfDays++;
+                start.setDate(start.getDate() + 1);
+            }
+            start = monthDayYear.parse(startDate);
 
-            setSecondWeekOfMonth(date);
+            if (numberOfDays <= 5) {
+                setFirstWeekOfMonth(start);
+                currentWeekOfMonth = 1;
+            } else if (numberOfDays <= 10) {
+                setFirstWeekOfMonth(start);
+                setSecondWeekOfMonth(start);
+                currentWeekOfMonth = 2;
+            } else if (numberOfDays <= 15) {
+                setFirstWeekOfMonth(start);
+                setSecondWeekOfMonth(start);
+                setThirdWeekOfMonth(start);
+                currentWeekOfMonth = 3;
+            } else {
+                setFirstWeekOfMonth(start);
+                setSecondWeekOfMonth(start);
+                setThirdWeekOfMonth(start);
+                setLastWeekOfMonth(start);
+                currentWeekOfMonth = 0;
+            }
 
-            setThirdWeekOfMonth(date);
-
-            setLastWeekOfMonth(date);
         } catch (ParseException ex) {
             Logger.getLogger(SchemaModel.class.getName()).log(Level.SEVERE, null, ex);
         }

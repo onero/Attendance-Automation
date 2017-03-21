@@ -16,7 +16,6 @@ import attendanceautomation.bll.CurrentClassManager;
 import attendanceautomation.bll.SchoolClassManager;
 import attendanceautomation.gui.views.rootView.controller.RootViewController;
 import attendanceautomation.gui.views.sharedComponents.filters.semesterFilter.controller.SemesterFilterViewController;
-import attendanceautomation.gui.views.sharedComponents.pieChart.controller.PieChartViewController;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -151,6 +150,7 @@ public class SchoolClassModel {
         resetStudents();
         studentsFromDB.addAll(currentSchoolClass.getStudents());
         students.addAll(studentsFromDB);
+        PieChartModel.getInstance().resetPieChart();
     }
 
     /**
@@ -172,7 +172,7 @@ public class SchoolClassModel {
                 studentsFromDB.addAll(updatedStudents);
                 students.addAll(studentsFromDB);
                 sortStudentsOnAttendance();
-                PieChartViewController.getInstance().updateChart();
+                PieChartModel.getInstance().resetPieChart();
                 RootViewController.getInstance().setRefreshBoxVisibility(false);
             });
         };

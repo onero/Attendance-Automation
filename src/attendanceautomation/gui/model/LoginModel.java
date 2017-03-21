@@ -16,6 +16,8 @@ public class LoginModel {
     private static LoginModel instance;
     private final LoginManager loginManager;
 
+    private boolean isStudentLogin;
+
     public static LoginModel getInstance() {
         if (instance == null) {
             instance = new LoginModel();
@@ -24,7 +26,16 @@ public class LoginModel {
     }
 
     private LoginModel() {
+        isStudentLogin = true;
         loginManager = LoginManager.getInstance();
+    }
+
+    public void setIsStudent(boolean value) {
+        isStudentLogin = value;
+    }
+
+    public boolean isStudentLogin() {
+        return isStudentLogin;
     }
 
     /**

@@ -5,7 +5,6 @@
  */
 package attendanceautomation.gui.views.detailedStudent.controller;
 
-import attendanceautomation.be.Student;
 import attendanceautomation.be.enums.EFXMLName;
 import attendanceautomation.gui.views.sharedComponents.studentAttendanceInformation.controller.StudentAttendanceInformationViewController;
 import attendanceautomation.gui.views.sharedComponents.weeksAndDaysBar.controller.WeeksAndDaysBarViewController;
@@ -40,15 +39,12 @@ public class DetailedStudentViewController implements Initializable {
 
     private StudentAttendanceInformationViewController studentAttendanceInfoController;
 
-    private boolean isStudentLogin;
-
     public static DetailedStudentViewController getInstance() {
         return instance;
     }
 
     public DetailedStudentViewController() {
         instance = this;
-        isStudentLogin = false;
         try {
             studentInformationTopView = createTopView();
             studentAttendanceInformationCenterView = createCenterView();
@@ -66,26 +62,6 @@ public class DetailedStudentViewController implements Initializable {
         borderPane.setTop(studentInformationTopView);
         borderPane.setCenter(weeksAndDaysBar);
         borderPane.setBottom(studentAttendanceInformationCenterView);
-    }
-
-    public void setIsStudentLogin() {
-        isStudentLogin = true;
-    }
-
-    /**
-     * Sets the current student
-     *
-     * @param selectedStudent
-     */
-    public void setCurrentStudent(Student selectedStudent) {
-//        SchoolClassModel.getInstance().updateStudentInfo();
-        StudentInformationTopViewController.getInstance().setStudentInfo(selectedStudent);
-        StudentAttendanceInformationViewController controller = attendanceLoader.getController();
-        if (isStudentLogin) {
-            controller.setIsStudentLogin();
-        }
-        controller.createSubjectView(selectedStudent);
-        isStudentLogin = false;
     }
 
     /**
@@ -109,7 +85,8 @@ public class DetailedStudentViewController implements Initializable {
     private Node createCenterView() throws IOException {
         attendanceLoader = new FXMLLoader(getClass().getResource(EFXMLName.STUDENTS_ATTENDANCE_INFORMATION.toString()));
         Node node = attendanceLoader.load();
-        studentAttendanceInfoController = attendanceLoader.getController();
+        StudentAttendanceInformationViewController controller = attendanceLoader.getController();
+        controller.createSubjectView();
         return node;
     }
 

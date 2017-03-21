@@ -10,6 +10,7 @@ import attendanceautomation.be.SchoolClass;
 import attendanceautomation.be.SchoolClassSemesterLesson;
 import attendanceautomation.be.SchoolSemesterSubject;
 import attendanceautomation.be.Student;
+import attendanceautomation.gui.model.LoginModel;
 import attendanceautomation.gui.model.SchoolClassModel;
 import java.net.URL;
 import java.text.ParseException;
@@ -207,7 +208,7 @@ public class WeekCheckBoxViewController implements Initializable {
 
     private void checkIsStudent(CheckBox newCheckBox) {
         //Increase the date we are putting in
-        if (isStudentLogin) {
+        if (LoginModel.getInstance().isStudentLogin()) {
             newCheckBox.setDisable(true);
         }
     }

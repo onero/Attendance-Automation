@@ -44,6 +44,19 @@ public class SchoolClassManager {
     }
 
     /**
+     * Get the updated studentOnfo for specific date from DB.
+     *
+     * @param schoolClassId
+     * @param date
+     * @return
+     */
+    public List<Student> getStudentsWithDataFromSchoolClassForSpecificDate(int schoolClassId, String date) {
+        List<Student> schoolClassStudents = AADAOFacade.getStudentsFromSchoolClass(schoolClassId);
+        getNonAttendanceForAllStudentsForSpecificDate(schoolClassStudents, date);
+        return schoolClassStudents;
+    }
+
+    /**
      * Get all SchoolClass data
      *
      * @param id
@@ -89,6 +102,21 @@ public class SchoolClassManager {
     private void getNonAttendanceForAllStudents(List<Student> schoolClassStudents) {
         for (Student schoolClassStudent : schoolClassStudents) {
             schoolClassStudent.addAllNonAttendance(AADAOFacade.getNonAttendanceForStudentByID(schoolClassStudent.getID()));
+        }
+    }
+
+    /**
+     * Get NonAttendacce for all students in current schoolClass for specific
+     * date.
+     *
+     * Viloation of DRY!
+     *
+     * @param schoolClassStudents
+     * @param date
+     */
+    private void getNonAttendanceForAllStudentsForSpecificDate(List<Student> schoolClassStudents, String date) {
+        for (Student schoolClassStudent : schoolClassStudents) {
+            schoolClassStudent.addAllNonAttendance(AADAOFacade.getNonAttendanceForStudentByIDFOrSepcificDate(schoolClassStudent.getID(), date));
         }
     }
 

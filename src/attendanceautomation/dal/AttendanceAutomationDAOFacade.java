@@ -169,6 +169,19 @@ public class AttendanceAutomationDAOFacade {
     }
 
     /**
+     * Get all nonAttendance for specific student on specific date.
+     *
+     * Viloation of DRY!
+     *
+     * @param StudentID
+     * @param date
+     * @return
+     */
+    public List<NonAttendance> getNonAttendanceForStudentByIDFOrSepcificDate(int StudentID, String date) {
+        return attendanceDAO.getAllNonAttendanceForASpecificStudentForASpecificDate(StudentID, date);
+    }
+
+    /**
      * Check if the user is a Teacher
      *
      * @param userEmail
@@ -247,6 +260,24 @@ public class AttendanceAutomationDAOFacade {
     }
 
     /**
+     * Finds the schoolClass for the parsed teacher on the parsed Date. Then
+     * retrieves a list of students from that schoolClass.
+     *
+     * @param teacherID
+     * @param dateHalfHourBefore
+     * @param dateHalfHourAfter
+     * @return
+     */
+    public List<Integer> getSchoolClassID(int teacherID, String dateHalfHourBefore, String dateHalfHourAfter) {
+        try {
+            return schoolClassDAO.getSchoolClassIDForSpecificTeacherAndDate(teacherID, dateHalfHourBefore, dateHalfHourAfter);
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            throw new RuntimeException("Couldn't get the schoolClassID");
+        }
+    }
+
+    /*
      * Get all teacher schoolClassNames for specific semester
      *
      * @param schoolClassIDs

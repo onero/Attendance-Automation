@@ -40,7 +40,7 @@ public class StudentDAO {
     }
 
     /**
-     * Get a list of all songs from the DB
+     * Get a list of all students from the DB
      *
      * @param schoolClassID
      * @return

@@ -11,6 +11,8 @@ import attendanceautomation.be.SchoolClass;
 import attendanceautomation.be.SchoolSemesterSubject;
 import attendanceautomation.be.Student;
 import attendanceautomation.be.Teacher;
+import attendanceautomation.be.enums.ESemester;
+import attendanceautomation.bll.CurrentClassManager;
 import attendanceautomation.bll.SchoolClassManager;
 import attendanceautomation.gui.views.rootView.controller.RootViewController;
 import attendanceautomation.gui.views.sharedComponents.filters.semesterFilter.controller.SemesterFilterViewController;
@@ -30,6 +32,8 @@ public class SchoolClassModel {
 
     private final Academy currentAcademy;
 
+    private final CurrentClassManager currentClassManager;
+
     private int currentLocationID;
 
     private final ObservableList<String> locationNames;
@@ -37,7 +41,8 @@ public class SchoolClassModel {
     private final ObservableList<String> semesters;
 
     private Student currentStudent;
-
+    private SchoolClass currentSchoolClass;
+    private ESemester currentSemester;
     private Teacher currentTeacher;
 
     private HashMap<Integer, String> schoolClassForTeacherAtCurrentLocation;
@@ -45,7 +50,9 @@ public class SchoolClassModel {
 
     private final ObservableList<String> teacherSchoolClassNames;
 
-    private SchoolClass currentSchoolClass;
+    private final ObservableList<Student> currentClassStudentsAbsence;
+    private final ObservableList<Student> currentClassStudentsPresent;
+
     private final List<Student> studentsFromDB;
     private final ObservableList<Student> students;
     private String searchString;
@@ -65,6 +72,9 @@ public class SchoolClassModel {
         currentAcademy = new Academy(1, "EASV");
         locationNames = FXCollections.observableArrayList();
         teacherSchoolClassNames = FXCollections.observableArrayList();
+        currentClassManager = new CurrentClassManager();
+        currentClassStudentsAbsence = FXCollections.observableArrayList();
+        currentClassStudentsPresent = FXCollections.observableArrayList();
         semesters = FXCollections.observableArrayList();
     }
 
@@ -368,6 +378,45 @@ public class SchoolClassModel {
     }
 
     /**
+     * <<<<<<< HEAD Clears currentClassStudentsWithAbsence. Then gets a new list
+     * of students from the database.
+     */
+    public void updateCurrentClassStudents() {
+        currentClassStudentsAbsence.clear();
+        currentClassStudentsPresent.clear();
+        List<Student> listOfCurrentClassStudents = currentClassManager.getStudentsFromCurrentSchoolClass(currentTeacher.getTeacherID());
+
+        List<Student> listOfCurrentClassStudentsPresent = currentClassManager.findStudentsPresent(listOfCurrentClassStudents);
+        List<Student> listOfCurrentClassStudentsAbsence = currentClassManager.findStudentsAbsence(listOfCurrentClassStudents);
+
+        for (Student student : listOfCurrentClassStudentsAbsence) {
+            currentClassStudentsAbsence.add(student);
+        }
+
+        for (Student student : listOfCurrentClassStudentsPresent) {
+            currentClassStudentsPresent.add(student);
+        }
+    }
+
+    /**
+     * Gets currentClassStudentsAbsence.
+     *
+     * @return
+     */
+    public ObservableList<Student> getCurrentClassStudentsAbsence() {
+        return currentClassStudentsAbsence;
+    }
+
+    /**
+     * Gets the currentClassStudentsPresent
+     *
+     * @return
+     */
+    public ObservableList<Student> getCurrentClassStudentsPresent() {
+        return currentClassStudentsPresent;
+    }
+
+    /**
      * Clear semesters
      */
     public void clearSemesters() {
@@ -406,6 +455,10 @@ public class SchoolClassModel {
 
     public int getSemesterIDByName(String semesterName) {
         return schoolClassManager.getSemesterIDByName(semesterName);
+    }
+
+    public ESemester getCurrentSemester() {
+        return currentSemester;
     }
 
 }

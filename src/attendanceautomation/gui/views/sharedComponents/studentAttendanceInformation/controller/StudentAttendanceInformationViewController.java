@@ -9,6 +9,7 @@ import attendanceautomation.be.SchoolClass;
 import attendanceautomation.be.SchoolSemesterSubject;
 import attendanceautomation.be.Student;
 import attendanceautomation.be.enums.EFXMLName;
+import attendanceautomation.be.enums.ESemester;
 import attendanceautomation.gui.model.SchemaModel;
 import attendanceautomation.gui.model.SchoolClassModel;
 import java.io.IOException;
@@ -45,17 +46,10 @@ public class StudentAttendanceInformationViewController implements Initializable
 
     private final SchoolClass schoolClass;
 
-    private boolean isStudentLogin;
-
     public StudentAttendanceInformationViewController() {
         schoolClassModel = SchoolClassModel.getInstance();
         schoolClass = schoolClassModel.getCurrentSchoolClass();
         schemaModel = SchemaModel.getInstance();
-        isStudentLogin = false;
-    }
-
-    public void setIsStudentLogin() {
-        isStudentLogin = true;
     }
 
     /**
@@ -86,10 +80,9 @@ public class StudentAttendanceInformationViewController implements Initializable
     /**
      * Create the SubjectView
      *
-     * @param newStudent
      */
-    public void createSubjectView(Student newStudent) {
-        student = newStudent;
+    public void createSubjectView() {
+        student = schoolClassModel.getCurrentStudent();
         //Clear the VBox list
         VBox.getChildren().clear();
         createHBoxesForEachSubject(schoolClass);
@@ -101,29 +94,43 @@ public class StudentAttendanceInformationViewController implements Initializable
      * @param schoolClass
      */
     private void createHBoxesForEachSubject(SchoolClass schoolClass) {
-        //TODO ALH: Make for each loop dynamic for each class
         for (SchoolSemesterSubject semesterSubject : schoolClass.getSemesterSubjects()) {
-            //Create the subject Hbox
-            HBox subjectHBox = new HBox();
-            subjectHBox.setPrefHeight(59);
-            subjectHBox.setPrefWidth(320);
-            //Create a label for the HBox with the schoolSubject
-            Label subjectName = new Label(semesterSubject.getSubject().toString());
-            subjectName.setMinWidth(150);
-            subjectName.setPrefWidth(150);
-//            subjectName.setTextFill(Color.web("#fff"));
-            //Add the label
-            subjectHBox.getChildren().add(subjectName);
-            try {
-                //Fill the subject HBox with checkboxes
-                fillSubjectHboxWithCheckBoxes(subjectHBox, semesterSubject);
-            } catch (IOException ex) {
-                Logger.getLogger(StudentAttendanceInformationViewController.class.getName()).log(Level.SEVERE, null, ex);
+            //Check if currentSemester is set
+            if (schoolClassModel.getCurrentSemester() != null) {
+                //Check if semester semesterSubject is from currentSemester
+                if (schoolClassModel.getCurrentSemester().equals(semesterSubject.getSemester())) {
+                    createSubjectHBox(semesterSubject);
+                }
+            } else {
+                //Just take from latest semester
+                //TODO ALH: Make this dynamic to latest semester
+                schoolClassModel.updateStudentData();
+                if (semesterSubject.getSemester().equals(ESemester.SECOND_SEMESTER)) {
+                    createSubjectHBox(semesterSubject);
+                }
             }
-            //Add the Subject HBox to the VBox list of subjects
-            VBox.getChildren().add(subjectHBox);
         }
-        isStudentLogin = false;
+    }
+
+    private void createSubjectHBox(SchoolSemesterSubject semesterSubject) {
+        //Create the subject Hbox
+        HBox subjectHBox = new HBox();
+        subjectHBox.setPrefHeight(59);
+        subjectHBox.setPrefWidth(320);
+        //Create a label for the HBox with the schoolSubject
+        Label subjectName = new Label(semesterSubject.getSubject().toString());
+        subjectName.setMinWidth(150);
+        subjectName.setPrefWidth(150);
+        //Add the label
+        subjectHBox.getChildren().add(subjectName);
+        try {
+            //Fill the subject HBox with checkboxes
+            fillSubjectHboxWithCheckBoxes(subjectHBox, semesterSubject);
+        } catch (IOException ex) {
+            Logger.getLogger(StudentAttendanceInformationViewController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //Add the Subject HBox to the VBox list of subjects
+        VBox.getChildren().add(subjectHBox);
     }
 
     /**
@@ -202,12 +209,6 @@ public class StudentAttendanceInformationViewController implements Initializable
         return node;
     }
 
-    private void checkIsStudentLogin(WeekCheckBoxViewController controller) {
-        if (isStudentLogin) {
-            controller.setIsStudentLogin();
-        }
-    }
-
     /**
      * Creates a ParentCheckBoxView
      */
@@ -215,7 +216,6 @@ public class StudentAttendanceInformationViewController implements Initializable
         FXMLLoader weekCheckBoxLoader = new FXMLLoader(getClass().getResource(EFXMLName.WEEK_CHECK_BOX_VIEW.toString()));
         Node node = weekCheckBoxLoader.load();
         WeekCheckBoxViewController controller = weekCheckBoxLoader.getController();
-        checkIsStudentLogin(controller);
         controller.setSubjectWeekData(student, week, semesterSubject);
         return node;
     }

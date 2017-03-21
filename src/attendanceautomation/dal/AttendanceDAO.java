@@ -203,4 +203,47 @@ public class AttendanceDAO {
             System.out.println(sqlException);
         }
     }
+
+    public List<NonAttendance> getAllNonAttendanceForASpecificStudentBySemester(int id, int semester) {
+        try {
+            List<SchoolClassSemesterLesson> schoolClassSemesterLessonsForStudent = getAllSchoolClassSemesterLessonsASpecificStudentDidNotAttendBySemester(id, semester);
+            List<NonAttendance> nonAttendanceForSpecificStudent;
+            nonAttendanceForSpecificStudent = new ArrayList<>();
+            for (SchoolClassSemesterLesson schoolClassSemesterLesson : schoolClassSemesterLessonsForStudent) {
+                NonAttendance newNonAttendance = new NonAttendance(schoolClassSemesterLesson, id);
+                nonAttendanceForSpecificStudent.add(newNonAttendance);
+            }
+            for (NonAttendance nonAttendance : nonAttendanceForSpecificStudent) {
+                System.out.println(nonAttendance.getStudentID());
+                System.out.println(nonAttendance.getSchoolClassSemesterLesson().getSemesterSubject().getSubject().toString());
+            }
+            return nonAttendanceForSpecificStudent;
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    private List<SchoolClassSemesterLesson> getAllSchoolClassSemesterLessonsASpecificStudentDidNotAttendBySemester(int id, int semester) throws SQLException {
+        List<SchoolClassSemesterLesson> schoolClassSemesterLessons = new ArrayList<>();
+        String sql = "SELECT semesterLesson.ID AS 'SemesterLessonID', "
+                + "semesterLesson.SchoolClassSemesterSubjectID 'SemesterSubjectID', "
+                + "semesterLesson.Date AS 'SemesterLessonDate' "
+                + "FROM StudentLessonNonAttendance nonAttendance "
+                + "JOIN SchoolClassSemesterLesson semesterLesson ON nonAttendance.SchoolClassSemesterLessonID = semesterLesson.ID "
+                + "JOIN SchoolClassSemesterSubject semesterSubject ON semesterSubject.ID = semesterLesson.SchoolClassSemesterSubjectID "
+                + "WHERE nonAttendance.StudentID = ? "
+                + "AND semesterSubject.SemesterID = ?";
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            ps.setInt(2, semester);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                schoolClassSemesterLessons.add(getOneSchoolClassSemesterLesson(rs));
+            }
+            return schoolClassSemesterLessons;
+        }
+    }
 }

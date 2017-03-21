@@ -261,4 +261,35 @@ public class AttendanceAutomationDAOFacade {
         }
         return null;
     }
+
+    public List<SchoolClassSemesterLesson> getSchoolClassSemesterLessonsBySchoolClassIDAndSemesterID(int schoolClassID, int semesterID) {
+        try {
+            return schoolClassDAO.getAllSchoolClassSemesterLessonsBySchoolClassIDAndSemesterID(schoolClassID, semesterID);
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public List<SchoolSemesterSubject> getSchoolClassSemesterSubjectsBySchoolCLassIDAndSemesterID(int schoolClassID, int semesterID) {
+        try {
+            return schoolClassDAO.getAllSchoolClassSemesterSubjectsBySchoolClassIDAndSemesterID(schoolClassID, semesterID);
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public int getSemesterIDByName(String semesterName) {
+        try {
+            return schoolClassDAO.getSemesterIDByName(semesterName);
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+
+    public List<NonAttendance> getAllNonAttendanceForStudentBySemester(int id, int semester) {
+        return attendanceDAO.getAllNonAttendanceForASpecificStudentBySemester(id, semester);
+    }
 }

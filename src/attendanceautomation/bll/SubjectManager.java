@@ -6,8 +6,10 @@
 package attendanceautomation.bll;
 
 import attendanceautomation.be.NonAttendance;
+import attendanceautomation.be.SchoolClassSemesterLesson;
 import attendanceautomation.be.Student;
 import attendanceautomation.be.enums.ESchoolSubject;
+import attendanceautomation.gui.model.SchoolClassModel;
 import java.util.ArrayList;
 
 /**
@@ -18,8 +20,9 @@ public class SubjectManager {
 
     public double totalSubjectsOfSCO(Student student, ESchoolSubject subject) {
 
-        ArrayList allSubjectLessonsList = new ArrayList();
-        ArrayList subjectListToBeSorted = new ArrayList();
+
+        ArrayList absenceOfSubjects = new ArrayList();
+        ArrayList amountOfSubjects = new ArrayList();
         
         
         for (NonAttendance lessons : student.getNonAttendance()) {
@@ -27,14 +30,27 @@ public class SubjectManager {
             
             
             if (lessons.getSchoolClassSemesterLesson().getSemesterSubject().getSubject().toString().equals(subject.toString())) {
-                subjectListToBeSorted.add(lessons.getSchoolClassSemesterLesson().getSemesterSubject());
-                System.out.println(subject.toString());
-                System.out.println("Number of absence in SCO: " +subjectListToBeSorted.size());
+                absenceOfSubjects.add(lessons.getSchoolClassSemesterLesson().getSemesterSubject());
+//                System.out.println(subject.toString());
+//                System.out.println("Number of absence in SCO: " + absenceOfSubjects.size());
             }
         }
+        for (SchoolClassSemesterLesson absenceOfSubject : SchoolClassModel.getInstance().getCurrentSchoolClass().getSemesterLessons()) {
+            if (absenceOfSubject.getSemesterSubject().getSubject().toString().equals(subject.toString())) {
+                amountOfSubjects.add(absenceOfSubject.getSemesterSubject().getSubject());
+            }
+        }
+        double studentAbsence = absenceOfSubjects.size();
+        System.out.println(studentAbsence);
+        double subjectAmout = amountOfSubjects.size();
+        System.out.println(subjectAmout);
+        double total = (studentAbsence / subjectAmout) * 100.0;
         
-        return subjectListToBeSorted.size() / 1 * 100;
+        System.out.println(total);
+        
+        return total;
     }
+    
     
 
 }

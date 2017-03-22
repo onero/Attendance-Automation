@@ -185,7 +185,7 @@ public class RootViewController implements Initializable {
                 schoolClassModel.setCurrentTeacher(teacher);
                 loadTeacherView();
                 schoolClassModel.loadDataFromDB();
-                schoolClassModel.updateCurrentClassStudents();
+                schoolClassModel.updateCurrentClassStudents(0);
                 Platform.runLater(() -> {
                     MAIN_VIEW = nodeFactory.createNewView(EFXMLName.MAIN_VIEW);
                     switchCenterView(MAIN_VIEW);

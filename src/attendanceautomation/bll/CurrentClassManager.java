@@ -8,6 +8,7 @@ package attendanceautomation.bll;
 import attendanceautomation.be.NonAttendance;
 import attendanceautomation.be.Student;
 import attendanceautomation.dal.AttendanceAutomationDAOFacade;
+import attendanceautomation.dal.CurrentClassDAO;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,10 +23,12 @@ public class CurrentClassManager {
 
     private final AttendanceAutomationDAOFacade daoFacade;
     private final SchoolClassManager schoolClassManager;
+    private final CurrentClassDAO currentClassDAO;
 
     public CurrentClassManager() {
         daoFacade = AttendanceAutomationDAOFacade.getInstance();
         schoolClassManager = SchoolClassManager.getInstance();
+        currentClassDAO = new CurrentClassDAO(); //This is for mock data.
     }
 
     /**
@@ -93,6 +96,10 @@ public class CurrentClassManager {
             }
         }
         return listOfStudentsPresent;
+    }
+
+    public List<Student> findMockStudents(int mockSwitch) {
+        return currentClassDAO.findMockStudents(mockSwitch);
     }
 
     /**

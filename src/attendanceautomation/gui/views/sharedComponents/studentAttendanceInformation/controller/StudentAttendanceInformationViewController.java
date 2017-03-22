@@ -10,6 +10,7 @@ import attendanceautomation.be.SchoolSemesterSubject;
 import attendanceautomation.be.Student;
 import attendanceautomation.be.enums.EFXMLName;
 import attendanceautomation.gui.model.SchemaModel;
+import static attendanceautomation.gui.model.SchemaModel.*;
 import attendanceautomation.gui.model.SchoolClassModel;
 import attendanceautomation.gui.views.NodeFactory;
 import java.io.IOException;
@@ -33,6 +34,15 @@ import javafx.scene.layout.VBox;
  * FXML Controller class
  */
 public class StudentAttendanceInformationViewController implements Initializable {
+
+    private static StudentAttendanceInformationViewController instance;
+
+    public static StudentAttendanceInformationViewController getInstance() {
+        if (instance == null) {
+            instance = new StudentAttendanceInformationViewController();
+        }
+        return instance;
+    }
 
     @FXML
     private HBox HBox;
@@ -60,6 +70,7 @@ public class StudentAttendanceInformationViewController implements Initializable
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        instance = this;
     }
 
     /**
@@ -137,15 +148,15 @@ public class StudentAttendanceInformationViewController implements Initializable
     private void fillSubjectHboxWithCheckBoxes(HBox subjectHBox, SchoolSemesterSubject semesterSubject) throws IOException {
 
         switch (schemaModel.getCurrentWeekOfMonthNumber()) {
-            case 1:
+            case FIRST_WEEK_NUMBER:
                 subjectHBox.getChildren().add(createSubjectCheckBoxes(schemaModel.getFirstWeekOfMonth(), semesterSubject));
                 break;
-            case 2:
+            case SECOND_WEEK_NUMBER:
                 subjectHBox.getChildren().add(createSubjectCheckBoxes(schemaModel.getFirstWeekOfMonth(), semesterSubject));
                 subjectHBox.getChildren().add(NodeFactory.getInstance().createNewView(EFXMLName.FILLER_LABEL));
                 subjectHBox.getChildren().add(createSubjectCheckBoxes(schemaModel.getSecondWeekOfMonth(), semesterSubject));
                 break;
-            case 3:
+            case THIRD_WEEK_NUMBER:
                 subjectHBox.getChildren().add(createSubjectCheckBoxes(schemaModel.getFirstWeekOfMonth(), semesterSubject));
                 subjectHBox.getChildren().add(NodeFactory.getInstance().createNewView(EFXMLName.FILLER_LABEL));
                 subjectHBox.getChildren().add(createSubjectCheckBoxes(schemaModel.getSecondWeekOfMonth(), semesterSubject));
@@ -172,15 +183,15 @@ public class StudentAttendanceInformationViewController implements Initializable
      */
     private void fillWeekHboxWithCheckBoxes() throws IOException {
         switch (schemaModel.getCurrentWeekOfMonthNumber()) {
-            case 1:
+            case FIRST_WEEK_NUMBER:
                 HBox.getChildren().add(createWeekCheckBoxes(schemaModel.getFirstWeekOfMonth()));
                 break;
-            case 2:
+            case SECOND_WEEK_NUMBER:
                 HBox.getChildren().add(createWeekCheckBoxes(schemaModel.getFirstWeekOfMonth()));
                 HBox.getChildren().add(NodeFactory.getInstance().createNewView(EFXMLName.FILLER_LABEL));
                 HBox.getChildren().add(createWeekCheckBoxes(schemaModel.getSecondWeekOfMonth()));
                 break;
-            case 3:
+            case THIRD_WEEK_NUMBER:
                 HBox.getChildren().add(createWeekCheckBoxes(schemaModel.getFirstWeekOfMonth()));
                 HBox.getChildren().add(NodeFactory.getInstance().createNewView(EFXMLName.FILLER_LABEL));
                 HBox.getChildren().add(createWeekCheckBoxes(schemaModel.getSecondWeekOfMonth()));

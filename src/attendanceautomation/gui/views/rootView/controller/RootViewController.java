@@ -185,7 +185,7 @@ public class RootViewController implements Initializable {
                 schoolClassModel.setCurrentTeacher(teacher);
                 loadTeacherView();
                 schoolClassModel.loadDataFromDB();
-//                schoolClassModel.updateCurrentClassStudents();
+                schoolClassModel.updateCurrentClassStudents();
                 Platform.runLater(() -> {
                     MAIN_VIEW = nodeFactory.createNewView(EFXMLName.MAIN_VIEW);
                     switchCenterView(MAIN_VIEW);
@@ -258,6 +258,20 @@ public class RootViewController implements Initializable {
         ShowHideAdminButtons(false);
         LoginViewController.getInstance().resetLogin();
 
+    }
+
+    /**
+     * Update current view and resets PieChart
+     */
+    public void updateAll() {
+        Runnable task = () -> {
+            Platform.runLater(() -> {
+                reloadView();
+                PieChartModel.getInstance().resetPieChart();
+                PieChartViewController.getInstance().updateChart();
+            });
+        };
+        new Thread(task).start();
     }
 
     /**

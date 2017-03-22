@@ -29,11 +29,16 @@ public class SchemaModel {
         return instance;
     }
 
-    private List<Date> firstWeekOfMonth;
-    private List<Date> secondWeekOfMonth;
-    private List<Date> thirdWeekOfMonth;
-    private List<Date> lastWeekOfMonth;
-    private List<List<Date>> weeksOfMonth;
+    public static final int FIRST_WEEK_NUMBER = 1;
+    public static final int SECOND_WEEK_NUMBER = 2;
+    public static final int THIRD_WEEK_NUMBER = 3;
+    public static final int LAST_WEEK_NUMBER = 4;
+
+    private final List<Date> firstWeekOfMonth;
+    private final List<Date> secondWeekOfMonth;
+    private final List<Date> thirdWeekOfMonth;
+    private final List<Date> lastWeekOfMonth;
+    private final List<List<Date>> weeksOfMonth;
 
     private List<Integer> weekNumbers;
 

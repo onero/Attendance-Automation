@@ -13,6 +13,8 @@ import attendanceautomation.gui.model.SchoolClassModel;
 import java.util.ArrayList;
 
 /**
+ * Generates an ArrayList of lessons. Calcs the absence of a specific subject in
+ * procentage.
  *
  * @author Skovgaard
  */
@@ -20,37 +22,31 @@ public class SubjectManager {
 
     public double totalSubjectsOfSCO(Student student, ESchoolSubject subject) {
 
-
         ArrayList absenceOfSubjects = new ArrayList();
         ArrayList amountOfSubjects = new ArrayList();
-        
-        
-        for (NonAttendance lessons : student.getNonAttendance()) {
-            
-            
-            
-            if (lessons.getSchoolClassSemesterLesson().getSemesterSubject().getSubject().toString().equals(subject.toString())) {
-                absenceOfSubjects.add(lessons.getSchoolClassSemesterLesson().getSemesterSubject());
-//                System.out.println(subject.toString());
-//                System.out.println("Number of absence in SCO: " + absenceOfSubjects.size());
+
+        // For each subject.
+        for (NonAttendance lessonsOfOneSubject : student.getNonAttendance()) {
+            // there is equals to the name of the enum subject. (made in toStrings.)
+            if (lessonsOfOneSubject.getSchoolClassSemesterLesson().getSemesterSubject().getSubject().toString().equals(subject.toString())) {
+                absenceOfSubjects.add(lessonsOfOneSubject.getSchoolClassSemesterLesson().getSemesterSubject());
+                // Add the subject to the list.
             }
         }
-        for (SchoolClassSemesterLesson absenceOfSubject : SchoolClassModel.getInstance().getCurrentSchoolClass().getSemesterLessons()) {
-            if (absenceOfSubject.getSemesterSubject().getSubject().toString().equals(subject.toString())) {
-                amountOfSubjects.add(absenceOfSubject.getSemesterSubject().getSubject());
+        // For each subject.
+        for (SchoolClassSemesterLesson totalLessons : SchoolClassModel.getInstance().getCurrentSchoolClass().getSemesterLessons()) {
+            // there is equals to the name of the enum subject. (made in toStrings.)
+            if (totalLessons.getSemesterSubject().getSubject().toString().equals(subject.toString())) {
+                // Add the subject to the list.
+                amountOfSubjects.add(totalLessons.getSemesterSubject().getSubject());
             }
         }
+        //Makes it to be a double.
         double studentAbsence = absenceOfSubjects.size();
-        System.out.println(studentAbsence);
-        double subjectAmout = amountOfSubjects.size();
-        System.out.println(subjectAmout);
-        double total = (studentAbsence / subjectAmout) * 100.0;
-        
-        System.out.println(total);
-        
+        double subjectAmount = amountOfSubjects.size();
+        double total = (studentAbsence / subjectAmount) * 100.0;
+
         return total;
     }
-    
-    
 
 }

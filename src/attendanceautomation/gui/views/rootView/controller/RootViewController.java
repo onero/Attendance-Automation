@@ -35,6 +35,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -47,6 +48,8 @@ public class RootViewController implements Initializable {
 
     @FXML
     private BorderPane borderPane;
+    @FXML
+    private GridPane gridButtomBar;
     @FXML
     private HBox refreshBox;
 
@@ -61,6 +64,8 @@ public class RootViewController implements Initializable {
     private Node LOGOUT_BUTTON;
 
     private Node LOADING_DATA_VIEW;
+    private Node REFRESHING_DATA_VIEW;
+    private Node REFRESH_DATA_BUTTON;
 
     private Node SEARCH_BAR;
     private Node MONTH_COMBOBOX;
@@ -116,7 +121,6 @@ public class RootViewController implements Initializable {
         instance = this;
         borderPane.setCenter(ALL_COMPONENT_HOLDER_VIEW);
         ShowHideAdminButtons(false);
-        refreshBox.setVisible(false);
     }
 
     /**
@@ -161,10 +165,6 @@ public class RootViewController implements Initializable {
         showNode(MONTH_COMBOBOX);
     }
 
-    public void setRefreshBoxVisibility(boolean value) {
-        refreshBox.setVisible(value);
-    }
-
     /**
      * Returns the user to the login page.
      */
@@ -194,6 +194,7 @@ public class RootViewController implements Initializable {
                 schoolClassModel.updateCurrentClassStudents(0);
                 Platform.runLater(() -> {
                     MAIN_VIEW = nodeFactory.createNewView(EFXMLName.MAIN_VIEW);
+                    gridButtomBar.add(REFRESH_DATA_BUTTON, 6, 1);
                     currentView = MAIN_VIEW;
                     updateAll();
                     LoginViewController.getInstance().resetLogin();
@@ -201,7 +202,8 @@ public class RootViewController implements Initializable {
             } else {
                 Platform.runLater(() -> {
                     switchCenterView(MAIN_VIEW);
-                    setRefreshBoxVisibility(true);
+                    REFRESHING_DATA_VIEW = nodeFactory.createNewView(EFXMLName.REFRESHING_DATA_VIEW);
+                    gridButtomBar.add(REFRESHING_DATA_VIEW, 5, 1);
                     allComponentHolderController.setBorderPaneTop(ACTION_COMPONENT_HOLDER);
                     ShowHideAdminButtons(true);
                     SchoolClassModel.getInstance().updateStudentData();
@@ -237,6 +239,27 @@ public class RootViewController implements Initializable {
         SEARCH_BAR = nodeFactory.createNewView(EFXMLName.SEARCH_VIEW);
         ACTION_COMPONENT_HOLDER = createActionComponentHolder();
         allComponentHolderController.setBorderPaneTop(ACTION_COMPONENT_HOLDER);
+        REFRESH_DATA_BUTTON = nodeFactory.createNewView(EFXMLName.REFRESH_DATA_BUTTON);
+        REFRESHING_DATA_VIEW = nodeFactory.createNewView(EFXMLName.REFRESHING_DATA_VIEW);
+    }
+
+    /**
+     * Inserts the REFRESHING_DATA_VIEW, updates student data and updates the
+     * view
+     */
+    public void handleRefreshData() {
+        gridButtomBar.getChildren().remove(REFRESH_DATA_BUTTON);
+        gridButtomBar.add(REFRESHING_DATA_VIEW, 6, 1);
+        Runnable task = () -> {
+            schoolClassModel.updateStudentData();
+            Platform.runLater(() -> {
+                gridButtomBar.getChildren().remove(REFRESHING_DATA_VIEW);
+                gridButtomBar.add(REFRESH_DATA_BUTTON, 6, 1);
+
+                updateAll();
+            });
+        };
+        new Thread(task).start();
     }
 
     /**

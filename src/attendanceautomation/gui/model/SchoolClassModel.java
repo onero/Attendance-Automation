@@ -13,13 +13,10 @@ import attendanceautomation.be.Teacher;
 import attendanceautomation.be.enums.ESemester;
 import attendanceautomation.bll.CurrentClassManager;
 import attendanceautomation.bll.SchoolClassManager;
-import attendanceautomation.gui.views.rootView.controller.RootViewController;
-import attendanceautomation.gui.views.sharedComponents.pieChart.controller.PieChartViewController;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -138,19 +135,11 @@ public class SchoolClassModel {
      * Gets a fresh list of all students in currentClass with nonAttendance
      */
     public void updateStudentData() {
-        Runnable task = () -> {
-            List<Student> updatedStudents = schoolClassManager.getStudentsFromSchoolClassForSpecificPeriod(currentSchoolClass.getID(), schemaModel.getStartDate(), schemaModel.getEndDate());
-            Platform.runLater(() -> {
-                resetStudents();
-                studentsFromDB.addAll(updatedStudents);
-                students.addAll(studentsFromDB);
-                PieChartModel.getInstance().resetPieChart();
-                PieChartViewController.getInstance().updateChart();
-                RootViewController.getInstance().reloadView();
-                RootViewController.getInstance().setRefreshBoxVisibility(false);
-            });
-        };
-        new Thread(task).start();
+        List<Student> updatedStudents = schoolClassManager.getStudentsFromSchoolClassForSpecificPeriod(currentSchoolClass.getID(), schemaModel.getStartDate(), schemaModel.getEndDate());
+
+        resetStudents();
+        studentsFromDB.addAll(updatedStudents);
+        students.addAll(studentsFromDB);
     }
 
     /**

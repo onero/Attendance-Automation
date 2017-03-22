@@ -49,7 +49,7 @@ public class LocationFilterViewController implements Initializable {
         int locationID = schoolClassModel.getLocationID(location);
         Runnable task = () -> {
             Platform.runLater(() -> {
-                schoolClassModel.loadSchoolClassByLocation(locationID);
+                schoolClassModel.loadSchoolClassNamesByLocation(locationID);
                 PieChartModel.getInstance().resetPieChart();
                 SchoolClassFilterViewController.getInstance().openBox();
                 schoolClassModel.clearSemesters();

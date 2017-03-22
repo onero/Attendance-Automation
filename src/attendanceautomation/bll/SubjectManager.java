@@ -6,32 +6,70 @@
 package attendanceautomation.bll;
 
 import attendanceautomation.be.NonAttendance;
+import attendanceautomation.be.SchoolClassSemesterLesson;
 import attendanceautomation.be.Student;
 import attendanceautomation.be.enums.ESchoolSubject;
+import attendanceautomation.gui.model.SchoolClassModel;
+import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 /**
+ * Generates an ArrayList of lessons. Calcs the absence of a specific subject in
+ * procentage.
  *
  * @author Skovgaard
  */
 public class SubjectManager {
 
-    public void totalSubjectsOfSCO(Student student) {
+    DecimalFormat df = new DecimalFormat("#.##");
 
-        ArrayList SCO = new ArrayList<>();
+    public double subjectAbsenceCalculation(Student student, ESchoolSubject subject) {
 
-        for (NonAttendance lessons : student.getNonAttendance()) {
+        ArrayList absenceOfSubjects = new ArrayList();
+        ArrayList amountOfSubjects = new ArrayList();
 
-            if (lessons.getSchoolClassSemesterLesson().getSemesterSubject().getSubject().equals(ESchoolSubject.SCO)) {
-                SCO.add(lessons.getSchoolClassSemesterLesson().getSemesterSubject());
-
-                System.out.println(lessons.getSchoolClassSemesterLesson().getSemesterSubject().getSubject().toString());
-
+        // For each subject.
+        for (NonAttendance lessonsOfOneSubject : student.getNonAttendance()) {
+            // there is equals to the name of the enum subject. (made in toStrings.)
+            if (lessonsOfOneSubject.getSchoolClassSemesterLesson().getSemesterSubject().getSubject().toString().equals(subject.toString())) {
+                absenceOfSubjects.add(lessonsOfOneSubject.getSchoolClassSemesterLesson().getSemesterSubject());
+                // Add the subjects to the absenceOfSubjects list.
             }
         }
+        // For each subject.
+        for (SchoolClassSemesterLesson totalLessons : SchoolClassModel.getInstance().getCurrentSchoolClass().getSemesterLessons()) {
+            // there is equals to the name of the enum subject. (made in toStrings.)
+            if (totalLessons.getSemesterSubject().getSubject().toString().equals(subject.toString())) {
+                // Add the subject to the amountOfSubjects list.
+                amountOfSubjects.add(totalLessons.getSemesterSubject().getSubject());
+            }
+        }
+        //Makes it to be a double.
+        double studentAbsence = absenceOfSubjects.size();
+        double subjectAmount = amountOfSubjects.size();
+        double total = (studentAbsence / subjectAmount) * 100.0;
+
+        total = decimalFormatter(total);
+
+        return total;
     }
-    public void absenceInSCO(Student student){
-        
+
+    /**
+     * Formats a double with two decimals.
+     *
+     * @param total
+     * @return
+     */
+    private double decimalFormatter(double total) {
+        String percentFormatted = df.format(total);
+        try {
+            //Parse formatted string to double
+            total = df.parse(percentFormatted).doubleValue();
+        } catch (ParseException ex) {
+            System.out.println("Cannot convert number " + ex);
+        }
+        return total;
     }
 
 }

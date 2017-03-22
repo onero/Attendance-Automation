@@ -56,7 +56,7 @@ public class LoginDAO {
             ps.setString(1, userEmail);
 
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
+            if (rs.next()) {
                 return true;
             }
         }
@@ -79,7 +79,7 @@ public class LoginDAO {
             ps.setString(1, userEmail);
 
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
+            if (rs.next()) {
                 return true;
             }
         }

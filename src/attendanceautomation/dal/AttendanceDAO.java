@@ -80,8 +80,7 @@ public class AttendanceDAO {
     public List<NonAttendance> getAllNonAttendanceForASpecificStudentForASpecificDate(int studentID, String startDate, String endDate) {
         try {
             List<SchoolClassSemesterLesson> schoolClassSemesterLessonsForStudent = getAllSchoolClassSemesterLessonsASpecificStudentDidNotAttendOnASpecificDate(studentID, startDate, endDate);
-            List<NonAttendance> nonAttendanceForSpecificStudent;
-            nonAttendanceForSpecificStudent = new ArrayList<>();
+            List<NonAttendance> nonAttendanceForSpecificStudent = new ArrayList<>();
             for (SchoolClassSemesterLesson schoolClassSemesterLesson : schoolClassSemesterLessonsForStudent) {
                 NonAttendance newNonAttendance = new NonAttendance(schoolClassSemesterLesson, studentID);
                 nonAttendanceForSpecificStudent.add(newNonAttendance);
@@ -185,7 +184,7 @@ public class AttendanceDAO {
         String sql = "SELECT "
                 + "semesterSubject.ID "
                 + "AS "
-                + "'SemesterID', "
+                + "'SemesterSubjectID', "
                 + "c.ID "
                 + "AS "
                 + "'SchoolClassID', "
@@ -214,7 +213,7 @@ public class AttendanceDAO {
             ps.setInt(1, semesterSubjectID);
 
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
+            if (rs.next()) {
                 return SchoolClassDAO.getInstance().getOneSchoolSemesterSubject(rs);
             }
             return null;
@@ -275,8 +274,7 @@ public class AttendanceDAO {
     public List<NonAttendance> getAllNonAttendanceForASpecificStudentBySemester(int studentID, int semesterID) {
         try {
             List<SchoolClassSemesterLesson> schoolClassSemesterLessonsForStudent = getAllSchoolClassSemesterLessonsASpecificStudentDidNotAttendBySemester(studentID, semesterID);
-            List<NonAttendance> nonAttendanceForSpecificStudent;
-            nonAttendanceForSpecificStudent = new ArrayList<>();
+            List<NonAttendance> nonAttendanceForSpecificStudent = new ArrayList<>();
             for (SchoolClassSemesterLesson schoolClassSemesterLesson : schoolClassSemesterLessonsForStudent) {
                 NonAttendance newNonAttendance = new NonAttendance(schoolClassSemesterLesson, studentID);
                 nonAttendanceForSpecificStudent.add(newNonAttendance);

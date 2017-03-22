@@ -6,8 +6,7 @@
 package attendanceautomation.gui.views.allStudents.controller;
 
 import attendanceautomation.be.enums.EFXMLName;
-import attendanceautomation.gui.views.sharedComponents.weeksAndDaysBar.controller.WeeksAndDaysBarViewController;
-import java.io.IOException;
+import attendanceautomation.gui.views.NodeFactory;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -25,19 +24,15 @@ public class AllStudentsViewController implements Initializable {
     @FXML
     private BorderPane borderPane;
 
-    private Node LIST_VIEW;
+    private final Node LIST_VIEW;
 
     private FXMLLoader searchViewLoader;
 
-    private Node weeksAndDaysBar;
+    private final Node weeksAndDaysBar;
 
     public AllStudentsViewController() {
-        try {
-            LIST_VIEW = createListView();
-            weeksAndDaysBar = createWeeksAndDaysBar();
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
-        }
+        LIST_VIEW = NodeFactory.getInstance().createNewView(EFXMLName.LIST_OF_ALL_STUDENTS_NON_ATTENDANCE_VIEW);
+        weeksAndDaysBar = NodeFactory.getInstance().createNewView(EFXMLName.WEEK_AND_DAYS_BAR);
     }
 
     public FXMLLoader getSearchViewLoader() {
@@ -51,29 +46,5 @@ public class AllStudentsViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         borderPane.setCenter(LIST_VIEW);
         borderPane.setTop(weeksAndDaysBar);
-    }
-
-    /**
-     * Creates the node of the listView and parsed the schoolClassModel to its
-     * controller.
-     *
-     * @return
-     * @throws IOException
-     */
-    private Node createListView() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLName.LIST_OF_ALL_STUDENTS_NON_ATTENDANCE_VIEW.toString()));
-        Node node = loader.load();
-        ListOfAllStudentsNonAttendanceViewController controller = loader.getController();
-        controller.setItemsInList();
-        return node;
-    }
-
-    private Node createWeeksAndDaysBar() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLName.WEEK_AND_DAYS_BAR.toString()));
-        Node node = loader.load();
-
-        WeeksAndDaysBarViewController controller = loader.getController();
-        controller.setWidth(150, 190);
-        return node;
     }
 }

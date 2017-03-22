@@ -5,57 +5,26 @@
  */
 package attendanceautomation.bll;
 
-import attendanceautomation.be.SchoolClassSemesterLesson;
-import attendanceautomation.gui.model.SchoolClassModel;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 public class SchemaManager {
 
-    private static SchemaManager instance;
-
-    public static SchemaManager getInstance() {
-        if (instance == null) {
-            instance = new SchemaManager();
-        }
-        return instance;
-    }
-
-    /**
-     * Get all dates from lessons
-     *
-     * @return
-     */
-    public List<Calendar> getAllLessonDates() {
-        List<Calendar> dates = new ArrayList<>();
-        List<SchoolClassSemesterLesson> lessons = SchoolClassModel.getInstance().getCurrentSchoolClass().getSemesterLessons();
-
-        for (SchoolClassSemesterLesson lesson : lessons) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(lesson.getDate());
-            dates.add(calendar);
-        }
-        return dates;
-    }
-
-    public Date getFirstDateOfWeek(Calendar monthWeek) {
+    public Date getFirstDateOfWeek(Date date, int weeksToAdd) {
         Calendar first = Calendar.getInstance();
-        first.add(Calendar.YEAR, monthWeek.get(Calendar.YEAR));
-        first.add(Calendar.MONTH, monthWeek.get(Calendar.MONTH));
-        first.add(Calendar.WEEK_OF_MONTH, monthWeek.get(Calendar.WEEK_OF_MONTH));
+        first.setTime(date);
+        first.add(Calendar.WEEK_OF_MONTH, weeksToAdd);
         first.setWeekDate(first.get(Calendar.YEAR), first.get(Calendar.WEEK_OF_YEAR), Calendar.MONDAY);
+
         return first.getTime();
     }
 
-    public Date getLastDateOfWeek(Calendar monthWeek) {
-        Calendar last = Calendar.getInstance();
-        last.add(Calendar.YEAR, monthWeek.get(Calendar.YEAR));
-        last.add(Calendar.MONTH, monthWeek.get(Calendar.MONTH));
-        last.add(Calendar.WEEK_OF_MONTH, monthWeek.get(Calendar.WEEK_OF_MONTH));
-        last.setWeekDate(last.get(Calendar.YEAR), last.get(Calendar.WEEK_OF_YEAR), Calendar.FRIDAY);
-        return last.getTime();
+    public Date getLastDateOfWeek(Calendar first) {
+        Calendar lastOfFirst = Calendar.getInstance();
+        lastOfFirst.setTime(first.getTime());
+        lastOfFirst.setWeekDate(lastOfFirst.get(Calendar.YEAR), lastOfFirst.get(Calendar.WEEK_OF_YEAR), Calendar.FRIDAY);
+
+        return lastOfFirst.getTime();
     }
 
 }

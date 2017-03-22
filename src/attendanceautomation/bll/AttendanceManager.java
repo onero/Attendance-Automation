@@ -6,8 +6,6 @@
  */
 package attendanceautomation.bll;
 
-import attendanceautomation.be.NonAttendance;
-import attendanceautomation.be.SchoolClassSemesterLesson;
 import attendanceautomation.be.Student;
 import attendanceautomation.gui.model.SchoolClassModel;
 import java.text.DecimalFormat;

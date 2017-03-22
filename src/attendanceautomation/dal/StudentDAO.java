@@ -98,7 +98,7 @@ public class StudentDAO {
             ps.setString(1, studentEmail);
 
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
+            if (rs.next()) {
                 return getOneStudent(rs);
             }
         }

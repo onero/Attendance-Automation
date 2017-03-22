@@ -5,12 +5,23 @@
  */
 package attendanceautomation.gui.views.detailedStudent.controller;
 
+<<<<<<< HEAD
 import attendanceautomation.be.SchoolSemesterSubject;
 import attendanceautomation.be.Student;
 import attendanceautomation.be.Teacher;
 import attendanceautomation.gui.model.SchoolClassModel;
 import java.net.URL;
 import java.util.HashSet;
+=======
+import attendanceautomation.be.NonAttendance;
+import attendanceautomation.be.Student;
+import attendanceautomation.be.Teacher;
+import attendanceautomation.be.enums.ESchoolSubject;
+import attendanceautomation.bll.SubjectManager;
+import attendanceautomation.gui.model.SchoolClassModel;
+import java.net.URL;
+import java.util.ArrayList;
+>>>>>>> origin/Absence-in-procentage
 import java.util.ResourceBundle;
 import java.util.Set;
 import javafx.collections.FXCollections;
@@ -18,7 +29,10 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+<<<<<<< HEAD
 import javafx.scene.control.TableColumn;
+=======
+>>>>>>> origin/Absence-in-procentage
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 
@@ -76,8 +90,15 @@ public class StudentInformationTopViewController implements Initializable {
 
     private ObservableList<Teacher> teachers;
 
+    private SubjectManager subMgr;
+
     public StudentInformationTopViewController() {
+<<<<<<< HEAD
         teachers = FXCollections.observableArrayList();
+=======
+        subMgr = new SubjectManager();
+
+>>>>>>> origin/Absence-in-procentage
     }
 
     /**
@@ -108,6 +129,12 @@ public class StudentInformationTopViewController implements Initializable {
 
         lblTotalAbsence.setText(currentStudent.getNonAttendancePercentage().get() + " %");
 
+        subMgr.subjectAbsenceCalculation(currentStudent, ESchoolSubject.SCO);
+        
+        lblScoAbsence.setText(subMgr.subjectAbsenceCalculation(currentStudent, ESchoolSubject.SCO) + " %");
+        lblItoAbsence.setText(subMgr.subjectAbsenceCalculation(currentStudent, ESchoolSubject.ITO) + " %");
+        lblSdeAbsence.setText(subMgr.subjectAbsenceCalculation(currentStudent, ESchoolSubject.SDE) + " %");
+        lblDbosAbsence.setText(subMgr.subjectAbsenceCalculation(currentStudent, ESchoolSubject.DBOS) + " %");
     }
 
     /**

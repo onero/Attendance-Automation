@@ -6,6 +6,7 @@
 package attendanceautomation.gui.views.sharedComponents.weeksAndDaysBar.controller;
 
 import attendanceautomation.gui.model.SchemaModel;
+import static attendanceautomation.gui.model.SchemaModel.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,26 +59,27 @@ public class WeeksAndDaysBarViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         lblMonth.setText("Februar");
         createWeekLabels();
+        setWidth();
     }
 
     private void createWeekLabels() {
         int currentWeekOfMonthNumber = schemaModel.getCurrentWeekOfMonthNumber();
         switch (currentWeekOfMonthNumber) {
-            case 1:
-                createWeekNumberLabel(schemaModel.getWeekNumbers().get(0));
-                createDayLabels();
+            case FIRST_WEEK_NUMBER:
+                createWeekAndDays(0);
                 break;
-            case 2:
-                createWeekNumberLabel(schemaModel.getWeekNumbers().get(1));
-                createDayLabels();
+            case SECOND_WEEK_NUMBER:
+                createWeekAndDays(0);
+                createFillerLabel();
+                createWeekAndDays(1);
                 break;
-            case 3:
-                createWeekNumberLabel(schemaModel.getWeekNumbers().get(2));
-                createDayLabels();
-                break;
-            case 4:
-                createWeekNumberLabel(schemaModel.getWeekNumbers().get(3));
-                createDayLabels();
+            case THIRD_WEEK_NUMBER:
+                createWeekAndDays(0);
+                createFillerLabel();
+                createWeekAndDays(1);
+                createFillerLabel();
+                createWeekAndDays(2);
+                createFillerLabel();
                 break;
             default:
                 //Create all weeks
@@ -85,13 +87,26 @@ public class WeeksAndDaysBarViewController implements Initializable {
                     createWeekNumberLabel(currentWeek);
                     createDayLabels();
                     if (schemaModel.getWeekNumbers().indexOf(currentWeek) != schemaModel.getWeekNumbers().size()) {
-                        Label filler = new Label();
-                        hBoxDays.getChildren().add(filler);
-                        fillerLabels.add(filler);
+                        createFillerLabel();
                     }
                 }
         }
 
+    }
+
+    private void createWeekAndDays(int index) {
+        createWeekNumberLabel(schemaModel.getWeekNumbers().get(index));
+        createDayLabels();
+    }
+
+    /**
+     * Crate a filler label between the days
+     */
+    private void createFillerLabel() {
+        Label filler;
+        filler = new Label();
+        hBoxDays.getChildren().add(filler);
+        fillerLabels.add(filler);
     }
 
     /**
@@ -133,10 +148,10 @@ public class WeeksAndDaysBarViewController implements Initializable {
     /**
      * Sets the prefered and minnimum width of the labels.
      *
-     * @param widthMonth
-     * @param widthWeek
      */
-    public void setWidth(int widthMonth, int widthWeek) {
+    private void setWidth() {
+        int widthMonth = 150;
+        int widthWeek = 190;
         lblMonth.setPrefWidth(widthMonth);
         lblMonth.setMinWidth(widthMonth);
         lblMonth.setMaxWidth(widthMonth);

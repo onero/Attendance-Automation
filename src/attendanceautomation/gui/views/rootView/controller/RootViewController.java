@@ -11,9 +11,11 @@ import attendanceautomation.gui.model.PieChartModel;
 import attendanceautomation.gui.model.SchoolClassModel;
 import attendanceautomation.gui.views.NodeFactory;
 import attendanceautomation.gui.views.login.controller.LoginViewController;
+import attendanceautomation.gui.views.sharedComponents.allComponentHolder.controller.AllComponentHolderController;
 import attendanceautomation.gui.views.sharedComponents.componentsHolder.controller.ComponentsHolderViewController;
 import attendanceautomation.gui.views.sharedComponents.filters.filterHolder.controller.FilterHolderViewController;
-import attendanceautomation.gui.views.sharedComponents.allComponentHolder.controller.AllComponentHolderController;
+import attendanceautomation.gui.views.sharedComponents.monthComboBox.controller.MonthComboboxViewController;
+import attendanceautomation.gui.views.sharedComponents.pieChart.controller.PieChartViewController;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -183,11 +185,12 @@ public class RootViewController implements Initializable {
                 schoolClassModel.setCurrentTeacher(teacher);
                 loadTeacherView();
                 schoolClassModel.loadDataFromDB();
+                schoolClassModel.updateCurrentClassStudents(0);
                 Platform.runLater(() -> {
-                    schoolClassModel.updateCurrentClassStudents();
                     MAIN_VIEW = nodeFactory.createNewView(EFXMLName.MAIN_VIEW);
                     switchCenterView(MAIN_VIEW);
                     PieChartModel.getInstance().resetPieChart();
+                    PieChartViewController.getInstance().updateChart();
                 });
             } else {
                 Platform.runLater(() -> {
@@ -258,6 +261,20 @@ public class RootViewController implements Initializable {
     }
 
     /**
+     * Update current view and resets PieChart
+     */
+    public void updateAll() {
+        Runnable task = () -> {
+            Platform.runLater(() -> {
+                reloadView();
+                PieChartModel.getInstance().resetPieChart();
+                PieChartViewController.getInstance().updateChart();
+            });
+        };
+        new Thread(task).start();
+    }
+
+    /**
      * Reloads the current Node
      */
     public void reloadView() {
@@ -269,6 +286,10 @@ public class RootViewController implements Initializable {
             DETAILED_STUDENT_VIEW = nodeFactory.createNewView(EFXMLName.DETAILED_STUDENT_VIEW);
             switchCenterView(DETAILED_STUDENT_VIEW);
         }
+        if (currentView == MAIN_VIEW) {
+            schoolClassModel.sortStudentsOnAttendance();
+        }
+        MonthComboboxViewController.getInstance().updateWeekNumbers();
     }
 
     /**

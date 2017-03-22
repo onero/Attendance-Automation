@@ -97,22 +97,6 @@ public class Student {
         return nonAttendancePercentage;
     }
 
-    public void test(Student student) {
-
-        ArrayList SCO = new ArrayList<>();
-
-        for (NonAttendance lessons : student.getNonAttendance()) {
-
-            if (lessons.getSchoolClassSemesterLesson().getSemesterSubject().getSubject().equals(ESchoolSubject.SCO)) {
-                SCO.add(lessons.getSchoolClassSemesterLesson().getSemesterSubject());
-
-                System.out.println(lessons.getSchoolClassSemesterLesson().getSemesterSubject().getSubject().toString());
-
-            }
-
-        }
-    }
-
     /**
      *
      * @return nonAttendance
@@ -159,7 +143,6 @@ public class Student {
         AttendanceManager manager = new AttendanceManager();
         Data computedNonAttendance = manager.computeStudentAttendance(this).get(0);
         nonAttendancePercentage.set(computedNonAttendance.getPieValue());
-        test(this);
     }
 
 }

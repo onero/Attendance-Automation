@@ -47,8 +47,6 @@ public class WeekCheckBoxViewController implements Initializable {
     private final ArrayList<SchoolClassSemesterLesson> allSemesterLessons;
     private ArrayList<SchoolClassSemesterLesson> lessonsThisDay;
 
-    private boolean isStudentLogin;
-
     private Student student;
 
     private final SchoolClass schoolClass;
@@ -58,7 +56,6 @@ public class WeekCheckBoxViewController implements Initializable {
         schoolClass = SchoolClassModel.getInstance().getCurrentSchoolClass();
         schoolClassModel = SchoolClassModel.getInstance();
         allSemesterLessons = new ArrayList<>(schoolClass.getSemesterLessons());
-        isStudentLogin = false;
     }
 
     /**
@@ -131,7 +128,6 @@ public class WeekCheckBoxViewController implements Initializable {
             //Increase the date we are putting in
 
         }
-        isStudentLogin = false;
     }
 
     /**
@@ -176,10 +172,6 @@ public class WeekCheckBoxViewController implements Initializable {
      */
     private void populateWeekHBoxWithCheckBoxes(List<Date> week) throws ParseException {
         addACheckBoxForEachDayInCurrentWeek(week);
-    }
-
-    public void setIsStudentLogin() {
-        isStudentLogin = true;
     }
 
     /**

@@ -56,6 +56,154 @@ public class SchoolClassDAO {
         }
     }
 
+    public List<String> getAllSchoolClassSemesters(int schoolClassID) throws SQLServerException, SQLException {
+        List<String> semesters = new ArrayList<>();
+        String sql = "SELECT DISTINCT semester.Name "
+                + "AS 'SemesterName' "
+                + "FROM Semester semester "
+                + "JOIN SchoolClassSemesterSubject semesterSubject ON semesterSubject.SemesterID = semester.ID "
+                + "WHERE semesterSubject.SchoolClassID = ?";
+
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, schoolClassID);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                semesters.add(getOneSchoolSemester(rs));
+            }
+            return semesters;
+        }
+    }
+
+    public List<SchoolClassSemesterLesson> getAllSchoolSemesterLessonsFromSpecificSchoolClassForSpecificPeriod(int schoolClassId, String startDate, String endDate) throws SQLException {
+        schoolClassSemesterSubjects = new ArrayList<>();
+        //Get a hold of all the subjects the SchoolClass has
+        getAllSchoolSemesterSubjectsFromSpecificSchoolClassForSpecificPeriod(schoolClassId, startDate, endDate);
+        String sql = "SELECT semesterLesson.ID "
+                + "AS 'SemesterLessonID', "
+                + "semesterLesson.SchoolClassSemesterSubjectID "
+                + "AS 'SemesterSubjectID', "
+                + "semesterLesson.Date "
+                + "AS 'SemesterLessonDate' "
+                + "FROM SchoolClassSemesterLesson semesterLesson "
+                + "JOIN SchoolClassSemesterSubject semesterSubject ON semesterLesson.SchoolClassSemesterSubjectID = semesterSubject.ID "
+                + "JOIN Semester sem ON sem.ID = semesterSubject.SemesterID "
+                + "WHERE semesterSubject.SchoolClassID = ? "
+                + "AND "
+                + "semesterLesson.Date BETWEEN ? AND ? "
+                + "ORDER BY semesterLesson.Date ";
+
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, schoolClassId);
+            ps.setString(2, startDate);
+            ps.setString(3, endDate);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                schoolClassSemesterSubjects.add(getOneSchoolSemesterLessons(rs));
+            }
+            return schoolClassSemesterSubjects;
+        }
+    }
+
+    public List<SchoolSemesterSubject> getAllSchoolSemesterSubjectsFromSpecificSchoolClassForSpecificPeriod(int schoolClassId, String startDate, String endDate) throws SQLServerException, SQLException {
+        schoolSemesterSubjects = new ArrayList<>();
+        String sql = "SELECT "
+                + "DISTINCT semesterSubject.ID "
+                + "AS "
+                + "'SemesterSubjectID', "
+                + "c.ID "
+                + "AS "
+                + "'SchoolClassID', "
+                + "c.Name "
+                + "AS "
+                + "'SchoolClassName', "
+                + "sem.Name "
+                + "AS "
+                + "'SemesterName', "
+                + "schoolSubject.Name "
+                + "AS "
+                + "'SchoolSubjectName', "
+                + "p.FirstName "
+                + "AS "
+                + "'TeacherFirstName'"
+                + "FROM SchoolClassSemesterSubject semesterSubject "
+                + "JOIN SchoolClass c ON semesterSubject.SchoolClassID = c.ID "
+                + "JOIN Semester sem ON semesterSubject.SemesterID = sem.ID "
+                + "JOIN SchoolSubject schoolSubject ON semesterSubject.SchoolSubjectID = schoolSubject.ID "
+                + "JOIN SchoolClassSemesterLesson semesterLesson ON semesterLesson.SchoolClassSemesterSubjectID = semesterSubject.ID "
+                + "JOIN Teacher t ON semesterSubject.TeacherID = t.ID "
+                + "JOIN Person p ON p.ID = t.PersonID "
+                + "WHERE c.ID = ? "
+                + "AND "
+                + "semesterLesson.Date BETWEEN ? AND ? ";
+
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, schoolClassId);
+            ps.setString(2, startDate);
+            ps.setString(3, endDate);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                schoolSemesterSubjects.add(getOneSchoolSemesterSubject(rs));
+            }
+            return schoolSemesterSubjects;
+        }
+    }
+
+    private List<SchoolSemesterSubject> getAllSchoolSemesterSubjectsFromSpecificSchoolClassForSpecificSemester(int schoolClassID, int semesterID) throws SQLServerException, SQLException {
+        schoolSemesterSubjects = new ArrayList<>();
+        String sql = "SELECT "
+                + "DISTINCT semesterSubject.ID "
+                + "AS "
+                + "'SemesterSubjectID', "
+                + "c.ID "
+                + "AS "
+                + "'SchoolClassID', "
+                + "c.Name "
+                + "AS "
+                + "'SchoolClassName', "
+                + "sem.Name "
+                + "AS "
+                + "'SemesterName', "
+                + "schoolSubject.Name "
+                + "AS "
+                + "'SchoolSubjectName', "
+                + "p.FirstName "
+                + "AS "
+                + "'TeacherFirstName' "
+                + "FROM SchoolClassSemesterSubject semesterSubject "
+                + "JOIN SchoolClass c ON semesterSubject.SchoolClassID = c.ID "
+                + "JOIN Semester sem ON semesterSubject.SemesterID = sem.ID "
+                + "JOIN SchoolSubject schoolSubject ON semesterSubject.SchoolSubjectID = schoolSubject.ID "
+                + "JOIN SchoolClassSemesterLesson semesterLesson ON semesterLesson.SchoolClassSemesterSubjectID = semesterSubject.ID "
+                + "JOIN Teacher t ON semesterSubject.TeacherID = t.ID "
+                + "JOIN Person p ON p.ID = t.PersonID "
+                + "WHERE c.ID = ? "
+                + "AND sem.ID = ? ";
+
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, schoolClassID);
+            ps.setInt(2, semesterID);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                schoolSemesterSubjects.add(getOneSchoolSemesterSubject(rs));
+            }
+            return schoolSemesterSubjects;
+        }
+    }
+
+    private String getOneSchoolSemester(ResultSet rs) throws SQLException {
+        String name = rs.getString("SemesterName");
+
+        return name;
+    }
+
     /**
      * Get a specific SchoolClass on its ID
      *
@@ -117,41 +265,6 @@ public class SchoolClassDAO {
     }
 
     /**
-     * Get all SchoolClassSemesterLessons from a specific class
-     *
-     * @param schoolClassID
-     * @return
-     * @throws SQLServerException
-     * @throws SQLException
-     */
-    public List<SchoolClassSemesterLesson> getAllSchoolSemesterLessonsFromSpecificSchoolClass(int schoolClassID) throws SQLServerException, SQLException {
-        schoolClassSemesterSubjects = new ArrayList<>();
-        //Get a hold of all the subjects the SchoolClass has
-        getAllSchoolSemesterSubjectsFromSpecificSchoolClass(schoolClassID);
-        String sql = "SELECT semesterLesson.ID "
-                + "AS 'SemesterLessonID', "
-                + "semesterLesson.SchoolClassSemesterSubjectID "
-                + "AS 'SemesterSubjectID', "
-                + "semesterLesson.Date "
-                + "AS 'SemesterLessonDate' "
-                + "FROM SchoolClassSemesterLesson semesterLesson "
-                + "JOIN SchoolClassSemesterSubject semesterSubject ON semesterLesson.SchoolClassSemesterSubjectID = semesterSubject.ID "
-                + "JOIN Semester sem ON sem.ID = semesterSubject.SemesterID "
-                + "WHERE semesterSubject.SchoolClassID = ? ";
-
-        try (Connection con = cm.getConnection()) {
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, schoolClassID);
-
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                schoolClassSemesterSubjects.add(getOneSchoolSemesterLessons(rs));
-            }
-            return schoolClassSemesterSubjects;
-        }
-    }
-
-    /**
      * Retrieve a single SchoolSemesterSubject from the DB
      *
      * @param rs
@@ -178,55 +291,6 @@ public class SchoolClassDAO {
     }
 
     /**
-     * Get a list of all SchoolSemesterSubjects from the DB with their relevant
-     * data
-     *
-     * @param schoolClassID
-     * @return
-     * @throws SQLException
-     */
-    public List<SchoolSemesterSubject> getAllSchoolSemesterSubjectsFromSpecificSchoolClass(int schoolClassID) throws SQLException {
-        schoolSemesterSubjects = new ArrayList<>();
-        String sql = "SELECT "
-                + "semesterSubject.ID "
-                + "AS "
-                + "'SemesterID', "
-                + "c.ID "
-                + "AS "
-                + "'SchoolClassID', "
-                + "c.Name "
-                + "AS "
-                + "'SchoolClassName', "
-                + "sem.Name "
-                + "AS "
-                + "'SemesterName', "
-                + "schoolSubject.Name "
-                + "AS "
-                + "'SchoolSubjectName', "
-                + "p.FirstName "
-                + "AS "
-                + "'TeacherFirstName'"
-                + "FROM SchoolClassSemesterSubject semesterSubject "
-                + "JOIN SchoolClass c ON semesterSubject.SchoolClassID = c.ID "
-                + "JOIN Semester sem ON semesterSubject.SemesterID = sem.ID "
-                + "JOIN SchoolSubject schoolSubject ON semesterSubject.SchoolSubjectID = schoolSubject.ID "
-                + "JOIN Teacher t ON semesterSubject.TeacherID = t.ID "
-                + "JOIN Person p ON p.ID = t.PersonID "
-                + "WHERE c.ID = ? ";
-
-        try (Connection con = cm.getConnection()) {
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, schoolClassID);
-
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                schoolSemesterSubjects.add(getOneSchoolSemesterSubject(rs));
-            }
-            return schoolSemesterSubjects;
-        }
-    }
-
-    /**
      * Retrieve a single SchoolSemesterSubject from the DB
      *
      * @param rs
@@ -234,7 +298,7 @@ public class SchoolClassDAO {
      * @throws SQLException
      */
     public SchoolSemesterSubject getOneSchoolSemesterSubject(ResultSet rs) throws SQLException {
-        int SemesterSubjectID = rs.getInt("SemesterID");
+        int SemesterSubjectID = rs.getInt("SemesterSubjectID");
         int SchoolClassID = rs.getInt("SchoolClassID");
         String SchoolClassName = rs.getString("SchoolClassName");
         String Semester = rs.getString("SemesterName");
@@ -496,7 +560,7 @@ public class SchoolClassDAO {
     public List<SchoolClassSemesterLesson> getAllSchoolClassSemesterLessonsBySchoolClassIDAndSemesterID(int schoolClassID, int semesterID) throws SQLException {
         schoolClassSemesterSubjects = new ArrayList<>();
         //Get a hold of all the subjects the SchoolClass has
-        getAllSchoolSemesterSubjectsFromSpecificSchoolClass(schoolClassID);
+        getAllSchoolSemesterSubjectsFromSpecificSchoolClassForSpecificSemester(schoolClassID, semesterID);
         String sql = "SELECT semesterLesson.ID "
                 + "AS 'SemesterLessonID', "
                 + "semesterLesson.SchoolClassSemesterSubjectID "
@@ -506,7 +570,8 @@ public class SchoolClassDAO {
                 + "FROM SchoolClassSemesterLesson semesterLesson "
                 + "JOIN SchoolClassSemesterSubject semesterSubject ON semesterLesson.SchoolClassSemesterSubjectID = semesterSubject.ID "
                 + "WHERE semesterSubject.SchoolClassID = ? "
-                + "AND semesterSubject.SemesterID = ?";
+                + "AND semesterSubject.SemesterID = ? "
+                + "ORDER BY semesterLesson.Date ";
 
         try (Connection con = cm.getConnection()) {
             PreparedStatement ps = con.prepareStatement(sql);
@@ -531,12 +596,10 @@ public class SchoolClassDAO {
      */
     public List<SchoolSemesterSubject> getAllSchoolClassSemesterSubjectsBySchoolClassIDAndSemesterID(int schoolClassID, int semesterID) throws SQLException {
         schoolClassSemesterSubjects = new ArrayList<>();
-        //Get a hold of all the subjects the SchoolClass has
-        getAllSchoolSemesterSubjectsFromSpecificSchoolClass(schoolClassID);
         String sql = "SELECT "
                 + "semesterSubject.ID "
                 + "AS "
-                + "'SemesterID', "
+                + "'SemesterSubjectID', "
                 + "c.ID "
                 + "AS "
                 + "'SchoolClassID', "

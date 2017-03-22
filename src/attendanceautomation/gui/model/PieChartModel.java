@@ -9,7 +9,6 @@ import attendanceautomation.be.Student;
 import attendanceautomation.bll.AttendanceManager;
 import attendanceautomation.gui.views.sharedComponents.pieChart.controller.PieChartViewController;
 import java.util.ArrayList;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.PieChart.Data;
@@ -104,15 +103,9 @@ public class PieChartModel {
      * Reset all pieChartData and update PieChart
      */
     public void resetPieChart() {
-        Runnable task = () -> {
-            pieChartData.clear();
-            computedPieChartData.clear();
-            addNonAttendantStudentsToChartData();
-            Platform.runLater(() -> {
-                PieChartViewController.getInstance().updateChart();
-            });
-        };
-        new Thread(task).start();
+        pieChartData.clear();
+        computedPieChartData.clear();
+        addNonAttendantStudentsToChartData();
     }
 
     /**

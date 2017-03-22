@@ -43,7 +43,7 @@ public class SemesterFilterViewController implements Initializable {
         instance = this;
         schoolClassModel.updateSemesters();
         comboSemester.setItems(schoolClassModel.getSemesters());
-        selectLatest();
+        comboSemester.setPromptText("Vælg semester");
     }
 
     /**
@@ -54,8 +54,10 @@ public class SemesterFilterViewController implements Initializable {
     @FXML
     private void handleSelectSemester(Event event) {
         String semesterName = comboSemester.getSelectionModel().getSelectedItem();
-        int semesterID = schoolClassModel.getSemesterIDByName(semesterName);
-        schoolClassModel.updateSchoolClassSemester(semesterID);
+        if (!semesterName.isEmpty()) {
+            int semesterID = schoolClassModel.getSemesterIDByName(semesterName);
+            schoolClassModel.updateSchoolClassSemester(semesterID);
+        }
     }
 
     /**

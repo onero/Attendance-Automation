@@ -42,13 +42,6 @@ public class ListOfAllStudentsNonAttendanceViewController implements Initializab
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setCellFactory();
-    }
-
-    /**
-     * Populate the list vith students.
-     *
-     */
-    public void setItemsInList() {
         listView.setItems(SchoolClassModel.getInstance().getStudents());
     }
 

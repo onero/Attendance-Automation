@@ -22,6 +22,15 @@ import javafx.scene.control.ComboBox;
  */
 public class MonthComboboxViewController implements Initializable {
 
+    private static MonthComboboxViewController instance;
+
+    public static MonthComboboxViewController getInstance() {
+        if (instance == null) {
+            instance = new MonthComboboxViewController();
+        }
+        return instance;
+    }
+
     @FXML
     private ComboBox<String> viewSelect;
     @FXML
@@ -41,15 +50,21 @@ public class MonthComboboxViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        instance = this;
         viewSelection = FXCollections.observableArrayList("Uge", "Måned");
         weeks = FXCollections.observableArrayList();
         viewSelect.setItems(viewSelection);
+        updateWeekNumbers();
         setVisibilityOfWeekPicker(false);
+        weekPicker.setItems(weeks);
+        weekPicker.setPromptText("Vælg uge");
+    }
+
+    public void updateWeekNumbers() {
+        weeks.clear();
         for (Integer weekNumber : schemaModel.getWeekNumbers()) {
             weeks.add("Uge " + weekNumber);
         }
-        weekPicker.setItems(weeks);
-        weekPicker.setPromptText("Vælg uge");
     }
 
     /**

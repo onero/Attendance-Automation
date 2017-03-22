@@ -14,11 +14,16 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -32,6 +37,8 @@ public class CurrentClassViewController implements Initializable {
 
     private Node LIST_VIEW_PRESENT;
     private Node LIST_VIEW_ABSENCE;
+
+    private CurrentClassListViewController controllerPresent, controllerAbsence;
 
     private SchoolClassModel model = SchoolClassModel.getInstance();
 
@@ -61,7 +68,7 @@ public class CurrentClassViewController implements Initializable {
     private Node createListViewPresent() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLName.CURRENT_CLASS_LIST_VIEW.toString()));
         Node node = loader.load();
-        setItemsInList(loader, model.getCurrentClassStudentsPresent());
+        controllerPresent = setItemsInList(loader, model.getCurrentClassStudentsPresent());
         return node;
     }
 
@@ -73,13 +80,42 @@ public class CurrentClassViewController implements Initializable {
     private Node createListViewAbsence() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLName.CURRENT_CLASS_LIST_VIEW.toString()));
         Node node = loader.load();
-        setItemsInList(loader, model.getCurrentClassStudentsAbsence());
+        controllerAbsence = setItemsInList(loader, model.getCurrentClassStudentsAbsence());
         return node;
     }
 
-    private void setItemsInList(FXMLLoader loader, ObservableList<Student> listOfStudents) {
+    private CurrentClassListViewController setItemsInList(FXMLLoader loader, ObservableList<Student> listOfStudents) {
         CurrentClassListViewController controller = loader.getController();
         controller.setItemsInList(listOfStudents);
+        return controller;
+    }
+
+    /**
+     * Creates the modal controlling to set the mockCurrentView.
+     *
+     * @param event
+     */
+    @FXML
+    private void handleSetMock(ActionEvent event) {
+        Stage primStage = (Stage) borderPane.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/attendanceautomation/gui/views/currentClassView/view/MockModal.fxml"));
+        try {
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage newStage = new Stage();
+            newStage.setScene(scene);
+
+            newStage.initModality(Modality.WINDOW_MODAL);
+            newStage.initOwner(primStage);
+
+            MockModalController controller = loader.getController();
+            controller.setStage(newStage);
+            controller.setControllers(controllerPresent, controllerAbsence);
+
+            newStage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(CurrentClassViewController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }

@@ -97,8 +97,12 @@ public class StudentInformationTopViewController implements Initializable {
 
         lblTotalAbsence.setText(currentStudent.getNonAttendancePercentage().get() + " %");
 
-        subMgr.totalSubjectsOfSCO(currentStudent, ESchoolSubject.SCO);
-
+        subMgr.subjectAbsenceCalculation(currentStudent, ESchoolSubject.SCO);
+        
+        lblScoAbsence.setText(subMgr.subjectAbsenceCalculation(currentStudent, ESchoolSubject.SCO) + " %");
+        lblItoAbsence.setText(subMgr.subjectAbsenceCalculation(currentStudent, ESchoolSubject.ITO) + " %");
+        lblSdeAbsence.setText(subMgr.subjectAbsenceCalculation(currentStudent, ESchoolSubject.SDE) + " %");
+        lblDbosAbsence.setText(subMgr.subjectAbsenceCalculation(currentStudent, ESchoolSubject.DBOS) + " %");
     }
 
 }

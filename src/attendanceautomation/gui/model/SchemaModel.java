@@ -40,7 +40,7 @@ public class SchemaModel {
     private final List<Date> lastWeekOfMonth;
     private final List<List<Date>> weeksOfMonth;
 
-    private List<Integer> weekNumbers;
+    private final List<Integer> weekNumbers;
 
     private int currentWeekOfMonth;
 
@@ -48,7 +48,7 @@ public class SchemaModel {
     private String endDate;
 
     private SchemaModel() {
-        schemaManager = SchemaManager.getInstance();
+        schemaManager = new SchemaManager();
 
         firstWeekOfMonth = new ArrayList<>();
         secondWeekOfMonth = new ArrayList<>();
@@ -89,7 +89,9 @@ public class SchemaModel {
         thirdWeekOfMonth.clear();
         lastWeekOfMonth.clear();
         weekNumbers.clear();
+
         SimpleDateFormat monthDayYear = new SimpleDateFormat("yyyy-MM-dd", Locale.GERMANY);
+
         try {
             Date start = monthDayYear.parse(startDate);
             Date end = monthDayYear.parse(endDate);
@@ -133,67 +135,57 @@ public class SchemaModel {
     }
 
     private void setLastWeekOfMonth(Date date) {
-        Calendar last = Calendar.getInstance();
-        last.setTime(date);
-        last.add(Calendar.WEEK_OF_MONTH, 3);
-        last.setWeekDate(last.get(Calendar.YEAR), last.get(Calendar.WEEK_OF_YEAR), Calendar.MONDAY);
-        weekNumbers.add(last.get(Calendar.WEEK_OF_YEAR));
+        Calendar first = getFirstDayInCurrentWeek(date, 3);
 
-        Calendar lastOfLast = Calendar.getInstance();
-        lastOfLast.setTime(last.getTime());
-        lastOfLast.setWeekDate(lastOfLast.get(Calendar.YEAR), lastOfLast.get(Calendar.WEEK_OF_YEAR), Calendar.FRIDAY);
+        Calendar last = getLastDateInCurrentWeek(first);
 
-        while (!last.after(lastOfLast)) {
-            lastWeekOfMonth.add(last.getTime());
-            last.add(Calendar.DATE, 1);
+        while (!first.after(last)) {
+            lastWeekOfMonth.add(first.getTime());
+            first.add(Calendar.DATE, 1);
         }
     }
 
+    private Calendar getLastDateInCurrentWeek(Calendar first) {
+        Calendar last = Calendar.getInstance();
+        last.setTime(schemaManager.getLastDateOfWeek(first));
+        return last;
+    }
+
     private void setThirdWeekOfMonth(Date date) {
-        Calendar third = Calendar.getInstance();
-        third.setTime(date);
-        third.add(Calendar.WEEK_OF_MONTH, 2);
-        third.setWeekDate(third.get(Calendar.YEAR), third.get(Calendar.WEEK_OF_YEAR), Calendar.MONDAY);
-        weekNumbers.add(third.get(Calendar.WEEK_OF_YEAR));
+        Calendar first = getFirstDayInCurrentWeek(date, 2);
 
-        Calendar lastOfThird = Calendar.getInstance();
-        lastOfThird.setTime(third.getTime());
-        lastOfThird.setWeekDate(lastOfThird.get(Calendar.YEAR), lastOfThird.get(Calendar.WEEK_OF_YEAR), Calendar.FRIDAY);
+        Calendar last = getLastDateInCurrentWeek(first);
 
-        while (!third.after(lastOfThird)) {
-            thirdWeekOfMonth.add(third.getTime());
-            third.add(Calendar.DATE, 1);
+        while (!first.after(last)) {
+            thirdWeekOfMonth.add(first.getTime());
+            first.add(Calendar.DATE, 1);
         }
     }
 
     private void setSecondWeekOfMonth(Date date) {
-        Calendar second = Calendar.getInstance();
-        second.setTime(date);
-        second.add(Calendar.WEEK_OF_MONTH, 1);
-        second.setWeekDate(second.get(Calendar.YEAR), second.get(Calendar.WEEK_OF_YEAR), Calendar.MONDAY);
-        weekNumbers.add(second.get(Calendar.WEEK_OF_YEAR));
+        Calendar first = getFirstDayInCurrentWeek(date, 1);
 
-        Calendar lastOfSecond = Calendar.getInstance();
-        lastOfSecond.setTime(second.getTime());
-        lastOfSecond.setWeekDate(lastOfSecond.get(Calendar.YEAR), lastOfSecond.get(Calendar.WEEK_OF_YEAR), Calendar.FRIDAY);
+        Calendar last = getLastDateInCurrentWeek(first);
 
-        while (!second.after(lastOfSecond)) {
-            secondWeekOfMonth.add(second.getTime());
-            second.add(Calendar.DATE, 1);
+        while (!first.after(last)) {
+            secondWeekOfMonth.add(first.getTime());
+            first.add(Calendar.DATE, 1);
         }
     }
 
-    private void setFirstWeekOfMonth(Date date) {
+    private Calendar getFirstDayInCurrentWeek(Date date, int weeksToAdd) {
         Calendar first = Calendar.getInstance();
-        first.setTime(date);
-        first.setWeekDate(first.get(Calendar.YEAR), first.get(Calendar.WEEK_OF_YEAR), Calendar.MONDAY);
+        first.setTime(schemaManager.getFirstDateOfWeek(date, weeksToAdd));
         weekNumbers.add(first.get(Calendar.WEEK_OF_YEAR));
+        return first;
+    }
 
-        Calendar lastOfFirst = Calendar.getInstance();
-        lastOfFirst.setTime(first.getTime());
-        lastOfFirst.setWeekDate(lastOfFirst.get(Calendar.YEAR), lastOfFirst.get(Calendar.WEEK_OF_YEAR), Calendar.FRIDAY);
+    private void setFirstWeekOfMonth(Date date) {
+        Calendar first = getFirstDayInCurrentWeek(date, 0);
 
-        while (!first.after(lastOfFirst)) {
+        Calendar last = getLastDateInCurrentWeek(first);
+
+        while (!first.after(last)) {
             firstWeekOfMonth.add(first.getTime());
             first.add(Calendar.DATE, 1);
         }

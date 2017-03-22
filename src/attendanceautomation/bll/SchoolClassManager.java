@@ -14,6 +14,7 @@ import attendanceautomation.dal.AttendanceAutomationDAOFacade;
 import attendanceautomation.gui.model.SchemaModel;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -306,7 +307,6 @@ public class SchoolClassManager {
         return students;
     }
 
-<<<<<<< HEAD
     /**
      * Makes a List from the Set given in the param, and then get one teacher
      * from the DB, by their name, at a time for each name given.
@@ -320,9 +320,9 @@ public class SchoolClassManager {
             teachers.add(AADAOFacade.getOneTeacherByName(teacherName));
         }
         return teachers;
-=======
+    }
+
     public List<String> getAllSchoolClassSemesters(int schoolClassID) {
         return AADAOFacade.getAllSchoolClassSemesters(schoolClassID);
->>>>>>> origin/Absence-in-procentage
     }
 }

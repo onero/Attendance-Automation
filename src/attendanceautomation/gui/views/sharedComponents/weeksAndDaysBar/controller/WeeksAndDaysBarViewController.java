@@ -78,16 +78,21 @@ public class WeeksAndDaysBarViewController implements Initializable {
                 createDayLabels();
                 break;
             case 3:
+                createWeekNumberLabel(schemaModel.getWeekNumbers().get(0));
+                createDayLabels();
+                filler = new Label();
+                hBoxDays.getChildren().add(filler);
+                fillerLabels.add(filler);
                 createWeekNumberLabel(schemaModel.getWeekNumbers().get(1));
+                createDayLabels();
                 filler = new Label();
                 hBoxDays.getChildren().add(filler);
                 fillerLabels.add(filler);
-                createDayLabels();
                 createWeekNumberLabel(schemaModel.getWeekNumbers().get(2));
+                createDayLabels();
                 filler = new Label();
                 hBoxDays.getChildren().add(filler);
                 fillerLabels.add(filler);
-                createDayLabels();
                 break;
             default:
                 //Create all weeks

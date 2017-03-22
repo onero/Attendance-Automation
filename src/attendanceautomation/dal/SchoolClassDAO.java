@@ -570,7 +570,8 @@ public class SchoolClassDAO {
                 + "FROM SchoolClassSemesterLesson semesterLesson "
                 + "JOIN SchoolClassSemesterSubject semesterSubject ON semesterLesson.SchoolClassSemesterSubjectID = semesterSubject.ID "
                 + "WHERE semesterSubject.SchoolClassID = ? "
-                + "AND semesterSubject.SemesterID = ?";
+                + "AND semesterSubject.SemesterID = ? "
+                + "ORDER BY semesterLesson.Date ";
 
         try (Connection con = cm.getConnection()) {
             PreparedStatement ps = con.prepareStatement(sql);

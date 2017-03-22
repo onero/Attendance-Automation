@@ -141,13 +141,16 @@ public class StudentAttendanceInformationViewController implements Initializable
                 subjectHBox.getChildren().add(createSubjectCheckBoxes(schemaModel.getFirstWeekOfMonth(), semesterSubject));
                 break;
             case 2:
+                subjectHBox.getChildren().add(createSubjectCheckBoxes(schemaModel.getFirstWeekOfMonth(), semesterSubject));
+                subjectHBox.getChildren().add(NodeFactory.getInstance().createNewView(EFXMLName.FILLER_LABEL));
                 subjectHBox.getChildren().add(createSubjectCheckBoxes(schemaModel.getSecondWeekOfMonth(), semesterSubject));
                 break;
             case 3:
+                subjectHBox.getChildren().add(createSubjectCheckBoxes(schemaModel.getFirstWeekOfMonth(), semesterSubject));
+                subjectHBox.getChildren().add(NodeFactory.getInstance().createNewView(EFXMLName.FILLER_LABEL));
+                subjectHBox.getChildren().add(createSubjectCheckBoxes(schemaModel.getSecondWeekOfMonth(), semesterSubject));
+                subjectHBox.getChildren().add(NodeFactory.getInstance().createNewView(EFXMLName.FILLER_LABEL));
                 subjectHBox.getChildren().add(createSubjectCheckBoxes(schemaModel.getThirdWeekOfMonth(), semesterSubject));
-                break;
-            case 4:
-                subjectHBox.getChildren().add(createSubjectCheckBoxes(schemaModel.getLastWeekOfMonth(), semesterSubject));
                 break;
             default:
                 //Create subject checkBoxes for each week in february
@@ -173,13 +176,16 @@ public class StudentAttendanceInformationViewController implements Initializable
                 HBox.getChildren().add(createWeekCheckBoxes(schemaModel.getFirstWeekOfMonth()));
                 break;
             case 2:
+                HBox.getChildren().add(createWeekCheckBoxes(schemaModel.getFirstWeekOfMonth()));
+                HBox.getChildren().add(NodeFactory.getInstance().createNewView(EFXMLName.FILLER_LABEL));
                 HBox.getChildren().add(createWeekCheckBoxes(schemaModel.getSecondWeekOfMonth()));
                 break;
             case 3:
+                HBox.getChildren().add(createWeekCheckBoxes(schemaModel.getFirstWeekOfMonth()));
+                HBox.getChildren().add(NodeFactory.getInstance().createNewView(EFXMLName.FILLER_LABEL));
+                HBox.getChildren().add(createWeekCheckBoxes(schemaModel.getSecondWeekOfMonth()));
+                HBox.getChildren().add(NodeFactory.getInstance().createNewView(EFXMLName.FILLER_LABEL));
                 HBox.getChildren().add(createWeekCheckBoxes(schemaModel.getThirdWeekOfMonth()));
-                break;
-            case 4:
-                HBox.getChildren().add(createWeekCheckBoxes(schemaModel.getLastWeekOfMonth()));
                 break;
             default:
                 //Create day checkBoxes for each week in february

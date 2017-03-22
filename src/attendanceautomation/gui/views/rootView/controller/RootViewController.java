@@ -14,6 +14,7 @@ import attendanceautomation.gui.views.login.controller.LoginViewController;
 import attendanceautomation.gui.views.sharedComponents.allComponentHolder.controller.AllComponentHolderController;
 import attendanceautomation.gui.views.sharedComponents.componentsHolder.controller.ComponentsHolderViewController;
 import attendanceautomation.gui.views.sharedComponents.filters.filterHolder.controller.FilterHolderViewController;
+import attendanceautomation.gui.views.sharedComponents.monthComboBox.controller.MonthComboboxViewController;
 import attendanceautomation.gui.views.sharedComponents.pieChart.controller.PieChartViewController;
 import java.io.IOException;
 import java.net.URL;
@@ -274,6 +275,7 @@ public class RootViewController implements Initializable {
         if (currentView == MAIN_VIEW) {
             schoolClassModel.sortStudentsOnAttendance();
         }
+        MonthComboboxViewController.getInstance().updateWeekNumbers();
     }
 
     /**

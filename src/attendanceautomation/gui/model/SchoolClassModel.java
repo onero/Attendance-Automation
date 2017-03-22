@@ -178,6 +178,7 @@ public class SchoolClassModel {
                 students.addAll(studentsFromDB);
                 PieChartModel.getInstance().resetPieChart();
                 PieChartViewController.getInstance().updateChart();
+                RootViewController.getInstance().reloadView();
                 RootViewController.getInstance().setRefreshBoxVisibility(false);
             });
         };

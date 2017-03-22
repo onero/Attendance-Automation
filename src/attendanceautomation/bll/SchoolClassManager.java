@@ -266,8 +266,9 @@ public class SchoolClassManager {
         currentSchoolClass.addAllSemesterLessonsToClass(AADAOFacade.getSchoolClassSemesterLessonsBySchoolClassIDAndSemesterID(currentSchoolClass.getID(), semesterID));
         currentSchoolClass.addAllSemesterSubjects(AADAOFacade.getSchoolClassSemesterSubjectsBySchoolCLassIDAndSemesterID(currentSchoolClass.getID(), semesterID));
 
-        Date start = currentSchoolClass.getSemesterLessons().get(0).getDate();
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+
+        Date start = currentSchoolClass.getSemesterLessons().get(0).getDate();
         String startDate = df.format(start);
         SchemaModel.getInstance().setStartDate(startDate);
 

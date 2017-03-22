@@ -50,8 +50,8 @@ public class DatePickerViewController implements Initializable {
         dpEnd.setValue(createLocalDate(schemaModel.getEndDate()));
         setDayCellFactoryStart();
         setDayCellFactoryEnd();
-        schemaModel.setStartDate(dpStart.getValue().toString());
-        schemaModel.setEndDate(dpEnd.getValue().toString());
+//        schemaModel.setStartDate(dpStart.getValue().toString());
+//        schemaModel.setEndDate(dpEnd.getValue().toString());
     }
 
     /**

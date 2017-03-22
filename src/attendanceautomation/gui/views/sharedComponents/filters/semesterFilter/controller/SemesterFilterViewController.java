@@ -43,7 +43,7 @@ public class SemesterFilterViewController implements Initializable {
         instance = this;
         schoolClassModel.updateSemesters();
         comboSemester.setItems(schoolClassModel.getSemesters());
-        selectLatest();
+        comboSemester.setPromptText("Vælg semester");
     }
 
     /**

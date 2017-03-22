@@ -62,21 +62,31 @@ public class WeeksAndDaysBarViewController implements Initializable {
 
     private void createWeekLabels() {
         int currentWeekOfMonthNumber = schemaModel.getCurrentWeekOfMonthNumber();
+        Label filler = new Label();
         switch (currentWeekOfMonthNumber) {
             case 1:
                 createWeekNumberLabel(schemaModel.getWeekNumbers().get(0));
                 createDayLabels();
                 break;
             case 2:
+                createWeekNumberLabel(schemaModel.getWeekNumbers().get(0));
+                createDayLabels();
+                filler = new Label();
+                hBoxDays.getChildren().add(filler);
+                fillerLabels.add(filler);
                 createWeekNumberLabel(schemaModel.getWeekNumbers().get(1));
                 createDayLabels();
                 break;
             case 3:
-                createWeekNumberLabel(schemaModel.getWeekNumbers().get(2));
+                createWeekNumberLabel(schemaModel.getWeekNumbers().get(1));
+                filler = new Label();
+                hBoxDays.getChildren().add(filler);
+                fillerLabels.add(filler);
                 createDayLabels();
-                break;
-            case 4:
-                createWeekNumberLabel(schemaModel.getWeekNumbers().get(3));
+                createWeekNumberLabel(schemaModel.getWeekNumbers().get(2));
+                filler = new Label();
+                hBoxDays.getChildren().add(filler);
+                fillerLabels.add(filler);
                 createDayLabels();
                 break;
             default:
@@ -85,7 +95,7 @@ public class WeeksAndDaysBarViewController implements Initializable {
                     createWeekNumberLabel(currentWeek);
                     createDayLabels();
                     if (schemaModel.getWeekNumbers().indexOf(currentWeek) != schemaModel.getWeekNumbers().size()) {
-                        Label filler = new Label();
+                        filler = new Label();
                         hBoxDays.getChildren().add(filler);
                         fillerLabels.add(filler);
                     }

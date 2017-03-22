@@ -274,8 +274,7 @@ public class AttendanceDAO {
     public List<NonAttendance> getAllNonAttendanceForASpecificStudentBySemester(int studentID, int semesterID) {
         try {
             List<SchoolClassSemesterLesson> schoolClassSemesterLessonsForStudent = getAllSchoolClassSemesterLessonsASpecificStudentDidNotAttendBySemester(studentID, semesterID);
-            List<NonAttendance> nonAttendanceForSpecificStudent;
-            nonAttendanceForSpecificStudent = new ArrayList<>();
+            List<NonAttendance> nonAttendanceForSpecificStudent = new ArrayList<>();
             for (SchoolClassSemesterLesson schoolClassSemesterLesson : schoolClassSemesterLessonsForStudent) {
                 NonAttendance newNonAttendance = new NonAttendance(schoolClassSemesterLesson, studentID);
                 nonAttendanceForSpecificStudent.add(newNonAttendance);

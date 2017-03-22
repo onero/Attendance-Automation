@@ -97,11 +97,6 @@ public class SchemaModel {
             }
             start = monthDayYear.parse(startDate);
 
-            Calendar firstDate = Calendar.getInstance();
-            firstDate.setTime(end);
-            firstDate.set(firstDate.get(Calendar.YEAR), firstDate.get(Calendar.MONTH), 1);
-            start = firstDate.getTime();
-
             if (numberOfDays <= 5) {
                 setFirstWeekOfMonth(start);
                 currentWeekOfMonth = 1;
@@ -115,6 +110,11 @@ public class SchemaModel {
                 setThirdWeekOfMonth(start);
                 currentWeekOfMonth = 3;
             } else {
+                Calendar firstDate = Calendar.getInstance();
+                firstDate.setTime(end);
+                firstDate.set(firstDate.get(Calendar.YEAR), firstDate.get(Calendar.MONTH), 1);
+                start = firstDate.getTime();
+
                 setFirstWeekOfMonth(start);
                 setSecondWeekOfMonth(start);
                 setThirdWeekOfMonth(start);

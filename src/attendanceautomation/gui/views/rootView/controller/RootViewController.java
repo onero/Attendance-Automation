@@ -13,7 +13,7 @@ import attendanceautomation.gui.views.NodeFactory;
 import attendanceautomation.gui.views.login.controller.LoginViewController;
 import attendanceautomation.gui.views.sharedComponents.componentsHolder.controller.ComponentsHolderViewController;
 import attendanceautomation.gui.views.sharedComponents.filters.filterHolder.controller.FilterHolderViewController;
-import attendanceautomation.gui.views.sharedComponents.whiteComponentHolder.controller.WhiteComponentHolderController;
+import attendanceautomation.gui.views.sharedComponents.allComponentHolder.controller.AllComponentHolderController;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -59,7 +59,7 @@ public class RootViewController implements Initializable {
     private Node SEARCH_BAR;
     private Node MONTH_COMBOBOX;
     private Node ACTION_COMPONENT_HOLDER;
-    private Node WHITE_COMPONENT_HOLDER_VIEW;
+    private Node ALL_COMPONENT_HOLDER_VIEW;
     private Node EMPTY_COMPONENT_HOLDER_VIEW;
     private Node CURRENT_CLASS_VIEW;
 
@@ -74,7 +74,7 @@ public class RootViewController implements Initializable {
 
     private Node currentView;
 
-    private WhiteComponentHolderController whiteComponentHolderController;
+    private AllComponentHolderController allComponentHolderController;
 
     private final SchoolClassModel schoolClassModel;
 
@@ -96,8 +96,7 @@ public class RootViewController implements Initializable {
             LOGIN_VIEW = nodeFactory.createNewView(EFXMLName.LOGIN_VIEW);
             LOGOUT_BUTTON = nodeFactory.createNewView(EFXMLName.LOGOUT_BUTTON);
             EMPTY_COMPONENT_HOLDER_VIEW = nodeFactory.createNewView(EFXMLName.COMPONENTS_HOLDER_VIEW);
-            WHITE_COMPONENT_HOLDER_VIEW = createWhiteComponentHolderView();
-
+            ALL_COMPONENT_HOLDER_VIEW = createAllComponentHolderView();
         } catch (IOException ex) {
             System.out.println("MainView not loaded! ");
             System.out.println(ex);
@@ -107,7 +106,7 @@ public class RootViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         instance = this;
-        borderPane.setCenter(WHITE_COMPONENT_HOLDER_VIEW);
+        borderPane.setCenter(ALL_COMPONENT_HOLDER_VIEW);
         ShowHideAdminButtons(false);
         refreshBox.setVisible(false);
     }
@@ -164,7 +163,7 @@ public class RootViewController implements Initializable {
     public void handleLogout() {
         switchCenterView(LOGIN_VIEW);
         LoginViewController.getInstance().resetLogin();
-        whiteComponentHolderController.setBorderPaneTop(EMPTY_COMPONENT_HOLDER_VIEW);
+        allComponentHolderController.setBorderPaneTop(EMPTY_COMPONENT_HOLDER_VIEW);
         ShowHideAdminButtons(false);
 
     }
@@ -194,7 +193,7 @@ public class RootViewController implements Initializable {
                 Platform.runLater(() -> {
                     switchCenterView(MAIN_VIEW);
                     setRefreshBoxVisibility(true);
-                    whiteComponentHolderController.setBorderPaneTop(ACTION_COMPONENT_HOLDER);
+                    allComponentHolderController.setBorderPaneTop(ACTION_COMPONENT_HOLDER);
                     ShowHideAdminButtons(true);
                     SchoolClassModel.getInstance().updateStudentData();
                 });
@@ -230,7 +229,7 @@ public class RootViewController implements Initializable {
     private void createTeacherViews() throws IOException {
         SEARCH_BAR = nodeFactory.createNewView(EFXMLName.SEARCH_VIEW);
         ACTION_COMPONENT_HOLDER = createActionComponentHolder();
-        whiteComponentHolderController.setBorderPaneTop(ACTION_COMPONENT_HOLDER);
+        allComponentHolderController.setBorderPaneTop(ACTION_COMPONENT_HOLDER);
     }
 
     /**
@@ -239,7 +238,7 @@ public class RootViewController implements Initializable {
      * @param node
      */
     private void switchCenterView(Node node) {
-        whiteComponentHolderController.setBorderPaneCenter(node);
+        allComponentHolderController.setBorderPaneCenter(node);
         currentView = node;
     }
 
@@ -252,7 +251,7 @@ public class RootViewController implements Initializable {
         schoolClassModel.loadStudentData(userId);
         DETAILED_STUDENT_VIEW = nodeFactory.createNewView(EFXMLName.DETAILED_STUDENT_VIEW);
         switchCenterView(DETAILED_STUDENT_VIEW);
-        whiteComponentHolderController.setBorderPaneTop(ACTION_COMPONENT_HOLDER);
+        allComponentHolderController.setBorderPaneTop(ACTION_COMPONENT_HOLDER);
         ShowHideAdminButtons(false);
         LoginViewController.getInstance().resetLogin();
 
@@ -387,11 +386,11 @@ public class RootViewController implements Initializable {
      * @return
      * @throws IOException
      */
-    private Node createWhiteComponentHolderView() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLName.WHITE_COMPONENT_HOLDER.toString()));
+    private Node createAllComponentHolderView() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLName.ALL_COMPONENT_HOLDER.toString()));
         Node node = loader.load();
-        whiteComponentHolderController = loader.getController();
-        whiteComponentHolderController.setBorderPaneTop(EMPTY_COMPONENT_HOLDER_VIEW);
+        allComponentHolderController = loader.getController();
+        allComponentHolderController.setBorderPaneTop(EMPTY_COMPONENT_HOLDER_VIEW);
         switchCenterView(LOGIN_VIEW);
         return node;
     }

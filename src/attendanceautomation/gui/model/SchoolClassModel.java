@@ -28,6 +28,8 @@ public class SchoolClassModel {
 
     private static SchoolClassModel instance;
 
+    private SchemaModel schemaModel;
+
     private final SchoolClassManager schoolClassManager;
 
     private final Academy currentAcademy;
@@ -69,6 +71,7 @@ public class SchoolClassModel {
 
     private SchoolClassModel() {
         schoolClassManager = SchoolClassManager.getInstance();
+        schemaModel = SchemaModel.getInstance();
         searchString = "";
         students = FXCollections.observableArrayList();
         studentsFromDB = new ArrayList<>(students);
@@ -79,8 +82,6 @@ public class SchoolClassModel {
         currentClassStudentsAbsence = FXCollections.observableArrayList();
         currentClassStudentsPresent = FXCollections.observableArrayList();
         semesters = FXCollections.observableArrayList();
-        startDate = "2017-02-01";
-        endDate = "2017-02-28";
     }
 
     /**
@@ -155,8 +156,8 @@ public class SchoolClassModel {
      * @param schoolClassID
      */
     private void setCurrentSchoolClass(int schoolClassID) {
-        if (startDate != null && endDate != null) {
-            currentSchoolClass = schoolClassManager.getAllSchoolClassDataBySchoolClassIdForSpecificPeriod(schoolClassID, startDate, endDate);
+        if (schemaModel.getStartDate() != null && schemaModel.getEndDate() != null) {
+            currentSchoolClass = schoolClassManager.getAllSchoolClassDataBySchoolClassIdForSpecificPeriod(schoolClassID, schemaModel.getStartDate(), schemaModel.getEndDate());
         } else {
             currentSchoolClass = schoolClassManager.getAllSchoolClassDataBySchoolClassId(schoolClassID);
         }

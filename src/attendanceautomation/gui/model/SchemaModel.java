@@ -39,6 +39,9 @@ public class SchemaModel {
 
     private int currentWeekOfMonth;
 
+    private String startDate;
+    String endDate;
+
     private SchemaModel() {
         schemaManager = SchemaManager.getInstance();
 
@@ -53,8 +56,8 @@ public class SchemaModel {
         weeksOfMonth.add(thirdWeekOfMonth);
         weeksOfMonth.add(lastWeekOfMonth);
 
-        String startDate = "2016/11/01";
-        String endDate = "2016/11/30";
+        startDate = "2017/02/01";
+        endDate = "2017/02/28";
         setCurrentMonth(startDate, endDate);
 
         //Zero for all weeks in month
@@ -202,6 +205,22 @@ public class SchemaModel {
 
     public List<Integer> getWeekNumbers() {
         return weekNumbers;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
     }
 
 }

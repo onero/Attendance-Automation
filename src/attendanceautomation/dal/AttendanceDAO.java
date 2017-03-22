@@ -214,7 +214,7 @@ public class AttendanceDAO {
             ps.setInt(1, semesterSubjectID);
 
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
+            if (rs.next()) {
                 return SchoolClassDAO.getInstance().getOneSchoolSemesterSubject(rs);
             }
             return null;
@@ -280,10 +280,6 @@ public class AttendanceDAO {
             for (SchoolClassSemesterLesson schoolClassSemesterLesson : schoolClassSemesterLessonsForStudent) {
                 NonAttendance newNonAttendance = new NonAttendance(schoolClassSemesterLesson, studentID);
                 nonAttendanceForSpecificStudent.add(newNonAttendance);
-            }
-            for (NonAttendance nonAttendance : nonAttendanceForSpecificStudent) {
-                System.out.println(nonAttendance.getStudentID());
-                System.out.println(nonAttendance.getSchoolClassSemesterLesson().getSemesterSubject().getSubject().toString());
             }
             return nonAttendanceForSpecificStudent;
         } catch (SQLException ex) {

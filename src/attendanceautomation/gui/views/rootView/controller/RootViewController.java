@@ -187,17 +187,15 @@ public class RootViewController implements Initializable {
         Runnable task = () -> {
             Teacher teacher = schoolClassModel.getTeacherByEmail(teacherEmail);
             if (schoolClassModel.checkForNewTeacher(teacher)) {
-                LOADING_DATA_VIEW = nodeFactory.createNewView(EFXMLName.LOADING_DATA_VIEW);
                 schoolClassModel.setCurrentTeacher(teacher);
+                LOADING_DATA_VIEW = nodeFactory.createNewView(EFXMLName.LOADING_DATA_VIEW);
                 loadTeacherView();
                 schoolClassModel.loadDataFromDB();
                 schoolClassModel.updateCurrentClassStudents(0);
                 Platform.runLater(() -> {
                     MAIN_VIEW = nodeFactory.createNewView(EFXMLName.MAIN_VIEW);
-                    switchCenterView(MAIN_VIEW);
-                    PieChartModel.getInstance().resetPieChart();
-                    PieChartViewController.getInstance().updateChart();
-                    ShowHideAdminButtons(true);
+                    currentView = MAIN_VIEW;
+                    updateAll();
                     LoginViewController.getInstance().resetLogin();
                 });
             } else {
@@ -219,6 +217,7 @@ public class RootViewController implements Initializable {
      */
     private void loadTeacherView() {
         Platform.runLater(() -> {
+            switchCenterView(LOADING_DATA_VIEW);
             try {
                 createTeacherViews();
             } catch (IOException ex) {
@@ -226,7 +225,6 @@ public class RootViewController implements Initializable {
                 System.out.println(ex);
             }
 
-            switchCenterView(LOADING_DATA_VIEW);
         });
     }
 
@@ -275,6 +273,7 @@ public class RootViewController implements Initializable {
                 reloadView();
                 PieChartModel.getInstance().resetPieChart();
                 PieChartViewController.getInstance().updateChart();
+                ShowHideAdminButtons(true);
             });
         };
         new Thread(task).start();
@@ -293,6 +292,7 @@ public class RootViewController implements Initializable {
             switchCenterView(DETAILED_STUDENT_VIEW);
         }
         if (currentView == MAIN_VIEW) {
+            switchCenterView(MAIN_VIEW);
             schoolClassModel.sortStudentsOnAttendance();
         }
         MonthComboboxViewController.getInstance().updateWeekNumbers();
@@ -375,8 +375,6 @@ public class RootViewController implements Initializable {
             Runnable task = () -> {
                 schoolClassModel.loadSchoolClassDataBySemester(schoolClassID, semesterID);
                 Platform.runLater(() -> {
-                    switchCenterView(MAIN_VIEW);
-                    ShowHideAdminButtons(true);
                     updateAll();
                 });
             };
@@ -393,8 +391,6 @@ public class RootViewController implements Initializable {
             Runnable task = () -> {
                 schoolClassModel.loadCurrentSchoolClassByPeriodAndID(schoolClassID);
                 Platform.runLater(() -> {
-                    switchCenterView(MAIN_VIEW);
-                    ShowHideAdminButtons(true);
                     updateAll();
                 });
             };
@@ -405,13 +401,12 @@ public class RootViewController implements Initializable {
             showLoadingDataView();
 
             Runnable task = () -> {
+                //TODO ALH: Make dynamic (also in SchemaModel!)
                 String startDate = "2016-10-31";
                 String endDate = "2017-02-28";
                 SchemaModel.getInstance().setCurrentMonth(startDate, endDate);
                 schoolClassModel.loadSchoolClassDataByName(schoolClassName);
                 Platform.runLater(() -> {
-                    switchCenterView(MAIN_VIEW);
-                    ShowHideAdminButtons(true);
                     updateAll();
                 });
             };
@@ -420,7 +415,7 @@ public class RootViewController implements Initializable {
     }
 
     private void showLoadingDataView() {
-        switchCenterView(LOADING_DATA_VIEW);
+        allComponentHolderController.setBorderPaneCenter(LOADING_DATA_VIEW);
         ShowHideAdminButtons(false);
     }
 

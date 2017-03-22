@@ -328,6 +328,8 @@ public class SchoolClassModel {
     /**
      * Clears currentClassStudentsWithAbsence. Then gets a new list of students
      * from the database.
+     *
+     * @param mockSwitch
      */
     public void updateCurrentClassStudents(int mockSwitch) {
         currentClassStudentsAbsence.clear();

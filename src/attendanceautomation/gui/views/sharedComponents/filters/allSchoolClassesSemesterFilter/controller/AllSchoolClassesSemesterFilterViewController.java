@@ -55,7 +55,7 @@ public class AllSchoolClassesSemesterFilterViewController implements Initializab
         if (semester.toLowerCase().equals("alle")) {
             schoolClassModel.resetSchoolNamesAndIDs();
         } else {
-            schoolClassModel.updateSchoolClassesOnSemester(semester);
+            schoolClassModel.updateSchoolClassNamesOnSemester(semester);
         }
         SchoolClassFilterViewController.getInstance().openBox();
         schoolClassModel.clearSemesters();

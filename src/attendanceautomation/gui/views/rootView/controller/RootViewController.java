@@ -8,12 +8,16 @@ package attendanceautomation.gui.views.rootView.controller;
 import attendanceautomation.be.Teacher;
 import attendanceautomation.be.enums.EFXMLName;
 import attendanceautomation.gui.model.PieChartModel;
+import attendanceautomation.gui.model.SchemaModel;
 import attendanceautomation.gui.model.SchoolClassModel;
 import attendanceautomation.gui.views.NodeFactory;
 import attendanceautomation.gui.views.login.controller.LoginViewController;
 import attendanceautomation.gui.views.sharedComponents.allComponentHolder.controller.AllComponentHolderController;
 import attendanceautomation.gui.views.sharedComponents.componentsHolder.controller.ComponentsHolderViewController;
+import attendanceautomation.gui.views.sharedComponents.filters.datePicker.controller.DatePickerViewController;
 import attendanceautomation.gui.views.sharedComponents.filters.filterHolder.controller.FilterHolderViewController;
+import attendanceautomation.gui.views.sharedComponents.filters.schoolClassFilter.controller.SchoolClassFilterViewController;
+import attendanceautomation.gui.views.sharedComponents.filters.semesterFilter.controller.SemesterFilterViewController;
 import attendanceautomation.gui.views.sharedComponents.monthComboBox.controller.MonthComboboxViewController;
 import attendanceautomation.gui.views.sharedComponents.pieChart.controller.PieChartViewController;
 import java.io.IOException;
@@ -75,6 +79,8 @@ public class RootViewController implements Initializable {
     private BorderPane FILTER_PANE;
 
     private Node currentView;
+
+    private Stage filterModal;
 
     private AllComponentHolderController allComponentHolderController;
 
@@ -251,7 +257,7 @@ public class RootViewController implements Initializable {
      * @param userId
      */
     public void handleStudentLogin(String userId) {
-        schoolClassModel.loadStudentData(userId);
+        schoolClassModel.loadStudentDataByEmail(userId);
         DETAILED_STUDENT_VIEW = nodeFactory.createNewView(EFXMLName.DETAILED_STUDENT_VIEW);
         switchCenterView(DETAILED_STUDENT_VIEW);
         allComponentHolderController.setBorderPaneTop(ACTION_COMPONENT_HOLDER);
@@ -330,7 +336,7 @@ public class RootViewController implements Initializable {
         try {
             Parent root = loader.load();
             Scene filterHolder = new Scene(root);
-            Stage filterModal = new Stage();
+            filterModal = new Stage();
             filterModal.setScene(filterHolder);
 
             filterModal.initModality(Modality.WINDOW_MODAL);
@@ -347,10 +353,75 @@ public class RootViewController implements Initializable {
             controller.addFilter(SEMESTER_FILTER_VIEW);
             controller.addFilter(DATEPICKER_VIEW);
 
+            Node okButton = nodeFactory.createNewView(EFXMLName.FILTER_SEARCH_BUTTON);
+            controller.addFilter(okButton);
             filterModal.show();
         } catch (IOException ex) {
             Logger.getLogger(RootViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    /**
+     * Reload data depending on user selections
+     */
+    public void handleFilterSearch() {
+        String schoolClassName = SchoolClassFilterViewController.getInstance().getSchoolName();
+        int schoolClassID = schoolClassModel.getSchoolClassIdByName(schoolClassName);
+        if (SemesterFilterViewController.getInstance().isSemesterSelected()) {
+            int semesterID = SemesterFilterViewController.getInstance().getSemesterID();
+            filterModal.close();
+            showLoadingDataView();
+
+            Runnable task = () -> {
+                schoolClassModel.loadSchoolClassDataBySemester(schoolClassID, semesterID);
+                Platform.runLater(() -> {
+                    switchCenterView(MAIN_VIEW);
+                    ShowHideAdminButtons(true);
+                    updateAll();
+                });
+            };
+            new Thread(task).start();
+
+        } else if (DatePickerViewController.getInstance().hasNewDate()) {
+            String startDate = DatePickerViewController.getInstance().getStartDate();
+            String endDate = DatePickerViewController.getInstance().getEndDate();
+            filterModal.close();
+            showLoadingDataView();
+
+            SchemaModel.getInstance().setCurrentMonth(startDate, endDate);
+
+            Runnable task = () -> {
+                schoolClassModel.loadCurrentSchoolClassByPeriodAndID(schoolClassID);
+                Platform.runLater(() -> {
+                    switchCenterView(MAIN_VIEW);
+                    ShowHideAdminButtons(true);
+                    updateAll();
+                });
+            };
+            new Thread(task).start();
+
+        } else {
+            filterModal.close();
+            showLoadingDataView();
+
+            Runnable task = () -> {
+                String startDate = "2016-10-31";
+                String endDate = "2017-02-28";
+                SchemaModel.getInstance().setCurrentMonth(startDate, endDate);
+                schoolClassModel.loadSchoolClassDataByName(schoolClassName);
+                Platform.runLater(() -> {
+                    switchCenterView(MAIN_VIEW);
+                    ShowHideAdminButtons(true);
+                    updateAll();
+                });
+            };
+            new Thread(task).start();
+        }
+    }
+
+    private void showLoadingDataView() {
+        switchCenterView(LOADING_DATA_VIEW);
+        ShowHideAdminButtons(false);
     }
 
     /**

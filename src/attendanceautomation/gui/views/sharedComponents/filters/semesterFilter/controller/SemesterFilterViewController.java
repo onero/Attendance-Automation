@@ -22,14 +22,17 @@ public class SemesterFilterViewController implements Initializable {
 
     private static SemesterFilterViewController instance;
 
+    public static SemesterFilterViewController getInstance() {
+        if (instance == null) {
+            instance = new SemesterFilterViewController();
+        }
+        return instance;
+    }
+
     @FXML
     private ComboBox<String> comboSemester;
 
     private final SchoolClassModel schoolClassModel;
-
-    public static SemesterFilterViewController getInstance() {
-        return instance;
-    }
 
     public SemesterFilterViewController() {
         schoolClassModel = SchoolClassModel.getInstance();
@@ -41,9 +44,19 @@ public class SemesterFilterViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         instance = this;
-        schoolClassModel.updateSemesters();
         comboSemester.setItems(schoolClassModel.getSemesters());
+    }
+
+    public void setPromptText() {
         comboSemester.setPromptText("Vælg semester");
+    }
+
+    public int getSemesterID() {
+        return schoolClassModel.getSemesterIDByName(comboSemester.getSelectionModel().getSelectedItem());
+    }
+
+    public boolean isSemesterSelected() {
+        return !comboSemester.getSelectionModel().isEmpty();
     }
 
     /**
@@ -53,18 +66,6 @@ public class SemesterFilterViewController implements Initializable {
      */
     @FXML
     private void handleSelectSemester(Event event) {
-        String semesterName = comboSemester.getSelectionModel().getSelectedItem();
-        if (!semesterName.isEmpty()) {
-            int semesterID = schoolClassModel.getSemesterIDByName(semesterName);
-            schoolClassModel.updateSchoolClassSemester(semesterID);
-        }
-    }
-
-    /**
-     * Select the first element
-     */
-    public void selectLatest() {
-        comboSemester.getSelectionModel().selectFirst();
     }
 
 }

@@ -5,9 +5,8 @@
  */
 package attendanceautomation.gui.views.sharedComponents.filters.schoolClassFilter.controller;
 
-import attendanceautomation.gui.model.PieChartModel;
 import attendanceautomation.gui.model.SchoolClassModel;
-import attendanceautomation.gui.views.sharedComponents.pieChart.controller.PieChartViewController;
+import attendanceautomation.gui.views.sharedComponents.filters.semesterFilter.controller.SemesterFilterViewController;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -38,7 +37,11 @@ public class SchoolClassFilterViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         instance = this;
         comboSchoolClass.setItems(SchoolClassModel.getInstance().getSchoolClassNames());
-        comboSchoolClass.getSelectionModel().selectFirst();
+        comboSchoolClass.setPromptText("Vælg klasse");
+    }
+
+    public String getSchoolName() {
+        return comboSchoolClass.getSelectionModel().getSelectedItem();
     }
 
     @FXML
@@ -47,10 +50,8 @@ public class SchoolClassFilterViewController implements Initializable {
         if (schoolClassName != null) {
             Runnable task = () -> {
                 Platform.runLater(() -> {
-                    SchoolClassModel.getInstance().loadSchoolClassByName(schoolClassName);
-                    SchoolClassModel.getInstance().updateSemesters();
-                    PieChartModel.getInstance().resetPieChart();
-                    PieChartViewController.getInstance().updateChart();
+                    SchoolClassModel.getInstance().getSemestersOnSchoolClassName(schoolClassName);
+                    SemesterFilterViewController.getInstance().setPromptText();
                 });
             };
             new Thread(task).start();

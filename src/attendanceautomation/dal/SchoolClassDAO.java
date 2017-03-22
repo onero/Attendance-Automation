@@ -56,17 +56,19 @@ public class SchoolClassDAO {
         }
     }
 
-    public List<String> getAllSchoolClassSemesters(int schoolClassID) throws SQLServerException, SQLException {
+    public List<String> getAllSchoolClassSemestersBySchoolClassName(String schoolClassName) throws SQLServerException, SQLException {
         List<String> semesters = new ArrayList<>();
         String sql = "SELECT DISTINCT semester.Name "
                 + "AS 'SemesterName' "
                 + "FROM Semester semester "
                 + "JOIN SchoolClassSemesterSubject semesterSubject ON semesterSubject.SemesterID = semester.ID "
-                + "WHERE semesterSubject.SchoolClassID = ?";
+                + "JOIN SchoolClass sc ON sc.ID = semesterSubject.SchoolClassID "
+                + "WHERE sc.Name = ? "
+                + "ORDER BY semester.Name ";
 
         try (Connection con = cm.getConnection()) {
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, schoolClassID);
+            ps.setString(1, schoolClassName);
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -313,6 +315,22 @@ public class SchoolClassDAO {
         SchoolSemesterSubject newSubject = new SchoolSemesterSubject(SemesterSubjectID, schoolClass, semester, subject, teacher);
 
         return newSubject;
+    }
+
+    public int getSchoolClassIdByName(String schoolClassName) throws SQLException, SQLException {
+        String sql = "SELECT ID "
+                + "FROM SchoolClass "
+                + "WHERE Name = ?";
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, schoolClassName);
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return (rs.getInt("ID"));
+            }
+            return 0;
+        }
     }
 
     /**

@@ -10,11 +10,11 @@ import attendanceautomation.be.NonAttendance;
 import attendanceautomation.be.SchoolClass;
 import attendanceautomation.be.Student;
 import attendanceautomation.be.Teacher;
-import attendanceautomation.be.enums.ESchoolSubject;
 import attendanceautomation.dal.AttendanceAutomationDAOFacade;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public class SchoolClassManager {
 
@@ -320,5 +320,20 @@ public class SchoolClassManager {
             student.addAllNonAttendance(AADAOFacade.getAllNonAttendanceForStudentBySemester(student.getID(), semesterID));
         }
         return students;
+    }
+
+    /**
+     * Makes a List from the Set given in the param, and then get one teacher
+     * from the DB, by their name, at a time for each name given.
+     *
+     * @param teacherNames
+     * @return
+     */
+    public List<Teacher> getTeachersByNames(Set<String> teacherNames) {
+        List<Teacher> teachers = new ArrayList<>();
+        for (String teacherName : teacherNames) {
+            teachers.add(AADAOFacade.getOneTeacherByName(teacherName));
+        }
+        return teachers;
     }
 }

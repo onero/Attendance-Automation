@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -524,5 +525,15 @@ public class SchoolClassModel {
 
     public ESemester getCurrentSemester() {
         return currentSemester;
+    }
+
+    /**
+     * Calls the Manager to get a list of teacher objects.
+     *
+     * @param teacherNames
+     * @return
+     */
+    public List<Teacher> getTeachersByNames(Set<String> teacherNames) {
+        return schoolClassManager.getTeachersByNames(teacherNames);
     }
 }

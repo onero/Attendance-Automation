@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="rootBorderPane" prefHeight="205.0" prefWidth="723.0" styleClass="padding" stylesheets="@../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="attendanceautomation.gui.views.detailedStudent.controller.StudentInformationTopViewController">
+<BorderPane fx:id="rootBorderPane" prefHeight="205.0" prefWidth="723.0" styleClass="padding" stylesheets="@../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="attendanceautomation.gui.views.detailedStudent.controller.StudentInformationTopViewController">
    <left>
       <BorderPane fx:id="studentBorderPane" prefHeight="225.0" prefWidth="250.0" stylesheets="@../../css/Style.css" BorderPane.alignment="CENTER">
          <top>
@@ -50,7 +50,7 @@
       </BorderPane>
    </left>
    <right>
-      <BorderPane fx:id="TeacherBorderPane" prefHeight="200.0" prefWidth="225.0" styleClass="studentInfo" stylesheets="@../../css/Style.css" BorderPane.alignment="CENTER">
+      <BorderPane fx:id="TeacherBorderPane" prefHeight="185.0" prefWidth="328.0" styleClass="studentInfo" stylesheets="@../../css/Style.css" BorderPane.alignment="CENTER">
          <top>
             <Label styleClass="detailLabels" stylesheets="@../../css/Style.css" text="Lærer" BorderPane.alignment="CENTER">
                <font>
@@ -59,18 +59,18 @@
             </Label>
          </top>
          <center>
-            <TableView fx:id="listTeachers" prefHeight="295.0" prefWidth="225.0" BorderPane.alignment="CENTER">
+            <TableView fx:id="listTeachers" prefHeight="158.0" prefWidth="309.0" BorderPane.alignment="CENTER">
               <columns>
-                <TableColumn prefWidth="75.0" text="Lærer" />
-                <TableColumn prefWidth="75.0" text="Fag" />
-                  <TableColumn prefWidth="75.0" text="Email" />
+                <TableColumn fx:id="columnTeacher" prefWidth="105.0" text="Lærer" />
+                <TableColumn fx:id="columnSubject" prefWidth="51.0" text="Fag" />
+                  <TableColumn fx:id="columnEmail" prefWidth="171.0" text="Email" />
               </columns>
             </TableView>
          </center>
       </BorderPane>
    </right>
    <center>
-      <BorderPane styleClass="studentInfo" stylesheets="@../../css/Style.css" BorderPane.alignment="CENTER">
+      <BorderPane prefHeight="225.0" prefWidth="250.0" styleClass="studentInfo" stylesheets="@../../css/Style.css" BorderPane.alignment="CENTER">
          <top>
             <Label prefHeight="39.0" prefWidth="218.0" styleClass="detailLabels" stylesheets="@../../css/Style.css" text="Studerendes fravær" BorderPane.alignment="CENTER" />
          </top>

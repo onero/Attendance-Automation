@@ -28,6 +28,7 @@ public class Student {
 
     private final String email;
 
+    //TODO MSP: make a field for field of study.
     private final ArrayList<NonAttendance> nonAttendance;
 
     /**

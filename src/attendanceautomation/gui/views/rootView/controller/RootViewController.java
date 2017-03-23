@@ -206,10 +206,10 @@ public class RootViewController implements Initializable {
                     gridButtomBar.add(REFRESHING_DATA_VIEW, 5, 1);
                     allComponentHolderController.setBorderPaneTop(ACTION_COMPONENT_HOLDER);
                     ShowHideAdminButtons(true);
+                    gridButtomBar.getChildren().remove(REFRESHING_DATA_VIEW);
                     SchoolClassModel.getInstance().updateStudentData();
                 });
             }
-            schoolClassModel.sortStudentsOnAttendance();
         };
         new Thread(task).start();
     }
@@ -281,8 +281,10 @@ public class RootViewController implements Initializable {
         schoolClassModel.loadStudentDataByEmail(userId);
         DETAILED_STUDENT_VIEW = nodeFactory.createNewView(EFXMLName.DETAILED_STUDENT_VIEW);
         switchCenterView(DETAILED_STUDENT_VIEW);
-        allComponentHolderController.setBorderPaneTop(ACTION_COMPONENT_HOLDER);
         ShowHideAdminButtons(false);
+        LOGOUT_BUTTON.setDisable(false);
+        LOGOUT_BUTTON.setVisible(true);
+        allComponentHolderController.setBorderPaneTop(ACTION_COMPONENT_HOLDER);
         LoginViewController.getInstance().resetLogin();
 
     }
@@ -474,13 +476,16 @@ public class RootViewController implements Initializable {
         allStudentsButton.setVisible(visible);
         currentClass.setDisable(!visible);
         currentClass.setVisible(visible);
+        LOGOUT_BUTTON.setDisable(!visible);
+        LOGOUT_BUTTON.setVisible(visible);
         if (SEARCH_BAR != null) {
             FILTER_PANE.setDisable(!visible);
             FILTER_PANE.setVisible(visible);
             SEARCH_BAR.setDisable(!visible);
             SEARCH_BAR.setVisible(visible);
+            REFRESH_DATA_BUTTON.setDisable(!visible);
+            REFRESH_DATA_BUTTON.setVisible(visible);
         }
-
     }
 
     @FXML

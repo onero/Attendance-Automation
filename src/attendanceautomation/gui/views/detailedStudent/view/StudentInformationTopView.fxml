@@ -63,7 +63,7 @@
                         <Label fx:id="lblSdeAbsence" text="SdeAbsence" />
                         <Label fx:id="lblItoAbsence" text="ItoAbsence" />
                         <Label fx:id="lblDbosAbsence" text="DbosAbsence" />
-                        <Label fx:id="lblTotalAbsence" text="TotalAbsence" />
+                        <Label fx:id="lblTotalAbsence" style="-fx-font-weight: bold;" text="TotalAbsence" />
                      </children>
                   </VBox>
                </right>
@@ -73,8 +73,8 @@
                         <Label prefHeight="15.0" prefWidth="39.0" text="SCO:" />
                         <Label prefHeight="15.0" prefWidth="39.0" text="SDE:" />
                         <Label prefHeight="15.0" prefWidth="39.0" text="ITO:" />
-                        <Label prefHeight="15.0" prefWidth="39.0" text="DBOS:" />
-                        <Label prefHeight="15.0" prefWidth="128.0" text="Total fravær:" />
+                        <Label prefHeight="15.0" text="DBOS:" />
+                        <Label prefHeight="15.0" prefWidth="128.0" style="-fx-font-weight: bold;" text="Total fravær:" />
                      </children>
                   </VBox>
                </left>

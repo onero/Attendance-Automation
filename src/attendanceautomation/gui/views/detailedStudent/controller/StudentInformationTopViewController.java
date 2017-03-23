@@ -22,6 +22,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 
 /**
@@ -125,8 +126,8 @@ public class StudentInformationTopViewController implements Initializable {
      */
     private void setCellFactory() {
         listTeachers.setItems(teachers);
-        columnTeacher.setCellValueFactory(i -> i.getValue().getFullNameProperty());
-        columnEmail.setCellValueFactory(i -> i.getValue().getEmailProperty());
+        columnTeacher.setCellValueFactory(new PropertyValueFactory<>("fullName"));
+        columnEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
         //TODO MSP: SetCellValueFactory on columnSubject.
     }
 

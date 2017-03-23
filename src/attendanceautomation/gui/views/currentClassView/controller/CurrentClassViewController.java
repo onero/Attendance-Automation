@@ -74,7 +74,7 @@ public class CurrentClassViewController implements Initializable {
     private Node createListViewPresent() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLName.CURRENT_CLASS_LIST_VIEW.toString()));
         Node node = loader.load();
-        controllerPresent = setItemsInList(loader, model.getCurrentClassStudentsPresent());
+        controllerPresent = setItemsInList(loader, model.getCurrentClassStudentsPresent(), "green");
         return node;
     }
 
@@ -86,13 +86,14 @@ public class CurrentClassViewController implements Initializable {
     private Node createListViewAbsence() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLName.CURRENT_CLASS_LIST_VIEW.toString()));
         Node node = loader.load();
-        controllerAbsence = setItemsInList(loader, model.getCurrentClassStudentsAbsence());
+        controllerAbsence = setItemsInList(loader, model.getCurrentClassStudentsAbsence(), "red");
         return node;
     }
 
-    private CurrentClassListViewController setItemsInList(FXMLLoader loader, ObservableList<Student> listOfStudents) {
+    private CurrentClassListViewController setItemsInList(FXMLLoader loader, ObservableList<Student> listOfStudents, String color) {
         CurrentClassListViewController controller = loader.getController();
         controller.setItemsInList(listOfStudents);
+        controller.setCellFactory(color);
         return controller;
     }
 

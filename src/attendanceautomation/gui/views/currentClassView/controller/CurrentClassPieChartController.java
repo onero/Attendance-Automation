@@ -20,12 +20,22 @@ import javafx.scene.chart.PieChart;
  */
 public class CurrentClassPieChartController implements Initializable {
 
+    private static CurrentClassPieChartController instance;
+
+    public static CurrentClassPieChartController getInstance() {
+        if (instance == null) {
+            instance = new CurrentClassPieChartController();
+        }
+        return instance;
+    }
+
     @FXML
     private PieChart pieChart;
 
     private PieChartModel pieModel;
 
     public CurrentClassPieChartController() {
+        instance = this;
         pieModel = PieChartModel.getInstance();
     }
 

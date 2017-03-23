@@ -11,6 +11,7 @@ import attendanceautomation.gui.model.PieChartModel;
 import attendanceautomation.gui.model.SchemaModel;
 import attendanceautomation.gui.model.SchoolClassModel;
 import attendanceautomation.gui.views.NodeFactory;
+import attendanceautomation.gui.views.currentClassView.controller.CurrentClassPieChartController;
 import attendanceautomation.gui.views.login.controller.LoginViewController;
 import attendanceautomation.gui.views.sharedComponents.allComponentHolder.controller.AllComponentHolderController;
 import attendanceautomation.gui.views.sharedComponents.componentsHolder.controller.ComponentsHolderViewController;
@@ -490,7 +491,11 @@ public class RootViewController implements Initializable {
 
     @FXML
     private void handleCurrentClassBtn() {
-        CURRENT_CLASS_VIEW = nodeFactory.createNewView(EFXMLName.CURRENT_CLASS_VIEW);
+        if (CURRENT_CLASS_VIEW == null) {
+            CURRENT_CLASS_VIEW = nodeFactory.createNewView(EFXMLName.CURRENT_CLASS_VIEW);
+            schoolClassModel.updateCurrentClassStudents(0);
+            CurrentClassPieChartController.getInstance().updateChart();
+        }
 
         switchCenterView(CURRENT_CLASS_VIEW);
         hideNode(MONTH_COMBOBOX);

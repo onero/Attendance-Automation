@@ -50,7 +50,7 @@
       </BorderPane>
    </left>
    <right>
-      <BorderPane fx:id="TeacherBorderPane" prefHeight="185.0" prefWidth="328.0" styleClass="studentInfo" stylesheets="@../../css/Style.css" BorderPane.alignment="CENTER">
+      <BorderPane fx:id="TeacherBorderPane" prefHeight="185.0" prefWidth="277.0" styleClass="studentInfo" stylesheets="@../../css/Style.css" BorderPane.alignment="CENTER">
          <top>
             <Label styleClass="detailLabels" stylesheets="@../../css/Style.css" text="Lærer" BorderPane.alignment="CENTER">
                <font>
@@ -59,10 +59,9 @@
             </Label>
          </top>
          <center>
-            <TableView fx:id="listTeachers" prefHeight="158.0" prefWidth="309.0" BorderPane.alignment="CENTER">
+            <TableView fx:id="listTeachers" prefHeight="158.0" prefWidth="325.0" BorderPane.alignment="CENTER">
               <columns>
                 <TableColumn fx:id="columnTeacher" prefWidth="105.0" text="Lærer" />
-                <TableColumn fx:id="columnSubject" prefWidth="51.0" text="Fag" />
                   <TableColumn fx:id="columnEmail" prefWidth="171.0" text="Email" />
               </columns>
             </TableView>

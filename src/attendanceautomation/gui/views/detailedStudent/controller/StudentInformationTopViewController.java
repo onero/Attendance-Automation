@@ -70,8 +70,6 @@ public class StudentInformationTopViewController implements Initializable {
     @FXML
     private TableColumn<Teacher, String> columnTeacher;
     @FXML
-    private TableColumn<SchoolSemesterSubject, String> columnSubject;
-    @FXML
     private TableColumn<Teacher, String> columnEmail;
 
     private Set<String> teacherNames;

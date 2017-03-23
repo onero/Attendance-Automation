@@ -57,7 +57,7 @@ public class WeeksAndDaysBarViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        lblMonth.setText("Februar");
+        lblMonth.setText(schemaModel.getNameOfMonth().toUpperCase());
         createWeekLabels();
         setWidth();
     }

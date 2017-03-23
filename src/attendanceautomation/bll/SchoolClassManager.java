@@ -14,9 +14,11 @@ import attendanceautomation.dal.AttendanceAutomationDAOFacade;
 import attendanceautomation.gui.model.SchemaModel;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public class SchoolClassManager {
 
@@ -33,6 +35,10 @@ public class SchoolClassManager {
 
     private SchoolClassManager() {
         AADAOFacade = AttendanceAutomationDAOFacade.getInstance();
+    }
+
+    public int getSchoolClassIdByName(String schoolClassName) {
+        return AADAOFacade.getSchoolClassIdByName(schoolClassName);
     }
 
     /**
@@ -257,26 +263,28 @@ public class SchoolClassManager {
 
     /**
      *
-     * @param currentSchoolClass
+     * @param schoolClassID
      * @param semesterID
+     * @return
      */
-    public void getSchoolClassSemesterDataBySchoolClassAndSemesterID(SchoolClass currentSchoolClass, int semesterID) {
-        currentSchoolClass.getSemesterLessons().clear();
-        currentSchoolClass.getSemesterSubjects().clear();
-        currentSchoolClass.addAllSemesterLessonsToClass(AADAOFacade.getSchoolClassSemesterLessonsBySchoolClassIDAndSemesterID(currentSchoolClass.getID(), semesterID));
-        currentSchoolClass.addAllSemesterSubjects(AADAOFacade.getSchoolClassSemesterSubjectsBySchoolCLassIDAndSemesterID(currentSchoolClass.getID(), semesterID));
+    public SchoolClass getSchoolClassBySemester(int schoolClassID, int semesterID) {
+        SchoolClass schoolClass = AADAOFacade.getSchoolClassByID(schoolClassID);
+        schoolClass.addAllStudents(getAllStudentDataBySemester(schoolClassID, semesterID));
+        schoolClass.addAllSemesterLessonsToClass(AADAOFacade.getSchoolClassSemesterLessonsBySchoolClassIDAndSemesterID(schoolClassID, semesterID));
+        schoolClass.addAllSemesterSubjects(AADAOFacade.getSchoolClassSemesterSubjectsBySchoolCLassIDAndSemesterID(schoolClassID, semesterID));
 
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
-        Date start = currentSchoolClass.getSemesterLessons().get(0).getDate();
+        Date start = schoolClass.getSemesterLessons().get(0).getDate();
         String startDate = df.format(start);
         SchemaModel.getInstance().setStartDate(startDate);
 
-        Date end = currentSchoolClass.getSemesterLessons().get(currentSchoolClass.getSemesterLessons().size() - 1).getDate();
+        Date end = schoolClass.getSemesterLessons().get(schoolClass.getSemesterLessons().size() - 1).getDate();
         String endDate = df.format(end);
         SchemaModel.getInstance().setEndDate(endDate);
 
         SchemaModel.getInstance().setCurrentMonth(startDate, endDate);
+        return schoolClass;
     }
 
     /**
@@ -304,8 +312,21 @@ public class SchoolClassManager {
         }
         return students;
     }
-
-    public List<String> getAllSchoolClassSemesters(int schoolClassID) {
-        return AADAOFacade.getAllSchoolClassSemesters(schoolClassID);
+    /**
+     * Makes a List from the Set given in the param, and then get one teacher
+     * from the DB, by their name, at a time for each name given.
+     *
+     * @param teacherNames
+     * @return
+     */
+    public List<Teacher> getTeachersByNames(Set<String> teacherNames) {
+        List<Teacher> teachers = new ArrayList<>();
+        for (String teacherName : teacherNames) {
+            teachers.add(AADAOFacade.getOneTeacherByName(teacherName));
+        }
+        return teachers;
+    }
+    public List<String> getAllSchoolClassSemestersOnSchoolClassName(String schoolClassName) {
+        return AADAOFacade.getAllSchoolClassSemestersBySchoolClassName(schoolClassName);
     }
 }

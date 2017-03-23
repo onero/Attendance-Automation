@@ -1,8 +1,6 @@
 # Attendance-Automation
-
-#Teachers listen up!
-
-##This is it... The tool you've all been waiting for!
+# Teachers listen up!
+## This is it... The tool you've all been waiting for!
 
 Our tool "Attendance-Automation" is created with the purpose of assisting teachers in managing attendance for a Class.
 

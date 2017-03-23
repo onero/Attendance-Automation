@@ -5,6 +5,7 @@
  */
 package attendanceautomation.gui.model;
 
+import attendanceautomation.be.SchoolClass;
 import attendanceautomation.be.Student;
 import attendanceautomation.bll.AttendanceManager;
 import attendanceautomation.gui.views.sharedComponents.pieChart.controller.PieChartViewController;
@@ -17,6 +18,8 @@ import javafx.scene.chart.PieChart.Data;
 public class PieChartModel {
 
     private static PieChartModel instance;
+
+    private SchoolClassModel schoolClassModel;
 
     private final AttendanceManager attendanceManager;
 
@@ -35,6 +38,8 @@ public class PieChartModel {
 
     public PieChartModel() {
         pieChartData = new ArrayList<>();
+
+        schoolClassModel = SchoolClassModel.getInstance();
 
         computedPieChartData = FXCollections.observableArrayList();
 
@@ -99,7 +104,8 @@ public class PieChartModel {
      * Find the students with nonAttendance and add them to the pirChartData
      */
     private void addNonAttendantStudentsToChartData() {
-        for (Student student : SchoolClassModel.getInstance().getCurrentSchoolClass().getStudents()) {
+        SchoolClass currentSchoolClass = schoolClassModel.getCurrentSchoolClass();
+        for (Student student : currentSchoolClass.getStudents()) {
             if (student.getNonAttendancePercentage().get() > 0) {
                 addNewStudentToChartData(student);
             }

@@ -19,6 +19,15 @@ import javafx.scene.layout.VBox;
  */
 public class FilterHolderViewController implements Initializable {
 
+    private static FilterHolderViewController instance;
+
+    public static FilterHolderViewController getInstance() {
+        if (instance == null) {
+            instance = new FilterHolderViewController();
+        }
+        return instance;
+    }
+
     @FXML
     private VBox vBox;
 
@@ -27,6 +36,7 @@ public class FilterHolderViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        instance = this;
     }
 
     public void addFilter(Node filter) {

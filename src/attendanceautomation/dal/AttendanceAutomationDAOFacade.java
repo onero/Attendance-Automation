@@ -41,13 +41,22 @@ public class AttendanceAutomationDAOFacade {
         loginDAO = LoginDAO.getInstance();
     }
 
-    public List<String> getAllSchoolClassSemesters(int schoolClassID) {
+    public List<String> getAllSchoolClassSemestersBySchoolClassName(String schoolClassName) {
         try {
-            return schoolClassDAO.getAllSchoolClassSemesters(schoolClassID);
+            return schoolClassDAO.getAllSchoolClassSemestersBySchoolClassName(schoolClassName);
         } catch (SQLException ex) {
             Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+
+    public int getSchoolClassIdByName(String schoolClassName) {
+        try {
+            return schoolClassDAO.getSchoolClassIdByName(schoolClassName);
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
     }
 
     public List<SchoolClassSemesterLesson> getSchoolSemesterLessonsInSchoolClassForSpecificPeriod(int schoolClassId, String startDate, String endDate) {
@@ -358,5 +367,20 @@ public class AttendanceAutomationDAOFacade {
      */
     public List<NonAttendance> getAllNonAttendanceForStudentBySemester(int StudentID, int semesterID) {
         return attendanceDAO.getAllNonAttendanceForASpecificStudentBySemester(StudentID, semesterID);
+    }
+
+    /**
+     * Calls the SchoolClassDao and gets one teacher by their name.
+     *
+     * @param teacherName
+     * @return
+     */
+    public Teacher getOneTeacherByName(String teacherName) {
+        try {
+            return schoolClassDAO.getOneTeacherByName(teacherName);
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 }

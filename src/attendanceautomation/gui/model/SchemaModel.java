@@ -42,6 +42,8 @@ public class SchemaModel {
 
     private final List<Integer> weekNumbers;
 
+    private String nameOfMonth;
+
     private int currentWeekOfMonth;
 
     private String startDate;
@@ -61,12 +63,16 @@ public class SchemaModel {
         weeksOfMonth.add(thirdWeekOfMonth);
         weeksOfMonth.add(lastWeekOfMonth);
 
-        startDate = "2016-10-31";
-        endDate = "2017-02-28";
+        setMockDateRange();
         setCurrentMonth(startDate, endDate);
 
         //Zero for all weeks in month
         currentWeekOfMonth = 0;
+    }
+
+    public void setMockDateRange() {
+        startDate = "2016-10-31";
+        endDate = "2017-02-28";
     }
 
     public int getCurrentWeekOfMonthNumber() {
@@ -84,6 +90,8 @@ public class SchemaModel {
      * @param endDate
      */
     public void setCurrentMonth(String startDate, String endDate) {
+        setStartDate(startDate);
+        setEndDate(endDate);
         firstWeekOfMonth.clear();
         secondWeekOfMonth.clear();
         thirdWeekOfMonth.clear();
@@ -182,8 +190,8 @@ public class SchemaModel {
 
     private void setFirstWeekOfMonth(Date date) {
         Calendar first = getFirstDayInCurrentWeek(date, 0);
-
         Calendar last = getLastDateInCurrentWeek(first);
+        nameOfMonth = last.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
 
         while (!first.after(last)) {
             firstWeekOfMonth.add(first.getTime());
@@ -229,6 +237,10 @@ public class SchemaModel {
 
     public void setEndDate(String endDate) {
         this.endDate = endDate;
+    }
+
+    public String getNameOfMonth() {
+        return nameOfMonth;
     }
 
 }

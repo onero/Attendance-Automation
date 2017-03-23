@@ -5,6 +5,9 @@
  */
 package attendanceautomation.be;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public abstract class Person {
 
     private final int ID;
@@ -43,6 +46,16 @@ public abstract class Person {
 
     public String getFullName() {
         return fullName;
+    }
+
+    public StringProperty getFullNameProperty() {
+        StringProperty propertyFullName = new SimpleStringProperty(fullName);
+        return propertyFullName;
+    }
+
+    public StringProperty getEmailProperty() {
+        StringProperty propertyEmail = new SimpleStringProperty(Email);
+        return propertyEmail;
     }
 
 }

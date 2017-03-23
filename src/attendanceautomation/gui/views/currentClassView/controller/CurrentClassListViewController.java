@@ -38,6 +38,7 @@ public class CurrentClassListViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setCellFactory("white");
+
     }
 
     /**
@@ -67,6 +68,7 @@ public class CurrentClassListViewController implements Initializable {
                     cell.setView(node);
                     cell.setGraphic(node);
                     cell.setStyle(getColorOfCell(color));
+                    cell.setId(color);
                     return cell;
                 } catch (IOException ex) {
                     Logger.getLogger(CurrentClassListViewController.class.getName()).log(Level.SEVERE, null, ex);

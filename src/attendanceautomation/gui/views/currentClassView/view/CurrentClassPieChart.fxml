@@ -6,7 +6,7 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="attendanceautomation.gui.views.currentClassView.controller.CurrentClassPieChartController">
    <center>
-      <PieChart fx:id="pieChart" BorderPane.alignment="CENTER">
+      <PieChart fx:id="pieChart" stylesheets="@../../css/Style.css" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets bottom="20.0" />
          </BorderPane.margin></PieChart>

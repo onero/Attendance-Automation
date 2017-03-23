@@ -230,3 +230,20 @@ and open the template in the editor.
     -fx-background-color:#666666;
     -fx-text-fill: white;
 }
+
+
+
+.chart-legend{
+    -fx-background-color: linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%);
+}
+
+#red{
+    -fx-background-color: red;    
+}
+
+#white{
+}
+
+#green{
+    -fx-background-color: green;
+}

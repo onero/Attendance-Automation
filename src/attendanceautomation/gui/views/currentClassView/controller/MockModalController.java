@@ -28,6 +28,7 @@ public class MockModalController implements Initializable {
 
     private final SchoolClassModel model;
     private CurrentClassListViewController controllerPresent, controllerAbsence;
+    private CurrentClassPieChartController pieController;
 
     public MockModalController() {
         model = SchoolClassModel.getInstance();
@@ -46,6 +47,7 @@ public class MockModalController implements Initializable {
         model.updateCurrentClassStudents(1);
         controllerPresent.setCellFactory("white");
         controllerAbsence.setCellFactory("white");
+        pieController.updateChart();
         stage.close();
     }
 
@@ -54,6 +56,7 @@ public class MockModalController implements Initializable {
         model.updateCurrentClassStudents(2);
         controllerPresent.setCellFactory("green");
         controllerAbsence.setCellFactory("white");
+        pieController.updateChart();
         stage.close();
     }
 
@@ -62,6 +65,7 @@ public class MockModalController implements Initializable {
         model.updateCurrentClassStudents(3);
         controllerPresent.setCellFactory("green");
         controllerAbsence.setCellFactory("red");
+        pieController.updateChart();
         stage.close();
     }
 
@@ -70,6 +74,7 @@ public class MockModalController implements Initializable {
         model.updateCurrentClassStudents(0);
         controllerPresent.setCellFactory("green");
         controllerAbsence.setCellFactory("red");
+        pieController.updateChart();
         stage.close();
     }
 
@@ -87,10 +92,12 @@ public class MockModalController implements Initializable {
      *
      * @param controllerPresent
      * @param controllerAbsence
+     * @param pieController
      */
-    public void setControllers(CurrentClassListViewController controllerPresent, CurrentClassListViewController controllerAbsence) {
+    public void setControllers(CurrentClassListViewController controllerPresent, CurrentClassListViewController controllerAbsence, CurrentClassPieChartController pieController) {
         this.controllerPresent = controllerPresent;
         this.controllerAbsence = controllerAbsence;
+        this.pieController = pieController;
     }
 
 }

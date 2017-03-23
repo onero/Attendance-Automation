@@ -41,11 +41,12 @@ public class CurrentClassViewController implements Initializable {
 
     private CurrentClassListViewController controllerPresent, controllerAbsence;
 
-    private SchoolClassModel model = SchoolClassModel.getInstance();
+    private SchoolClassModel model;
 
     private CurrentClassPieChartController pieChartController;
 
     public CurrentClassViewController() {
+        model = SchoolClassModel.getInstance();
         try {
             LIST_VIEW_PRESENT = createListViewPresent();
             LIST_VIEW_ABSENCE = createListViewAbsence();
@@ -115,7 +116,7 @@ public class CurrentClassViewController implements Initializable {
 
             MockModalController controller = loader.getController();
             controller.setStage(newStage);
-            controller.setControllers(controllerPresent, controllerAbsence);
+            controller.setControllers(controllerPresent, controllerAbsence, pieChartController);
 
             newStage.show();
         } catch (IOException ex) {
@@ -123,6 +124,12 @@ public class CurrentClassViewController implements Initializable {
         }
     }
 
+    /**
+     * Creates the pieChartNode.
+     *
+     * @return
+     * @throws IOException
+     */
     private Node createPieChartNode() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLName.CURRENT_CLASS_PIE_CHART.toString()));
         Node node = loader.load();

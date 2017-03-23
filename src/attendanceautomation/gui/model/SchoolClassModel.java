@@ -333,21 +333,25 @@ public class SchoolClassModel {
                 List<Student> listOfCurrentClassStudents = currentClassManager.getStudentsFromCurrentSchoolClass(currentTeacher.getTeacherID());
                 listOfCurrentClassStudentsPresent = currentClassManager.findStudentsPresent(listOfCurrentClassStudents);
                 listOfCurrentClassStudentsAbsence = currentClassManager.findStudentsAbsence(listOfCurrentClassStudents);
+                PieChartModel.getInstance().updateCurrentClassPieChat(listOfCurrentClassStudentsPresent, listOfCurrentClassStudentsAbsence);
                 break;
             }
             case 1: {
                 listOfCurrentClassStudentsPresent = currentClassManager.findMockStudents(1);
                 listOfCurrentClassStudentsAbsence = currentClassManager.findMockStudents(4);
+                PieChartModel.getInstance().updateCurrentClassPieChat(listOfCurrentClassStudentsPresent, listOfCurrentClassStudentsAbsence);
                 break;
             }
             case 2: {
                 listOfCurrentClassStudentsPresent = currentClassManager.findMockStudents(2);
                 listOfCurrentClassStudentsAbsence = currentClassManager.findMockStudents(3);
+                PieChartModel.getInstance().updateCurrentClassPieChat(listOfCurrentClassStudentsPresent, listOfCurrentClassStudentsAbsence);
                 break;
             }
             case 3: {
                 listOfCurrentClassStudentsPresent = currentClassManager.findMockStudents(2);
                 listOfCurrentClassStudentsAbsence = currentClassManager.findMockStudents(3);
+                PieChartModel.getInstance().updateCurrentClassPieChat(listOfCurrentClassStudentsPresent, listOfCurrentClassStudentsAbsence);
                 break;
             }
             default: {

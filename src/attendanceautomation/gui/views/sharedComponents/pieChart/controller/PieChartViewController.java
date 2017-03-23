@@ -47,6 +47,7 @@ public class PieChartViewController implements Initializable {
     /**
      * Bind the data to the chart
      *
+     * @param view
      */
     public void updateChart() {
         PieChart.setData(pieChartModel.getPieChartData());

@@ -40,7 +40,8 @@ public enum EFXMLName {
     CURRENT_CLASS_LIST_VIEW(FOLDER + "currentClassView/view/CurrentClassListView.fxml"),
     NAME_CURRENT_CLASS_LIST_VIEW(FOLDER + "currentClassView/view/NameCurrentClassListView.fxml"),
     LOADING_DATA_VIEW(FOLDER + "sharedComponents/loadingData/view/LoadingDataView.fxml"),
-    DATEPICKER_VIEW(FOLDER + "sharedComponents/filters/datePicker/view/DatePickerView.fxml");
+    DATEPICKER_VIEW(FOLDER + "sharedComponents/filters/datePicker/view/DatePickerView.fxml"),
+    CURRENT_CLASS_PIE_CHART(FOLDER + "currentClassView/view/CurrentClassPieChart.fxml");
 
     private final String text;
 

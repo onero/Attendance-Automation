@@ -11,6 +11,7 @@ import attendanceautomation.gui.views.sharedComponents.pieChart.controller.PieCh
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
 
 public class PieChartModel {
@@ -22,6 +23,8 @@ public class PieChartModel {
     private final ArrayList<Data> pieChartData;
 
     private final ObservableList<Data> computedPieChartData;
+
+    private ObservableList<Data> currentClassPieChartData;
 
     public static PieChartModel getInstance() {
         if (instance == null) {
@@ -36,6 +39,10 @@ public class PieChartModel {
         computedPieChartData = FXCollections.observableArrayList();
 
         attendanceManager = new AttendanceManager();
+
+        currentClassPieChartData = FXCollections.observableArrayList();
+        currentClassPieChartData.addAll(new PieChart.Data("Tilstede", 57),
+                new PieChart.Data("Fraværende", 43));
     }
 
     /**
@@ -115,6 +122,25 @@ public class PieChartModel {
     public ObservableList<Data> getPieChartData() {
         computeTotalPieChartPercentage();
         return computedPieChartData;
+    }
+
+    /**
+     * Gets the pieChartData for the currentClass pieChart.
+     *
+     * @return
+     */
+    public ObservableList<Data> getCurrentClassPieChartData() {
+        return currentClassPieChartData;
+    }
+
+    /**
+     * Clears currentClassPieChartData and then sets the new data.
+     *
+     * @param list
+     */
+    public void setCurrentClassPieChartData(ObservableList<Data> list) {
+        currentClassPieChartData.clear();
+        currentClassPieChartData = list;
     }
 
 }

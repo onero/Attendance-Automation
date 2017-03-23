@@ -91,7 +91,7 @@ public class CurrentClassListViewController implements Initializable {
                 return "-fx-control-inner-background: red";
             }
             case "green": {
-                return "-fx-control-inner-background: green";
+                return "-fx-control-inner-background: rgb(1, 114, 8)";
             }
             default: {
                 return "-fx-control-inner-background: white";

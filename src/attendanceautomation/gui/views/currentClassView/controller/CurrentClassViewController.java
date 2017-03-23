@@ -37,15 +37,19 @@ public class CurrentClassViewController implements Initializable {
 
     private Node LIST_VIEW_PRESENT;
     private Node LIST_VIEW_ABSENCE;
+    private Node PIE_CHART;
 
     private CurrentClassListViewController controllerPresent, controllerAbsence;
 
     private SchoolClassModel model = SchoolClassModel.getInstance();
 
+    private CurrentClassPieChartController pieChartController;
+
     public CurrentClassViewController() {
         try {
             LIST_VIEW_PRESENT = createListViewPresent();
             LIST_VIEW_ABSENCE = createListViewAbsence();
+            PIE_CHART = createPieChartNode();
         } catch (IOException ex) {
             Logger.getLogger(CurrentClassViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -58,6 +62,7 @@ public class CurrentClassViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         borderPane.setLeft(LIST_VIEW_PRESENT);
         borderPane.setRight(LIST_VIEW_ABSENCE);
+        borderPane.setCenter(PIE_CHART);
     }
 
     /**
@@ -116,6 +121,15 @@ public class CurrentClassViewController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(CurrentClassViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private Node createPieChartNode() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLName.CURRENT_CLASS_PIE_CHART.toString()));
+        Node node = loader.load();
+
+        pieChartController = loader.getController();
+        pieChartController.updateChart();
+        return node;
     }
 
 }

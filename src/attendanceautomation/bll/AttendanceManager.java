@@ -28,13 +28,12 @@ public class AttendanceManager {
 
     private final DecimalFormat decimalFormatter;
 
-    private final int ALL_SCHOOL_LESSONS;
-    private DecimalFormat testFormatter;
+    private int ALL_SCHOOL_LESSONS;
+    private final DecimalFormat testFormatter;
 
     public AttendanceManager() {
         decimalFormatter = new DecimalFormat("#.##");
         testFormatter = new DecimalFormat("#.00");
-        ALL_SCHOOL_LESSONS = SchoolClassModel.getInstance().getCurrentSchoolClass().getSemesterLessons().size();
     }
 
     /**
@@ -114,6 +113,7 @@ public class AttendanceManager {
      * @return attendance
      */
     public ArrayList<Data> computeStudentAttendance(Student student) {
+        ALL_SCHOOL_LESSONS = SchoolClassModel.getInstance().getCurrentSchoolClass().getSemesterLessons().size();
         percent = 0;
         studentData = new ArrayList<>();
         double amountOfStudentNonattendances = student.getNonAttendance().size();

@@ -24,7 +24,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="startButton" mnemonicParsing="false" onAction="#handleStartView" prefHeight="31.0" prefWidth="180.0" text="Start" GridPane.rowIndex="1" />
+            <Button fx:id="startButton" mnemonicParsing="false" onAction="#handleStartView" prefHeight="31.0" prefWidth="180.0" text="Overblik" GridPane.rowIndex="1" />
             <Button fx:id="allStudentsButton" mnemonicParsing="false" onAction="#handleAllStudentsButton" prefHeight="31.0" prefWidth="180.0" text="Alle Studerende" GridPane.columnIndex="2" GridPane.rowIndex="1" />
             <Button fx:id="currentClass" mnemonicParsing="false" onAction="#handleCurrentClassBtn" prefHeight="31.0" prefWidth="180.0" text="Nuværende Time" GridPane.columnIndex="4" GridPane.rowIndex="1" />
          </children>

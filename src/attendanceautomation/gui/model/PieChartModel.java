@@ -10,6 +10,7 @@ import attendanceautomation.be.Student;
 import attendanceautomation.bll.AttendanceManager;
 import attendanceautomation.gui.views.sharedComponents.pieChart.controller.PieChartViewController;
 import java.util.ArrayList;
+import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.PieChart;
@@ -46,8 +47,6 @@ public class PieChartModel {
         attendanceManager = new AttendanceManager();
 
         currentClassPieChartData = FXCollections.observableArrayList();
-        currentClassPieChartData.addAll(new PieChart.Data("Tilstede", 57),
-                new PieChart.Data("Fraværende", 43));
     }
 
     /**
@@ -147,6 +146,21 @@ public class PieChartModel {
     public void setCurrentClassPieChartData(ObservableList<Data> list) {
         currentClassPieChartData.clear();
         currentClassPieChartData = list;
+    }
+
+    /**
+     * Find the percentage of attendace and updates the currentClassPieChart.
+     *
+     * @param present
+     * @param absence
+     */
+    void updateCurrentClassPieChat(List<Student> present, List<Student> absence) {
+        double presentInProcent = attendanceManager.calculatePresentProcent(present, absence);
+        double absenceInProcent = 100 - presentInProcent;
+
+        currentClassPieChartData.clear();
+        currentClassPieChartData.addAll(new PieChart.Data("Tilstedeværende", presentInProcent),
+                new PieChart.Data("Fraværende", absenceInProcent));
     }
 
 }

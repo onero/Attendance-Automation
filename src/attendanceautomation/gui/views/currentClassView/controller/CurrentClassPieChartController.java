@@ -5,8 +5,10 @@
  */
 package attendanceautomation.gui.views.currentClassView.controller;
 
+import attendanceautomation.gui.model.PieChartModel;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.PieChart;
@@ -21,16 +23,39 @@ public class CurrentClassPieChartController implements Initializable {
     @FXML
     private PieChart pieChart;
 
+    private PieChartModel pieModel;
+
+    public CurrentClassPieChartController() {
+        pieModel = PieChartModel.getInstance();
+    }
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        pieChart.setLabelsVisible(false);
     }
 
-    void updateChart() {
+    /**
+     * Updates the data in the pieChart.
+     */
+    public void updateChart() {
+        pieChart.setData(pieModel.getCurrentClassPieChartData());
+        displayDataInformationOnChart();
+    }
 
+    /**
+     * For each data entry in the PieChart, display the name and value
+     */
+    private void displayDataInformationOnChart() {
+        pieModel.getCurrentClassPieChartData().forEach(data
+                -> data.nameProperty().bind(
+                        Bindings.concat(
+                                data.getName(), " ", data.pieValueProperty(), " %"
+                        )
+                )
+        );
     }
 
 }

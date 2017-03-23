@@ -11,6 +11,7 @@ import attendanceautomation.gui.model.SchoolClassModel;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.List;
 import javafx.scene.chart.PieChart.Data;
 
 public class AttendanceManager {
@@ -28,9 +29,11 @@ public class AttendanceManager {
     private final DecimalFormat decimalFormatter;
 
     private final int ALL_SCHOOL_LESSONS;
+    private DecimalFormat testFormatter;
 
     public AttendanceManager() {
         decimalFormatter = new DecimalFormat("#.##");
+        testFormatter = new DecimalFormat("#.00");
         ALL_SCHOOL_LESSONS = SchoolClassModel.getInstance().getCurrentSchoolClass().getSemesterLessons().size();
     }
 
@@ -125,6 +128,19 @@ public class AttendanceManager {
         studentData.add(nonAttendance);
         studentData.add(attendance);
         return studentData;
+    }
+
+    /**
+     * Calculates the procent of students precent.
+     *
+     * @param presentList
+     * @param absenceList
+     * @return
+     */
+    public double calculatePresentProcent(List<Student> presentList, List<Student> absenceList) {
+        double present = presentList.size();
+        double absence = absenceList.size();
+        return Math.round((present / (present + absence)) * 100);
     }
 
 }

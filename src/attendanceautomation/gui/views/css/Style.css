@@ -202,7 +202,7 @@ and open the template in the editor.
 .table-view > .virtual-flow > .scroll-bar > .increment-button, 
 .table-view > .virtual-flow > .scroll-bar > .decrement-button {
     -fx-opacity: 0;
-    
+
 }
 
 .list-cell:filled:selected:focused, .list-cell:filled:selected {
@@ -231,6 +231,8 @@ and open the template in the editor.
     -fx-text-fill: white;
 }
 
+.data0.chart-pie { -fx-pie-color: #10c400; }
+.data1.chart-pie { -fx-pie-color: #fc0000; }
 
 
 .chart-legend{

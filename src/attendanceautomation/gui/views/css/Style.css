@@ -204,11 +204,29 @@ and open the template in the editor.
     -fx-opacity: 0;
     
 }
-.list-view .list-cell:even {
+
+.list-cell:filled:selected:focused, .list-cell:filled:selected {
+    -fx-background-color: rgba(255, 255, 255, 0.08),
+        rgba(0, 0, 0, 0.8),
+        #090a0c,
+        linear-gradient(#4a5661 0%, #1f2429 20%, #1f242a 100%),
+        linear-gradient(#242a2e, #23282e),
+        radial-gradient(center 50% 0%, radius 100%, rgba(135,142,148,0.9),
+        rgba(255,255,255,0));
+    -fx-text-fill: white;
+}
+
+.list-cell:even { /* <=== changed to even */
     -fx-background-color:#333333;
     -fx-text-fill: #ffffff;
 }
-.list-view .list-cell:odd {
+
+.list-cell:odd{
+    -fx-background-color:#424242;
+    -fx-text-fill: #ffffff;
+}
+
+.list-cell:filled:hover {
     -fx-background-color:#666666;
-    -fx-text-fill:#ffffff;
+    -fx-text-fill: white;
 }

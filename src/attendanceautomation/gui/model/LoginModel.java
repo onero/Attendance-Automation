@@ -16,6 +16,8 @@ public class LoginModel {
     private static LoginModel instance;
     private final LoginManager loginManager;
 
+    private boolean isStudentLogin;
+
     public static LoginModel getInstance() {
         if (instance == null) {
             instance = new LoginModel();
@@ -23,32 +25,48 @@ public class LoginModel {
         return instance;
     }
 
-    public LoginModel() {
-        loginManager = new LoginManager();
+    private LoginModel() {
+        isStudentLogin = true;
+        loginManager = LoginManager.getInstance();
+    }
+
+    public void setIsStudent(boolean value) {
+        isStudentLogin = value;
+    }
+
+    public boolean isStudentLogin() {
+        return isStudentLogin;
     }
 
     /**
      * Contacts the LoginManager by sending the and verifies the user.
      *
      * @param username
-     * @param password
      * @return
      */
-    public boolean verifyLogin(String username, String password) {
+    public boolean verifyUserExists(String username) {
         boolean verification = false;
         if (loginManager.checkIfUserExist(username)) {
-            if (loginManager.validateLoginAttempt(username, password)) {
-                verification = true;
-            }
+            verification = true;
         }
-
-        //Uncheck this for login showcase.
-//        verification = true;
         return verification;
     }
 
-    public boolean isUserStudent(String username) {
-        return // matches the username with a student via the loginmanager.
-                username.equals("adam3964@easv365.dk");
+    /**
+     * Check if user is a teacher
+     *
+     * @param username
+     * @return
+     */
+    public boolean isUserTeacher(String username) {
+        return loginManager.checkIfUserIsTeacher(username);
+    }
+
+    public boolean verifyTeacherLogin(String password) {
+        return loginManager.validateTeacherPassword(password);
+    }
+
+    public boolean verifyStudentLogin(String password) {
+        return loginManager.validateStudentPassword(password);
     }
 }

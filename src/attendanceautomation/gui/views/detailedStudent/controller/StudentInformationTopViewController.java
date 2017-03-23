@@ -5,18 +5,24 @@
  */
 package attendanceautomation.gui.views.detailedStudent.controller;
 
+import attendanceautomation.be.SchoolSemesterSubject;
 import attendanceautomation.be.Student;
-import attendanceautomation.be.enums.EFXMLNames;
+import attendanceautomation.be.Teacher;
+import attendanceautomation.be.enums.ESchoolSubject;
+import attendanceautomation.bll.SubjectManager;
 import attendanceautomation.gui.model.SchoolClassModel;
-import java.io.IOException;
 import java.net.URL;
+import java.util.HashSet;
 import java.util.ResourceBundle;
+import java.util.Set;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 
 /**
@@ -39,7 +45,7 @@ public class StudentInformationTopViewController implements Initializable {
     @FXML
     private Label lblStudentClass;
     @FXML
-    private ListView<?> listTeachers;
+    private TableView<Teacher> listTeachers;
     @FXML
     private BorderPane studentBorderPane;
     @FXML
@@ -49,13 +55,34 @@ public class StudentInformationTopViewController implements Initializable {
 
     private static StudentInformationTopViewController instance;
 
-    private Student currentStudent;
-
     public static StudentInformationTopViewController getInstance() {
         return instance;
     }
+    @FXML
+    private Label lblTotalAbsence;
+    @FXML
+    private Label lblScoAbsence;
+    @FXML
+    private Label lblSdeAbsence;
+    @FXML
+    private Label lblItoAbsence;
+    @FXML
+    private Label lblDbosAbsence;
+    @FXML
+    private TableColumn<Teacher, String> columnTeacher;
+    @FXML
+    private TableColumn<Teacher, String> columnEmail;
+
+    private Set<String> teacherNames;
+
+    private ObservableList<Teacher> teachers;
+
+    private SubjectManager subMgr;
 
     public StudentInformationTopViewController() {
+        teachers = FXCollections.observableArrayList();
+        subMgr = new SubjectManager();
+
     }
 
     /**
@@ -64,15 +91,17 @@ public class StudentInformationTopViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         instance = this;
+        initializeTeachers();
+        setStudentInfo();
+        setCellFactory();
     }
 
     /**
      * Sets the selected student
      *
-     * @param selectedStudent
      */
-    public void setStudentInfo(Student selectedStudent) {
-        currentStudent = selectedStudent;
+    private void setStudentInfo() {
+        Student currentStudent = SchoolClassModel.getInstance().getCurrentStudent();
         lblStudentName.setText(currentStudent.getFullName());
         lblStudentEmail.setText(currentStudent.getEmail());
         //TODO ALH: Make dynamic
@@ -82,18 +111,38 @@ public class StudentInformationTopViewController implements Initializable {
         //TODO ALH: Make dynamic
         lblStudentSemester.setText("2.");
 
+        lblTotalAbsence.setText(currentStudent.getNonAttendancePercentage().get() + " %");
+
+        subMgr.subjectAbsenceCalculation(currentStudent, ESchoolSubject.SCO);
+
+        lblScoAbsence.setText(subMgr.subjectAbsenceCalculation(currentStudent, ESchoolSubject.SCO) + " %");
+        lblItoAbsence.setText(subMgr.subjectAbsenceCalculation(currentStudent, ESchoolSubject.ITO) + " %");
+        lblSdeAbsence.setText(subMgr.subjectAbsenceCalculation(currentStudent, ESchoolSubject.SDE) + " %");
+        lblDbosAbsence.setText(subMgr.subjectAbsenceCalculation(currentStudent, ESchoolSubject.DBOS) + " %");
     }
 
     /**
-     * Creates the node for the PieChartView.
-     *
-     * @return
-     * @throws IOException
+     * Fills the tableView of teachers with info.
      */
-    private Node createPieChartNode() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLNames.PIE_CHART_VIEW.toString()));
-        Node node = loader.load();
-        return node;
+    private void setCellFactory() {
+        listTeachers.setItems(teachers);
+        columnTeacher.setCellValueFactory(new PropertyValueFactory<>("fullName"));
+        columnEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+        //TODO MSP: SetCellValueFactory on columnSubject.
     }
 
+    /**
+     * Uses SchoolSemesterSubjects to get all the names of the teachers, and
+     * then calls the database through the layers to get a list of teacher
+     * objects.
+     */
+    private void initializeTeachers() {
+        teacherNames = new HashSet<>();
+        for (SchoolSemesterSubject semesterSubject : SchoolClassModel.getInstance().getCurrentSchoolClass().getSemesterSubjects()) {
+            if (!teacherNames.contains(semesterSubject.getTeacher().toString())) {
+                teacherNames.add(semesterSubject.getTeacher().toString());
+            }
+        }
+        teachers.addAll(SchoolClassModel.getInstance().getTeachersByNames(teacherNames));
+    }
 }

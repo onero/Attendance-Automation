@@ -9,12 +9,9 @@ import attendanceautomation.gui.model.PieChartModel;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.PieChart;
-import javafx.scene.chart.PieChart.Data;
 
 /**
  * FXML Controller class
@@ -22,16 +19,19 @@ import javafx.scene.chart.PieChart.Data;
  */
 public class PieChartViewController implements Initializable {
 
+    private static PieChartViewController instance;
+
     @FXML
     private PieChart PieChart;
 
-    private final ObservableList<Data> pieChartData;
-
     private final PieChartModel pieChartModel;
+
+    public static PieChartViewController getInstance() {
+        return instance;
+    }
 
     public PieChartViewController() {
         pieChartModel = PieChartModel.getInstance();
-        pieChartData = FXCollections.observableArrayList();
     }
 
     /**
@@ -39,27 +39,26 @@ public class PieChartViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        PieChart.setData(pieChartData);
+        instance = this;
         PieChart.setLegendVisible(false);
+
     }
 
     /**
      * Bind the data to the chart
      *
+     * @param view
      */
-    public void setData() {
-        pieChartData.clear();
-        pieChartData.addAll(pieChartModel.getPieChartData());
-
+    public void updateChart() {
+        PieChart.setData(pieChartModel.getPieChartData());
         displayDataInformationOnChart();
-
     }
 
     /**
      * For each data entry in the PieChart, display the name and value
      */
     private void displayDataInformationOnChart() {
-        pieChartData.forEach(data
+        pieChartModel.getPieChartData().forEach(data
                 -> data.nameProperty().bind(
                         Bindings.concat(
                                 data.getName(), " ", data.pieValueProperty(), " %"
@@ -67,5 +66,4 @@ public class PieChartViewController implements Initializable {
                 )
         );
     }
-
 }

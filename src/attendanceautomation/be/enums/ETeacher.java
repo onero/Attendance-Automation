@@ -7,9 +7,10 @@ package attendanceautomation.be.enums;
 
 public enum ETeacher {
     PETER_STEGGER("Peter Stegger"),
-    JEPPE_LED("Jeppe Lid"),
+    JEPPE_LED("Jeppe Led"),
     BENT_PEDERSEN("Bent Pedersen"),
-    LARS_BILDE("Lars Bilde");
+    LARS_BILDE("Lars Bilde"),
+    STIG_IVERSEN("Stig Iversen");
 
     private final String text;
 
@@ -38,6 +39,8 @@ public enum ETeacher {
                 return BENT_PEDERSEN;
             case "Lars":
                 return LARS_BILDE;
+            case "Stig":
+                return STIG_IVERSEN;
             default:
                 return null;
         }

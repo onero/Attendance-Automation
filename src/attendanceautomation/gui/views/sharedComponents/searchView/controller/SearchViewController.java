@@ -47,8 +47,14 @@ public class SearchViewController implements Initializable {
     @FXML
     private void handleClear(ActionEvent event) {
         txtSearch.clear();
+        SCModel.sortStudentsOnAttendance();
     }
 
+    /**
+     * Add all students from search to observable list
+     *
+     * @param value
+     */
     private void updateListView(String value) {
         SCModel.getStudents().clear();
         for (Student student : SCModel.getStudentsFromDB()) {
@@ -56,13 +62,6 @@ public class SearchViewController implements Initializable {
                 SCModel.updateStudentsFromSearch(student);
             }
         }
-    }
-
-    public void showSearchBar(boolean visible) {
-        txtSearch.setDisable(!visible);
-        txtSearch.setVisible(visible);
-        btnClear.setDisable(!visible);
-        btnClear.setVisible(visible);
     }
 
 }

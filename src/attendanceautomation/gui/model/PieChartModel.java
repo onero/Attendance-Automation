@@ -5,23 +5,30 @@
  */
 package attendanceautomation.gui.model;
 
+import attendanceautomation.be.SchoolClass;
 import attendanceautomation.be.Student;
 import attendanceautomation.bll.AttendanceManager;
-import attendanceautomation.gui.views.main.controller.MainViewController;
+import attendanceautomation.gui.views.sharedComponents.pieChart.controller.PieChartViewController;
 import java.util.ArrayList;
+import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
 
 public class PieChartModel {
 
     private static PieChartModel instance;
 
+    private SchoolClassModel schoolClassModel;
+
     private final AttendanceManager attendanceManager;
 
     private final ArrayList<Data> pieChartData;
 
     private final ObservableList<Data> computedPieChartData;
+
+    private ObservableList<Data> currentClassPieChartData;
 
     public static PieChartModel getInstance() {
         if (instance == null) {
@@ -33,11 +40,13 @@ public class PieChartModel {
     public PieChartModel() {
         pieChartData = new ArrayList<>();
 
+        schoolClassModel = SchoolClassModel.getInstance();
+
         computedPieChartData = FXCollections.observableArrayList();
 
         attendanceManager = new AttendanceManager();
 
-        addNonAttendantStudentsToChartData();
+        currentClassPieChartData = FXCollections.observableArrayList();
     }
 
     /**
@@ -82,7 +91,7 @@ public class PieChartModel {
                 addNewStudentToChartData(student);
             }
         }
-        MainViewController.getInstance().updatePieData();
+        PieChartViewController.getInstance().updateChart();
     }
 
     private void addNewStudentToChartData(Student student) {
@@ -94,11 +103,21 @@ public class PieChartModel {
      * Find the students with nonAttendance and add them to the pirChartData
      */
     private void addNonAttendantStudentsToChartData() {
-        for (Student student : SchoolClassModel.getInstance().getCurrentSchoolClass().getStudents()) {
+        SchoolClass currentSchoolClass = schoolClassModel.getCurrentSchoolClass();
+        for (Student student : currentSchoolClass.getStudents()) {
             if (student.getNonAttendancePercentage().get() > 0) {
                 addNewStudentToChartData(student);
             }
         }
+    }
+
+    /**
+     * Reset all pieChartData and update PieChart
+     */
+    public void resetPieChart() {
+        pieChartData.clear();
+        computedPieChartData.clear();
+        addNonAttendantStudentsToChartData();
     }
 
     /**
@@ -108,6 +127,40 @@ public class PieChartModel {
     public ObservableList<Data> getPieChartData() {
         computeTotalPieChartPercentage();
         return computedPieChartData;
+    }
+
+    /**
+     * Gets the pieChartData for the currentClass pieChart.
+     *
+     * @return
+     */
+    public ObservableList<Data> getCurrentClassPieChartData() {
+        return currentClassPieChartData;
+    }
+
+    /**
+     * Clears currentClassPieChartData and then sets the new data.
+     *
+     * @param list
+     */
+    public void setCurrentClassPieChartData(ObservableList<Data> list) {
+        currentClassPieChartData.clear();
+        currentClassPieChartData = list;
+    }
+
+    /**
+     * Find the percentage of attendace and updates the currentClassPieChart.
+     *
+     * @param present
+     * @param absence
+     */
+    void updateCurrentClassPieChat(List<Student> present, List<Student> absence) {
+        double presentInProcent = attendanceManager.calculatePresentProcent(present, absence);
+        double absenceInProcent = 100 - presentInProcent;
+
+        currentClassPieChartData.clear();
+        currentClassPieChartData.addAll(new PieChart.Data("Tilstedeværende", presentInProcent),
+                new PieChart.Data("Fraværende", absenceInProcent));
     }
 
 }

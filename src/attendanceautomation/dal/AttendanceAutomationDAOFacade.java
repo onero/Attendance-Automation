@@ -5,10 +5,15 @@
  */
 package attendanceautomation.dal;
 
+import attendanceautomation.be.Academy;
 import attendanceautomation.be.NonAttendance;
 import attendanceautomation.be.SchoolClass;
+import attendanceautomation.be.SchoolClassSemesterLesson;
+import attendanceautomation.be.SchoolSemesterSubject;
 import attendanceautomation.be.Student;
+import attendanceautomation.be.Teacher;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,8 +25,7 @@ public class AttendanceAutomationDAOFacade {
     private final StudentDAO studentDAO;
     private final SchoolClassDAO schoolClassDAO;
     private final AttendanceDAO attendanceDAO;
-
-    private SchoolClass schoolClass;
+    private final LoginDAO loginDAO;
 
     public static AttendanceAutomationDAOFacade getInstance() {
         if (instance == null) {
@@ -34,40 +38,53 @@ public class AttendanceAutomationDAOFacade {
         studentDAO = StudentDAO.getInstance();
         schoolClassDAO = SchoolClassDAO.getInstance();
         attendanceDAO = AttendanceDAO.getInstance();
+        loginDAO = LoginDAO.getInstance();
     }
 
-    /**
-     * Get all SchoolClasses with data
-     *
-     * @param id
-     * @return
-     */
-    public SchoolClass getSchoolClassDataForSpecificSchoolClass(int id) {
-        schoolClass = getSchoolClassByID(id);
+    public List<String> getAllSchoolClassSemestersBySchoolClassName(String schoolClassName) {
+        try {
+            return schoolClassDAO.getAllSchoolClassSemestersBySchoolClassName(schoolClassName);
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 
-        schoolClass.addAllStudents(getStudentsInSchoolClass(schoolClass.getID()));;
+    public int getSchoolClassIdByName(String schoolClassName) {
+        try {
+            return schoolClassDAO.getSchoolClassIdByName(schoolClassName);
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
 
-        addNonAttendanceToStudents(schoolClass.getStudents());
+    public List<SchoolClassSemesterLesson> getSchoolSemesterLessonsInSchoolClassForSpecificPeriod(int schoolClassId, String startDate, String endDate) {
+        try {
+            return schoolClassDAO.getAllSchoolSemesterLessonsFromSpecificSchoolClassForSpecificPeriod(schoolClassId, startDate, endDate);
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 
-        addSchoolSemesterSubjectsInSchoolClass(schoolClass.getID());
-
-        addSchoolSemesterLessonsInSchoolClass(schoolClass.getID());
-
-        return schoolClass;
+    public List<SchoolSemesterSubject> getSchoolSemesterSubjectsInSchoolClassForSpecificPeriod(int schoolClassId, String startDate, String endDate) {
+        try {
+            return schoolClassDAO.getAllSchoolSemesterSubjectsFromSpecificSchoolClassForSpecificPeriod(schoolClassId, startDate, endDate);
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
     /**
      * Update information for schoolclass students
      *
+     * @param schoolClassId
      * @return
      */
-    public List<Student> getUpdatedStudentInfo() {
-        List<Student> students;
-        students = getStudentsInSchoolClass(schoolClass.getID());
-
-        addNonAttendanceToStudents(students);
-
-        return students;
+    public List<Student> getStudentsFromSchoolClass(int schoolClassId) {
+        return getStudentsInSchoolClass(schoolClassId);
     }
 
     /**
@@ -89,17 +106,6 @@ public class AttendanceAutomationDAOFacade {
     }
 
     /**
-     * Add nonattendance for each student
-     */
-    private void addNonAttendanceToStudents(List<Student> studentsInSchoolClass) {
-        //For each student
-        for (Student student : studentsInSchoolClass) {
-            //Get a hold of their attendance
-            student.addAllNonAttendance(attendanceDAO.getAllNonAttendanceForASpecificStudent(student.getID()));
-        }
-    }
-
-    /**
      * Add data for all the students in the specific SchoolClass
      *
      * @param schoolClassID
@@ -114,36 +120,264 @@ public class AttendanceAutomationDAOFacade {
     }
 
     /**
-     * Add data for all the SchoolSemesterSubject
-     */
-    private void addSchoolSemesterSubjectsInSchoolClass(int schoolClassID) {
-        try {
-            schoolClass.addAllSemesterSubjects(schoolClassDAO.getAllSchoolSemesterSubjectsFromSpecificSchoolClass(schoolClassID));
-        } catch (SQLException ex) {
-            Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    /**
-     * Add data for all the SchoolSemesterSubject
-     */
-    private void addSchoolSemesterLessonsInSchoolClass(int schoolClassID) {
-        try {
-            schoolClass.addAllSemesterLessonsToClass(schoolClassDAO.getAllSchoolSemesterLessonsFromSpecificSchoolClass(schoolClassID));
-        } catch (SQLException ex) {
-            Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    /**
      * Get a specific SchoolCLass by its ID
      *
      * @param id
      * @return
      */
-    private SchoolClass getSchoolClassByID(int id) {
+    public SchoolClass getSchoolClassByID(int id) {
         try {
             return schoolClassDAO.getSchoolClassByID(id);
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    /**
+     * Get a specific SchoolClass by a studentID
+     *
+     * @param studentEmail
+     * @return
+     */
+    public SchoolClass getSchoolClassFromStudentEmail(String studentEmail) {
+        try {
+            return schoolClassDAO.getSchoolClassIdByStudentEmail(studentEmail);
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    /**
+     * Get one student by email
+     *
+     * @param studentEmail
+     * @return
+     */
+    public Student getStudentByEmail(String studentEmail) {
+        try {
+            return studentDAO.getStudentByEmail(studentEmail);
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    /**
+     * Get all nonattendance for specific student
+     *
+     * @param studentID
+     * @return
+     */
+    public List<NonAttendance> getNonAttendanceForStudentByID(int studentID) {
+        return attendanceDAO.getAllNonAttendanceForASpecificStudent(studentID);
+    }
+
+    /**
+     * Get all nonAttendance for specific students for specific period.
+     *
+     * @param studentID
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    public List<NonAttendance> getNonAttendanceForStudentsByIDForSpecificPeriod(int studentID, String startDate, String endDate) {
+        return attendanceDAO.getAllNonAttendanceForASpecificStudentForASpecificDate(studentID, startDate, endDate);
+    }
+
+    /**
+     * Get all nonAttendance for specific student on specific date.
+     *
+     * Viloation of DRY!
+     *
+     * @param StudentID
+     * @param date
+     * @return
+     */
+    public List<NonAttendance> getNonAttendanceForStudentByIDForSepcificDate(int StudentID, String date) {
+        return attendanceDAO.getAllNonAttendanceForASpecificStudentForASpecificDate(StudentID, date, date + " 16:00");
+    }
+
+    /**
+     * Check if the user is a Teacher
+     *
+     * @param userEmail
+     * @return
+     */
+    public boolean isTeacher(String userEmail) {
+        boolean isTeacher = false;
+        try {
+            isTeacher = loginDAO.checkIfUserIsTeacher(userEmail);
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return isTeacher;
+    }
+
+    /**
+     * Check if user is in DB
+     *
+     * @param userEmail
+     * @return
+     */
+    public boolean isUserInDB(String userEmail) {
+        try {
+            return loginDAO.checkIfUserIsInDB(userEmail);
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    /**
+     * Get All locations from given academy
+     *
+     * @param currentAcademy
+     * @param teacher
+     * @return
+     */
+    public HashMap<Integer, String> loadAcademyLocationsTeacherIsTeaching(Academy currentAcademy, Teacher teacher) {
+        try {
+            return schoolClassDAO.loadAcademyLocationsTeacherIsTeaching(currentAcademy, teacher);
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    /**
+     * Get all schoolClass ids by location
+     *
+     * @param currentLocationID
+     * @param teacherID
+     * @return
+     */
+    public HashMap<Integer, String> getSchoolClassHashMapByLocationAndTeacher(int currentLocationID, int teacherID) {
+        try {
+            return schoolClassDAO.getSchoolClassHashMapByLocationAndTeacher(currentLocationID, teacherID);
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    /**
+     * Get a teacher from DB by adamlars90@gmail.coms
+     *
+     * @param teacherEmail
+     * @return
+     */
+    public Teacher getTeacherByEmail(String teacherEmail) {
+        try {
+            return schoolClassDAO.getTeacherByEmail(teacherEmail);
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    /**
+     * Finds the schoolClass for the parsed teacher on the parsed Date. Then
+     * retrieves a list of students from that schoolClass.
+     *
+     * @param teacherID
+     * @param dateHalfHourBefore
+     * @param dateHalfHourAfter
+     * @return
+     */
+    public List<Integer> getSchoolClassID(int teacherID, String dateHalfHourBefore, String dateHalfHourAfter) {
+        try {
+            return schoolClassDAO.getSchoolClassIDForSpecificTeacherAndDate(teacherID, dateHalfHourBefore, dateHalfHourAfter);
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            throw new RuntimeException("Couldn't get the schoolClassID");
+        }
+    }
+
+    /*
+     * Get all teacher schoolClassNames for specific semester
+     *
+     * @param schoolClassIDs
+     * @param semester
+     * @return
+     */
+    public List<String> getAllTeacherSchoolClassesBySemester(List<Integer> schoolClassIDs, String semesterName) {
+        try {
+            return schoolClassDAO.getAllTeacherSchoolClassesBySemester(schoolClassIDs, semesterName);
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    /**
+     * Gets lessons with the params from the DB.
+     *
+     * @param schoolClassID
+     * @param semesterID
+     * @return
+     */
+    public List<SchoolClassSemesterLesson> getSchoolClassSemesterLessonsBySchoolClassIDAndSemesterID(int schoolClassID, int semesterID) {
+        try {
+            return schoolClassDAO.getAllSchoolClassSemesterLessonsBySchoolClassIDAndSemesterID(schoolClassID, semesterID);
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    /**
+     * Gets subjects with the params from the DB.
+     *
+     * @param schoolClassID
+     * @param semesterID
+     * @return
+     */
+    public List<SchoolSemesterSubject> getSchoolClassSemesterSubjectsBySchoolCLassIDAndSemesterID(int schoolClassID, int semesterID) {
+        try {
+            return schoolClassDAO.getAllSchoolClassSemesterSubjectsBySchoolClassIDAndSemesterID(schoolClassID, semesterID);
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    /**
+     * Converts a semester name to an ID.
+     *
+     * @param semesterName
+     * @return
+     */
+    public int getSemesterIDByName(String semesterName) {
+        try {
+            return schoolClassDAO.getSemesterIDByName(semesterName);
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+
+    /**
+     * Gets the Nonattendance for a specific student.
+     *
+     * @param StudentID
+     * @param semesterID
+     * @return
+     */
+    public List<NonAttendance> getAllNonAttendanceForStudentBySemester(int StudentID, int semesterID) {
+        return attendanceDAO.getAllNonAttendanceForASpecificStudentBySemester(StudentID, semesterID);
+    }
+
+    /**
+     * Calls the SchoolClassDao and gets one teacher by their name.
+     *
+     * @param teacherName
+     * @return
+     */
+    public Teacher getOneTeacherByName(String teacherName) {
+        try {
+            return schoolClassDAO.getOneTeacherByName(teacherName);
         } catch (SQLException ex) {
             Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="attendanceautomation.gui.views.currentClassView.controller.NameCurrentClassListViewController">
+   <center>
+      <Label fx:id="lblNameOfStudent" stylesheets="@../../css/Style.css" text="Name of student" BorderPane.alignment="CENTER">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font></Label>
+   </center>
+</BorderPane>

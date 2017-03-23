@@ -191,6 +191,8 @@ public class RootViewController implements Initializable {
                     switchCenterView(MAIN_VIEW);
                     PieChartModel.getInstance().resetPieChart();
                     PieChartViewController.getInstance().updateChart();
+                    ShowHideAdminButtons(true);
+                    LoginViewController.getInstance().resetLogin();
                 });
             } else {
                 Platform.runLater(() -> {
@@ -213,8 +215,6 @@ public class RootViewController implements Initializable {
         Platform.runLater(() -> {
             try {
                 createTeacherViews();
-                ShowHideAdminButtons(true);
-                LoginViewController.getInstance().resetLogin();
             } catch (IOException ex) {
                 System.out.println("Error whilst logging in as teacher");
                 System.out.println(ex);
@@ -303,6 +303,7 @@ public class RootViewController implements Initializable {
         Node node = loader.load();
         ComponentsHolderViewController controller = loader.getController();
         controller.setBorderPaneLeft(SEARCH_BAR);
+        SEARCH_BAR.setVisible(false);
 
         FILTER_PANE = new BorderPane();
 
@@ -310,6 +311,7 @@ public class RootViewController implements Initializable {
         MONTH_COMBOBOX = nodeFactory.createNewView(EFXMLName.MONTH_COMBO_BOX_VIEW);
 
         FILTER_PANE.setCenter(FILTER_BUTTON);
+        FILTER_PANE.setVisible(false);
         FILTER_PANE.setRight(MONTH_COMBOBOX);
         hideNode(MONTH_COMBOBOX);
 

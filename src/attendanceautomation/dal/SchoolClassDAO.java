@@ -694,4 +694,50 @@ public class SchoolClassDAO {
         return semesterID;
     }
 
+    /**
+     * Gets a teacher object by name.
+     *
+     * @param teacherName
+     * @return
+     * @throws SQLServerException
+     * @throws SQLException
+     */
+    public Teacher getOneTeacherByName(String teacherName) throws SQLServerException, SQLException {
+        Teacher teacherToReturn;
+        String sql = "SELECT "
+                + "p.ID "
+                + "AS "
+                + "'PersonID', "
+                + "t.ID "
+                + "AS "
+                + "'TeacherID', "
+                + "p.FirstName "
+                + "AS "
+                + "'TeacherFirstName', "
+                + "p.LastName "
+                + "AS "
+                + "'TeacherLastName', "
+                + "p.Email "
+                + "AS "
+                + "'TeacherEmail' "
+                + "FROM Teacher t "
+                + "JOIN Person p ON p.ID = t.PersonID "
+                + "WHERE p.FirstName = ? "
+                + "AND p.LastName = ?";
+
+        String[] teacherFullName = teacherName.split(" ");
+
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, teacherFullName[0]);
+            ps.setString(2, teacherFullName[1]);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return getOneTeacher(rs);
+            }
+            return null;
+        }
+    }
+
 }

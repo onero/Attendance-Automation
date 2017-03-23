@@ -368,4 +368,19 @@ public class AttendanceAutomationDAOFacade {
     public List<NonAttendance> getAllNonAttendanceForStudentBySemester(int StudentID, int semesterID) {
         return attendanceDAO.getAllNonAttendanceForASpecificStudentBySemester(StudentID, semesterID);
     }
+
+    /**
+     * Calls the SchoolClassDao and gets one teacher by their name.
+     *
+     * @param teacherName
+     * @return
+     */
+    public Teacher getOneTeacherByName(String teacherName) {
+        try {
+            return schoolClassDAO.getOneTeacherByName(teacherName);
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 }

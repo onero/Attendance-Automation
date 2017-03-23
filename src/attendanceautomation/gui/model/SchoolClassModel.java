@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -492,5 +493,15 @@ public class SchoolClassModel {
     private void loadNextSchoolClassForTeacher() {
         int nextSchoolClassForTeacher = schoolClassIDs.get(0);
         loadSchoolClassDataById(nextSchoolClassForTeacher);
+    }
+
+    /**
+     * Calls the Manager to get a list of teacher objects.
+     *
+     * @param teacherNames
+     * @return
+     */
+    public List<Teacher> getTeachersByNames(Set<String> teacherNames) {
+        return schoolClassManager.getTeachersByNames(teacherNames);
     }
 }

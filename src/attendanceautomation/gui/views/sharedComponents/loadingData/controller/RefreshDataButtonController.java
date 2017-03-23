@@ -21,7 +21,7 @@ public class RefreshDataButtonController implements Initializable {
 
     @FXML
     private void handleRefresh(ActionEvent event) {
-        RootViewController.getInstance().handleFilterSearch();
+        RootViewController.getInstance().handleRefreshData();
     }
 
     /**

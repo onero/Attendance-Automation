@@ -5,8 +5,11 @@
  */
 package attendanceautomation.gui.views.sharedComponents.loadingData.controller;
 
+import attendanceautomation.gui.views.rootView.controller.RootViewController;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
 /**
@@ -15,6 +18,11 @@ import javafx.fxml.Initializable;
  * @author gta1
  */
 public class RefreshDataButtonController implements Initializable {
+
+    @FXML
+    private void handleRefresh(ActionEvent event) {
+        RootViewController.getInstance().handleFilterSearch();
+    }
 
     /**
      * Initializes the controller class.

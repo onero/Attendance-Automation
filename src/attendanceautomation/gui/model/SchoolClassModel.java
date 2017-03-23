@@ -13,14 +13,11 @@ import attendanceautomation.be.Teacher;
 import attendanceautomation.be.enums.ESemester;
 import attendanceautomation.bll.CurrentClassManager;
 import attendanceautomation.bll.SchoolClassManager;
-import attendanceautomation.gui.views.rootView.controller.RootViewController;
-import attendanceautomation.gui.views.sharedComponents.pieChart.controller.PieChartViewController;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -28,7 +25,7 @@ public class SchoolClassModel {
 
     private static SchoolClassModel instance;
 
-    private SchemaModel schemaModel;
+    private final SchemaModel schemaModel;
 
     private final SchoolClassManager schoolClassManager;
 
@@ -86,9 +83,9 @@ public class SchoolClassModel {
      */
     public void loadDataFromDB() {
         resetStudents();
-        loadAcademyLocationsTeacherIsTeaching();
+        getAcademyLocationsTeacherIsTeaching();
         //TODO ALH: Dynamic locations
-        loadSchoolClassNamesByLocation(1);
+        getSchoolClassNamesByLocation(1);
         loadNextSchoolClassForTeacher();
     }
 
@@ -97,7 +94,7 @@ public class SchoolClassModel {
      *
      * @param location
      */
-    public void loadSchoolClassNamesByLocation(int location) {
+    public void getSchoolClassNamesByLocation(int location) {
         if (currentLocationID != location) {
             teacherSchoolClassNames.clear();
             currentLocationID = location;
@@ -105,11 +102,6 @@ public class SchoolClassModel {
             resetSchoolNamesAndIDs();
             resetStudents();
         }
-    }
-
-    private void loadNextSchoolClassForTeacher() {
-        int nextSchoolClassForTeacher = schoolClassIDs.get(0);
-        loadSchoolClassData(nextSchoolClassForTeacher);
     }
 
     /**
@@ -122,41 +114,14 @@ public class SchoolClassModel {
     }
 
     /**
-     * Load schoolclass with students
-     *
-     * @param schoolClassID
-     */
-    private void loadSchoolClassData(int schoolClassID) {
-        if (currentSchoolClass != null) {
-            if (schoolClassID != currentSchoolClass.getID()) {
-                setCurrentSchoolClass(schoolClassID);
-            }
-        } else {
-            setCurrentSchoolClass(schoolClassID);
-        }
-    }
-
-    /**
      * Update schoolClassNames on semester
      *
      * @param semester
      */
-    public void updateSchoolClassesOnSemester(String semester) {
+    public void updateSchoolClassNamesOnSemester(String semester) {
         List<String> semesterSchoolClasses = schoolClassManager.getAllTeacherSchoolClassesBySemester(schoolClassIDs, semester);
         teacherSchoolClassNames.clear();
         teacherSchoolClassNames.addAll(semesterSchoolClasses);
-    }
-
-    /**
-     * Set current schoolClass based on schoolClassID
-     *
-     * @param schoolClassID
-     */
-    public void setCurrentSchoolClass(int schoolClassID) {
-        currentSchoolClass = schoolClassManager.getAllSchoolClassDataBySchoolClassIdForSpecificPeriod(schoolClassID, schemaModel.getStartDate(), schemaModel.getEndDate());
-        resetStudents();
-        studentsFromDB.addAll(currentSchoolClass.getStudents());
-        students.addAll(studentsFromDB);
     }
 
     /**
@@ -171,19 +136,11 @@ public class SchoolClassModel {
      * Gets a fresh list of all students in currentClass with nonAttendance
      */
     public void updateStudentData() {
-        Runnable task = () -> {
-            List<Student> updatedStudents = schoolClassManager.getStudentsFromSchoolClassForSpecificPeriod(currentSchoolClass.getID(), schemaModel.getStartDate(), schemaModel.getEndDate());
-            Platform.runLater(() -> {
-                resetStudents();
-                studentsFromDB.addAll(updatedStudents);
-                students.addAll(studentsFromDB);
-                PieChartModel.getInstance().resetPieChart();
-                PieChartViewController.getInstance().updateChart();
-                RootViewController.getInstance().reloadView();
-                RootViewController.getInstance().setRefreshBoxVisibility(false);
-            });
-        };
-        new Thread(task).start();
+        List<Student> updatedStudents = schoolClassManager.getStudentsFromSchoolClassForSpecificPeriod(currentSchoolClass.getID(), schemaModel.getStartDate(), schemaModel.getEndDate());
+
+        resetStudents();
+        studentsFromDB.addAll(updatedStudents);
+        students.addAll(studentsFromDB);
     }
 
     /**
@@ -261,11 +218,6 @@ public class SchoolClassModel {
         students.add(student);
     }
 
-    public void loadStudentData(String studentEmail) {
-        currentSchoolClass = schoolClassManager.getSchoolClassFromStudentEmail(studentEmail);
-        currentStudent = schoolClassManager.getStudentByEmail(studentEmail);
-    }
-
     /**
      * Check if user is in DB
      *
@@ -288,7 +240,7 @@ public class SchoolClassModel {
     /**
      * Get academy locations from DB
      */
-    public void loadAcademyLocationsTeacherIsTeaching() {
+    public void getAcademyLocationsTeacherIsTeaching() {
         currentAcademy.addAllLocation(schoolClassManager.loadAcademyLocationsTeacherIsTeaching(currentAcademy, currentTeacher));
         getAcademyLocationNames();
     }
@@ -297,9 +249,7 @@ public class SchoolClassModel {
      * Add location names to observable list
      */
     private void getAcademyLocationNames() {
-        for (String location : currentAcademy.getLocations().values()) {
-            locationNames.add(location);
-        }
+        locationNames.addAll(currentAcademy.getLocations().values());
     }
 
     /**
@@ -344,13 +294,8 @@ public class SchoolClassModel {
         return schoolClassManager.getTeacherByEmail(teacherEmail);
     }
 
-    /**
-     * Load a schoolClass by name
-     *
-     * @param schoolClassName
-     */
-    public void loadSchoolClassByName(String schoolClassName) {
-        loadSchoolClassData(schoolClassIDs.get(teacherSchoolClassNames.indexOf(schoolClassName)));
+    public int getSchoolClassIdByName(String schoolClassName) {
+        return schoolClassManager.getSchoolClassIdByName(schoolClassName);
     }
 
     public Teacher getCurrentTeacher() {
@@ -373,6 +318,8 @@ public class SchoolClassModel {
     /**
      * Clears currentClassStudentsWithAbsence. Then gets a new list of students
      * from the database.
+     *
+     * @param mockSwitch
      */
     public void updateCurrentClassStudents(int mockSwitch) {
         currentClassStudentsAbsence.clear();
@@ -444,10 +391,12 @@ public class SchoolClassModel {
 
     /**
      * Fill it up
+     *
+     * @param schoolClassName
      */
-    public void updateSemesters() {
+    public void getSemestersOnSchoolClassName(String schoolClassName) {
         clearSemesters();
-        semesters.addAll(schoolClassManager.getAllSchoolClassSemesters(currentSchoolClass.getID()));
+        semesters.addAll(schoolClassManager.getAllSchoolClassSemestersOnSchoolClassName(schoolClassName));
     }
 
     /**
@@ -467,21 +416,6 @@ public class SchoolClassModel {
     }
 
     /**
-     * Fetches the data from the DB and updates the view.
-     *
-     * @param semesterID
-     */
-    public void updateSchoolClassSemester(int semesterID) {
-        resetStudents();
-        schoolClassManager.getSchoolClassSemesterDataBySchoolClassAndSemesterID(currentSchoolClass, semesterID);
-        studentsFromDB.addAll(schoolClassManager.getAllStudentDataBySemester(currentSchoolClass.getID(), semesterID));
-        students.addAll(studentsFromDB);
-        PieChartModel.getInstance().resetPieChart();
-        PieChartViewController.getInstance().updateChart();
-        RootViewController.getInstance().reloadView();
-    }
-
-    /**
      * Converts a semester name to an ID.
      *
      * @param semesterName
@@ -493,6 +427,72 @@ public class SchoolClassModel {
 
     public ESemester getCurrentSemester() {
         return currentSemester;
+    }
+
+    /**
+     * Fetches the data from the DB and updates the view.
+     *
+     * @param schoolClassID
+     * @param semesterID
+     */
+    public void loadSchoolClassDataBySemester(int schoolClassID, int semesterID) {
+        resetStudents();
+        currentSchoolClass = schoolClassManager.getSchoolClassBySemester(schoolClassID, semesterID);
+        studentsFromDB.addAll(schoolClassManager.getAllStudentDataBySemester(currentSchoolClass.getID(), semesterID));
+        students.addAll(studentsFromDB);
+    }
+
+    /**
+     * Load a schoolClass by name
+     *
+     * @param schoolClassName
+     */
+    public void loadSchoolClassDataByName(String schoolClassName) {
+        int schoolClassID = schoolClassManager.getSchoolClassIdByName(schoolClassName);
+        loadSchoolClassDataById(schoolClassID);
+    }
+
+    /**
+     * Load schoolclass with students
+     *
+     * @param schoolClassID
+     */
+    public void loadSchoolClassDataById(int schoolClassID) {
+        loadCurrentSchoolClassByPeriodAndID(schoolClassID);
+    }
+
+    /**
+     * Gets schoolClass and student by student email
+     *
+     * @param studentEmail
+     */
+    public void loadStudentDataByEmail(String studentEmail) {
+        currentSchoolClass = schoolClassManager.getSchoolClassFromStudentEmail(studentEmail);
+        currentStudent = schoolClassManager.getStudentByEmail(studentEmail);
+    }
+
+    /**
+     * Load current schoolClass based on schoolClassID
+     *
+     * @param schoolClassID
+     */
+    public void loadCurrentSchoolClassByPeriodAndID(int schoolClassID) {
+        currentSchoolClass = schoolClassManager.getAllSchoolClassDataBySchoolClassIdForSpecificPeriod(schoolClassID, schemaModel.getStartDate(), schemaModel.getEndDate());
+        resetStudents();
+        fillStudents();
+    }
+
+    private void fillStudents() {
+        studentsFromDB.addAll(currentSchoolClass.getStudents());
+        students.addAll(studentsFromDB);
+    }
+
+    /**
+     * Gets the next schoolclass for current teacher
+     */
+    private void loadNextSchoolClassForTeacher() {
+        int nextSchoolClassForTeacher = schoolClassIDs.get(0);
+        loadSchoolClassDataById(nextSchoolClassForTeacher);
     }
 
     /**

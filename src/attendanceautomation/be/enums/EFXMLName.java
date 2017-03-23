@@ -31,6 +31,7 @@ public enum EFXMLName {
     LOGOUT_BUTTON(FOLDER + "login/view/LogoutView.fxml"),
     WEEK_AND_DAYS_BAR(FOLDER + "sharedComponents/weeksAndDaysBar/view/WeeksAndDaysBarView.fxml"),
     FILTER_BUTTON(FOLDER + "sharedComponents/filters/filterButton/view/FilterButton.fxml"),
+    FILTER_SEARCH_BUTTON(FOLDER + "sharedComponents/filters/filterButton/view/FilterSearchButton.fxml"),
     FILTER_HOLER_VIEW(FOLDER + "sharedComponents/filters/filterHolder/view/FilterHolderView.fxml"),
     LOCATION_FILTER_VIEW(FOLDER + "sharedComponents/filters/locationFilter/view/LocationFilterView.fxml"),
     SCHOOLCLASS_FILTER_VIEW(FOLDER + "sharedComponents/filters/schoolClassFilter/view/SchoolClassFilterView.fxml"),
@@ -40,6 +41,8 @@ public enum EFXMLName {
     CURRENT_CLASS_LIST_VIEW(FOLDER + "currentClassView/view/CurrentClassListView.fxml"),
     NAME_CURRENT_CLASS_LIST_VIEW(FOLDER + "currentClassView/view/NameCurrentClassListView.fxml"),
     LOADING_DATA_VIEW(FOLDER + "sharedComponents/loadingData/view/LoadingDataView.fxml"),
+    REFRESHING_DATA_VIEW(FOLDER + "sharedComponents/loadingData/view/RefreshingDataView.fxml"),
+    REFRESH_DATA_BUTTON(FOLDER + "sharedComponents/loadingData/view/RefreshDataButton.fxml"),
     DATEPICKER_VIEW(FOLDER + "sharedComponents/filters/datePicker/view/DatePickerView.fxml");
 
     private final String text;

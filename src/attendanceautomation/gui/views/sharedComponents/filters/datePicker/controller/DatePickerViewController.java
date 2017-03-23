@@ -7,7 +7,6 @@ package attendanceautomation.gui.views.sharedComponents.filters.datePicker.contr
 
 import attendanceautomation.gui.model.SchemaModel;
 import attendanceautomation.gui.model.SchoolClassModel;
-import attendanceautomation.gui.views.rootView.controller.RootViewController;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
@@ -24,6 +23,15 @@ import javafx.util.Callback;
  * @author Rasmus
  */
 public class DatePickerViewController implements Initializable {
+
+    private static DatePickerViewController instance;
+
+    public static DatePickerViewController getInstance() {
+        if (instance == null) {
+            instance = new DatePickerViewController();
+        }
+        return instance;
+    }
 
     @FXML
     private DatePicker dpEnd;
@@ -44,12 +52,16 @@ public class DatePickerViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        instance = this;
         dpStart.setValue(createLocalDate(schemaModel.getStartDate()));
         dpEnd.setValue(createLocalDate(schemaModel.getEndDate()));
         setDayCellFactoryStart();
         setDayCellFactoryEnd();
-//        schemaModel.setStartDate(dpStart.getValue().toString());
-//        schemaModel.setEndDate(dpEnd.getValue().toString());
+    }
+
+    public boolean hasNewDate() {
+        return !dpStart.getValue().toString().equals(schemaModel.getStartDate())
+                || !dpEnd.getValue().toString().equals(schemaModel.getEndDate());
     }
 
     /**
@@ -98,18 +110,20 @@ public class DatePickerViewController implements Initializable {
         dpEnd.setDayCellFactory(dayCellFactory);
     }
 
+    public String getStartDate() {
+        return dpStart.getValue().toString();
+    }
+
+    public String getEndDate() {
+        return dpEnd.getValue().toString();
+    }
+
     @FXML
     private void handleStartDate(ActionEvent event) {
-        schemaModel.setStartDate(dpStart.getValue().toString());
     }
 
     @FXML
     private void handleEndDate(ActionEvent event) {
-        schemaModel.setEndDate(dpEnd.getValue().toString());
-
-        schemaModel.setCurrentMonth(schemaModel.getStartDate(), schemaModel.getEndDate());
-        schoolClassModel.setCurrentSchoolClass(schoolClassModel.getCurrentSchoolClass().getID());
-        RootViewController.getInstance().updateAll();
     }
 
     private LocalDate createLocalDate(String date) {

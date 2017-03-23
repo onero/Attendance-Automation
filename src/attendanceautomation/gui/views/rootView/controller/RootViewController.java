@@ -8,12 +8,16 @@ package attendanceautomation.gui.views.rootView.controller;
 import attendanceautomation.be.Teacher;
 import attendanceautomation.be.enums.EFXMLName;
 import attendanceautomation.gui.model.PieChartModel;
+import attendanceautomation.gui.model.SchemaModel;
 import attendanceautomation.gui.model.SchoolClassModel;
 import attendanceautomation.gui.views.NodeFactory;
 import attendanceautomation.gui.views.login.controller.LoginViewController;
 import attendanceautomation.gui.views.sharedComponents.allComponentHolder.controller.AllComponentHolderController;
 import attendanceautomation.gui.views.sharedComponents.componentsHolder.controller.ComponentsHolderViewController;
+import attendanceautomation.gui.views.sharedComponents.filters.datePicker.controller.DatePickerViewController;
 import attendanceautomation.gui.views.sharedComponents.filters.filterHolder.controller.FilterHolderViewController;
+import attendanceautomation.gui.views.sharedComponents.filters.schoolClassFilter.controller.SchoolClassFilterViewController;
+import attendanceautomation.gui.views.sharedComponents.filters.semesterFilter.controller.SemesterFilterViewController;
 import attendanceautomation.gui.views.sharedComponents.monthComboBox.controller.MonthComboboxViewController;
 import attendanceautomation.gui.views.sharedComponents.pieChart.controller.PieChartViewController;
 import java.io.IOException;
@@ -31,6 +35,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -43,6 +48,8 @@ public class RootViewController implements Initializable {
 
     @FXML
     private BorderPane borderPane;
+    @FXML
+    private GridPane gridButtomBar;
     @FXML
     private HBox refreshBox;
 
@@ -57,6 +64,8 @@ public class RootViewController implements Initializable {
     private Node LOGOUT_BUTTON;
 
     private Node LOADING_DATA_VIEW;
+    private Node REFRESHING_DATA_VIEW;
+    private Node REFRESH_DATA_BUTTON;
 
     private Node SEARCH_BAR;
     private Node MONTH_COMBOBOX;
@@ -75,6 +84,8 @@ public class RootViewController implements Initializable {
     private BorderPane FILTER_PANE;
 
     private Node currentView;
+
+    private Stage filterModal;
 
     private AllComponentHolderController allComponentHolderController;
 
@@ -110,7 +121,6 @@ public class RootViewController implements Initializable {
         instance = this;
         borderPane.setCenter(ALL_COMPONENT_HOLDER_VIEW);
         ShowHideAdminButtons(false);
-        refreshBox.setVisible(false);
     }
 
     /**
@@ -155,10 +165,6 @@ public class RootViewController implements Initializable {
         showNode(MONTH_COMBOBOX);
     }
 
-    public void setRefreshBoxVisibility(boolean value) {
-        refreshBox.setVisible(value);
-    }
-
     /**
      * Returns the user to the login page.
      */
@@ -181,23 +187,23 @@ public class RootViewController implements Initializable {
         Runnable task = () -> {
             Teacher teacher = schoolClassModel.getTeacherByEmail(teacherEmail);
             if (schoolClassModel.checkForNewTeacher(teacher)) {
-                LOADING_DATA_VIEW = nodeFactory.createNewView(EFXMLName.LOADING_DATA_VIEW);
                 schoolClassModel.setCurrentTeacher(teacher);
+                LOADING_DATA_VIEW = nodeFactory.createNewView(EFXMLName.LOADING_DATA_VIEW);
                 loadTeacherView();
                 schoolClassModel.loadDataFromDB();
                 schoolClassModel.updateCurrentClassStudents(0);
                 Platform.runLater(() -> {
                     MAIN_VIEW = nodeFactory.createNewView(EFXMLName.MAIN_VIEW);
-                    switchCenterView(MAIN_VIEW);
-                    PieChartModel.getInstance().resetPieChart();
-                    PieChartViewController.getInstance().updateChart();
-                    ShowHideAdminButtons(true);
+                    gridButtomBar.add(REFRESH_DATA_BUTTON, 6, 1);
+                    currentView = MAIN_VIEW;
+                    updateAll();
                     LoginViewController.getInstance().resetLogin();
                 });
             } else {
                 Platform.runLater(() -> {
                     switchCenterView(MAIN_VIEW);
-                    setRefreshBoxVisibility(true);
+                    REFRESHING_DATA_VIEW = nodeFactory.createNewView(EFXMLName.REFRESHING_DATA_VIEW);
+                    gridButtomBar.add(REFRESHING_DATA_VIEW, 5, 1);
                     allComponentHolderController.setBorderPaneTop(ACTION_COMPONENT_HOLDER);
                     ShowHideAdminButtons(true);
                     SchoolClassModel.getInstance().updateStudentData();
@@ -213,6 +219,7 @@ public class RootViewController implements Initializable {
      */
     private void loadTeacherView() {
         Platform.runLater(() -> {
+            switchCenterView(LOADING_DATA_VIEW);
             try {
                 createTeacherViews();
             } catch (IOException ex) {
@@ -220,7 +227,6 @@ public class RootViewController implements Initializable {
                 System.out.println(ex);
             }
 
-            switchCenterView(LOADING_DATA_VIEW);
         });
     }
 
@@ -233,6 +239,27 @@ public class RootViewController implements Initializable {
         SEARCH_BAR = nodeFactory.createNewView(EFXMLName.SEARCH_VIEW);
         ACTION_COMPONENT_HOLDER = createActionComponentHolder();
         allComponentHolderController.setBorderPaneTop(ACTION_COMPONENT_HOLDER);
+        REFRESH_DATA_BUTTON = nodeFactory.createNewView(EFXMLName.REFRESH_DATA_BUTTON);
+        REFRESHING_DATA_VIEW = nodeFactory.createNewView(EFXMLName.REFRESHING_DATA_VIEW);
+    }
+
+    /**
+     * Inserts the REFRESHING_DATA_VIEW, updates student data and updates the
+     * view
+     */
+    public void handleRefreshData() {
+        gridButtomBar.getChildren().remove(REFRESH_DATA_BUTTON);
+        gridButtomBar.add(REFRESHING_DATA_VIEW, 6, 1);
+        Runnable task = () -> {
+            schoolClassModel.updateStudentData();
+            Platform.runLater(() -> {
+                gridButtomBar.getChildren().remove(REFRESHING_DATA_VIEW);
+                gridButtomBar.add(REFRESH_DATA_BUTTON, 6, 1);
+
+                updateAll();
+            });
+        };
+        new Thread(task).start();
     }
 
     /**
@@ -251,7 +278,7 @@ public class RootViewController implements Initializable {
      * @param userId
      */
     public void handleStudentLogin(String userId) {
-        schoolClassModel.loadStudentData(userId);
+        schoolClassModel.loadStudentDataByEmail(userId);
         DETAILED_STUDENT_VIEW = nodeFactory.createNewView(EFXMLName.DETAILED_STUDENT_VIEW);
         switchCenterView(DETAILED_STUDENT_VIEW);
         allComponentHolderController.setBorderPaneTop(ACTION_COMPONENT_HOLDER);
@@ -269,6 +296,7 @@ public class RootViewController implements Initializable {
                 reloadView();
                 PieChartModel.getInstance().resetPieChart();
                 PieChartViewController.getInstance().updateChart();
+                ShowHideAdminButtons(true);
             });
         };
         new Thread(task).start();
@@ -287,6 +315,7 @@ public class RootViewController implements Initializable {
             switchCenterView(DETAILED_STUDENT_VIEW);
         }
         if (currentView == MAIN_VIEW) {
+            switchCenterView(MAIN_VIEW);
             schoolClassModel.sortStudentsOnAttendance();
         }
         MonthComboboxViewController.getInstance().updateWeekNumbers();
@@ -330,7 +359,7 @@ public class RootViewController implements Initializable {
         try {
             Parent root = loader.load();
             Scene filterHolder = new Scene(root);
-            Stage filterModal = new Stage();
+            filterModal = new Stage();
             filterModal.setScene(filterHolder);
 
             filterModal.initModality(Modality.WINDOW_MODAL);
@@ -347,10 +376,70 @@ public class RootViewController implements Initializable {
             controller.addFilter(SEMESTER_FILTER_VIEW);
             controller.addFilter(DATEPICKER_VIEW);
 
+            Node okButton = nodeFactory.createNewView(EFXMLName.FILTER_SEARCH_BUTTON);
+            controller.addFilter(okButton);
             filterModal.show();
         } catch (IOException ex) {
             Logger.getLogger(RootViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    /**
+     * Reload data depending on user selections
+     */
+    public void handleFilterSearch() {
+        String schoolClassName = SchoolClassFilterViewController.getInstance().getSchoolName();
+        int schoolClassID = schoolClassModel.getSchoolClassIdByName(schoolClassName);
+        if (SemesterFilterViewController.getInstance().isSemesterSelected()) {
+            int semesterID = SemesterFilterViewController.getInstance().getSemesterID();
+            filterModal.close();
+            showLoadingDataView();
+
+            Runnable task = () -> {
+                schoolClassModel.loadSchoolClassDataBySemester(schoolClassID, semesterID);
+                Platform.runLater(() -> {
+                    updateAll();
+                });
+            };
+            new Thread(task).start();
+
+        } else if (DatePickerViewController.getInstance().hasNewDate()) {
+            String startDate = DatePickerViewController.getInstance().getStartDate();
+            String endDate = DatePickerViewController.getInstance().getEndDate();
+            filterModal.close();
+            showLoadingDataView();
+
+            SchemaModel.getInstance().setCurrentMonth(startDate, endDate);
+
+            Runnable task = () -> {
+                schoolClassModel.loadCurrentSchoolClassByPeriodAndID(schoolClassID);
+                Platform.runLater(() -> {
+                    updateAll();
+                });
+            };
+            new Thread(task).start();
+
+        } else {
+            filterModal.close();
+            showLoadingDataView();
+
+            Runnable task = () -> {
+                //TODO ALH: Make dynamic (also in SchemaModel!)
+                String startDate = "2016-10-31";
+                String endDate = "2017-02-28";
+                SchemaModel.getInstance().setCurrentMonth(startDate, endDate);
+                schoolClassModel.loadSchoolClassDataByName(schoolClassName);
+                Platform.runLater(() -> {
+                    updateAll();
+                });
+            };
+            new Thread(task).start();
+        }
+    }
+
+    private void showLoadingDataView() {
+        allComponentHolderController.setBorderPaneCenter(LOADING_DATA_VIEW);
+        ShowHideAdminButtons(false);
     }
 
     /**

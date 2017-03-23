@@ -9,48 +9,81 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="rootBorderPane" prefHeight="205.0" prefWidth="723.0" styleClass="padding" stylesheets="@../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="attendanceautomation.gui.views.detailedStudent.controller.StudentInformationTopViewController">
+<BorderPane fx:id="rootBorderPane" prefHeight="204.0" prefWidth="1020.0" styleClass="padding" stylesheets="@../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="attendanceautomation.gui.views.detailedStudent.controller.StudentInformationTopViewController">
    <left>
-      <BorderPane fx:id="studentBorderPane" prefHeight="225.0" prefWidth="250.0" stylesheets="@../../css/Style.css" BorderPane.alignment="CENTER">
-         <top>
-            <Label fx:id="lblStudentName" prefHeight="27.0" prefWidth="201.0" styleClass="detailLabels" text="Studerendes navn" textAlignment="CENTER" BorderPane.alignment="CENTER">
-               <font>
-                  <Font name="System Bold" size="23.0" />
-               </font>
-            </Label>
-         </top>
+      <BorderPane fx:id="studentBorderPane" prefHeight="225.0" prefWidth="300.0" stylesheets="@../../css/Style.css" BorderPane.alignment="CENTER">
          <styleClass>
             <String fx:value="padding" />
             <String fx:value="studentInfo" />
          </styleClass>
-         <center>
-            <Pane prefHeight="212.0" prefWidth="220.0" stylesheets="@../../css/Style.css" BorderPane.alignment="CENTER">
-               <children>
-                  <VBox prefHeight="178.0" prefWidth="80.0" spacing="15.0">
+         <left>
+            <BorderPane prefHeight="165.0" prefWidth="245.0" BorderPane.alignment="CENTER">
+               <left>
+                  <Pane prefHeight="140.0" prefWidth="200.0" stylesheets="@../../css/Style.css" BorderPane.alignment="CENTER">
                      <children>
-                        <Label id="detailLabel" styleClass="labels" text="Email:" />
-                        <Label styleClass="labels" text="Tlf:" />
-                        <Label styleClass="labels" text="Studie:" />
-                        <Label styleClass="labels" text="Semester:" />
-                        <Label styleClass="labels" text="Klasse:" />
+                        <VBox prefHeight="178.0" prefWidth="80.0" spacing="15.0">
+                           <children>
+                              <Label id="detailLabel" styleClass="labels" text="Email:" />
+                              <Label styleClass="labels" text="Tlf:" />
+                              <Label styleClass="labels" text="Studie:" />
+                              <Label styleClass="labels" text="Semester:" />
+                              <Label styleClass="labels" text="Klasse:" />
+                           </children>
+                        </VBox>
+                        <VBox layoutX="74.0" prefHeight="178.0" prefWidth="146.0" spacing="15.0">
+                           <children>
+                              <Label id="detailLabel" fx:id="lblStudentEmail" styleClass="labels" text="Test@Testesen.dk" />
+                              <Label fx:id="lblStudentPhone" styleClass="labels" text="12345678" />
+                              <Label fx:id="lblFieldOfStudy" styleClass="labels" text="Datamatiker" />
+                              <Label fx:id="lblStudentSemester" styleClass="labels" text="2." />
+                              <Label fx:id="lblStudentClass" styleClass="labels" text="CS2016A" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </Pane>
+               </left>
+               <top>
+                  <Label fx:id="lblStudentName" prefHeight="27.0" prefWidth="201.0" styleClass="detailLabels" text="Studerendes navn" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="23.0" />
+                     </font>
+                  </Label>
+               </top>
+            </BorderPane>
+         </left>
+         <right>
+            <BorderPane prefHeight="165.0" prefWidth="218.0" BorderPane.alignment="CENTER">
+               <top>
+                  <Label prefHeight="27.0" prefWidth="244.0" styleClass="detailLabels" stylesheets="@../../css/Style.css" text="Studerendes fravær" BorderPane.alignment="CENTER" />
+               </top>
+               <right>
+                  <VBox prefHeight="143.0" prefWidth="100.0" spacing="15.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Label fx:id="lblScoAbsence" text="ScoAbsence" />
+                        <Label fx:id="lblSdeAbsence" text="SdeAbsence" />
+                        <Label fx:id="lblItoAbsence" text="ItoAbsence" />
+                        <Label fx:id="lblDbosAbsence" text="DbosAbsence" />
+                        <Label fx:id="lblTotalAbsence" text="TotalAbsence" />
                      </children>
                   </VBox>
-                  <VBox layoutX="74.0" prefHeight="178.0" prefWidth="146.0" spacing="15.0">
+               </right>
+               <left>
+                  <VBox prefHeight="135.0" prefWidth="100.0" spacing="15.0" BorderPane.alignment="CENTER">
                      <children>
-                        <Label id="detailLabel" fx:id="lblStudentEmail" styleClass="labels" text="Test@Testesen.dk" />
-                        <Label fx:id="lblStudentPhone" styleClass="labels" text="12345678" />
-                        <Label fx:id="lblFieldOfStudy" styleClass="labels" text="Datamatiker" />
-                        <Label fx:id="lblStudentSemester" styleClass="labels" text="2." />
-                        <Label fx:id="lblStudentClass" styleClass="labels" text="CS2016A" />
+                        <Label prefHeight="15.0" prefWidth="39.0" text="SCO:" />
+                        <Label prefHeight="15.0" prefWidth="39.0" text="SDE:" />
+                        <Label prefHeight="15.0" prefWidth="39.0" text="ITO:" />
+                        <Label prefHeight="15.0" prefWidth="39.0" text="DBOS:" />
+                        <Label prefHeight="15.0" prefWidth="128.0" text="Total fravær:" />
                      </children>
                   </VBox>
-               </children>
-            </Pane>
-         </center>
+               </left>
+            </BorderPane>
+         </right>
       </BorderPane>
    </left>
-   <right>
-      <BorderPane fx:id="TeacherBorderPane" prefHeight="185.0" prefWidth="277.0" styleClass="studentInfo" stylesheets="@../../css/Style.css" BorderPane.alignment="CENTER">
+   <center>
+      <BorderPane fx:id="TeacherBorderPane" prefHeight="184.0" prefWidth="604.0" styleClass="studentInfo" stylesheets="@../../css/Style.css" BorderPane.alignment="CENTER">
          <top>
             <Label styleClass="detailLabels" stylesheets="@../../css/Style.css" text="Lærer" BorderPane.alignment="CENTER">
                <font>
@@ -59,42 +92,13 @@
             </Label>
          </top>
          <center>
-            <TableView fx:id="listTeachers" prefHeight="158.0" prefWidth="258.0" stylesheets="@../../css/Style.css" BorderPane.alignment="CENTER">
+            <TableView fx:id="listTeachers" prefHeight="157.0" prefWidth="334.0" stylesheets="@../../css/Style.css" BorderPane.alignment="CENTER">
               <columns>
-                <TableColumn fx:id="columnTeacher" prefWidth="104.0" text="Lærer" />
-                  <TableColumn fx:id="columnEmail" prefWidth="171.0" text="Email" />
+                <TableColumn fx:id="columnTeacher" prefWidth="129.0" text="Lærer" />
+                  <TableColumn fx:id="columnEmail" prefWidth="263.0" text="Email" />
               </columns>
             </TableView>
          </center>
-      </BorderPane>
-   </right>
-   <center>
-      <BorderPane prefHeight="225.0" prefWidth="250.0" styleClass="studentInfo" stylesheets="@../../css/Style.css" BorderPane.alignment="CENTER">
-         <top>
-            <Label prefHeight="39.0" prefWidth="218.0" styleClass="detailLabels" stylesheets="@../../css/Style.css" text="Studerendes fravær" BorderPane.alignment="CENTER" />
-         </top>
-         <right>
-            <VBox prefHeight="143.0" prefWidth="100.0" spacing="15.0" BorderPane.alignment="CENTER">
-               <children>
-                  <Label fx:id="lblScoAbsence" text="ScoAbsence" />
-                  <Label fx:id="lblSdeAbsence" text="SdeAbsence" />
-                  <Label fx:id="lblItoAbsence" text="ItoAbsence" />
-                  <Label fx:id="lblDbosAbsence" text="DbosAbsence" />
-                  <Label fx:id="lblTotalAbsence" text="TotalAbsence" />
-               </children>
-            </VBox>
-         </right>
-         <left>
-            <VBox prefHeight="144.0" prefWidth="100.0" spacing="15.0" BorderPane.alignment="CENTER">
-               <children>
-                  <Label prefHeight="15.0" prefWidth="39.0" text="SCO:" />
-                  <Label prefHeight="15.0" prefWidth="39.0" text="SDE:" />
-                  <Label prefHeight="15.0" prefWidth="39.0" text="ITO:" />
-                  <Label prefHeight="15.0" prefWidth="39.0" text="DBOS:" />
-                  <Label prefHeight="15.0" prefWidth="128.0" text="Total fravær:" />
-               </children>
-            </VBox>
-         </left>
       </BorderPane>
    </center>
 </BorderPane>

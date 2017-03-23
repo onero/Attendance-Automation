@@ -59,9 +59,9 @@
             </Label>
          </top>
          <center>
-            <TableView fx:id="listTeachers" prefHeight="158.0" prefWidth="325.0" stylesheets="@../../css/Style.css" BorderPane.alignment="CENTER">
+            <TableView fx:id="listTeachers" prefHeight="158.0" prefWidth="258.0" stylesheets="@../../css/Style.css" BorderPane.alignment="CENTER">
               <columns>
-                <TableColumn fx:id="columnTeacher" prefWidth="105.0" text="Lærer" />
+                <TableColumn fx:id="columnTeacher" prefWidth="104.0" text="Lærer" />
                   <TableColumn fx:id="columnEmail" prefWidth="171.0" text="Email" />
               </columns>
             </TableView>

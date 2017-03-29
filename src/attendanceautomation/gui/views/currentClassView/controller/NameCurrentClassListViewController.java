@@ -27,14 +27,15 @@ public class NameCurrentClassListViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
+    }
+
     /**
      * Binds the students name to the label.
-     * @param student 
+     *
+     * @param student
      */
     public void setStudentInfo(Student student) {
         lblNameOfStudent.setText(student.getFullName());
     }
-    
+
 }

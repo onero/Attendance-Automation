@@ -69,7 +69,9 @@ public class CurrentClassViewController implements Initializable {
     /**
      * Creathes the list of the present students.
      *
-     * @return @throws IOException TODO LATER REFACTOER TO ONE METHOD.
+     * @return @throws IOException
+     *
+     * TODO LATER REFACTOER TO ONE METHOD.
      */
     private Node createListViewPresent() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLName.CURRENT_CLASS_LIST_VIEW.toString()));
@@ -81,7 +83,9 @@ public class CurrentClassViewController implements Initializable {
     /**
      * Creathes the list of the present students.
      *
-     * @return @throws IOException TODO LATER REFACTOER TO ONE METHOD.
+     * @return @throws IOException
+     *
+     * TODO LATER REFACTOER TO ONE METHOD.
      */
     private Node createListViewAbsence() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLName.CURRENT_CLASS_LIST_VIEW.toString()));

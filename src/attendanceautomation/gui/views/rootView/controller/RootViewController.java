@@ -491,14 +491,21 @@ public class RootViewController implements Initializable {
 
     @FXML
     private void handleCurrentClassBtn() {
-        if (CURRENT_CLASS_VIEW == null) {
-            CURRENT_CLASS_VIEW = nodeFactory.createNewView(EFXMLName.CURRENT_CLASS_VIEW);
+        switchCenterView(LOADING_DATA_VIEW);
+        ShowHideAdminButtons(false);
+        Runnable task = () -> {
             schoolClassModel.updateCurrentClassStudents(0);
-            CurrentClassPieChartController.getInstance().updateChart();
-        }
-
-        switchCenterView(CURRENT_CLASS_VIEW);
-        hideNode(MONTH_COMBOBOX);
+            Platform.runLater(() -> {
+                if (CURRENT_CLASS_VIEW == null) {
+                    CURRENT_CLASS_VIEW = nodeFactory.createNewView(EFXMLName.CURRENT_CLASS_VIEW);
+                }
+                switchCenterView(CURRENT_CLASS_VIEW);
+                ShowHideAdminButtons(true);
+                hideNode(MONTH_COMBOBOX);
+                CurrentClassPieChartController.getInstance().updateChart();
+            });
+        };
+        new Thread(task).start();
     }
 
     /**

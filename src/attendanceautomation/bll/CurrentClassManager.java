@@ -52,12 +52,10 @@ public class CurrentClassManager {
 //        DateFormat dateFormatYear = new SimpleDateFormat("yyyy-MM-dd");
 //        String yearAsString = dateFormatYear.format(date);
 
-//        String halfHourBefore = mockDate + " " + findHalfHourBefore(Integer.parseInt(hours), Integer.parseInt(minutes));
-//        String halfHourAfter = mockDate + " " + findHalfHourAfter(Integer.parseInt(hours), Integer.parseInt(minutes));
-        String halfHourBefore = "2017-02-23";
-        String halfHourAfter = mockDate;
+        String eigthHoursBefore = mockDate + " " + findHalfHourBefore(Integer.parseInt(hours), Integer.parseInt(minutes));
+        String halfHourAfter = mockDate + " " + findHalfHourAfter(Integer.parseInt(hours), Integer.parseInt(minutes));
 
-        List<Integer> schoolClassID = daoFacade.getSchoolClassID(teacherID, halfHourBefore, halfHourAfter);
+        List<Integer> schoolClassID = daoFacade.getSchoolClassID(teacherID, eigthHoursBefore, halfHourAfter);
         if (schoolClassID.isEmpty()) {
             System.out.println("Failed to get schoolClassID");
             return new ArrayList<Student>();
@@ -135,7 +133,7 @@ public class CurrentClassManager {
     private String findHalfHourAfter(int hours, int minutes) {
         String halfHourAfter = "";
         minutes += 30;
-        if (minutes > 60) {
+        if (minutes >= 60) {
             hours++;
             minutes -= 60;
         }

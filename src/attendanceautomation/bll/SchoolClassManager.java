@@ -95,6 +95,14 @@ public class SchoolClassManager {
         return schoolClass;
     }
 
+    /**
+     * Gets the schoolClass with the given ID for the specified period.
+     *
+     * @param schoolClassId
+     * @param startDate
+     * @param endDate
+     * @return
+     */
     private SchoolClass getSchoolClassByIdForSpecificPeriod(int schoolClassId, String startDate, String endDate) {
         SchoolClass schoolClass = AADAOFacade.getSchoolClassByID(schoolClassId);
         schoolClass.addAllSemesterSubjects(AADAOFacade.getSchoolSemesterSubjectsInSchoolClassForSpecificPeriod(schoolClassId, startDate, endDate));
@@ -312,6 +320,7 @@ public class SchoolClassManager {
         }
         return students;
     }
+
     /**
      * Makes a List from the Set given in the param, and then get one teacher
      * from the DB, by their name, at a time for each name given.
@@ -326,6 +335,7 @@ public class SchoolClassManager {
         }
         return teachers;
     }
+
     public List<String> getAllSchoolClassSemestersOnSchoolClassName(String schoolClassName) {
         return AADAOFacade.getAllSchoolClassSemestersBySchoolClassName(schoolClassName);
     }

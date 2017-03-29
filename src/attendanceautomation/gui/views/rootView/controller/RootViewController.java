@@ -51,8 +51,6 @@ public class RootViewController implements Initializable {
     private BorderPane borderPane;
     @FXML
     private GridPane gridButtomBar;
-    @FXML
-    private HBox refreshBox;
 
     private static RootViewController instance;
 

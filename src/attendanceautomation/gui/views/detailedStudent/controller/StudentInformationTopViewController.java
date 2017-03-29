@@ -128,7 +128,6 @@ public class StudentInformationTopViewController implements Initializable {
         listTeachers.setItems(teachers);
         columnTeacher.setCellValueFactory(new PropertyValueFactory<>("fullName"));
         columnEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
-        //TODO MSP: SetCellValueFactory on columnSubject.
     }
 
     /**

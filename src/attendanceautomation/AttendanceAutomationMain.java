@@ -5,6 +5,7 @@
  */
 package attendanceautomation;
 
+import static attendanceautomation.be.enums.EFXMLName.FOLDER;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,13 +18,9 @@ import javafx.stage.Stage;
  */
 public class AttendanceAutomationMain extends Application {
 
-    public static final String FOLDER = "/attendanceautomation/gui/views/";
-    private final String ATTENDANCE_AUTOMATION_MAIN = FOLDER + "rootView/view/RootView.fxml";
-//    private final String LOGIN = "gui/view/LoginView.fxml";
-
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource(ATTENDANCE_AUTOMATION_MAIN));
+        Parent root = FXMLLoader.load(getClass().getResource(FOLDER + "rootView/view/RootView.fxml"));
         Scene scene = new Scene(root);
 
         stage.setScene(scene);

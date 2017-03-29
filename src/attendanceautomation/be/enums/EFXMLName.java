@@ -5,13 +5,12 @@
  */
 package attendanceautomation.be.enums;
 
-import static attendanceautomation.AttendanceAutomationMain.FOLDER;
-
 /**
  *
  * @author Rasmus
  */
 public enum EFXMLName {
+    FOLDER("/attendanceautomation/gui/views/"),
     MAIN_VIEW(FOLDER + "main/view/MainView.fxml"),
     NAME_STATISTICS_VIEW(FOLDER + "main/view/NameStatisticsView.fxml"),
     LIST_OF_NAMES_STATISTICS_VIEW(FOLDER + "main/view/ListOfNameStatisticsView.fxml"),

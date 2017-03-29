@@ -331,8 +331,8 @@ public class SchoolClassModel {
         switch (mockSwitch) {
             case 0: {
                 List<Student> listOfCurrentClassStudents = currentClassManager.getStudentsFromCurrentSchoolClass(currentTeacher.getTeacherID());
-                listOfCurrentClassStudentsPresent = currentClassManager.findStudentsPresent(listOfCurrentClassStudents);
-                listOfCurrentClassStudentsAbsence = currentClassManager.findStudentsAbsence(listOfCurrentClassStudents);
+                listOfCurrentClassStudentsPresent = currentClassManager.findStudentsAbsentOrPresent(listOfCurrentClassStudents, true);
+                listOfCurrentClassStudentsAbsence = currentClassManager.findStudentsAbsentOrPresent(listOfCurrentClassStudents, false);
                 PieChartModel.getInstance().updateCurrentClassPieChat(listOfCurrentClassStudentsPresent, listOfCurrentClassStudentsAbsence);
                 break;
             }

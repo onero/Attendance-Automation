@@ -64,40 +64,32 @@ public class CurrentClassManager {
     }
 
     /**
-     * Search the parsed list of students to see if they were absence.
+     * Search the parsed list of students to see if they were absent or present
+     * depending on the parsed boolean. True if looking for present. False if
+     * looking for absent.
      *
      * @param listOfCurrentClassStudents
+     * @param empty
      * @return
      */
-    public List<Student> findStudentsAbsence(List<Student> listOfCurrentClassStudents) {
-        List<Student> listOfStudentsAbsence = new ArrayList<>();
+    public List<Student> findStudentsAbsentOrPresent(List<Student> listOfCurrentClassStudents, boolean empty) {
+        List<Student> listOfStudents = new ArrayList<>();
         for (int i = 0; i < listOfCurrentClassStudents.size(); i++) {
             ArrayList<NonAttendance> listOfNonAttendence = listOfCurrentClassStudents.get(i).getNonAttendance();
 
-            if (!listOfNonAttendence.isEmpty()) {
-                listOfStudentsAbsence.add(listOfCurrentClassStudents.get(i));
+            if (listOfNonAttendence.isEmpty() == empty) {
+                listOfStudents.add(listOfCurrentClassStudents.get(i));
             }
         }
-        return listOfStudentsAbsence;
+        return listOfStudents;
     }
 
     /**
-     * HUGE VIOLATION OF DRY!!!!!!! TODO RKL: Refactor to no longer violate DRY.
+     * Calls the dao to find the mockStudent for currentClassView.
      *
-     * @param listOfCurrentClassStudents
+     * @param mockSwitch
      * @return
      */
-    public List<Student> findStudentsPresent(List<Student> listOfCurrentClassStudents) {
-        List<Student> listOfStudentsPresent = new ArrayList<>();
-        for (int i = 0; i < listOfCurrentClassStudents.size(); i++) {
-            ArrayList<NonAttendance> listOfNonAttendence = listOfCurrentClassStudents.get(i).getNonAttendance();
-            if (listOfNonAttendence.isEmpty()) {
-                listOfStudentsPresent.add(listOfCurrentClassStudents.get(i));
-            }
-        }
-        return listOfStudentsPresent;
-    }
-
     public List<Student> findMockStudents(int mockSwitch) {
         return currentClassDAO.findMockStudents(mockSwitch);
     }

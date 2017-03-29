@@ -282,13 +282,13 @@ public class AttendanceAutomationDAOFacade {
      * retrieves a list of students from that schoolClass.
      *
      * @param teacherID
-     * @param dateHalfHourBefore
+     * @param dateEigthHoursBefore
      * @param dateHalfHourAfter
      * @return
      */
-    public List<Integer> getSchoolClassID(int teacherID, String dateHalfHourBefore, String dateHalfHourAfter) {
+    public List<Integer> getSchoolClassID(int teacherID, String dateEigthHoursBefore, String dateHalfHourAfter) {
         try {
-            return schoolClassDAO.getSchoolClassIDForSpecificTeacherAndDate(teacherID, dateHalfHourBefore, dateHalfHourAfter);
+            return schoolClassDAO.getSchoolClassIDForSpecificTeacherAndDate(teacherID, dateEigthHoursBefore, dateHalfHourAfter);
         } catch (SQLException ex) {
             System.out.println(ex);
             throw new RuntimeException("Couldn't get the schoolClassID");

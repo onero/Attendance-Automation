@@ -27,46 +27,50 @@ public class AllComponentHolderController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
-    
+    }
+
     /**
      * Sets the node of the center of the borderPane.
-     * @param node 
+     *
+     * @param node
      */
-    public void setBorderPaneRight(Node node){
+    public void setBorderPaneRight(Node node) {
         borderPane.setRight(node);
     }
-    
+
     /**
      * Sets the node of the left of the borderPane.
-     * @param node 
+     *
+     * @param node
      */
-    public void setBorderPaneLeft(Node node){
+    public void setBorderPaneLeft(Node node) {
         borderPane.setLeft(node);
     }
-    
+
     /**
      * Sets the node in the center of the borderPane.
-     * @param node 
+     *
+     * @param node
      */
-    public void setBorderPaneCenter(Node node){
+    public void setBorderPaneCenter(Node node) {
         borderPane.setCenter(node);
     }
-    
+
     /**
      * Sets the node at the top of the borderPane.
-     * @param node 
+     *
+     * @param node
      */
-    public void setBorderPaneTop(Node node){
+    public void setBorderPaneTop(Node node) {
         borderPane.setTop(node);
     }
-    
+
     /**
      * Sets the node at the bottom of the borderPane.
-     * @param node 
+     *
+     * @param node
      */
-    public void setBorderPaneBottom(Node node){
+    public void setBorderPaneBottom(Node node) {
         borderPane.setBottom(node);
     }
 }

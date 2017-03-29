@@ -52,8 +52,10 @@ public class CurrentClassManager {
 //        DateFormat dateFormatYear = new SimpleDateFormat("yyyy-MM-dd");
 //        String yearAsString = dateFormatYear.format(date);
 
-        String halfHourBefore = mockDate + " " + findHalfHourBefore(Integer.parseInt(hours), Integer.parseInt(minutes));
-        String halfHourAfter = mockDate + " " + findHalfHourAfter(Integer.parseInt(hours), Integer.parseInt(minutes));
+//        String halfHourBefore = mockDate + " " + findHalfHourBefore(Integer.parseInt(hours), Integer.parseInt(minutes));
+//        String halfHourAfter = mockDate + " " + findHalfHourAfter(Integer.parseInt(hours), Integer.parseInt(minutes));
+        String halfHourBefore = "2017-02-23";
+        String halfHourAfter = mockDate;
 
         List<Integer> schoolClassID = daoFacade.getSchoolClassID(teacherID, halfHourBefore, halfHourAfter);
         if (schoolClassID.isEmpty()) {

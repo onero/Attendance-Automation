@@ -82,6 +82,8 @@ public class RootViewController implements Initializable {
     private Node SEMESTER_FILTER_VIEW;
     private Node DATEPICKER_VIEW;
 
+    private Node DATE_RANGE_VIEW;
+
     private BorderPane FILTER_PANE;
 
     private Node currentView;
@@ -335,6 +337,9 @@ public class RootViewController implements Initializable {
         Node node = loader.load();
         ComponentsHolderViewController controller = loader.getController();
         controller.setBorderPaneLeft(SEARCH_BAR);
+
+        DATE_RANGE_VIEW = nodeFactory.createNewView(EFXMLName.DATE_RANGE_VIEW);
+        controller.setBoderPaneTop(DATE_RANGE_VIEW);
         SEARCH_BAR.setVisible(false);
 
         FILTER_PANE = new BorderPane();

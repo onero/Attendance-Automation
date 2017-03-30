@@ -13,6 +13,7 @@ import attendanceautomation.be.Teacher;
 import attendanceautomation.be.enums.ESemester;
 import attendanceautomation.bll.CurrentClassManager;
 import attendanceautomation.bll.SchoolClassManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -224,7 +225,7 @@ public class SchoolClassModel {
      * @param userEmail
      * @return
      */
-    public boolean isUserInDB(String userEmail) {
+    public boolean isUserInDB(String userEmail) throws SQLException {
         return schoolClassManager.isUserInDB(userEmail);
     }
 

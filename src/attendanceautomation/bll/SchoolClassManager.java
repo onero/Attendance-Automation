@@ -160,7 +160,7 @@ public class SchoolClassManager {
      */
     private void getNonAttendanceForAllStudentsForSpecificDate(List<Student> schoolClassStudents, String date) {
         for (Student schoolClassStudent : schoolClassStudents) {
-            schoolClassStudent.addAllNonAttendance(AADAOFacade.getNonAttendanceForStudentByIDForSepcificDate(schoolClassStudent.getID(), date));
+            schoolClassStudent.addAllNonAttendance(AADAOFacade.getNonAttendanceForStudentsByIDForSpecificPeriod(schoolClassStudent.getID(), date, date + " 16:00"));
         }
     }
 

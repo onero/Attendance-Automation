@@ -69,10 +69,19 @@ public class LoginViewController implements Initializable {
      */
     @FXML
     private void processLogin() {
-        setLoginMode(true);
         String username = userId.getText();
         String password = userPassword.getText();
-        errorMessage.setVisible(false);
+        if (!username.isEmpty() && !password.isEmpty()) {
+            startLoginProcess(username, password);
+        } else if (username.isEmpty()) {
+            errorMessage.setText("Please provide a username");
+        } else if (password.isEmpty()) {
+            errorMessage.setText("Please provide a password");
+        }
+    }
+
+    private void startLoginProcess(String username, String password) {
+        setLoginMode(true);
         Runnable task = () -> {
             try {
                 checkUserExists(username, password);
@@ -86,6 +95,7 @@ public class LoginViewController implements Initializable {
     private void setLoginMode(boolean visible) {
         spinner.setVisible(visible);
         btnLogin.setDisable(visible);
+        errorMessage.setVisible(false);
     }
 
     /**
@@ -99,17 +109,23 @@ public class LoginViewController implements Initializable {
             RootViewController rootViewController = RootViewController.getInstance();
             checkForTeacherOrStudent(username, password, rootViewController);
         } else {
-            denyAcccess();
+            denyAcccess(0);
         }
     }
 
-    private void denyAcccess() {
+    private void denyAcccess(int error) {
         Platform.runLater(() -> {
             setLoginMode(false);
             this.errorMessage.setVisible(true);
-            errorMessage.setText("Hello " + userId.getText() + " the password is wrong. \nPlease try agian.");
             //Clears the PasswordField for better usability
             userPassword.clear();
+            switch (error) {
+                case 0:
+                    errorMessage.setText(userId.getText() + " does not exist");
+                    break;
+                default:
+                    errorMessage.setText("Hello " + userId.getText() + " the password is wrong. \nPlease try again.");
+            }
         });
     }
 
@@ -150,7 +166,7 @@ public class LoginViewController implements Initializable {
             loginModel.setIsStudent(true);
             rootViewController.handleStudentLogin(username);
         } else {
-            denyAcccess();
+            denyAcccess(1);
         }
     }
 
@@ -159,7 +175,7 @@ public class LoginViewController implements Initializable {
             loginModel.setIsStudent(false);
             rootViewController.handleTeacherLogin(username);
         } else {
-            denyAcccess();
+            denyAcccess(1);
         }
     }
 

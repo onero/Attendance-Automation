@@ -76,7 +76,7 @@ public class SchoolClassManager {
      */
     public List<Student> getStudentsWithDataFromSchoolClassForSpecificDate(int schoolClassId, String date) {
         List<Student> schoolClassStudents = AADAOFacade.getStudentsFromSchoolClass(schoolClassId);
-        getNonAttendanceForAllStudentsForSpecificDate(schoolClassStudents, date);
+        getNonAttendanceForALlStudentsForSpecificPeriod(schoolClassStudents, date, date + " 16:00");
         return schoolClassStudents;
     }
 
@@ -146,21 +146,6 @@ public class SchoolClassManager {
     private void getNonAttendanceForALlStudentsForSpecificPeriod(List<Student> schoolClassStudents, String startDate, String endDate) {
         for (Student schoolClassStudent : schoolClassStudents) {
             schoolClassStudent.addAllNonAttendance(AADAOFacade.getNonAttendanceForStudentsByIDForSpecificPeriod(schoolClassStudent.getID(), startDate, endDate));
-        }
-    }
-
-    /**
-     * Get NonAttendacce for all students in current schoolClass for specific
-     * date.
-     *
-     * Viloation of DRY!
-     *
-     * @param schoolClassStudents
-     * @param date
-     */
-    private void getNonAttendanceForAllStudentsForSpecificDate(List<Student> schoolClassStudents, String date) {
-        for (Student schoolClassStudent : schoolClassStudents) {
-            schoolClassStudent.addAllNonAttendance(AADAOFacade.getNonAttendanceForStudentsByIDForSpecificPeriod(schoolClassStudent.getID(), date, date + " 16:00"));
         }
     }
 

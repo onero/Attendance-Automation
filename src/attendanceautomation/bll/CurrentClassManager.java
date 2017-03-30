@@ -60,7 +60,7 @@ public class CurrentClassManager {
             System.out.println("Failed to get schoolClassID");
             return new ArrayList<Student>();
         }
-        return schoolClassManager.getStudentsWithDataFromSchoolClassForSpecificDate(schoolClassID.get(schoolClassID.size() - 1), mockDate);
+        return schoolClassManager.getStudentsWithDataFromSchoolClassForSpecificPeriod(schoolClassID.get(schoolClassID.size() - 1), mockDate, mockDate + " 16:00");
     }
 
     /**

@@ -68,19 +68,6 @@ public class SchoolClassManager {
     }
 
     /**
-     * Get the updated studentOnfo for specific date from DB.
-     *
-     * @param schoolClassId
-     * @param date
-     * @return
-     */
-    public List<Student> getStudentsWithDataFromSchoolClassForSpecificDate(int schoolClassId, String date) {
-        List<Student> schoolClassStudents = AADAOFacade.getStudentsFromSchoolClass(schoolClassId);
-        getNonAttendanceForALlStudentsForSpecificPeriod(schoolClassStudents, date, date + " 16:00");
-        return schoolClassStudents;
-    }
-
-    /**
      * Gets all schoolClass data for a specific time period.
      *
      * @param schoolClassID

@@ -493,8 +493,6 @@ public class SchoolClassDAO {
      * Gets the ID of the first schoolClass for the parsed teacher on the parsed
      * day. Returns 0 if no class is found.
      *
-     * TODO RKL: Make so it's not the first schoolClass.
-     *
      * @param teacherID
      * @param dateEigthHoursBefore
      * @param dateHalfHourAfter

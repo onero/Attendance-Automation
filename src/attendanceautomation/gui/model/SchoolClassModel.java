@@ -332,27 +332,22 @@ public class SchoolClassModel {
         switch (mockSwitch) {
             case 0: {
                 List<Student> listOfCurrentClassStudents = currentClassManager.getStudentsFromCurrentSchoolClass(currentTeacher.getTeacherID());
-                listOfCurrentClassStudentsPresent = currentClassManager.findStudentsPresent(listOfCurrentClassStudents);
-                listOfCurrentClassStudentsAbsence = currentClassManager.findStudentsAbsence(listOfCurrentClassStudents);
+                listOfCurrentClassStudentsPresent = currentClassManager.findStudentsAbsentOrPresent(listOfCurrentClassStudents, true);
+                listOfCurrentClassStudentsAbsence = currentClassManager.findStudentsAbsentOrPresent(listOfCurrentClassStudents, false);
                 PieChartModel.getInstance().updateCurrentClassPieChat(listOfCurrentClassStudentsPresent, listOfCurrentClassStudentsAbsence);
+                fillCurrentClassLists(listOfCurrentClassStudentsAbsence, listOfCurrentClassStudentsPresent);
                 break;
             }
             case 1: {
-                listOfCurrentClassStudentsPresent = currentClassManager.findMockStudents(1);
-                listOfCurrentClassStudentsAbsence = currentClassManager.findMockStudents(4);
-                PieChartModel.getInstance().updateCurrentClassPieChat(listOfCurrentClassStudentsPresent, listOfCurrentClassStudentsAbsence);
+                findMockStudents(listOfCurrentClassStudentsPresent, listOfCurrentClassStudentsAbsence, 1, 4);
                 break;
             }
             case 2: {
-                listOfCurrentClassStudentsPresent = currentClassManager.findMockStudents(2);
-                listOfCurrentClassStudentsAbsence = currentClassManager.findMockStudents(3);
-                PieChartModel.getInstance().updateCurrentClassPieChat(listOfCurrentClassStudentsPresent, listOfCurrentClassStudentsAbsence);
+                findMockStudents(listOfCurrentClassStudentsPresent, listOfCurrentClassStudentsAbsence, 2, 3);
                 break;
             }
             case 3: {
-                listOfCurrentClassStudentsPresent = currentClassManager.findMockStudents(2);
-                listOfCurrentClassStudentsAbsence = currentClassManager.findMockStudents(3);
-                PieChartModel.getInstance().updateCurrentClassPieChat(listOfCurrentClassStudentsPresent, listOfCurrentClassStudentsAbsence);
+                findMockStudents(listOfCurrentClassStudentsPresent, listOfCurrentClassStudentsAbsence, 2, 3);
                 break;
             }
             default: {
@@ -360,6 +355,15 @@ public class SchoolClassModel {
             }
         }
 
+    }
+
+    /**
+     * Fills the lists in CurrentClassView with students.
+     *
+     * @param listOfCurrentClassStudentsAbsence
+     * @param listOfCurrentClassStudentsPresent
+     */
+    private void fillCurrentClassLists(List<Student> listOfCurrentClassStudentsAbsence, List<Student> listOfCurrentClassStudentsPresent) {
         for (Student student : listOfCurrentClassStudentsAbsence) {
             currentClassStudentsAbsence.add(student);
         }
@@ -367,6 +371,21 @@ public class SchoolClassModel {
         for (Student student : listOfCurrentClassStudentsPresent) {
             currentClassStudentsPresent.add(student);
         }
+    }
+
+    /**
+     * Find the mockStudent and fills the CurrentClassView with thier data.
+     *
+     * @param listPresent
+     * @param listAbsence
+     * @param present
+     * @param absent
+     */
+    private void findMockStudents(List<Student> listPresent, List<Student> listAbsence, int present, int absent) {
+        listPresent = currentClassManager.findMockStudents(present);
+        listAbsence = currentClassManager.findMockStudents(absent);
+        PieChartModel.getInstance().updateCurrentClassPieChat(listPresent, listAbsence);
+        fillCurrentClassLists(listAbsence, listPresent);
     }
 
     /**

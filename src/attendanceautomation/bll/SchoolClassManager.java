@@ -69,19 +69,6 @@ public class SchoolClassManager {
     }
 
     /**
-     * Get the updated studentOnfo for specific date from DB.
-     *
-     * @param schoolClassId
-     * @param date
-     * @return
-     */
-    public List<Student> getStudentsWithDataFromSchoolClassForSpecificDate(int schoolClassId, String date) {
-        List<Student> schoolClassStudents = AADAOFacade.getStudentsFromSchoolClass(schoolClassId);
-        getNonAttendanceForAllStudentsForSpecificDate(schoolClassStudents, date);
-        return schoolClassStudents;
-    }
-
-    /**
      * Gets all schoolClass data for a specific time period.
      *
      * @param schoolClassID
@@ -96,6 +83,14 @@ public class SchoolClassManager {
         return schoolClass;
     }
 
+    /**
+     * Gets the schoolClass with the given ID for the specified period.
+     *
+     * @param schoolClassId
+     * @param startDate
+     * @param endDate
+     * @return
+     */
     private SchoolClass getSchoolClassByIdForSpecificPeriod(int schoolClassId, String startDate, String endDate) {
         SchoolClass schoolClass = AADAOFacade.getSchoolClassByID(schoolClassId);
         schoolClass.addAllSemesterSubjects(AADAOFacade.getSchoolSemesterSubjectsInSchoolClassForSpecificPeriod(schoolClassId, startDate, endDate));
@@ -139,21 +134,6 @@ public class SchoolClassManager {
     private void getNonAttendanceForALlStudentsForSpecificPeriod(List<Student> schoolClassStudents, String startDate, String endDate) {
         for (Student schoolClassStudent : schoolClassStudents) {
             schoolClassStudent.addAllNonAttendance(AADAOFacade.getNonAttendanceForStudentsByIDForSpecificPeriod(schoolClassStudent.getID(), startDate, endDate));
-        }
-    }
-
-    /**
-     * Get NonAttendacce for all students in current schoolClass for specific
-     * date.
-     *
-     * Viloation of DRY!
-     *
-     * @param schoolClassStudents
-     * @param date
-     */
-    private void getNonAttendanceForAllStudentsForSpecificDate(List<Student> schoolClassStudents, String date) {
-        for (Student schoolClassStudent : schoolClassStudents) {
-            schoolClassStudent.addAllNonAttendance(AADAOFacade.getNonAttendanceForStudentByIDForSepcificDate(schoolClassStudent.getID(), date));
         }
     }
 

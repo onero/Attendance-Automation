@@ -188,19 +188,6 @@ public class AttendanceAutomationDAOFacade {
     }
 
     /**
-     * Get all nonAttendance for specific student on specific date.
-     *
-     * Viloation of DRY!
-     *
-     * @param StudentID
-     * @param date
-     * @return
-     */
-    public List<NonAttendance> getNonAttendanceForStudentByIDForSepcificDate(int StudentID, String date) {
-        return attendanceDAO.getAllNonAttendanceForASpecificStudentForASpecificDate(StudentID, date, date + " 16:00");
-    }
-
-    /**
      * Check if the user is a Teacher
      *
      * @param userEmail

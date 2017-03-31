@@ -9,7 +9,9 @@ import attendanceautomation.gui.model.LoginModel;
 import attendanceautomation.gui.views.rootView.controller.RootViewController;
 import com.jfoenix.controls.JFXSpinner;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -67,11 +69,33 @@ public class LoginViewController implements Initializable {
      */
     @FXML
     private void processLogin() {
-        spinner.setVisible(true);
-        btnLogin.setDisable(true);
         String username = userId.getText();
         String password = userPassword.getText();
-        checkUserExists(username, password);
+        if (!username.isEmpty() && !password.isEmpty()) {
+            startLoginProcess(username, password);
+        } else if (username.isEmpty()) {
+            setErrorMessage("Please provide a username");
+        } else if (password.isEmpty()) {
+            setErrorMessage("Please provide a password");
+        }
+    }
+
+    private void startLoginProcess(String username, String password) {
+        setLoginMode(true);
+        Runnable task = () -> {
+            try {
+                checkUserExists(username, password);
+            } catch (SQLException ex) {
+                LoginViewController.getInstance().setErrorMessage(ex.getMessage());
+            }
+        };
+        new Thread(task).start();
+    }
+
+    private void setLoginMode(boolean visible) {
+        spinner.setVisible(visible);
+        btnLogin.setDisable(visible);
+        errorMessage.setVisible(false);
     }
 
     /**
@@ -80,21 +104,39 @@ public class LoginViewController implements Initializable {
      * @param username
      * @param password
      */
-    private void checkUserExists(String username, String password) {
+    private void checkUserExists(String username, String password) throws SQLException {
         if (loginModel.verifyUserExists(username)) {
             RootViewController rootViewController = RootViewController.getInstance();
             checkForTeacherOrStudent(username, password, rootViewController);
         } else {
-            denyAcccess();
+            denyAcccess(0);
         }
     }
 
-    private void denyAcccess() {
-        spinner.setVisible(false);
-        btnLogin.setDisable(false);
-        errorMessage.setText("Hello " + userId.getText() + " the password is wrong. \nPlease try agian.");
-        //Clears the PasswordField for better usability
-        userPassword.clear();
+    private void denyAcccess(int error) {
+        Platform.runLater(() -> {
+            setLoginMode(false);
+            this.errorMessage.setVisible(true);
+            //Clears the PasswordField for better usability
+            userPassword.clear();
+            switch (error) {
+                case 0:
+                    errorMessage.setText(userId.getText() + " does not exist");
+                    break;
+                default:
+                    errorMessage.setText("Hello " + userId.getText() + " the password is wrong. \nPlease try again.");
+            }
+        });
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        Platform.runLater(() -> {
+            setLoginMode(false);
+            this.errorMessage.setVisible(true);
+            this.errorMessage.setWrapText(true);
+            this.errorMessage.setText(errorMessage);
+
+        });
     }
 
     /**
@@ -116,6 +158,7 @@ public class LoginViewController implements Initializable {
         userPassword.setText("");
         spinner.setVisible(false);
         btnLogin.setDisable(false);
+        errorMessage.setVisible(false);
     }
 
     private void verifyStudent(String password, RootViewController rootViewController, String username) {
@@ -123,7 +166,7 @@ public class LoginViewController implements Initializable {
             loginModel.setIsStudent(true);
             rootViewController.handleStudentLogin(username);
         } else {
-            denyAcccess();
+            denyAcccess(1);
         }
     }
 
@@ -132,7 +175,7 @@ public class LoginViewController implements Initializable {
             loginModel.setIsStudent(false);
             rootViewController.handleTeacherLogin(username);
         } else {
-            denyAcccess();
+            denyAcccess(1);
         }
     }
 

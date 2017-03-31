@@ -12,6 +12,7 @@ import attendanceautomation.be.Student;
 import attendanceautomation.be.Teacher;
 import attendanceautomation.dal.AttendanceAutomationDAOFacade;
 import attendanceautomation.gui.model.SchemaModel;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -194,7 +195,7 @@ public class SchoolClassManager {
      * @param userEmail
      * @return
      */
-    public boolean isUserInDB(String userEmail) {
+    public boolean isUserInDB(String userEmail) throws SQLException {
         return AADAOFacade.isUserInDB(userEmail);
     }
 

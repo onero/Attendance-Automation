@@ -51,8 +51,6 @@ public class RootViewController implements Initializable {
     private BorderPane borderPane;
     @FXML
     private GridPane gridButtomBar;
-    @FXML
-    private HBox refreshBox;
 
     private static RootViewController instance;
 
@@ -394,50 +392,62 @@ public class RootViewController implements Initializable {
         String schoolClassName = SchoolClassFilterViewController.getInstance().getSchoolName();
         int schoolClassID = schoolClassModel.getSchoolClassIdByName(schoolClassName);
         if (SemesterFilterViewController.getInstance().isSemesterSelected()) {
-            int semesterID = SemesterFilterViewController.getInstance().getSemesterID();
-            filterModal.close();
-            showLoadingDataView();
-
-            Runnable task = () -> {
-                schoolClassModel.loadSchoolClassDataBySemester(schoolClassID, semesterID);
-                Platform.runLater(() -> {
-                    updateAll();
-                });
-            };
-            new Thread(task).start();
+            handleSemesterSearch(schoolClassID);
 
         } else if (DatePickerViewController.getInstance().hasNewDate()) {
-            String startDate = DatePickerViewController.getInstance().getStartDate();
-            String endDate = DatePickerViewController.getInstance().getEndDate();
-            filterModal.close();
-            showLoadingDataView();
-
-            SchemaModel.getInstance().setCurrentMonth(startDate, endDate);
-
-            Runnable task = () -> {
-                schoolClassModel.loadCurrentSchoolClassByPeriodAndID(schoolClassID);
-                Platform.runLater(() -> {
-                    updateAll();
-                });
-            };
-            new Thread(task).start();
+            handleDateSearch(schoolClassID);
 
         } else {
-            filterModal.close();
-            showLoadingDataView();
-
-            Runnable task = () -> {
-                //TODO ALH: Make dynamic (also in SchemaModel!)
-                String startDate = "2016-10-31";
-                String endDate = "2017-02-28";
-                SchemaModel.getInstance().setCurrentMonth(startDate, endDate);
-                schoolClassModel.loadSchoolClassDataByName(schoolClassName);
-                Platform.runLater(() -> {
-                    updateAll();
-                });
-            };
-            new Thread(task).start();
+            handleSchoolClassWithoutFilter(schoolClassName);
         }
+    }
+
+    private void handleSchoolClassWithoutFilter(String schoolClassName) {
+        filterModal.close();
+        showLoadingDataView();
+
+        Runnable task = () -> {
+            //TODO ALH: Make dynamic (also in SchemaModel!)
+            String startDate = "2016-10-31";
+            String endDate = "2017-02-28";
+            SchemaModel.getInstance().setCurrentMonth(startDate, endDate);
+            schoolClassModel.loadSchoolClassDataByName(schoolClassName);
+            Platform.runLater(() -> {
+                updateAll();
+            });
+        };
+        new Thread(task).start();
+    }
+
+    private void handleDateSearch(int schoolClassID) {
+        String startDate = DatePickerViewController.getInstance().getStartDate();
+        String endDate = DatePickerViewController.getInstance().getEndDate();
+        filterModal.close();
+        showLoadingDataView();
+
+        SchemaModel.getInstance().setCurrentMonth(startDate, endDate);
+
+        Runnable task = () -> {
+            schoolClassModel.loadCurrentSchoolClassByPeriodAndID(schoolClassID);
+            Platform.runLater(() -> {
+                updateAll();
+            });
+        };
+        new Thread(task).start();
+    }
+
+    private void handleSemesterSearch(int schoolClassID) {
+        int semesterID = SemesterFilterViewController.getInstance().getSemesterID();
+        filterModal.close();
+        showLoadingDataView();
+
+        Runnable task = () -> {
+            schoolClassModel.loadSchoolClassDataBySemester(schoolClassID, semesterID);
+            Platform.runLater(() -> {
+                updateAll();
+            });
+        };
+        new Thread(task).start();
     }
 
     private void showLoadingDataView() {

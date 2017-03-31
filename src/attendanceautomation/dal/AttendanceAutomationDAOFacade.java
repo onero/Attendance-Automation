@@ -12,6 +12,7 @@ import attendanceautomation.be.SchoolClassSemesterLesson;
 import attendanceautomation.be.SchoolSemesterSubject;
 import attendanceautomation.be.Student;
 import attendanceautomation.be.Teacher;
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -208,13 +209,8 @@ public class AttendanceAutomationDAOFacade {
      * @param userEmail
      * @return
      */
-    public boolean isUserInDB(String userEmail) {
-        try {
-            return loginDAO.checkIfUserIsInDB(userEmail);
-        } catch (SQLException ex) {
-            Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return false;
+    public boolean isUserInDB(String userEmail) throws SQLException, SQLServerException {
+        return loginDAO.checkIfUserIsInDB(userEmail);
     }
 
     /**

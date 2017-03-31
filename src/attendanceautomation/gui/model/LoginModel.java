@@ -6,6 +6,7 @@
 package attendanceautomation.gui.model;
 
 import attendanceautomation.bll.LoginManager;
+import java.sql.SQLException;
 
 /**
  *
@@ -44,7 +45,7 @@ public class LoginModel {
      * @param username
      * @return
      */
-    public boolean verifyUserExists(String username) {
+    public boolean verifyUserExists(String username) throws SQLException {
         boolean verification = false;
         if (loginManager.checkIfUserExist(username)) {
             verification = true;

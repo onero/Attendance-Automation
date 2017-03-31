@@ -74,9 +74,9 @@ public class LoginViewController implements Initializable {
         if (!username.isEmpty() && !password.isEmpty()) {
             startLoginProcess(username, password);
         } else if (username.isEmpty()) {
-            errorMessage.setText("Please provide a username");
+            setErrorMessage("Please provide a username");
         } else if (password.isEmpty()) {
-            errorMessage.setText("Please provide a password");
+            setErrorMessage("Please provide a password");
         }
     }
 

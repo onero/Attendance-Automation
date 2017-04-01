@@ -8,8 +8,6 @@ package attendanceautomation.bll;
 
 import attendanceautomation.be.Student;
 import attendanceautomation.gui.model.SchoolClassModel;
-import java.text.DecimalFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.chart.PieChart.Data;
@@ -22,13 +20,7 @@ public class AttendanceManager {
 
     private double percent;
 
-    private final DecimalFormat decimalFormatter;
-
-    private int ALL_SCHOOL_LESSONS;
-
-    public AttendanceManager() {
-        decimalFormatter = new DecimalFormat("#.##");
-    }
+    private int amountOfSchoolLessons;
 
     /**
      * Generate an ObservableList<PieChart.Data> with inforation about each
@@ -39,11 +31,19 @@ public class AttendanceManager {
      */
     public ArrayList<Data> computeAllAttendance(List<Data> pieChartData) {
         allStudentsData = new ArrayList<>();
-        total = 0;
-        pieChartData.stream().forEach(s -> total += s.getPieValue());
-
+        computeTotal(pieChartData);
         computeAllAttendancePercentage(pieChartData);
         return allStudentsData;
+    }
+
+    /**
+     * Calculate the total of all nonAttendance
+     *
+     * @param pieChartData
+     */
+    private void computeTotal(List<Data> pieChartData) {
+        total = 0;
+        pieChartData.stream().forEach(chartData -> total += chartData.getPieValue());
     }
 
     /**
@@ -52,22 +52,12 @@ public class AttendanceManager {
      */
     private void computeAllAttendancePercentage(List<Data> pieChartData) {
         pieChartData.stream()
-                .forEach(s -> allStudentsData.add(new Data(
-                s.getName(),
-                s.getPieValue() / total * 100)));
-    }
-
-    /**
-     * Format number according to right format
-     */
-    private void formatDouble() {
-        String percentFormatted = decimalFormatter.format(percent);
-        try {
-            //Parse formatted string to double
-            percent = decimalFormatter.parse(percentFormatted).doubleValue();
-        } catch (ParseException ex) {
-            System.out.println("Cannot convert number " + ex);
-        }
+                //For each of the students in the chartData
+                .forEach(chartData -> allStudentsData.add(new Data(
+                //Create new data with the nonAttendance percentage compared to other students
+                chartData.getName(),
+                //value divided by total times 100 for percent
+                chartData.getPieValue() / total * 100)));
     }
 
     /**
@@ -78,11 +68,11 @@ public class AttendanceManager {
      */
     public double computeStudentAttendance(Student student) {
         //Get a hold of all lessons
-        ALL_SCHOOL_LESSONS = SchoolClassModel.getInstance().getCurrentSchoolClass().getSemesterLessons().size();
+        amountOfSchoolLessons = SchoolClassModel.getInstance().getCurrentSchoolClass().getSemesterLessons().size();
         //Get a hold of all the students nonAttendance
         double amountOfStudentNonattendances = student.getNonAttendance().size();
         //Calculate students absence in percent
-        percent = ((amountOfStudentNonattendances / ALL_SCHOOL_LESSONS) * 100);
+        percent = (amountOfStudentNonattendances / amountOfSchoolLessons) * 100;
         return percent;
     }
 

@@ -7,7 +7,6 @@ package attendanceautomation.gui.views.login.controller;
 
 import attendanceautomation.gui.model.LoginModel;
 import attendanceautomation.gui.views.rootView.controller.RootViewController;
-import com.jfoenix.controls.JFXSpinner;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -17,6 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 
 /**
@@ -27,13 +27,14 @@ import javafx.scene.control.TextField;
 public class LoginViewController implements Initializable {
 
     @FXML
+    private ProgressIndicator spinner;
+
+    @FXML
     private TextField userId;
     @FXML
     private PasswordField userPassword;
     @FXML
     private Label errorMessage;
-    @FXML
-    private JFXSpinner spinner;
     @FXML
     private Button btnLogin;
 

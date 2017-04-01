@@ -5,7 +5,6 @@
  */
 package attendanceautomation.be;
 
-import attendanceautomation.be.enums.ESchoolSubject;
 import attendanceautomation.bll.AttendanceManager;
 import attendanceautomation.gui.model.PieChartModel;
 import java.util.ArrayList;
@@ -14,7 +13,7 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.chart.PieChart.Data;
 
-public class Student {
+public class Student implements Comparable<Student> {
 
     private final DoubleProperty nonAttendancePercentage;
 
@@ -47,6 +46,12 @@ public class Student {
         this.email = email;
         nonAttendance = new ArrayList<>();
         nonAttendancePercentage = new SimpleDoubleProperty(0);
+    }
+
+    @Override
+    public int compareTo(Student s) {
+        return this.getFirstName().
+                compareToIgnoreCase(s.getFirstName());
     }
 
     public int getID() {

@@ -10,6 +10,9 @@ import attendanceautomation.be.NonAttendance;
 import attendanceautomation.be.SchoolClass;
 import attendanceautomation.be.Student;
 import attendanceautomation.be.Teacher;
+import attendanceautomation.bll.sorting.ISortStrategy;
+import attendanceautomation.bll.sorting.SortStudentsOnAttendance;
+import attendanceautomation.bll.sorting.SortStudentsOnNameStrategy;
 import attendanceautomation.dal.AttendanceAutomationDAOFacade;
 import attendanceautomation.gui.model.SchemaModel;
 import java.sql.SQLException;
@@ -26,6 +29,8 @@ public class SchoolClassManager {
     private static SchoolClassManager instance;
 
     private final AttendanceAutomationDAOFacade AADAOFacade;
+
+    private ISortStrategy sortStrategy;
 
     public static SchoolClassManager getInstance() {
         if (instance == null) {
@@ -311,5 +316,25 @@ public class SchoolClassManager {
 
     public List<String> getAllSchoolClassSemestersOnSchoolClassName(String schoolClassName) {
         return AADAOFacade.getAllSchoolClassSemestersBySchoolClassName(schoolClassName);
+    }
+
+    /**
+     * Sort two students on attendance in descending order
+     *
+     * @param students
+     */
+    public void sortStudentsOnAttendance(List<Student> students) {
+        sortStrategy = new SortStudentsOnAttendance();
+        sortStrategy.sort(students);
+    }
+
+    /**
+     * Natural sort students on name
+     *
+     * @param students
+     */
+    public void sortStudentsOnName(List<Student> students) {
+        sortStrategy = new SortStudentsOnNameStrategy();
+        sortStrategy.sort(students);
     }
 }

@@ -5,16 +5,14 @@
  */
 package attendanceautomation.be;
 
-import attendanceautomation.be.enums.ESchoolSubject;
 import attendanceautomation.bll.AttendanceManager;
 import attendanceautomation.gui.model.PieChartModel;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.scene.chart.PieChart.Data;
 
-public class Student {
+public class Student implements Comparable<Student> {
 
     private final DoubleProperty nonAttendancePercentage;
 
@@ -123,15 +121,14 @@ public class Student {
     /**
      * Adds the parsed day in week to nonAttendance
      *
-     * @param attendance
+     * @param nonAttendanceToRemove
      */
-    public void removeNonAttendance(NonAttendance attendance) {
-        for (NonAttendance nonAttendance1 : nonAttendance) {
-            if (nonAttendance1.getSchoolClassSemesterLesson().getID() == attendance.getSchoolClassSemesterLesson().getID()) {
-                nonAttendance.remove(nonAttendance1);
-                break;
-            }
-        }
+    public void removeNonAttendance(NonAttendance nonAttendanceToRemove) {
+        //Remove nonAttendance if the lesson id match
+        nonAttendance.removeIf(a
+                -> a.getSchoolClassSemesterLesson().getID()
+                == nonAttendanceToRemove.getSchoolClassSemesterLesson().getID());
+
         updateNonAttendancePercentage();
         PieChartModel.getInstance().checkIfStudentIsInChart(this);
     }
@@ -141,8 +138,19 @@ public class Student {
      */
     private void updateNonAttendancePercentage() {
         AttendanceManager manager = new AttendanceManager();
-        Data computedNonAttendance = manager.computeStudentAttendance(this).get(0);
-        nonAttendancePercentage.set(computedNonAttendance.getPieValue());
+        nonAttendancePercentage.set(manager.computeStudentAttendance(this));
+    }
+
+    /**
+     * Compare this student to another student on first name
+     *
+     * @param s
+     * @return
+     */
+    @Override
+    public int compareTo(Student s) {
+        return this.getFirstName().
+                compareToIgnoreCase(s.getFirstName());
     }
 
 }

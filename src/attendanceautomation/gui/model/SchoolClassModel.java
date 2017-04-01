@@ -15,7 +15,6 @@ import attendanceautomation.bll.CurrentClassManager;
 import attendanceautomation.bll.SchoolClassManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -186,16 +185,14 @@ public class SchoolClassModel {
      * Sort list on nonAttendance Descending
      */
     public void sortStudentsOnAttendance() {
-        Collections.sort(students, (Student o1, Student o2)
-                -> (o1.getNonAttendancePercentage().get() < o2.getNonAttendancePercentage().get()) ? 1 : 0);
+        schoolClassManager.sortStudentsOnAttendance(students);
     }
 
     /**
      * Sort list on FullName Ascending
      */
     public void sortStudentsOnName() {
-        Collections.sort(students, (Student o1, Student o2)
-                -> (o1.getFullName().compareTo(o2.getFullName())));
+        schoolClassManager.sortStudentsOnName(students);
     }
 
     public void setSearchString(String searchString) {

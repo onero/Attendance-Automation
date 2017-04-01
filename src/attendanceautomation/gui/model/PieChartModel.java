@@ -29,8 +29,6 @@ public class PieChartModel {
 
     private ObservableList<Data> currentClassPieChartData;
 
-    private boolean isStudentInChart;
-
     public static PieChartModel getInstance() {
         if (instance == null) {
             instance = new PieChartModel();
@@ -75,24 +73,38 @@ public class PieChartModel {
      */
     public void checkIfStudentIsInChart(Student student) {
         //Check if there are students in the pieChart
-        isStudentInChart = false;
         if (pieChartData.isEmpty()) {
             addNewStudentToChartData(student);
         } else {
-            for (Data data : pieChartData) {
-                //Check if the student is in the data
-
-                if (data.getName().equals(student.getFullName())) {
-                    data.setPieValue(student.getNonAttendancePercentage().get());
-                    isStudentInChart = true;
-                }
-            }
-            if (!isStudentInChart) {
+            if (studentNotInChart(student)) {
                 //If student isn't there, add the student
                 addNewStudentToChartData(student);
+            } else {
+                //Update the student in the chart
+                pieChartData.stream()
+                        .filter(data -> data.getName().equals(student.getFullName()))
+                        .forEach(s -> s.setPieValue(student.getNonAttendancePercentage().get()));
+//                for (Data data : pieChartData) {
+//                    //Check if the student is in the data
+//                    if (data.getName().equals(student.getFullName())) {
+//                        data.setPieValue(student.getNonAttendancePercentage().get());
+//                        break;
+//                    }
+//                }
             }
+
         }
         PieChartViewController.getInstance().updateChart();
+    }
+
+    /**
+     * Check if student is not in chart
+     *
+     * @param student
+     * @return
+     */
+    private boolean studentNotInChart(Student student) {
+        return pieChartData.stream().noneMatch(s -> s.getName().equals(student.getFullName()));
     }
 
     private void addNewStudentToChartData(Student student) {

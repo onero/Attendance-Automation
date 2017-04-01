@@ -79,21 +79,14 @@ public class PieChartModel {
         if (pieChartData.isEmpty()) {
             addNewStudentToChartData(student);
         } else {
-            pieChartData.stream()
-                    .anyMatch(s -> {
-                        isStudentInChart = true;
-                        s.setPieValue(student.getNonAttendancePercentage().get());
-                        return s.getName().equalsIgnoreCase(student.getFullName());
-                    });
+            for (Data data : pieChartData) {
+                //Check if the student is in the data
 
-//            for (Data data : pieChartData) {
-//                //Check if the student is in the data
-//
-//                if (data.getName().equals(student.getFullName())) {
-//                    data.setPieValue(student.getNonAttendancePercentage().get());
-//                    isStudentInChart = true;
-//                }
-//            }
+                if (data.getName().equals(student.getFullName())) {
+                    data.setPieValue(student.getNonAttendancePercentage().get());
+                    isStudentInChart = true;
+                }
+            }
             if (!isStudentInChart) {
                 //If student isn't there, add the student
                 addNewStudentToChartData(student);

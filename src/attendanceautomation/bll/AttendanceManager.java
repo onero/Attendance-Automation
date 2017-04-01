@@ -17,7 +17,6 @@ import javafx.scene.chart.PieChart.Data;
 public class AttendanceManager {
 
     private ArrayList<Data> allStudentsData;
-    private ArrayList<Data> studentData;
 
     private double total;
 
@@ -40,6 +39,7 @@ public class AttendanceManager {
      */
     public ArrayList<Data> computeAllAttendance(List<Data> pieChartData) {
         allStudentsData = new ArrayList<>();
+        total = 0;
         pieChartData.stream().forEach(s -> total += s.getPieValue());
 
         computeAllAttendancePercentage(pieChartData);

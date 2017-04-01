@@ -49,16 +49,6 @@ public class PieChartModel {
     }
 
     /**
-     * Calculates the total attendance for the student and returns the
-     * percentage as a double
-     *
-     * @param student
-     * @return
-     */
-//    public List<Data> getStudentAttendance(Student student) {
-//        return attendanceManager.computeStudentAttendance(student);
-//    }
-    /**
      * Compute the pieChartData according to total percentage for each student
      */
     public void computeTotalPieChartPercentage() {
@@ -84,13 +74,6 @@ public class PieChartModel {
                 pieChartData.stream()
                         .filter(data -> data.getName().equals(student.getFullName()))
                         .forEach(s -> s.setPieValue(student.getNonAttendancePercentage().get()));
-//                for (Data data : pieChartData) {
-//                    //Check if the student is in the data
-//                    if (data.getName().equals(student.getFullName())) {
-//                        data.setPieValue(student.getNonAttendancePercentage().get());
-//                        break;
-//                    }
-//                }
             }
 
         }
@@ -107,6 +90,11 @@ public class PieChartModel {
         return pieChartData.stream().noneMatch(s -> s.getName().equals(student.getFullName()));
     }
 
+    /**
+     * Create new data and add it to the piechart
+     *
+     * @param student
+     */
     private void addNewStudentToChartData(Student student) {
         Data nonAttendance = new Data(student.getFullName(), student.getNonAttendancePercentage().get());
         pieChartData.add(nonAttendance);
@@ -118,11 +106,12 @@ public class PieChartModel {
     private void addNonAttendantStudentsToChartData() {
         List<Student> currentSchoolClassStudents = schoolClassModel.getCurrentSchoolClass().getStudents();
 
-        for (Student student : currentSchoolClassStudents) {
-            if (student.getNonAttendancePercentage().get() > 0) {
-                addNewStudentToChartData(student);
-            }
-        }
+        currentSchoolClassStudents.stream()
+                .filter((student)
+                        -> (student.getNonAttendancePercentage().get() > 0))
+                .forEachOrdered((student) -> {
+                    addNewStudentToChartData(student);
+                });
     }
 
     /**

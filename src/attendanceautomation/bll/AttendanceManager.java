@@ -19,9 +19,6 @@ public class AttendanceManager {
     private ArrayList<Data> allStudentsData;
     private ArrayList<Data> studentData;
 
-    private ArrayList<String> names;
-    private ArrayList<Double> values;
-
     private double total;
 
     private double percent;
@@ -29,11 +26,9 @@ public class AttendanceManager {
     private final DecimalFormat decimalFormatter;
 
     private int ALL_SCHOOL_LESSONS;
-    private final DecimalFormat testFormatter;
 
     public AttendanceManager() {
         decimalFormatter = new DecimalFormat("#.##");
-        testFormatter = new DecimalFormat("#.00");
     }
 
     /**
@@ -43,15 +38,11 @@ public class AttendanceManager {
      * @param pieChartData
      * @return
      */
-    public ArrayList<Data> computeAllAttendance(ArrayList<Data> pieChartData) {
+    public ArrayList<Data> computeAllAttendance(List<Data> pieChartData) {
         allStudentsData = new ArrayList<>();
-        names = new ArrayList<>();
-        values = new ArrayList<>();
-        addNamesAndValuesToArrays(pieChartData);
-        total = 0;
-        percent = 0;
-        computeTotal();
-        computeAllAttendancePercentage();
+        pieChartData.stream().forEach(s -> total += s.getPieValue());
+
+        computeAllAttendancePercentage(pieChartData);
         return allStudentsData;
     }
 
@@ -59,16 +50,11 @@ public class AttendanceManager {
      * Computate the total attendance percentage for each student, calculated on
      * the amount of students with NonAttendance
      */
-    private void computeAllAttendancePercentage() {
-        for (int i = 0; i < names.size(); i++) {
-            //Calculate
-            percent = (values.get(i) / total) * 100;
-
-            formatDouble();
-
-            Data computedData = new Data(names.get(i), percent);
-            allStudentsData.add(computedData);
-        }
+    private void computeAllAttendancePercentage(List<Data> pieChartData) {
+        pieChartData.stream()
+                .forEach(s -> allStudentsData.add(new Data(
+                s.getName(),
+                s.getPieValue() / total * 100)));
     }
 
     /**
@@ -85,49 +71,19 @@ public class AttendanceManager {
     }
 
     /**
-     * From all the values in the array compute the total amount
-     */
-    private void computeTotal() {
-        for (Double value : values) {
-            total += value;
-        }
-    }
-
-    /**
-     * Extract names and values from the chartdata and fill the corresponding
-     * arrays
-     *
-     * @param pieChartData
-     */
-    private void addNamesAndValuesToArrays(ArrayList<Data> pieChartData) {
-        for (Data data : pieChartData) {
-            names.add(data.getName());
-            values.add(data.getPieValue());
-        }
-    }
-
-    /**
      * Calculate the attendance of the student
      *
      * @param student
      * @return attendance
      */
-    public ArrayList<Data> computeStudentAttendance(Student student) {
+    public double computeStudentAttendance(Student student) {
+        //Get a hold of all lessons
         ALL_SCHOOL_LESSONS = SchoolClassModel.getInstance().getCurrentSchoolClass().getSemesterLessons().size();
-        percent = 0;
-        studentData = new ArrayList<>();
+        //Get a hold of all the students nonAttendance
         double amountOfStudentNonattendances = student.getNonAttendance().size();
+        //Calculate students absence in percent
         percent = ((amountOfStudentNonattendances / ALL_SCHOOL_LESSONS) * 100);
-        formatDouble();
-        double studentAttendancePercentage = (ALL_SCHOOL_LESSONS - amountOfStudentNonattendances);
-
-        Data nonAttendance = new Data("Fravær", percent);
-
-        Data attendance = new Data("Fremmøde", studentAttendancePercentage);
-
-        studentData.add(nonAttendance);
-        studentData.add(attendance);
-        return studentData;
+        return percent;
     }
 
     /**

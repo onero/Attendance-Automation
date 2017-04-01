@@ -7,6 +7,7 @@ package attendanceautomation.gui.views.sharedComponents.pieChart.controller;
 
 import attendanceautomation.gui.model.PieChartModel;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
@@ -50,6 +51,7 @@ public class PieChartViewController implements Initializable {
      * @param view
      */
     public void updateChart() {
+        pieChartModel.computeTotalPieChartPercentage();
         PieChart.setData(pieChartModel.getPieChartData());
         displayDataInformationOnChart();
     }
@@ -58,10 +60,11 @@ public class PieChartViewController implements Initializable {
      * For each data entry in the PieChart, display the name and value
      */
     private void displayDataInformationOnChart() {
+        DecimalFormat df = new DecimalFormat("#.##");
         pieChartModel.getPieChartData().forEach(data
                 -> data.nameProperty().bind(
                         Bindings.concat(
-                                data.getName(), " ", data.pieValueProperty(), " %"
+                                data.getName(), " ", df.format(data.pieValueProperty().get()), " %"
                         )
                 )
         );

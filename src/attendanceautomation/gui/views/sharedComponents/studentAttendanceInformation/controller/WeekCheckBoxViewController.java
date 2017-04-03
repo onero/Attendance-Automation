@@ -268,21 +268,29 @@ public class WeekCheckBoxViewController implements Initializable {
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 //If the student was not attending class
                 if (newCheckBox.isSelected()) {
-                    newCheckBox.setStyle("-fx-color: red;");
-                    //PUNISH STUDENT!
-                    for (SchoolClassSemesterLesson lesson : lessonsThisDay) {
-                        NonAttendance newNonAttendance = new NonAttendance(lesson, student.getID());
-                        student.addNonAttendance(newNonAttendance);
-                        schoolClassModel.addNewNonAttendance(newNonAttendance);
-                    } //If the student was infact attending school
+                    punishStudentForEntireDay();
                 } else {
-                    newCheckBox.setStyle("-fx-color: green;");
-                    //Forgive the child <3
-                    for (SchoolClassSemesterLesson lesson : lessonsThisDay) {
-                        NonAttendance nonAttendanceToRemove = new NonAttendance(lesson, student.getID());
-                        student.removeNonAttendance(nonAttendanceToRemove);
-                        schoolClassModel.removeNonAttendance(nonAttendanceToRemove);
-                    }
+                    forgiveStudentForEntireDay();
+                }
+            }
+
+            private void forgiveStudentForEntireDay() {
+                newCheckBox.setStyle("-fx-color: green;");
+                //Forgive the child <3
+                for (SchoolClassSemesterLesson lesson : lessonsThisDay) {
+                    NonAttendance nonAttendanceToRemove = new NonAttendance(lesson, student.getID());
+                    student.removeNonAttendance(nonAttendanceToRemove);
+                    schoolClassModel.removeNonAttendance(nonAttendanceToRemove);
+                }
+            }
+
+            private void punishStudentForEntireDay() {
+                newCheckBox.setStyle("-fx-color: red;");
+                //PUNISH STUDENT!
+                for (SchoolClassSemesterLesson lesson : lessonsThisDay) {
+                    NonAttendance newNonAttendance = new NonAttendance(lesson, student.getID());
+                    student.addNonAttendance(newNonAttendance);
+                    schoolClassModel.addNewNonAttendance(newNonAttendance);
                 }
             }
         }

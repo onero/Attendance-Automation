@@ -56,7 +56,7 @@ public class SubjectManager {
     }
 
     /**
-     * Formats a double with two decimals.
+     * Formats a double to two decimals.
      *
      * @param total
      * @return

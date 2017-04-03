@@ -1,15 +1,9 @@
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
 /* 
     Created on : 06-02-2017, 11:47:01
-    Author     : gta1
+    Author     : Skovgaard
 */
 
 .borderPane{
-    /*    -fx-background-color: linear-gradient(rgb(191, 0, 0), rgb(255, 66, 66))*/
     -fx-background-image: url("CoarseGrid.png");
     -fx-background-repeat: repeat;
     -fx-background-color:
@@ -37,7 +31,6 @@ and open the template in the editor.
 }
 
 .mainBackground{
-    /*    -fx-background-color: linear-gradient(rgb(43, 43, 43), rgb(0, 0, 0))*/
     -fx-background-image: url("CoarseGrid.png");
     -fx-background-repeat: repeat;
     -fx-background-color:
@@ -77,9 +70,6 @@ and open the template in the editor.
 }
 
 .button{
-    /*    -fx-background-color: linear-gradient(rgb(50, 115, 255), rgb(25, 22, 117));
-        -fx-text-fill: #fff;
-        -fx-font-weight: bold;*/
     -fx-background-color:
         rgba(255, 255, 255, 0.08),
         rgba(0, 0, 0, 0.8),
@@ -98,7 +88,6 @@ and open the template in the editor.
 }
 
 .button:hover{
-    /*-fx-background-color: linear-gradient(rgb(176, 195, 252), rgb(0, 30, 155))*/
     -fx-background-color:   rgba(255, 255, 255, 0.08), rgba(48, 48, 48, 1), #090a0c,
         linear-gradient(#4a5661 0%, #1f2429 20%, #1f242a 100%),
         linear-gradient(#3f4950, #23282e),
@@ -107,7 +96,6 @@ and open the template in the editor.
 }
 
 .button:pressed{
-    /*-fx-background-color: linear-gradient(rgb(50, 55, 60), rgb(0, 20, 70))*/
     -fx-background-color:
         rgba(255, 255, 255, 0.08),
         rgba(0, 0, 0, 0.8),
@@ -125,7 +113,6 @@ and open the template in the editor.
 }
 .chart-pie{
     -fx-border-width: 0px;
-    /*-fx-border-color: #000000;*/
 }
 
 
@@ -157,9 +144,6 @@ and open the template in the editor.
     -fx-background-color: transparent;
 }
 
-/* Spaltenköpfe
-    Struktur column-header-background -> column-header */
-
 .table-view .column-header-background{
     -fx-background-color: linear-gradient(#131313 0%, #424141 100%);
 }
@@ -180,13 +164,13 @@ and open the template in the editor.
 .table-row-cell{
     -fx-background-color: -fx-table-cell-border-color, #616161;
     -fx-background-insets: 0, 0 0 1 0;
-    -fx-padding: 0.0em; /* 0 */
+    -fx-padding: 0.0em;
 }
 
 .table-row-cell:odd{
     -fx-background-color: -fx-table-cell-border-color, #424242;
     -fx-background-insets: 0, 0 0 1 0;
-    -fx-padding: 0.0em; /* 0 */  
+    -fx-padding: 0.0em; 
 }
 
 .table-row-cell:selected {
@@ -206,7 +190,6 @@ and open the template in the editor.
 .table-view > .virtual-flow > .scroll-bar > .increment-button, 
 .table-view > .virtual-flow > .scroll-bar > .decrement-button {
     -fx-opacity: 0;
-
 }
 
 .list-cell:filled:selected:focused, .list-cell:filled:selected {
@@ -245,9 +228,6 @@ and open the template in the editor.
 
 #red{
     -fx-background-color: red;    
-}
-
-#white{
 }
 
 #green{

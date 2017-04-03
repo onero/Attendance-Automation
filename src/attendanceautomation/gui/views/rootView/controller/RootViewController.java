@@ -80,6 +80,8 @@ public class RootViewController implements Initializable {
     private Node SEMESTER_FILTER_VIEW;
     private Node DATEPICKER_VIEW;
 
+    private Node DATE_RANGE_VIEW;
+
     private BorderPane FILTER_PANE;
 
     private Node currentView;
@@ -137,6 +139,7 @@ public class RootViewController implements Initializable {
         switchCenterView(ALL_STUDENTS_VIEW);
         showNode(SEARCH_BAR);
         showNode(MONTH_COMBOBOX);
+        showNode(DATE_RANGE_VIEW);
     }
 
     /**
@@ -149,6 +152,7 @@ public class RootViewController implements Initializable {
         switchCenterView(MAIN_VIEW);
         showNode(SEARCH_BAR);
         hideNode(MONTH_COMBOBOX);
+        hideNode(DATE_RANGE_VIEW);
         SchoolClassModel.getInstance().sortStudentsOnAttendance();
     }
 
@@ -162,6 +166,7 @@ public class RootViewController implements Initializable {
         switchCenterView(DETAILED_STUDENT_VIEW);
         hideNode(SEARCH_BAR);
         showNode(MONTH_COMBOBOX);
+        showNode(DATE_RANGE_VIEW);
     }
 
     /**
@@ -285,7 +290,7 @@ public class RootViewController implements Initializable {
         LOGOUT_BUTTON.setVisible(true);
         allComponentHolderController.setBorderPaneTop(ACTION_COMPONENT_HOLDER);
         LoginViewController.getInstance().resetLogin();
-
+        showNode(DATE_RANGE_VIEW);
     }
 
     /**
@@ -333,6 +338,10 @@ public class RootViewController implements Initializable {
         Node node = loader.load();
         ComponentsHolderViewController controller = loader.getController();
         controller.setBorderPaneLeft(SEARCH_BAR);
+
+        DATE_RANGE_VIEW = nodeFactory.createNewView(EFXMLName.DATE_RANGE_VIEW);
+        controller.setBoderPaneTop(DATE_RANGE_VIEW);
+        hideNode(DATE_RANGE_VIEW);
         SEARCH_BAR.setVisible(false);
 
         FILTER_PANE = new BorderPane();
@@ -503,6 +512,7 @@ public class RootViewController implements Initializable {
     private void handleCurrentClassBtn() {
         switchCenterView(LOADING_DATA_VIEW);
         ShowHideAdminButtons(false);
+        hideNode(DATE_RANGE_VIEW);
         Runnable task = () -> {
             schoolClassModel.updateCurrentClassStudents(0);
             Platform.runLater(() -> {

@@ -43,7 +43,8 @@ public enum EFXMLName {
     CURRENT_CLASS_PIE_CHART(FOLDER + "currentClassView/view/CurrentClassPieChart.fxml"),
     REFRESHING_DATA_VIEW(FOLDER + "sharedComponents/loadingData/view/RefreshingDataView.fxml"),
     REFRESH_DATA_BUTTON(FOLDER + "sharedComponents/loadingData/view/RefreshDataButton.fxml"),
-    DATEPICKER_VIEW(FOLDER + "sharedComponents/filters/datePicker/view/DatePickerView.fxml");
+    DATEPICKER_VIEW(FOLDER + "sharedComponents/filters/datePicker/view/DatePickerView.fxml"),
+    DATE_RANGE_VIEW(FOLDER + "sharedComponents/dateRangeView/view/DateRangeView.fxml");
 
     private final String text;
 

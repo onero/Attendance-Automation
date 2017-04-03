@@ -3,9 +3,39 @@
     Author     : Skovgaard
 */
 
+/* COLORS
+
+Buttons:
+White: #fff
+Dark Grey: #333333
+Grey: #585859
+Black: #000000
+Light Grey: #616161
+Mid Grey: #424242
+Light Black: #1f2429
+Grey/blue: #38424b
+
+TableList: 
+Green: #105100
+Red: #910000
+
+PieChart:
+Red: #910000
+Green: #105100
+Other colors are random.
+
+
+
+All buttons has the same color codes and effects.
+
+
+
+*/
+
+
 .borderPane{
-    -fx-background-image: url("CoarseGrid.png");
-    -fx-background-repeat: repeat;
+    -fx-background-image: url("CoarseGrid.png"); /* <===  puts in small pictures in the background */
+    -fx-background-repeat: repeat; /* <===  fills in more than one picture */
     -fx-background-color:
         linear-gradient(#38424b 0%, #1f2429 100%, #191d22 100%),
         linear-gradient(#585859, #333333),
@@ -35,7 +65,7 @@
     -fx-background-repeat: repeat;
     -fx-background-color:
         linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),
-        linear-gradient(#191616, #050404),
+        linear-gradient(#000000, #050404),
         radial-gradient(center 80% 60%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));
 }
 
@@ -87,7 +117,7 @@
 
 }
 
-.button:hover{
+.button:hover{ /* <===  When you have your mouse over the button. */
     -fx-background-color:   rgba(255, 255, 255, 0.08), rgba(48, 48, 48, 1), #090a0c,
         linear-gradient(#4a5661 0%, #1f2429 20%, #1f242a 100%),
         linear-gradient(#3f4950, #23282e),
@@ -95,7 +125,7 @@
         rgba(255,255,255,0));
 }
 
-.button:pressed{
+.button:pressed{ /* <=== When button is pressed. */
     -fx-background-color:
         rgba(255, 255, 255, 0.08),
         rgba(0, 0, 0, 0.8),
@@ -108,27 +138,26 @@
 }
 .chart-pie-label{
     -fx-font-family: "Arial";
-    -fx-fill: #fff;
+    -fx-fill: #fff; 
     -fx-effect: dropshadow( one-pass-box , rgba(0, 0, 0, 1), 0, 0.0 , 0 , 1 );
 }
 .chart-pie{
     -fx-border-width: 0px;
 }
 
-
-.label{
+.label{ /* <=== All labels */
     -fx-font-family: "Arial";
     -fx-text-fill: #fff;
     -fx-effect: dropshadow( one-pass-box , rgba(0, 0, 0, 1), 0, 0.0 , 0 , 1 );
 }
 
-.labelss{
+.labelss{ /* <=== Labels to be black. */
     -fx-font-family: "Arial";
     -fx-text-fill: #000000;
     -fx-effect: dropshadow( one-pass-box , rgba(0, 0, 0, 0.2), 0, 0.0 , 0 , 1 );
 }
 
-.detailLabels{
+.detailLabels{ /* <=== DetailedStudentView labels. */
     -fx-font-family: "Arial";
     -fx-text-fill: #fff;
     -fx-effect: dropshadow( one-pass-box , rgba(0, 0, 0, 1), 0, 0.0 , 0 , 1 );
@@ -145,12 +174,12 @@
 }
 
 .table-view .column-header-background{
-    -fx-background-color: linear-gradient(#131313 0%, #424141 100%);
+    -fx-background-color: linear-gradient(#000000 0%, #424141 100%);
 }
 
 .table-view .column-header-background .label{
     -fx-background-color: transparent;
-    -fx-text-fill: white;
+    -fx-text-fill: white; /* <=== White text in TableView. */
 }
 
 .table-view .column-header {
@@ -178,7 +207,7 @@
     -fx-background-insets: 0;
     -fx-background-radius: 1;
 }
-.table-view > .virtual-flow > .scroll-bar:vertical,
+.table-view > .virtual-flow > .scroll-bar:vertical, /* <=== Color of scrollbar. */
 .table-view > .virtual-flow > .scroll-bar:vertical > .track,
 .table-view > .virtual-flow > .scroll-bar:vertical > .track-background, 
 .table-view > .virtual-flow > .scroll-bar:horizontal,
@@ -218,18 +247,18 @@
     -fx-text-fill: white;
 }
 
-.data0.chart-pie { -fx-pie-color: #10c400; }
-.data1.chart-pie { -fx-pie-color: #fc0000; }
+.data0.chart-pie { -fx-pie-color: #086d00; } /* <=== Green slice piechart */
+.data1.chart-pie { -fx-pie-color: #910000; } /* <=== Red */
 
 
 .chart-legend{
-    -fx-background-color: linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%);
+    -fx-background-color: linear-gradient(#38424b 0%, #000000 20%, #000000 100%);
 }
 
-#red{
-    -fx-background-color: red;    
+#red{ /* <=== TableList*/
+    -fx-background-color: #910000;    
 }
 
-#green{
-    -fx-background-color: green;
+#green{ /* <=== TableList*/
+    -fx-background-color: #105100;
 }

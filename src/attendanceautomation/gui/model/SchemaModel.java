@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 public class SchemaModel {
 
@@ -49,6 +51,9 @@ public class SchemaModel {
     private String startDate;
     private String endDate;
 
+    private StringProperty propertyStartDate = new SimpleStringProperty();
+    private StringProperty propertyEndDate = new SimpleStringProperty();
+
     private SchemaModel() {
         schemaManager = new SchemaManager();
 
@@ -66,6 +71,8 @@ public class SchemaModel {
         setMockDateRange();
         setCurrentMonth(startDate, endDate);
 
+//        propertyStartDate = new SimpleStringProperty(startDate);
+//        propertyEndDate = new SimpleStringProperty(endDate);
         //Zero for all weeks in month
         currentWeekOfMonth = 0;
     }
@@ -229,6 +236,7 @@ public class SchemaModel {
 
     public void setStartDate(String startDate) {
         this.startDate = startDate;
+        propertyStartDate.setValue(startDate);
     }
 
     public String getEndDate() {
@@ -237,10 +245,18 @@ public class SchemaModel {
 
     public void setEndDate(String endDate) {
         this.endDate = endDate;
+        propertyEndDate.setValue(endDate);
     }
 
     public String getNameOfMonth() {
         return nameOfMonth;
     }
 
+    public StringProperty getPropertyStartDate() {
+        return propertyStartDate;
+    }
+
+    public StringProperty getPropertyEndDate() {
+        return propertyEndDate;
+    }
 }

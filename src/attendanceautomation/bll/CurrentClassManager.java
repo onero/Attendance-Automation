@@ -52,54 +52,44 @@ public class CurrentClassManager {
 //        DateFormat dateFormatYear = new SimpleDateFormat("yyyy-MM-dd");
 //        String yearAsString = dateFormatYear.format(date);
 
-//        String halfHourBefore = mockDate + " " + findHalfHourBefore(Integer.parseInt(hours), Integer.parseInt(minutes));
-//        String halfHourAfter = mockDate + " " + findHalfHourAfter(Integer.parseInt(hours), Integer.parseInt(minutes));
-        String halfHourBefore = "2017-02-23";
-        String halfHourAfter = mockDate;
+        String eigthHoursBefore = mockDate + " " + findEitghHoursBefore(Integer.parseInt(hours), Integer.parseInt(minutes));
+        String halfHourAfter = mockDate + " " + findHalfHourAfter(Integer.parseInt(hours), Integer.parseInt(minutes));
 
-        List<Integer> schoolClassID = daoFacade.getSchoolClassID(teacherID, halfHourBefore, halfHourAfter);
+        List<Integer> schoolClassID = daoFacade.getSchoolClassID(teacherID, eigthHoursBefore, halfHourAfter);
         if (schoolClassID.isEmpty()) {
             System.out.println("Failed to get schoolClassID");
             return new ArrayList<Student>();
         }
-        return schoolClassManager.getStudentsWithDataFromSchoolClassForSpecificDate(schoolClassID.get(schoolClassID.size() - 1), mockDate);
+        return schoolClassManager.getStudentsWithDataFromSchoolClassForSpecificPeriod(schoolClassID.get(schoolClassID.size() - 1), mockDate, mockDate + " 16:00");
     }
 
     /**
-     * Search the parsed list of students to see if they were absence.
+     * Search the parsed list of students to see if they were absent or present
+     * depending on the parsed boolean. True if looking for present. False if
+     * looking for absent.
      *
      * @param listOfCurrentClassStudents
+     * @param empty
      * @return
      */
-    public List<Student> findStudentsAbsence(List<Student> listOfCurrentClassStudents) {
-        List<Student> listOfStudentsAbsence = new ArrayList<>();
+    public List<Student> findStudentsAbsentOrPresent(List<Student> listOfCurrentClassStudents, boolean empty) {
+        List<Student> listOfStudents = new ArrayList<>();
         for (int i = 0; i < listOfCurrentClassStudents.size(); i++) {
             ArrayList<NonAttendance> listOfNonAttendence = listOfCurrentClassStudents.get(i).getNonAttendance();
 
-            if (!listOfNonAttendence.isEmpty()) {
-                listOfStudentsAbsence.add(listOfCurrentClassStudents.get(i));
+            if (listOfNonAttendence.isEmpty() == empty) {
+                listOfStudents.add(listOfCurrentClassStudents.get(i));
             }
         }
-        return listOfStudentsAbsence;
+        return listOfStudents;
     }
 
     /**
-     * HUGE VIOLATION OF DRY!!!!!!! TODO RKL: Refactor to no longer violate DRY.
+     * Calls the dao to find the mockStudent for currentClassView.
      *
-     * @param listOfCurrentClassStudents
+     * @param mockSwitch
      * @return
      */
-    public List<Student> findStudentsPresent(List<Student> listOfCurrentClassStudents) {
-        List<Student> listOfStudentsPresent = new ArrayList<>();
-        for (int i = 0; i < listOfCurrentClassStudents.size(); i++) {
-            ArrayList<NonAttendance> listOfNonAttendence = listOfCurrentClassStudents.get(i).getNonAttendance();
-            if (listOfNonAttendence.isEmpty()) {
-                listOfStudentsPresent.add(listOfCurrentClassStudents.get(i));
-            }
-        }
-        return listOfStudentsPresent;
-    }
-
     public List<Student> findMockStudents(int mockSwitch) {
         return currentClassDAO.findMockStudents(mockSwitch);
     }
@@ -112,13 +102,8 @@ public class CurrentClassManager {
      * @param minutes
      * @return
      */
-    private String findHalfHourBefore(int hours, int minutes) {
+    private String findEitghHoursBefore(int hours, int minutes) {
         String halfHourBefore = "";
-//        minutes -= 30;
-//        if (minutes <= 0) {
-//            hours--;
-//            minutes = 60 + minutes;
-//        }
         hours -= 8;
         halfHourBefore = formatTime(halfHourBefore, hours, minutes);
         return halfHourBefore += minutes;
@@ -135,7 +120,7 @@ public class CurrentClassManager {
     private String findHalfHourAfter(int hours, int minutes) {
         String halfHourAfter = "";
         minutes += 30;
-        if (minutes > 60) {
+        if (minutes >= 60) {
             hours++;
             minutes -= 60;
         }

@@ -10,8 +10,12 @@ import attendanceautomation.be.NonAttendance;
 import attendanceautomation.be.SchoolClass;
 import attendanceautomation.be.Student;
 import attendanceautomation.be.Teacher;
+import attendanceautomation.bll.sorting.ISortStrategy;
+import attendanceautomation.bll.sorting.SortStudentsOnAttendance;
+import attendanceautomation.bll.sorting.SortStudentsOnNameStrategy;
 import attendanceautomation.dal.AttendanceAutomationDAOFacade;
 import attendanceautomation.gui.model.SchemaModel;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -25,6 +29,8 @@ public class SchoolClassManager {
     private static SchoolClassManager instance;
 
     private final AttendanceAutomationDAOFacade AADAOFacade;
+
+    private ISortStrategy sortStrategy;
 
     public static SchoolClassManager getInstance() {
         if (instance == null) {
@@ -68,19 +74,6 @@ public class SchoolClassManager {
     }
 
     /**
-     * Get the updated studentOnfo for specific date from DB.
-     *
-     * @param schoolClassId
-     * @param date
-     * @return
-     */
-    public List<Student> getStudentsWithDataFromSchoolClassForSpecificDate(int schoolClassId, String date) {
-        List<Student> schoolClassStudents = AADAOFacade.getStudentsFromSchoolClass(schoolClassId);
-        getNonAttendanceForAllStudentsForSpecificDate(schoolClassStudents, date);
-        return schoolClassStudents;
-    }
-
-    /**
      * Gets all schoolClass data for a specific time period.
      *
      * @param schoolClassID
@@ -95,6 +88,14 @@ public class SchoolClassManager {
         return schoolClass;
     }
 
+    /**
+     * Gets the schoolClass with the given ID for the specified period.
+     *
+     * @param schoolClassId
+     * @param startDate
+     * @param endDate
+     * @return
+     */
     private SchoolClass getSchoolClassByIdForSpecificPeriod(int schoolClassId, String startDate, String endDate) {
         SchoolClass schoolClass = AADAOFacade.getSchoolClassByID(schoolClassId);
         schoolClass.addAllSemesterSubjects(AADAOFacade.getSchoolSemesterSubjectsInSchoolClassForSpecificPeriod(schoolClassId, startDate, endDate));
@@ -138,21 +139,6 @@ public class SchoolClassManager {
     private void getNonAttendanceForALlStudentsForSpecificPeriod(List<Student> schoolClassStudents, String startDate, String endDate) {
         for (Student schoolClassStudent : schoolClassStudents) {
             schoolClassStudent.addAllNonAttendance(AADAOFacade.getNonAttendanceForStudentsByIDForSpecificPeriod(schoolClassStudent.getID(), startDate, endDate));
-        }
-    }
-
-    /**
-     * Get NonAttendacce for all students in current schoolClass for specific
-     * date.
-     *
-     * Viloation of DRY!
-     *
-     * @param schoolClassStudents
-     * @param date
-     */
-    private void getNonAttendanceForAllStudentsForSpecificDate(List<Student> schoolClassStudents, String date) {
-        for (Student schoolClassStudent : schoolClassStudents) {
-            schoolClassStudent.addAllNonAttendance(AADAOFacade.getNonAttendanceForStudentByIDForSepcificDate(schoolClassStudent.getID(), date));
         }
     }
 
@@ -214,7 +200,7 @@ public class SchoolClassManager {
      * @param userEmail
      * @return
      */
-    public boolean isUserInDB(String userEmail) {
+    public boolean isUserInDB(String userEmail) throws SQLException {
         return AADAOFacade.isUserInDB(userEmail);
     }
 
@@ -312,6 +298,7 @@ public class SchoolClassManager {
         }
         return students;
     }
+
     /**
      * Makes a List from the Set given in the param, and then get one teacher
      * from the DB, by their name, at a time for each name given.
@@ -326,7 +313,28 @@ public class SchoolClassManager {
         }
         return teachers;
     }
+
     public List<String> getAllSchoolClassSemestersOnSchoolClassName(String schoolClassName) {
         return AADAOFacade.getAllSchoolClassSemestersBySchoolClassName(schoolClassName);
+    }
+
+    /**
+     * Sort two students on attendance in descending order
+     *
+     * @param students
+     */
+    public void sortStudentsOnAttendance(List<Student> students) {
+        sortStrategy = new SortStudentsOnAttendance();
+        sortStrategy.sort(students);
+    }
+
+    /**
+     * Natural sort students on name
+     *
+     * @param students
+     */
+    public void sortStudentsOnName(List<Student> students) {
+        sortStrategy = new SortStudentsOnNameStrategy();
+        sortStrategy.sort(students);
     }
 }

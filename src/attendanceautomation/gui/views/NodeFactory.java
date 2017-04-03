@@ -36,9 +36,7 @@ public class NodeFactory {
             node = loader.load();
         } catch (IOException ex) {
             System.out.println("Couldn't create " + viewName);
-            Logger
-                    .getLogger(NodeFactory.class
-                            .getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NodeFactory.class.getName()).log(Level.SEVERE, null, ex);
         }
         return node;
     }

@@ -143,6 +143,7 @@ public class WeekCheckBoxViewController implements Initializable {
             if (lesson.getSemesterSubject().getSubject().toString().equalsIgnoreCase(subject.getSubject().toString())) {
                 //Subject is in this day, so the checkbox should be visible
                 newCheckBox.setDisable(false);
+                newCheckBox.setStyle("-fx-color: green;");
                 //Check if the student has nonAttendance this day
                 checkSubjectInDayForStudentNonAttendance(newCheckBox, startDate, subject);
                 addSubjectChangeListenerToCheckBox(newCheckBox, lesson);
@@ -189,6 +190,7 @@ public class WeekCheckBoxViewController implements Initializable {
             //Add the checkbox to the view
             horizontalCheckBoxPane.getChildren().add(newCheckBox);
             if (!lessonsThisDay.isEmpty()) {
+                newCheckBox.setStyle("-fx-color: green;");
                 //Check if the student has nonAttendance this day
                 checkDayForStudentNonAttendance(newCheckBox, day);
                 //Add the checkbox to our array, so we can keep track of it
@@ -222,6 +224,7 @@ public class WeekCheckBoxViewController implements Initializable {
                 //Check if it's same date (without time)
                 if (nonAttendance.getSchoolClassSemesterLesson().getDate().compareTo(day) == 0) {
                     newCheckBox.setSelected(true);
+                    newCheckBox.setStyle("-fx-color: red;");
                     break;
                 }
             }
@@ -244,6 +247,7 @@ public class WeekCheckBoxViewController implements Initializable {
                 if (nonAttendance.getSchoolClassSemesterLesson().getDate().compareTo(day) == 0
                         && nonAttendance.getSchoolClassSemesterLesson().getSemesterSubject().getSubject().toString().equals(subject.getSubject().toString())) {
                     newCheckBox.setSelected(true);
+                    newCheckBox.setStyle("-fx-color: red;");
                     break;
                 }
             }
@@ -264,6 +268,7 @@ public class WeekCheckBoxViewController implements Initializable {
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 //If the student was not attending class
                 if (newCheckBox.isSelected()) {
+                    newCheckBox.setStyle("-fx-color: red;");
                     //PUNISH STUDENT!
                     for (SchoolClassSemesterLesson lesson : lessonsThisDay) {
                         NonAttendance newNonAttendance = new NonAttendance(lesson, student.getID());
@@ -271,6 +276,7 @@ public class WeekCheckBoxViewController implements Initializable {
                         schoolClassModel.addNewNonAttendance(newNonAttendance);
                     } //If the student was infact attending school
                 } else {
+                    newCheckBox.setStyle("-fx-color: green;");
                     //Forgive the child <3
                     for (SchoolClassSemesterLesson lesson : lessonsThisDay) {
                         NonAttendance nonAttendanceToRemove = new NonAttendance(lesson, student.getID());
@@ -297,11 +303,13 @@ public class WeekCheckBoxViewController implements Initializable {
                 NonAttendance newNonAttendance = new NonAttendance(semesterlesson, student.getID());
                 //If the student was not attending class
                 if (newCheckBox.isSelected()) {
+                    newCheckBox.setStyle("-fx-color: red;");
                     //PUNISH STUDENT!
                     student.addNonAttendance(newNonAttendance);
                     schoolClassModel.addNewNonAttendance(newNonAttendance);
                     //If the student was infact attending school
                 } else {
+                    newCheckBox.setStyle("-fx-color: green;");
                     //Forgive the child <3
                     student.removeNonAttendance(newNonAttendance);
                     schoolClassModel.removeNonAttendance(newNonAttendance);

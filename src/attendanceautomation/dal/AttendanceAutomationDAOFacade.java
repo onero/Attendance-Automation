@@ -12,6 +12,7 @@ import attendanceautomation.be.SchoolClassSemesterLesson;
 import attendanceautomation.be.SchoolSemesterSubject;
 import attendanceautomation.be.Student;
 import attendanceautomation.be.Teacher;
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -187,19 +188,6 @@ public class AttendanceAutomationDAOFacade {
     }
 
     /**
-     * Get all nonAttendance for specific student on specific date.
-     *
-     * Viloation of DRY!
-     *
-     * @param StudentID
-     * @param date
-     * @return
-     */
-    public List<NonAttendance> getNonAttendanceForStudentByIDForSepcificDate(int StudentID, String date) {
-        return attendanceDAO.getAllNonAttendanceForASpecificStudentForASpecificDate(StudentID, date, date + " 16:00");
-    }
-
-    /**
      * Check if the user is a Teacher
      *
      * @param userEmail
@@ -221,13 +209,8 @@ public class AttendanceAutomationDAOFacade {
      * @param userEmail
      * @return
      */
-    public boolean isUserInDB(String userEmail) {
-        try {
-            return loginDAO.checkIfUserIsInDB(userEmail);
-        } catch (SQLException ex) {
-            Logger.getLogger(AttendanceAutomationDAOFacade.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return false;
+    public boolean isUserInDB(String userEmail) throws SQLException, SQLServerException {
+        return loginDAO.checkIfUserIsInDB(userEmail);
     }
 
     /**
@@ -282,13 +265,13 @@ public class AttendanceAutomationDAOFacade {
      * retrieves a list of students from that schoolClass.
      *
      * @param teacherID
-     * @param dateHalfHourBefore
+     * @param dateEigthHoursBefore
      * @param dateHalfHourAfter
      * @return
      */
-    public List<Integer> getSchoolClassID(int teacherID, String dateHalfHourBefore, String dateHalfHourAfter) {
+    public List<Integer> getSchoolClassID(int teacherID, String dateEigthHoursBefore, String dateHalfHourAfter) {
         try {
-            return schoolClassDAO.getSchoolClassIDForSpecificTeacherAndDate(teacherID, dateHalfHourBefore, dateHalfHourAfter);
+            return schoolClassDAO.getSchoolClassIDForSpecificTeacherAndDate(teacherID, dateEigthHoursBefore, dateHalfHourAfter);
         } catch (SQLException ex) {
             System.out.println(ex);
             throw new RuntimeException("Couldn't get the schoolClassID");

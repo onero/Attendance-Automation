@@ -71,7 +71,6 @@ public class CurrentClassViewController implements Initializable {
      *
      * @return @throws IOException
      *
-     * TODO LATER REFACTOER TO ONE METHOD.
      */
     private Node createListViewPresent() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLName.CURRENT_CLASS_LIST_VIEW.toString()));

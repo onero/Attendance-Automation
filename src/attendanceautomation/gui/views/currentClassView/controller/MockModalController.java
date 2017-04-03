@@ -43,38 +43,39 @@ public class MockModalController implements Initializable {
 
     @FXML
     private void handleBefore(ActionEvent event) {
-        model.updateCurrentClassStudents(1);
-        controllerPresent.setCellFactory("white");
-        controllerAbsence.setCellFactory("white");
-        pieController.updateChart();
-        stage.close();
+        update(1, "white", "white");
     }
 
     @FXML
     private void handleAt(ActionEvent event) {
-        model.updateCurrentClassStudents(2);
-        controllerPresent.setCellFactory("green");
-        controllerAbsence.setCellFactory("white");
-        pieController.updateChart();
-        stage.close();
+        update(2, "green", "white");
     }
 
     @FXML
     private void handleAfter(ActionEvent event) {
-        model.updateCurrentClassStudents(3);
-        controllerPresent.setCellFactory("green");
-        controllerAbsence.setCellFactory("red");
-        pieController.updateChart();
-        stage.close();
+        update(3, "green", "red");
     }
 
     @FXML
     private void handleNormal(ActionEvent event) {
-        model.updateCurrentClassStudents(0);
-        controllerPresent.setCellFactory("green");
-        controllerAbsence.setCellFactory("red");
+        update(0, "green", "red");
+    }
+
+    /**
+     * Updates the information in CurrentClassView with the information
+     * according to the parameters.
+     *
+     * @param mockStudents
+     * @param presentColor
+     * @param absentColor
+     */
+    private void update(int mockStudents, String presentColor, String absentColor) {
+        model.updateCurrentClassStudents(mockStudents);
+        controllerPresent.setCellFactory(presentColor);
+        controllerAbsence.setCellFactory(absentColor);
         pieController.updateChart();
         stage.close();
+
     }
 
     /**

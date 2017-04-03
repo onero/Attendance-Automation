@@ -1,21 +1,50 @@
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
 /* 
     Created on : 06-02-2017, 11:47:01
-    Author     : gta1
+    Author     : Skovgaard
 */
 
+/* COLORS
+
+Buttons:
+White: #fff
+Dark Grey: #333333
+Grey: #585859
+Black: #000000
+Light Grey: #616161
+Mid Grey: #424242
+Light Black: #1f2429
+Grey/blue: #38424b
+All buttons has the same color codes and effects.
+
+TableList: 
+Green: #105100
+Red: #910000
+
+PieChart:
+Red: #910000
+Green: #105100
+Other colors are random.
+
+Background:
+Small pictures of "CoarseGrid.png". (dots)
+Dark Grey: #333333
+Grey: #585859
+
+
+*/
+
+
 .borderPane{
-    /*    -fx-background-color: linear-gradient(rgb(191, 0, 0), rgb(255, 66, 66))*/
-    -fx-background-image: url("CoarseGrid.png");
-    -fx-background-repeat: repeat;
+    -fx-background-image: url("CoarseGrid.png"); /* <===  puts in small pictures in the background */
+    -fx-background-repeat: repeat; /* <===  Repeats till the background is filled. */
     -fx-background-color:
         linear-gradient(#38424b 0%, #1f2429 100%, #191d22 100%),
         linear-gradient(#585859, #333333),
         radial-gradient(center 100% 100%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));
+}
+
+.check-box .mark {
+    -fx-background-color: transparent;
 }
 
 .border{
@@ -33,12 +62,11 @@ and open the template in the editor.
 }
 
 .mainBackground{
-    /*    -fx-background-color: linear-gradient(rgb(43, 43, 43), rgb(0, 0, 0))*/
     -fx-background-image: url("CoarseGrid.png");
     -fx-background-repeat: repeat;
     -fx-background-color:
         linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),
-        linear-gradient(#191616, #050404),
+        linear-gradient(#000000, #050404),
         radial-gradient(center 80% 60%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));
 }
 
@@ -73,9 +101,6 @@ and open the template in the editor.
 }
 
 .button{
-    /*    -fx-background-color: linear-gradient(rgb(50, 115, 255), rgb(25, 22, 117));
-        -fx-text-fill: #fff;
-        -fx-font-weight: bold;*/
     -fx-background-color:
         rgba(255, 255, 255, 0.08),
         rgba(0, 0, 0, 0.8),
@@ -93,8 +118,7 @@ and open the template in the editor.
 
 }
 
-.button:hover{
-    /*-fx-background-color: linear-gradient(rgb(176, 195, 252), rgb(0, 30, 155))*/
+.button:hover{ /* <===  When you have your mouse over the button. */
     -fx-background-color:   rgba(255, 255, 255, 0.08), rgba(48, 48, 48, 1), #090a0c,
         linear-gradient(#4a5661 0%, #1f2429 20%, #1f242a 100%),
         linear-gradient(#3f4950, #23282e),
@@ -102,8 +126,7 @@ and open the template in the editor.
         rgba(255,255,255,0));
 }
 
-.button:pressed{
-    /*-fx-background-color: linear-gradient(rgb(50, 55, 60), rgb(0, 20, 70))*/
+.button:pressed{ /* <=== When button is pressed. */
     -fx-background-color:
         rgba(255, 255, 255, 0.08),
         rgba(0, 0, 0, 0.8),
@@ -116,28 +139,26 @@ and open the template in the editor.
 }
 .chart-pie-label{
     -fx-font-family: "Arial";
-    -fx-fill: #fff;
+    -fx-fill: #fff; 
     -fx-effect: dropshadow( one-pass-box , rgba(0, 0, 0, 1), 0, 0.0 , 0 , 1 );
 }
 .chart-pie{
     -fx-border-width: 0px;
-    /*-fx-border-color: #000000;*/
 }
 
-
-.label{
+.label{ /* <=== All labels */
     -fx-font-family: "Arial";
     -fx-text-fill: #fff;
     -fx-effect: dropshadow( one-pass-box , rgba(0, 0, 0, 1), 0, 0.0 , 0 , 1 );
 }
 
-.labelss{
+.labelss{ /* <=== Labels to be black. */
     -fx-font-family: "Arial";
     -fx-text-fill: #000000;
     -fx-effect: dropshadow( one-pass-box , rgba(0, 0, 0, 0.2), 0, 0.0 , 0 , 1 );
 }
 
-.detailLabels{
+.detailLabels{ /* <=== DetailedStudentView labels. */
     -fx-font-family: "Arial";
     -fx-text-fill: #fff;
     -fx-effect: dropshadow( one-pass-box , rgba(0, 0, 0, 1), 0, 0.0 , 0 , 1 );
@@ -153,16 +174,13 @@ and open the template in the editor.
     -fx-background-color: transparent;
 }
 
-/* Spaltenköpfe
-    Struktur column-header-background -> column-header */
-
 .table-view .column-header-background{
-    -fx-background-color: linear-gradient(#131313 0%, #424141 100%);
+    -fx-background-color: linear-gradient(#000000 0%, #424141 100%);
 }
 
 .table-view .column-header-background .label{
     -fx-background-color: transparent;
-    -fx-text-fill: white;
+    -fx-text-fill: white; /* <=== White text in TableView. */
 }
 
 .table-view .column-header {
@@ -176,13 +194,13 @@ and open the template in the editor.
 .table-row-cell{
     -fx-background-color: -fx-table-cell-border-color, #616161;
     -fx-background-insets: 0, 0 0 1 0;
-    -fx-padding: 0.0em; /* 0 */
+    -fx-padding: 0.0em;
 }
 
 .table-row-cell:odd{
     -fx-background-color: -fx-table-cell-border-color, #424242;
     -fx-background-insets: 0, 0 0 1 0;
-    -fx-padding: 0.0em; /* 0 */  
+    -fx-padding: 0.0em; 
 }
 
 .table-row-cell:selected {
@@ -190,7 +208,7 @@ and open the template in the editor.
     -fx-background-insets: 0;
     -fx-background-radius: 1;
 }
-.table-view > .virtual-flow > .scroll-bar:vertical,
+.table-view > .virtual-flow > .scroll-bar:vertical, /* <=== Color of scrollbar. */
 .table-view > .virtual-flow > .scroll-bar:vertical > .track,
 .table-view > .virtual-flow > .scroll-bar:vertical > .track-background, 
 .table-view > .virtual-flow > .scroll-bar:horizontal,
@@ -202,7 +220,6 @@ and open the template in the editor.
 .table-view > .virtual-flow > .scroll-bar > .increment-button, 
 .table-view > .virtual-flow > .scroll-bar > .decrement-button {
     -fx-opacity: 0;
-
 }
 
 .list-cell:filled:selected:focused, .list-cell:filled:selected {
@@ -231,21 +248,18 @@ and open the template in the editor.
     -fx-text-fill: white;
 }
 
-.data0.chart-pie { -fx-pie-color: #10c400; }
-.data1.chart-pie { -fx-pie-color: #fc0000; }
+.data0.chart-pie { -fx-pie-color: #086d00; } /* <=== Green slice piechart */
+.data1.chart-pie { -fx-pie-color: #910000; } /* <=== Red */
 
 
 .chart-legend{
-    -fx-background-color: linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%);
+    -fx-background-color: linear-gradient(#38424b 0%, #000000 20%, #000000 100%);
 }
 
-#red{
-    -fx-background-color: red;    
+#red{ /* <=== TableList*/
+    -fx-background-color: #910000;    
 }
 
-#white{
-}
-
-#green{
-    -fx-background-color: green;
+#green{ /* <=== TableList*/
+    -fx-background-color: #105100;
 }

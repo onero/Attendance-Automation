@@ -14,6 +14,7 @@ Light Grey: #616161
 Mid Grey: #424242
 Light Black: #1f2429
 Grey/blue: #38424b
+All buttons has the same color codes and effects.
 
 TableList: 
 Green: #105100
@@ -24,10 +25,10 @@ Red: #910000
 Green: #105100
 Other colors are random.
 
-
-
-All buttons has the same color codes and effects.
-
+Background:
+Small pictures of "CoarseGrid.png". (dots)
+Dark Grey: #333333
+Grey: #585859
 
 
 */
@@ -35,7 +36,7 @@ All buttons has the same color codes and effects.
 
 .borderPane{
     -fx-background-image: url("CoarseGrid.png"); /* <===  puts in small pictures in the background */
-    -fx-background-repeat: repeat; /* <===  fills in more than one picture */
+    -fx-background-repeat: repeat; /* <===  Repeats till the background is filled. */
     -fx-background-color:
         linear-gradient(#38424b 0%, #1f2429 100%, #191d22 100%),
         linear-gradient(#585859, #333333),

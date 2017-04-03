@@ -5,6 +5,7 @@
  */
 package attendanceautomation.gui.views.sharedComponents.dateRangeView.controller;
 
+import attendanceautomation.gui.model.SchemaModel;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -28,7 +29,11 @@ public class DateRangeViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        bindLabels();
     }
 
+    private void bindLabels() {
+        lblStartDate.textProperty().bind(SchemaModel.getInstance().getPropertyStartDate());
+        lblEndDate.textProperty().bind(SchemaModel.getInstance().getPropertyEndDate());
+    }
 }

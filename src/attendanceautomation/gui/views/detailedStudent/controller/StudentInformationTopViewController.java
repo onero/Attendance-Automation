@@ -11,7 +11,9 @@ import attendanceautomation.be.Teacher;
 import attendanceautomation.be.enums.ESchoolSubject;
 import attendanceautomation.bll.SubjectManager;
 import attendanceautomation.gui.model.SchoolClassModel;
+import attendanceautomation.gui.views.main.controller.NameStatisticsViewController;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -78,6 +80,8 @@ public class StudentInformationTopViewController implements Initializable {
     private ObservableList<Teacher> teachers;
 
     private SubjectManager subMgr;
+    
+    private NameStatisticsViewController statisticsController;
 
     public StudentInformationTopViewController() {
         teachers = FXCollections.observableArrayList();
@@ -110,8 +114,9 @@ public class StudentInformationTopViewController implements Initializable {
         lblStudentClass.setText(SchoolClassModel.getInstance().getCurrentSchoolClass().getSchoolClassName());
         //TODO ALH: Make dynamic
         lblStudentSemester.setText("2.");
-
-        lblTotalAbsence.setText(currentStudent.getNonAttendancePercentage().get() + " %");
+        
+        DecimalFormat df = new DecimalFormat("#.##");
+        lblTotalAbsence.setText(df.format(currentStudent.getNonAttendancePercentage().get()) + " %");
         
         // Calculates all the absence in a specific subject.
         allSubjectAbsence();

@@ -41,6 +41,9 @@ public class SchoolClassManager {
 
     private SchoolClassManager() {
         AADAOFacade = AttendanceAutomationDAOFacade.getInstance();
+
+        sortStrategy = new SortStudentsOnAttendance();
+        sortStrategy = new SortStudentsOnNameStrategy();
     }
 
     public int getSchoolClassIdByName(String schoolClassName) {
@@ -324,7 +327,6 @@ public class SchoolClassManager {
      * @param students
      */
     public void sortStudentsOnAttendance(List<Student> students) {
-        sortStrategy = new SortStudentsOnAttendance();
         sortStrategy.sort(students);
     }
 
@@ -334,7 +336,6 @@ public class SchoolClassManager {
      * @param students
      */
     public void sortStudentsOnName(List<Student> students) {
-        sortStrategy = new SortStudentsOnNameStrategy();
         sortStrategy.sort(students);
     }
 }

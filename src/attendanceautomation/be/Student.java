@@ -12,19 +12,9 @@ import java.util.List;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
-public class Student implements Comparable<Student> {
+public class Student extends Person implements Comparable<Student> {
 
     private final DoubleProperty nonAttendancePercentage;
-
-    private final int ID;
-
-    private final String firstName;
-
-    private final String lastName;
-
-    private final String fullName;
-
-    private final String email;
 
     //TODO MSP: make a field for field of study.
     private final ArrayList<NonAttendance> nonAttendance;
@@ -38,50 +28,9 @@ public class Student implements Comparable<Student> {
      * @param email
      */
     public Student(int id, String firstName, String lastName, String email) {
-        ID = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        fullName = this.firstName + " " + this.lastName;
-        this.email = email;
+        super(id, firstName, lastName, email);
         nonAttendance = new ArrayList<>();
         nonAttendancePercentage = new SimpleDoubleProperty(0);
-    }
-
-    public int getID() {
-        return ID;
-    }
-
-    /**
-     *
-     * @return first name
-     */
-    public String getFirstName() {
-        return firstName;
-    }
-
-    /**
-     *
-     * @return last name
-     */
-    public String getLastName() {
-        return lastName;
-    }
-
-    /**
-     *
-     * @return full name as First name combined with last name, seperated by
-     * space
-     */
-    public String getFullName() {
-        return fullName;
-    }
-
-    /**
-     *
-     * @return email
-     */
-    public String getEmail() {
-        return email;
     }
 
     /**

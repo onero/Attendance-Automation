@@ -112,15 +112,15 @@ public class StudentInformationTopViewController implements Initializable {
         lblStudentSemester.setText("2.");
 
         lblTotalAbsence.setText(currentStudent.getNonAttendancePercentage().get() + " %");
-        
+
         // Calculates all the absence in a specific subject.
         allSubjectAbsence();
     }
-    
+
     /**
      * Method for all the students absence in the specific subject.
      */
-    private void allSubjectAbsence(){
+    private void allSubjectAbsence() {
         Student currentStudent = SchoolClassModel.getInstance().getCurrentStudent();
         lblScoAbsence.setText(subMgr.subjectAbsenceCalculation(currentStudent, ESchoolSubject.SCO) + " %");
         lblItoAbsence.setText(subMgr.subjectAbsenceCalculation(currentStudent, ESchoolSubject.ITO) + " %");

@@ -30,7 +30,8 @@ public class SchoolClassManager {
 
     private final AttendanceAutomationDAOFacade AADAOFacade;
 
-    private ISortStrategy sortStrategy;
+    private ISortStrategy sortOnNameStrategy;
+    private ISortStrategy sortOnAttendanceStrategy;
 
     public static SchoolClassManager getInstance() {
         if (instance == null) {
@@ -42,8 +43,8 @@ public class SchoolClassManager {
     private SchoolClassManager() {
         AADAOFacade = AttendanceAutomationDAOFacade.getInstance();
 
-        sortStrategy = new SortStudentsOnAttendance();
-        sortStrategy = new SortStudentsOnNameStrategy();
+        sortOnAttendanceStrategy = new SortStudentsOnAttendance();
+        sortOnNameStrategy = new SortStudentsOnNameStrategy();
     }
 
     public int getSchoolClassIdByName(String schoolClassName) {
@@ -327,7 +328,7 @@ public class SchoolClassManager {
      * @param students
      */
     public void sortStudentsOnAttendance(List<Student> students) {
-        sortStrategy.sort(students);
+        sortOnAttendanceStrategy.sort(students);
     }
 
     /**
@@ -336,6 +337,6 @@ public class SchoolClassManager {
      * @param students
      */
     public void sortStudentsOnName(List<Student> students) {
-        sortStrategy.sort(students);
+        sortOnNameStrategy.sort(students);
     }
 }

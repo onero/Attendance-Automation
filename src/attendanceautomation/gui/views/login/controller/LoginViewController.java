@@ -57,7 +57,8 @@ public class LoginViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         instance = this;
         errorMessage.setText("");
-        userPassword.setPromptText("your1337Password");
+        userId.setPromptText("Username");
+        userPassword.setPromptText("Password");
         spinner.setVisible(false);
     }
 

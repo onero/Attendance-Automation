@@ -82,7 +82,7 @@ Grey: #585859
     -fx-padding: 0 0 0 15;
 }
 
-.loginButton{
+.loginButton{ /* <=== Only diff is font size. */
     -fx-background-color:
         rgba(255, 255, 255, 0.08),
         rgba(0, 0, 0, 0.8),
@@ -100,7 +100,7 @@ Grey: #585859
     -fx-padding: 10 20 10 20;
 }
 
-.button{
+.button{ /* <=== Makes all buttons the same. */
     -fx-background-color:
         rgba(255, 255, 255, 0.08),
         rgba(0, 0, 0, 0.8),
@@ -115,17 +115,17 @@ Grey: #585859
     -fx-text-fill: white;
     -fx-text-fill: linear-gradient(white, #d0d0d0);
     -fx-padding: 10 20 10 20;
-
 }
-
-.button:hover{ /* <===  When you have your mouse over the button. */
-    -fx-background-color:   rgba(255, 255, 255, 0.08), rgba(48, 48, 48, 1), #090a0c,
+/*.button:hover{  <===  When you have your mouse over the button. 
+    -fx-background-color:   
+        rgba(255, 255, 255, 0.08), 
+        rgba(48, 48, 48, 1), 
+        #090a0c,
         linear-gradient(#4a5661 0%, #1f2429 20%, #1f242a 100%),
-        linear-gradient(#3f4950, #23282e),
+        linear-gradient(#242a2e, #23282e),
         radial-gradient(center 50% 0%, radius 100%, rgba(135,142,148,0.9),
         rgba(255,255,255,0));
-}
-
+}*/
 .button:pressed{ /* <=== When button is pressed. */
     -fx-background-color:
         rgba(255, 255, 255, 0.08),
@@ -135,7 +135,6 @@ Grey: #585859
         linear-gradient(#242a2e, #23282e),
         radial-gradient(center 50% 0%, radius 100%, rgba(200,200,200,0.9),
         rgba(255,255,255,0));
-
 }
 .chart-pie-label{
     -fx-font-family: "Arial";
@@ -156,14 +155,6 @@ Grey: #585859
     -fx-font-family: "Arial";
     -fx-text-fill: #000000;
     -fx-effect: dropshadow( one-pass-box , rgba(0, 0, 0, 0.2), 0, 0.0 , 0 , 1 );
-}
-
-.detailLabels{ /* <=== DetailedStudentView labels. */
-    -fx-font-family: "Arial";
-    -fx-text-fill: #fff;
-    -fx-effect: dropshadow( one-pass-box , rgba(0, 0, 0, 1), 0, 0.0 , 0 , 1 );
-    -fx-font-size: 23;
-    -fx-font-weight: bold;
 }
 
 .table-view{
@@ -204,7 +195,7 @@ Grey: #585859
 }
 
 .table-row-cell:selected {
-    -fx-background-color: #005797;
+    -fx-background-color: #424242;
     -fx-background-insets: 0;
     -fx-background-radius: 1;
 }
@@ -256,10 +247,10 @@ Grey: #585859
     -fx-background-color: linear-gradient(#38424b 0%, #000000 20%, #000000 100%);
 }
 
-#red{ /* <=== TableList*/
+#red{ /* <=== Red tableList*/
     -fx-background-color: #910000;    
 }
 
-#green{ /* <=== TableList*/
-    -fx-background-color: #105100;
+#green{ /* <=== Green tableList*/
+    -fx-background-color: #105000;
 }

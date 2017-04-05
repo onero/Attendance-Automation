@@ -39,21 +39,18 @@ public class CurrentClassManager {
      * @return
      */
     public List<Student> getStudentsFromCurrentSchoolClass(int teacherID) {
-        DateFormat dateFormatTime = new SimpleDateFormat("HH:mm");
-        Date date = new Date();
-        String dateAsString = dateFormatTime.format(date);
-        String[] hoursAndMinutes = dateAsString.split(":");
-        String hours, minutes;
-        hours = hoursAndMinutes[0];
-        minutes = hoursAndMinutes[1];
+        String[] hoursAndMinutes = getCurrentTime();
+        int hours, minutes;
+        hours = Integer.parseInt(hoursAndMinutes[0]);
+        minutes = Integer.parseInt(hoursAndMinutes[1]);
 
         String mockDate = "2017-02-24";
 //        //These lines are for when the actual date is needed.
 //        DateFormat dateFormatYear = new SimpleDateFormat("yyyy-MM-dd");
-//        String yearAsString = dateFormatYear.format(date);
+//        String yearAsString = dateFormatYear.format(new Date());
 
-        String eigthHoursBefore = mockDate + " " + findEitghHoursBefore(Integer.parseInt(hours), Integer.parseInt(minutes));
-        String halfHourAfter = mockDate + " " + findHalfHourAfter(Integer.parseInt(hours), Integer.parseInt(minutes));
+        String eigthHoursBefore = mockDate + " " + findEitghHoursBefore(hours, minutes);
+        String halfHourAfter = mockDate + " " + findHalfHourAfter(hours, minutes);
 
         List<Integer> schoolClassID = daoFacade.getSchoolClassID(teacherID, eigthHoursBefore, halfHourAfter);
         if (schoolClassID.isEmpty()) {
@@ -61,6 +58,19 @@ public class CurrentClassManager {
             return new ArrayList<Student>();
         }
         return schoolClassManager.getStudentsWithDataFromSchoolClassForSpecificPeriod(schoolClassID.get(schoolClassID.size() - 1), mockDate, mockDate + " 16:00");
+    }
+
+    /**
+     * Get the currentTime.
+     *
+     * @return
+     */
+    private String[] getCurrentTime() {
+        DateFormat dateFormatTime = new SimpleDateFormat("HH:mm");
+        Date date = new Date();
+        String dateAsString = dateFormatTime.format(date);
+        String[] hoursAndMinutes = dateAsString.split(":");
+        return hoursAndMinutes;
     }
 
     /**

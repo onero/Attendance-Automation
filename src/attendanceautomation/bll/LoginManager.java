@@ -7,6 +7,7 @@ package attendanceautomation.bll;
 
 import attendanceautomation.dal.LoginDAO;
 import attendanceautomation.gui.model.SchoolClassModel;
+import java.sql.SQLException;
 
 /**
  *
@@ -36,7 +37,7 @@ public class LoginManager {
      * @param userEmail
      * @return
      */
-    public boolean checkIfUserExist(String userEmail) {
+    public boolean checkIfUserExist(String userEmail) throws SQLException {
         return SchoolClassModel.getInstance().isUserInDB(userEmail);
     }
 

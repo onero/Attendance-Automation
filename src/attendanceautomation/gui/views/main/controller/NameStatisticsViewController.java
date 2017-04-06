@@ -7,6 +7,7 @@ package attendanceautomation.gui.views.main.controller;
 
 import attendanceautomation.be.Student;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -37,8 +38,9 @@ public class NameStatisticsViewController implements Initializable {
      * @param student
      */
     public void setStudentInfo(Student student) {
+        DecimalFormat df = new DecimalFormat("#.##");
         lblName.setText(student.getFullName());
-        lblAttendance.setText(student.getNonAttendancePercentage().get() + " %");
+        lblAttendance.setText(df.format(student.getNonAttendancePercentage().get()) + " %");
     }
 
 }

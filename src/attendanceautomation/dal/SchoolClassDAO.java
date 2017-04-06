@@ -490,19 +490,16 @@ public class SchoolClassDAO {
     }
 
     /**
-     * Gets the ID of the first schoolClass for the parsed teacher
-     * on the parsed day. Returns 0 if no class is found.
-     *
-     * TODO RKL: Make so it's
-     * not the first schoolClass.
+     * Gets the ID of the first schoolClass for the parsed teacher on the parsed
+     * day. Returns 0 if no class is found.
      *
      * @param teacherID
-     * @param dateHalfHourBefore
+     * @param dateEigthHoursBefore
      * @param dateHalfHourAfter
      * @return
      * @throws SQLException
      */
-    public List<Integer> getSchoolClassIDForSpecificTeacherAndDate(int teacherID, String dateHalfHourBefore, String dateHalfHourAfter) throws SQLException {
+    public List<Integer> getSchoolClassIDForSpecificTeacherAndDate(int teacherID, String dateEigthHoursBefore, String dateHalfHourAfter) throws SQLException {
         List<Integer> schoolClassIDs = new ArrayList<>();
         String sql = "SELECT sc.ID FROM SchoolClass sc "
                 + "JOIN SchoolClassSemesterSubject scss ON sc.ID = scss.SchoolClassID "
@@ -513,7 +510,7 @@ public class SchoolClassDAO {
         try (Connection con = cm.getConnection()) {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, teacherID);
-            ps.setString(2, dateHalfHourBefore);
+            ps.setString(2, dateEigthHoursBefore);
             ps.setString(3, dateHalfHourAfter);
 
             ResultSet rs = ps.executeQuery();

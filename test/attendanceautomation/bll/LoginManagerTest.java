@@ -5,6 +5,7 @@
  */
 package attendanceautomation.bll;
 
+import java.sql.SQLException;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
@@ -21,7 +22,7 @@ public class LoginManagerTest {
      * Test if it can find a valid user.
      */
     @Test
-    public void testCheckIfUserExistWithAValidUser() {
+    public void testCheckIfUserExistWithAValidUser() throws SQLException {
         String userName = "rasm035h@easv365.dk";
         LoginManager instance = LoginManager.getInstance();
         boolean expResult = true;
@@ -33,7 +34,7 @@ public class LoginManagerTest {
      * Test if it can find a valid user.
      */
     @Test
-    public void testCheckIfUserExistWithAnotherValidUser() {
+    public void testCheckIfUserExistWithAnotherValidUser() throws SQLException {
         String userName = "adam3964@easv365.dk";
         LoginManager instance = LoginManager.getInstance();
         boolean expResult = true;
@@ -45,7 +46,7 @@ public class LoginManagerTest {
      * Test if a random user can login.
      */
     @Test
-    public void testCheckIfUserExistWithANonValidUser() {
+    public void testCheckIfUserExistWithANonValidUser() throws SQLException {
         String userName = "rand6231@easv365.dk";
         LoginManager instance = LoginManager.getInstance();
         boolean expresult = false;

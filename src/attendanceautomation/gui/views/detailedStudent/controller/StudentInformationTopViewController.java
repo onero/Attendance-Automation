@@ -11,7 +11,9 @@ import attendanceautomation.be.Teacher;
 import attendanceautomation.be.enums.ESchoolSubject;
 import attendanceautomation.bll.SubjectManager;
 import attendanceautomation.gui.model.SchoolClassModel;
+import attendanceautomation.gui.views.main.controller.NameStatisticsViewController;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -79,6 +81,8 @@ public class StudentInformationTopViewController implements Initializable {
 
     private SubjectManager subMgr;
 
+    private NameStatisticsViewController statisticsController;
+
     public StudentInformationTopViewController() {
         teachers = FXCollections.observableArrayList();
         subMgr = new SubjectManager();
@@ -111,10 +115,18 @@ public class StudentInformationTopViewController implements Initializable {
         //TODO ALH: Make dynamic
         lblStudentSemester.setText("2.");
 
-        lblTotalAbsence.setText(currentStudent.getNonAttendancePercentage().get() + " %");
+        DecimalFormat df = new DecimalFormat("#.##");
+        lblTotalAbsence.setText(df.format(currentStudent.getNonAttendancePercentage().get()) + " %");
 
-        subMgr.subjectAbsenceCalculation(currentStudent, ESchoolSubject.SCO);
+        // Calculates all the absence in a specific subject.
+        allSubjectAbsence();
+    }
 
+    /**
+     * Method for all the students absence in the specific subject.
+     */
+    private void allSubjectAbsence() {
+        Student currentStudent = SchoolClassModel.getInstance().getCurrentStudent();
         lblScoAbsence.setText(subMgr.subjectAbsenceCalculation(currentStudent, ESchoolSubject.SCO) + " %");
         lblItoAbsence.setText(subMgr.subjectAbsenceCalculation(currentStudent, ESchoolSubject.ITO) + " %");
         lblSdeAbsence.setText(subMgr.subjectAbsenceCalculation(currentStudent, ESchoolSubject.SDE) + " %");
@@ -128,7 +140,6 @@ public class StudentInformationTopViewController implements Initializable {
         listTeachers.setItems(teachers);
         columnTeacher.setCellValueFactory(new PropertyValueFactory<>("fullName"));
         columnEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
-        //TODO MSP: SetCellValueFactory on columnSubject.
     }
 
     /**

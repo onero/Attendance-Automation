@@ -51,8 +51,6 @@ public class RootViewController implements Initializable {
     private BorderPane borderPane;
     @FXML
     private GridPane gridButtomBar;
-    @FXML
-    private HBox refreshBox;
 
     private static RootViewController instance;
 
@@ -81,6 +79,8 @@ public class RootViewController implements Initializable {
     private Node ALL_SCHOOLCLASS_FILTER_VIEW;
     private Node SEMESTER_FILTER_VIEW;
     private Node DATEPICKER_VIEW;
+
+    private Node DATE_RANGE_VIEW;
 
     private BorderPane FILTER_PANE;
 
@@ -139,6 +139,7 @@ public class RootViewController implements Initializable {
         switchCenterView(ALL_STUDENTS_VIEW);
         showNode(SEARCH_BAR);
         showNode(MONTH_COMBOBOX);
+        showNode(DATE_RANGE_VIEW);
     }
 
     /**
@@ -151,6 +152,7 @@ public class RootViewController implements Initializable {
         switchCenterView(MAIN_VIEW);
         showNode(SEARCH_BAR);
         hideNode(MONTH_COMBOBOX);
+        hideNode(DATE_RANGE_VIEW);
         SchoolClassModel.getInstance().sortStudentsOnAttendance();
     }
 
@@ -164,6 +166,7 @@ public class RootViewController implements Initializable {
         switchCenterView(DETAILED_STUDENT_VIEW);
         hideNode(SEARCH_BAR);
         showNode(MONTH_COMBOBOX);
+        showNode(DATE_RANGE_VIEW);
     }
 
     /**
@@ -287,7 +290,7 @@ public class RootViewController implements Initializable {
         LOGOUT_BUTTON.setVisible(true);
         allComponentHolderController.setBorderPaneTop(ACTION_COMPONENT_HOLDER);
         LoginViewController.getInstance().resetLogin();
-
+        showNode(DATE_RANGE_VIEW);
     }
 
     /**
@@ -335,6 +338,10 @@ public class RootViewController implements Initializable {
         Node node = loader.load();
         ComponentsHolderViewController controller = loader.getController();
         controller.setBorderPaneLeft(SEARCH_BAR);
+
+        DATE_RANGE_VIEW = nodeFactory.createNewView(EFXMLName.DATE_RANGE_VIEW);
+        controller.setBoderPaneTop(DATE_RANGE_VIEW);
+        hideNode(DATE_RANGE_VIEW);
         SEARCH_BAR.setVisible(false);
 
         FILTER_PANE = new BorderPane();
@@ -394,50 +401,62 @@ public class RootViewController implements Initializable {
         String schoolClassName = SchoolClassFilterViewController.getInstance().getSchoolName();
         int schoolClassID = schoolClassModel.getSchoolClassIdByName(schoolClassName);
         if (SemesterFilterViewController.getInstance().isSemesterSelected()) {
-            int semesterID = SemesterFilterViewController.getInstance().getSemesterID();
-            filterModal.close();
-            showLoadingDataView();
-
-            Runnable task = () -> {
-                schoolClassModel.loadSchoolClassDataBySemester(schoolClassID, semesterID);
-                Platform.runLater(() -> {
-                    updateAll();
-                });
-            };
-            new Thread(task).start();
+            handleSemesterSearch(schoolClassID);
 
         } else if (DatePickerViewController.getInstance().hasNewDate()) {
-            String startDate = DatePickerViewController.getInstance().getStartDate();
-            String endDate = DatePickerViewController.getInstance().getEndDate();
-            filterModal.close();
-            showLoadingDataView();
-
-            SchemaModel.getInstance().setCurrentMonth(startDate, endDate);
-
-            Runnable task = () -> {
-                schoolClassModel.loadCurrentSchoolClassByPeriodAndID(schoolClassID);
-                Platform.runLater(() -> {
-                    updateAll();
-                });
-            };
-            new Thread(task).start();
+            handleDateSearch(schoolClassID);
 
         } else {
-            filterModal.close();
-            showLoadingDataView();
-
-            Runnable task = () -> {
-                //TODO ALH: Make dynamic (also in SchemaModel!)
-                String startDate = "2016-10-31";
-                String endDate = "2017-02-28";
-                SchemaModel.getInstance().setCurrentMonth(startDate, endDate);
-                schoolClassModel.loadSchoolClassDataByName(schoolClassName);
-                Platform.runLater(() -> {
-                    updateAll();
-                });
-            };
-            new Thread(task).start();
+            handleSchoolClassWithoutFilter(schoolClassName);
         }
+    }
+
+    private void handleSchoolClassWithoutFilter(String schoolClassName) {
+        filterModal.close();
+        showLoadingDataView();
+
+        Runnable task = () -> {
+            //TODO ALH: Make dynamic (also in SchemaModel!)
+            String startDate = "2016-10-31";
+            String endDate = "2017-02-28";
+            SchemaModel.getInstance().setCurrentMonth(startDate, endDate);
+            schoolClassModel.loadSchoolClassDataByName(schoolClassName);
+            Platform.runLater(() -> {
+                updateAll();
+            });
+        };
+        new Thread(task).start();
+    }
+
+    private void handleDateSearch(int schoolClassID) {
+        String startDate = DatePickerViewController.getInstance().getStartDate();
+        String endDate = DatePickerViewController.getInstance().getEndDate();
+        filterModal.close();
+        showLoadingDataView();
+
+        SchemaModel.getInstance().setCurrentMonth(startDate, endDate);
+
+        Runnable task = () -> {
+            schoolClassModel.loadCurrentSchoolClassByPeriodAndID(schoolClassID);
+            Platform.runLater(() -> {
+                updateAll();
+            });
+        };
+        new Thread(task).start();
+    }
+
+    private void handleSemesterSearch(int schoolClassID) {
+        int semesterID = SemesterFilterViewController.getInstance().getSemesterID();
+        filterModal.close();
+        showLoadingDataView();
+
+        Runnable task = () -> {
+            schoolClassModel.loadSchoolClassDataBySemester(schoolClassID, semesterID);
+            Platform.runLater(() -> {
+                updateAll();
+            });
+        };
+        new Thread(task).start();
     }
 
     private void showLoadingDataView() {
@@ -493,6 +512,7 @@ public class RootViewController implements Initializable {
     private void handleCurrentClassBtn() {
         switchCenterView(LOADING_DATA_VIEW);
         ShowHideAdminButtons(false);
+        hideNode(DATE_RANGE_VIEW);
         Runnable task = () -> {
             schoolClassModel.updateCurrentClassStudents(0);
             Platform.runLater(() -> {

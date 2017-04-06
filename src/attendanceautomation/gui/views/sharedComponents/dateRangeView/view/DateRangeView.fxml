@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+
+<HBox xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="attendanceautomation.gui.views.sharedComponents.dateRangeView.controller.DateRangeViewController">
+   <children>
+      <Label text="Start dato: " />
+      <Label fx:id="lblStartDate" text="-startdate-" />
+      <Label text="     " />
+      <Label text="Slut dato: " />
+      <Label fx:id="lblEndDate" text="-enddate-" />
+   </children>
+</HBox>

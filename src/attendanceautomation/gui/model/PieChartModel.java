@@ -5,7 +5,6 @@
  */
 package attendanceautomation.gui.model;
 
-import attendanceautomation.be.SchoolClass;
 import attendanceautomation.be.Student;
 import attendanceautomation.bll.AttendanceManager;
 import attendanceautomation.gui.views.sharedComponents.pieChart.controller.PieChartViewController;
@@ -20,7 +19,7 @@ public class PieChartModel {
 
     private static PieChartModel instance;
 
-    private SchoolClassModel schoolClassModel;
+    private final SchoolClassModel schoolClassModel;
 
     private final AttendanceManager attendanceManager;
 
@@ -50,17 +49,6 @@ public class PieChartModel {
     }
 
     /**
-     * Calculates the total attendance for the student and returns the
-     * percentage as a double
-     *
-     * @param student
-     * @return
-     */
-    public ArrayList<Data> getStudentAttendance(Student student) {
-        return attendanceManager.computeStudentAttendance(student);
-    }
-
-    /**
      * Compute the pieChartData according to total percentage for each student
      */
     public void computeTotalPieChartPercentage() {
@@ -74,26 +62,39 @@ public class PieChartModel {
      * @param student
      */
     public void checkIfStudentIsInChart(Student student) {
-        boolean studentIsThere = false;
         //Check if there are students in the pieChart
         if (pieChartData.isEmpty()) {
             addNewStudentToChartData(student);
         } else {
-            for (Data data : pieChartData) {
-                //Check if the student is in the data
-                if (data.getName().equals(student.getFullName())) {
-                    data.setPieValue(student.getNonAttendancePercentage().get());
-                    studentIsThere = true;
-                }
-            }
-            if (!studentIsThere) {
+            if (studentNotInChart(student)) {
                 //If student isn't there, add the student
                 addNewStudentToChartData(student);
+            } else {
+                //Update the student in the chart
+                pieChartData.stream()
+                        .filter(data -> data.getName().equals(student.getFullName()))
+                        .forEach(s -> s.setPieValue(student.getNonAttendancePercentage().get()));
             }
+
         }
         PieChartViewController.getInstance().updateChart();
     }
 
+    /**
+     * Check if student is not in chart
+     *
+     * @param student
+     * @return
+     */
+    private boolean studentNotInChart(Student student) {
+        return pieChartData.stream().noneMatch(s -> s.getName().equals(student.getFullName()));
+    }
+
+    /**
+     * Create new data and add it to the piechart
+     *
+     * @param student
+     */
     private void addNewStudentToChartData(Student student) {
         Data nonAttendance = new Data(student.getFullName(), student.getNonAttendancePercentage().get());
         pieChartData.add(nonAttendance);
@@ -103,12 +104,14 @@ public class PieChartModel {
      * Find the students with nonAttendance and add them to the pirChartData
      */
     private void addNonAttendantStudentsToChartData() {
-        SchoolClass currentSchoolClass = schoolClassModel.getCurrentSchoolClass();
-        for (Student student : currentSchoolClass.getStudents()) {
-            if (student.getNonAttendancePercentage().get() > 0) {
-                addNewStudentToChartData(student);
-            }
-        }
+        List<Student> currentSchoolClassStudents = schoolClassModel.getCurrentSchoolClass().getStudents();
+
+        currentSchoolClassStudents.stream()
+                .filter((student)
+                        -> (student.getNonAttendancePercentage().get() > 0))
+                .forEachOrdered((student) -> {
+                    addNewStudentToChartData(student);
+                });
     }
 
     /**
@@ -125,7 +128,6 @@ public class PieChartModel {
      * @return piechart data
      */
     public ObservableList<Data> getPieChartData() {
-        computeTotalPieChartPercentage();
         return computedPieChartData;
     }
 
